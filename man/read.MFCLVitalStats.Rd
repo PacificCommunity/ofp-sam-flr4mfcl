@@ -8,10 +8,6 @@ read.MFCLVitalStats(frqfile)
 }
 \arguments{
 \item{frqfile}{A character string giving the name and path of the frq file to be read}
-
-\item{cex}{character expansion for the text (\code{"hsv"} or \code{"cluster"})}
-
-\item{mar}{margin paramaters; vector of length 4 (see \code{\link[graphics]{par}})}
 }
 \value{
 An object of class MFCLVitalStats
