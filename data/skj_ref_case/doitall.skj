@@ -1,0 +1,697 @@
+#!/bin/sh
+function recruitmentConstraints {
+    if [ -z $1 ]
+    then
+	echo "Needs filename as argument.";
+	exit 1;
+    elif [ -z $2 ]
+    then
+	echo "Needs new value argument.";
+	exit 1;
+    elif [ -f "$1" ]
+    then
+# Read line per line.
+	while read LINE
+	do
+# Found the desired header.
+	    if [ "$LINE" == "# Seasonal growth parameters" ]
+	    then
+		echo $LINE >> $1.new;
+  		for ((L=1 ; L < 2 ; L++))
+		do
+                    read LINE;
+# Skip blank or comment line.
+                    if [[ "$LINE" == "#" || "$LINE" == "" ]]
+                    then
+			#echo "Found a matching line "$LINE;
+			L=`expr $L - 1`;
+			echo $LINE >> $1.new;
+                    else
+			#echo "Processing line "$LINE;
+  			I=0;
+			for VALUE in $LINE
+			do
+			    I=`expr $I + 1`;
+# Change the 29th value.
+			    if [ $I -eq 29 ]
+			    then
+				echo -n $2" " >> $1.new;
+			    else
+				echo -n $VALUE" " >> $1.new ;
+			    fi
+			done
+			echo "" >> $1.new;
+		    fi
+		done
+# Write line AS IS.
+	    else
+		echo $LINE >> $1.new;
+	    fi
+	done < $1;
+# Create a backup copie.
+	mv $1 $1.bak;
+# Move temporary file to target file.
+	mv $1.new $1;
+    fi;
+}
+
+# Change the recruitment sd in the PAR file.
+# $1 Name of the PAR file.
+# $2 New value.
+function changeSD {
+    if [ -z $1 ]
+    then
+	echo "Needs filename as argument.";
+	exit 1;
+    elif [ -z $2 ]
+    then
+	echo "Needs new value argument.";
+	exit 1;
+    elif [ -f "$1" ]
+    then
+# Read line per line.
+	while read LINE
+	do
+# Found the desired header.
+	    if [ "$LINE" == "# Variance parameters" ]
+	    then
+		echo $LINE >> $1.new;
+  		for ((L=1 ; L < 2 ; L++))
+		do
+                    read LINE;
+# Skip blank or comment line.
+                    if [[ "$LINE" == "#" || "$LINE" == "" ]]
+                    then
+			#echo "Found a matching line "$LINE;
+			L=`expr $L - 1`;
+			echo $LINE >> $1.new;
+                    else
+			#echo "Processing line "$LINE;
+  			I=0;
+			for VALUE in $LINE
+			do
+			    I=`expr $I + 1`;
+# Change the 29th value.
+			    if [ $I -eq 1 ]
+			    then
+				echo -n $2" " >> $1.new;
+			    else
+				echo -n $VALUE" " >> $1.new ;
+			    fi
+			done
+			echo "" >> $1.new;
+		    fi
+		done
+# Write line AS IS.
+	    else
+		echo $LINE >> $1.new;
+	    fi
+	done < $1;
+# Create a backup copie.
+	mv $1 $1.bak;
+# Move temporary file to target file.
+	mv $1.new $1;
+    fi;
+}
+
+# change the movement matrices to the external estimates from SEAPODYM
+function fluxrates {
+    source=$1
+    toInsert=$2
+    blockHeader="# movement matrices"
+    target="$1.temp"
+    # Delete existing file.
+    if [ -f $target ];
+    then rm -f $target
+    fi
+    # Recopy content from source file
+    lineIndex=0
+    insertDone=false
+    blockEnd=-1
+    while read -r sourceLine
+    do 
+#             echo "$sourceLineIndex: $sourceLine"
+      # insert new file at current location.
+      if [ "$sourceLine" == "$blockHeader" ];
+      then
+        blockStart=$sourceLineIndex
+        blockSize=0
+        while read -r insertLine
+        do 
+#          echo ">> $insertLine"
+          echo $insertLine >> "$target"
+          blockSize=$((blockSize+1))     
+        done < "$toInsert"
+                blockEnd=$(($blockStart + $blockSize))
+#             echo "Block start: $blockStart"
+#             echo "Block size: $blockSize"
+#             echo "Block end: $blockEnd"
+        insertDone=true                                
+      # Either we've not inserted yet or we've passed movement information.
+      # Straight recopy from source file.     
+      elif [ "$insertDone" = false ] || [ $sourceLineIndex -ge $blockEnd ];
+      then 
+ #       echo "$insertDone << $sourceLine"
+        echo $sourceLine >> "$target"
+      fi
+      sourceLineIndex=$((sourceLineIndex+1))
+    done < "$source"
+    rm -f $source             # uncopy this line in doitall
+    mv $target $source        # uncopy this line in doitall
+}
+
+# ---------
+#  PHASE 0  - create the initial par file 
+# ---------
+
+ ./mfclo64 skj.frq skj.ini 00.par -makepar
+#
+## Change the flux rates, make sure that the file  par_file_flux.txt exists in the same directory that the condor.sub sends this file.
+# fluxrates "00.par" "par_file_flux.txt"
+
+# ---------
+#  PHASE 1 
+# ---------
+  ./mfclo64 skj.frq 00.par 01.par -file - <<PHASE1
+#-------------------------------------------------------------------------------  
+#  Initial Phase Control option  
+  1 32 6         # control phase - keep growth parameters fixed
+#-------------------------------------------------------------------------------
+# Recruitment and Initial Population Settings 
+   1 149 100      # penalty on recruitment devs     
+   1 400 4        # set the last 4 recruitment deviates to 0
+   2 113 0        # estimate initpop/totpop scaling parameter
+   2 177 1        # use old totpop scaling method
+   
+   2 32 1         # totpop estimated from this phase   
+   2 57 4         # 4 recruitments per year  
+   2 93 4         # 4 recruitments per year 
+   2 94 2         # Use equilibium initial population
+   2 95 20        # Use average Z for first 20 periods for equil. init. pop.
+   2 116 70       #  value for rmax This is the maximum instantaneous fishing mortality in any one yr qtr, per fishery/region.   70 = 0.70 = F
+
+
+#-------------------------------------------------------------------------------
+# Likelihood Component
+
+   1 141 3        # Robust normal likelihood function for LF data
+   1 111 4        # Negative binomial likelihood function for tags                 This as per our discussion on 24/4/2014
+   -999 49 20     # Divisor for LF sample sized effective sample size 
+ 
+    
+#-------------------------------------------------------------------------------
+# Tagging Related Flags
+#
+  -9999 1 1       # Tag returns for first period after release disregarded
+  -9999 2 0       # Zero means applying the tag_rep_rate in the tag catch calculation; 1 means we are excluding it
+  1 33 90         # maximum tag reporting rate for all fisheries is 0.9
+  2 198 1         # turn on release group reporting rates
+  -999 43 0       # var parameter estimated.
+  -999 44 0       # all fisheries grouped for estimating tag neg bin var parameter.   
+  2 96 12         # Tag are pooled across release groups after 12 periods
+
+#-------------------------------------------------------------------------------
+# Estimate movement coefficients   
+  2 68 1         # Estimate movement coefficients    
+  2 69 1         # Use generalized movement model
+  1 173 0        # growth deviates
+  #
+  #2 114 1       # undocumented flag to force MFCL to accept the movement matrices as input
+ 
+  
+  
+#-------------------------------------------------------------------------------
+# Selectivity Settings
+#
+#  Fisheries with non-decreasing selectivity with age
+# -N 16 1  is selectivity shape   non decreasing for this fishery if ==1
+# -N 3 1  is fist age of common selectivity shape
+    #  
+    # but note that this likely gets overwritten by ff(,57)
+  -3 16 1         # The JP RES LL fisheries  are assumed to have non-decreasing selectivity
+  -3 3 15         # The JP RES LL fisheries  are assumed to have  selectivity is 0 for ages 15 and 16
+  #..             #  
+  -7 16 1          
+  -7 3 15         
+  #..
+  -11 16 1        
+  -11 3 15        
+  #..
+  -15 16 1        
+  -15 3 15        
+  #..        
+  -23 16 1        
+  -23 3 15        
+  #..        
+# ------------------------------------------------------------------------------
+#   Selectivity grouping  and form     1=logistic  2=doublenormal 3=cubic spine or length specific
+ -1 24 1
+ -1 57 3  #  cubic spline selectivity    
+ -1 61 5  #  with 5 parameters           
+ #..
+ -2 24 2
+ -2 57 3 #  cubic spline selectivity
+ -2 61 5 #  with 5 parameters
+ #..
+ -3 24 3
+ -3 57 3 #  cubic spline selectivity                  
+ -3 61 5 #  with 5 parameters                         
+ #..
+ -4 24 4
+ -4 57 3 #  cubic spline selectivity                  
+ -4 61 5 #  with 5 parameters                         
+ #..
+ -5 24 5
+ -5 57 3 #  cubic spline selectivity                  
+ -5 61 5 #  with 5 parameters                         
+ #..
+ -6 24 6
+ -6 57 3 #  cubic spline selectivity                  
+ -6 61 5 #  with 5 parameters                         
+ #..
+ -7 24 7
+ -7 57 3 #  cubic spline selectivity                  
+ -7 61 5 #  with 5 parameters                         
+ #..
+ -8 24 4
+ -8 57 3 #  cubic spline selectivity                  
+ -8 61 5 #  with 5 parameters                         
+ #..
+ -9 24 5
+ -9 57 3 #  cubic spline selectivity                  
+ -9 61 5 #  with 5 parameters                         
+ #..
+ -10 24 6
+ -10 57 3 #  cubic spline selectivity                  
+ -10 61 5 #  with 5 parameters                         
+ #..
+ -11 24 8
+ -11 57 3 #  cubic spline selectivity                  
+ -11 61 5 #  with 5 parameters                         
+ #..
+ -12 24 4
+ -12 57 3 #  cubic spline selectivity                  
+ -12 61 5 #  with 5 parameters                         
+ #..
+ -13 24 9
+ -13 57 3 #  cubic spline selectivity                  
+ -13 61 5 #  with 5 parameters                         
+ #..
+ -14 24 10
+ -14 57 3 
+ -14 61 5 # cubic spline selectivity with 5 parameters
+ #..
+ -15 24 11
+ -15 57 3 #  cubic spline selectivity                  
+ -15 61 5 #  with 5 parameters                         
+ #..
+ -16 24 12
+ -16 57 3  #  cubic spline selectivity                  
+ -16 61 5  #  with 5 parameters                         
+ #..
+ -17 24 12
+ -17 57 3  #  cubic spline selectivity                    
+ -17 61 5  #  with 5 parameters                           
+ #..
+ -18 24 5
+ -18 57 3  #  cubic spline selectivity                    
+ -18 61 5  #  with 5 parameters                           
+ #..
+ -19 24 4
+ -19 57 3   #  cubic spline selectivity                    
+ -19 61 5   #  with 5 parameters                           
+ #..
+ -20 24 5
+ -20 57 3 #  cubic spline selectivity               
+ -20 61 5 #  with 5 parameters                      
+ #..
+ -21 24 6
+ -21 57 3 #  cubic spline selectivity               
+ -21 61 5 #  with 5 parameters                      
+ #..
+ -22 24 12
+ -22 57 3   #  cubic spline selectivity               
+ -22 61 5   #  with 5 parameters                      
+ #..
+ -23 24 13
+ -23 57 3 #  cubic spline selectivity               
+ -23 61 5 #  with 5 parameters                      
+ 
+ -999 26 2         # Use length-based selectivity
+#------------------------------------------------------------------------------- 
+#   Grouping of fisheries with common catchability
+-1	29	1
+-2	29	2
+-3	29	3
+-4	29	4
+-5	29	5
+-6	29	6
+-7	29	7
+-8	29	8
+-9	29	9
+-10	29	10
+-11	29	11
+-12	29	12
+-13	29	13
+-14	29	14
+-15	29	15
+-16	29	16
+-17	29	17
+-18	29	18
+-19	29	19
+-20	29	20
+-21	29	21
+-22	29	22
+-23	29	23
+#-------------------------------------------------------------------------------
+# Initial catchability
+  -1 60 1
+  -2 60 2
+  -3 60 3
+  -4 60 4 
+  -5 60 5
+  -6 60 6
+  -7 60 7
+  -8 60 8
+  -9 60 9
+  -10 60 10
+  -11 60 11
+  -12 60 12
+  -13 60 13
+  -14 60 14
+  -15 60 15
+  -16 60 16
+  -17 60 17  
+  -18 60 18
+  -19 60 19
+  -20 60 20
+  -21 60 21
+  -22 60 22
+  -23 60 23
+#-------------------------------------------------------------------------------  
+#   Penalties for effort deviations
+#   Fishery groupings for tag return data
+  -1 32 1
+  -2 32 2
+  -3 32 3
+  -4 32 4
+  -5 32 5
+  -6 32 5
+  -7 32 6
+  -8 32 7
+  -9 32 8
+  -10 32 8
+  -11 32 9
+  -12 32 10
+  -13 32 11
+  -14 32 11
+  -15 32 12
+  -16 32 13
+  -17 32 14                                                                                                                                          
+  -18 32 15
+  -19 32 16
+  -20 32 17
+  -21 32 17
+  -22 32 18
+  -23 32 19
+  
+#---------------------------------------------- Penalties for effort deviations  (fsh 13 ) 
+   #  should be set to the following values(as per NMD)
+   #  1 for fisheries with standardised effort
+   #  -3 for all other fisheries 
+   #  10 for fisheries with no effort   *
+   #
+   #
+  -999 13 -3       
+  # fisheries with No effort
+  # JPN LL 
+  -3 13 10      
+  -7 13 10 
+  -11 13 10      
+  -15 13 10        
+  -23 13 10
+  # Domestic PH VN and ID fisheries
+  -16 13 10
+  -17 13 10
+  -22 13 10
+  # 
+  # Fisheries with Standardized effort            1,4, 9, 12, 18
+  -1 13 1
+  -4 13 1       
+  -9 13 1
+  -12 13 1       
+  -18 13 10  
+#---------------------------------------------- FSH 66 is  time-varying effort wt (set internally)  
+#  Set to 1 only for fisheries with fish_flags(10)=0 (FSH 10 is  Estimate t-variant q); all others set to 0
+ -999 66 0      # turn off for all but                                                                                           
+  -1 66 1       # the Pole and Line  in regions 1:3, and Reg 5 associated PS
+  -4 66 1
+  -9 66 1       
+  -12 66 1
+  -18 66 0
+#---------------------------------------------- # Estimation of mixture pars  (for additional zeros ) in the likelihood- is this working right? turned off for now
+  -1 46 0       
+  -2 46 0
+  -3 46 0
+  -4 46 0
+  -5 46 0
+  -6 46 0
+  -8 46 0
+  -9 46 0
+  -10 46 0
+  -11 46 0
+  -12 46 0
+  -13 46 0
+  -14 46 0
+  -16 46 0
+  -17 46 0
+  -18 46 0
+
+  
+PHASE1
+# the next line is 'leagacy' I do not know where the exact value comes from...
+changeSD 01.par 5.074696     # this over-writes the length specific SD parameter in the 01.par file that was possibly changed in the control phase.
+#
+# ---------
+#  PHASE 2 
+# ---------
+  ./mfclo64 skj.frq 01.par 02.par -file - <<PHASE2
+    1 1 500        # Sets no. of function evaluations for this phase
+    1 50 -1        # convergence criterion is 1E+1
+    2 35 12        # Effort deviate boundary
+    2 34 1         # est. effort devs  ( in general)
+  -999 4 4         # Estimate effort deviates       (used for specific fisheries)
+    2 144 100000   # catch likelihood penalty
+PHASE2
+# 
+#  --------- ------------ ---------- --------- -------- --------
+recruitmentConstraints 02.par 0.8     # sets the steepness to 0.8
+#
+#
+#
+#   PHASE 3 
+#  ---------
+  ./mfclo64 skj.frq 02.par 03.par -file - <<PHASE3
+    1 190 1     # Write plot.rep
+PHASE3
+# 
+#
+# ---------
+#  PHASE 4
+# ---------
+  ./mfclo64 skj.frq 03.par 04.par -file - <<PHASE4
+   
+  2 70 1        # Estimate time-series changes in recruitment distribution
+  2 71 1        # est. time series of reg recruitment
+  2 178 1       # constraint on regional recruitments
+  
+PHASE4
+#
+# ---------
+#  PHASE 5 
+# ---------
+     ./mfclo64 skj.frq 04.par 05.par -file - <<PHASE5
+# Estimate seasonal catchability for all fisheries
+ -999 27 1        
+# excepth  the JPN LL/RES fisheries
+ -3 27 0          
+ -7 27 0
+ -11 27 0 
+ -15 27 0
+ -23 27 0 
+# except for fisheries with annual catch 16 , 17, 18  
+ -16 27 0         
+ -17 27 0         
+ -18 27 0         
+ -22 27 0
+
+PHASE5
+#
+# ---------
+#  PHASE 6
+# ---------
+  ./mfclo64 skj.frq 05.par 06.par -file - <<PHASE6
+  2 82 45      # Prior for average M is 45/100 per quarter    # turned off for Run 4A
+  2 84 2       # Penalty weight
+  2 33 1       # Estimate average M
+PHASE6
+#
+# ----------
+#  PHASE 7 
+# ----------
+     ./mfclo64 skj.frq 06.par 07.par -file - <<PHASE7
+# set up for estimation of growth ----LATER ON.     
+# 1 184 1    # Activate length estimation of independent age classes
+# 1 14 1     # Estimate von Bertalanffy K
+# 1 12 1     # Estimate mean length of age 11 
+# 1 13 1     # Estimate mean length of largest age class
+
+# Sets variable catchability, periodicity, and penalty
+	-1	10	0	  #	JP PL Reg1		         
+  -1	15	0	  # catchability devs fsh(,15) don't matter when we actually hav an index
+  -1	23	0	
+  #.. 
+	-2	10	1	        # catchability
+ 	-2	15	0					# penalty
+  -2	23	23				# periodicity					
+	#..
+	-3	10	0										
+	-3	15	0									
+	-3	23	23
+  #..										
+  -4	10	0	#	JP PL Reg2
+  -4	15	0		
+  -4	23	0	
+  #..	
+	-5	10	1										
+	-5	15	0										
+	-5	23	23
+  #..										
+	-6	10	1										
+	-6	15	0										
+	-6	23	23
+  #..										
+	-7	10	0										
+	-7	15	0										
+	-7	23	23
+  #..										
+	-8	10	1										
+	-8	15	0										
+	-8	23	23
+  #..										
+	-9	10	0		# PNG purse seine 								
+	-9	15	0										
+	-9	23	0		
+  #..								
+	-10	10	1										
+	-10	15	0										
+	-10	23	23										
+	#..
+	-11	10	0										
+	-11	15	0										
+	-11	23	23										
+	#..
+  -12	10	0	  #	PL-All-3
+  -12	15	0 	
+  -12	23	0	
+  #..
+	-13	10	1										
+	-13	15	0										
+	-13	23	23	
+  #..									
+	-14	10	1										
+	-14	15	0										
+	-14	23	23										
+	#..
+	-15	10	0										
+	-15	15	0										
+	-15	23	23										
+	#..
+	-16	10	0										
+	-16	15	0										
+	-16	23	23										
+	#..
+	-17	10	0										
+	-17	15	0										
+	-17	23	23	
+  #..									
+	-18	10	0   # IDID_PHPH region 4 Seine  -  CPUE from K.B.		 								
+	-18	15	0										
+	-18	23	0	
+  #..									
+	-19	10	1										
+	-19	15	0										
+	-19	23	23
+  #..										
+	-20	10	1										
+	-20	15	0										
+	-20	23	23										
+	#..
+	-21	10	1										
+	-21	15	0										
+	-21	23	23										
+	#..
+	-22	10	0										
+	-22	15	0	      						
+	-22	23	23										
+	#..
+	-23	10	0										
+	-23	15	0										
+	-23	23	23										
+PHASE7
+#
+# ----------
+#  PHASE 8
+# ----------
+  ./mfclo64 skj.frq 07.par 08.par -file - <<PHASE8
+  2 88 1       #  Estimate age-dependent movement
+  2 89 1       #  Use age-dependent movement pars
+
+PHASE8
+#
+# ----------
+#  PHASE 9
+# ----------
+  ./mfclo64 skj.frq 08.par 09.par -file - <<PHASE9
+  2 73 1       # Estimate age-dependent M
+  # 2 77 50    # penalty on 2nd derivative of Ma  
+  2 78 100     # Increase penalty on differences between M(a) and M(a+1)  (1st derivative) 
+  2 79 1       # Minimize penalty be M(average) and M(a).
+  2 171 1      # Include SRR-based equilibrium recruitment to compute unfished biomass
+PHASE9
+# ----------
+#  PHASE 10
+# ----------
+  ./mfclo64 skj.frq 09.par 10.par -file - <<PHASE10
+  #  Estimate regional distribution of recruitment           
+  -100000 1 1                             
+  -100000 2 1 
+  -100000 3 1 
+  -100000 4 1 
+  -100000 5 1 
+#-------------------------------optimize the period over which the SRR is to be fitted    going with 1989 -mid 2011
+  2 199 124    # start time period for yield calculation [4.5.11]
+  2 200 4     # end time period for yield calculation [4.5.11]
+
+  
+PHASE10
+#
+# ---------
+#  PHASE 11
+# ---------
+  ./mfclo64 skj.frq 10.par 11.par -file - <<PHASE11
+  2 145 -1          # penalty wt. for SRR           maybe try -2
+  2 146 1           # make SRR parameters active
+  2 147 1           # no. time periods for recruitment lag
+  2 148 20          # years (year quarters) from last year for avg. F  
+  2 155 4           # but not including last 4
+  1 149 0           # turn off recruitment penalties against mean
+  2 162 0           # Estimate steepness 0 IS THE DEFAULT   meaning not estimated
+  2 163 0           # BH-SRR is parameterised using steepness. Value of 0 IS THE DEFAULT meaning it is parameterized with steepness
+  -999 55 1         # turn off fisheries for impact analysis [4.5.14]
+  2 193 1           # Consider initial fishing effort in calculating initial conditions
+  1 1 3000          # how many function evaluations
+  1 50 -3           # CONVERGENCE CRITERIA
+  2 171 1           # unfished calculations by estimated recruitment or SRR [4.5.14]
+  2 161 1
+PHASE11

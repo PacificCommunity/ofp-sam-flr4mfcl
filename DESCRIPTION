@@ -1,0 +1,12 @@
+Package: R4MFCL2
+Title: More R functions for MULTIFAN-CL
+Version: 0.0.1
+Author: Robert Scott 
+Description: R4MFCL but with S4 classes and FLR compatability
+Depends: lattice, FLCore
+Maintainer:  Robert Scott <roberts2@spc.int>
+License: GPL-2
+Date: 2015-03-13
+Suggests: mapdata
+LazyLoad: Yes
+LazyData: No
