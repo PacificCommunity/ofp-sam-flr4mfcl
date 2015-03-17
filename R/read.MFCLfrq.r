@@ -6,8 +6,6 @@
 #' Extracts the essential ranges and dimensions from the frq file
 #'
 #' @param frqfile A character string giving the name and path of the frq file to be read 
-#' @param cex character expansion for the text (\code{"hsv"} or \code{"cluster"})
-#' @param mar margin paramaters; vector of length 4 (see \code{\link[graphics]{par}})
 #'
 #' @return An object of class MFCLVitalStats
 #'
@@ -70,6 +68,18 @@ read.MFCLVitalStats <- function(frqfile){
 }
 
 
+#' MFCL Length Frequency
+#'
+#' Extracts the length frequency data from the frq file
+#'
+#' @param frqfile A character string giving the name and path of the frq file to be read 
+#'
+#' @return An object of class MFCLLenFreq
+#'
+#' @examples
+#' read.MFCLLenFreq("C://R4MFCL//test_data//skj_ref_case//skj.frq")
+#'
+#' @export
 
 read.MFCLLenFreq <- function(frqfile){
   
@@ -121,7 +131,18 @@ read.MFCLLenFreq <- function(frqfile){
   
 }
 
-
+#' MFCL frq file reader
+#'
+#' Reads the entire contents of the frq file
+#'
+#' @param frqfile A character string giving the name and path of the frq file to be read 
+#'
+#' @return An object of class MFCLFrq
+#'
+#' @examples
+#' read.MFCLLenFreq(paste(system.file('data', package='FLR4MFCL'), 'skj.frq', sep='//'))rea
+#'
+#' @export
 
 read.MFCLFrq <- function(frqfile){
   
