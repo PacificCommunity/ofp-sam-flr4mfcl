@@ -1,23 +1,23 @@
 
 
 
-#' MFCL Vital Statistics
+#' MFCL Frq Statistics
 #'
 #' Extracts the essential ranges and dimensions from the frq file
 #'
 #' @param frqfile A character string giving the name and path of the frq file to be read 
 #'
-#' @return An object of class MFCLVitalStats
+#' @return An object of class MFCLFrqStats
 #'
 #' @examples
-#' read.MFCLVitalStats("C://R4MFCL//test_data//skj_ref_case//skj.frq")
+#' read.MFCLFrqStats("C://R4MFCL//test_data//skj_ref_case//skj.frq")
 #'
 #' @export
 
 
-read.MFCLVitalStats <- function(frqfile){
+read.MFCLFrqStats <- function(frqfile){
   
-  res <- new("MFCLVitalStats")
+  res <- new("MFCLFrqStats")
   
   quiet=TRUE
   tt <- scan(frqfile, nlines=400, comment.char='#', quiet=quiet)
@@ -140,14 +140,14 @@ read.MFCLLenFreq <- function(frqfile){
 #' @return An object of class MFCLFrq
 #'
 #' @examples
-#' read.MFCLLenFreq(paste(system.file('data', package='FLR4MFCL'), 'skj.frq', sep='//'))rea
+#' read.MFCLLenFreq(paste(system.file('data', package='FLR4MFCL'), 'skj.frq', sep='//'))
 #'
 #' @export
 
 read.MFCLFrq <- function(frqfile){
   
   lenfreq <- read.MFCLLenFreq(frqfile)
-  vitals  <- read.MFCLVitalStats(frqfile)
+  vitals  <- read.MFCLFrqStats(frqfile)
   
   res <- new("MFCLFrq")
   

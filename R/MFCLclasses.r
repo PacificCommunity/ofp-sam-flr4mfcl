@@ -1,5 +1,6 @@
 
 
+
 ######################################################################
 ###
 ###  Frq file 
@@ -7,9 +8,9 @@
 #######################################################################
 
 
-###### CLASSS MFCLVitalStats  (from .frq file)
+###### CLASSS MFCLFrqStats  (from .frq file)
 
-validMFCLVitalStats <- function(object){
+validMFCLFrqStats <- function(object){
   #Everything is fine
   return(TRUE)
 }
@@ -32,7 +33,7 @@ validMFCLVitalStats <- function(object){
 #' @slot move_weeks
 #' @slot range
 #' 
-setClass("MFCLVitalStats",
+setClass("MFCLFrqStats",
          representation(
            n_regions    = "numeric",
            n_fisheries  = "numeric",
@@ -69,10 +70,12 @@ setClass("MFCLVitalStats",
            move_weeks   = numeric(),
            range        =unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1)) 
          ),
-         validity=validMFCLVitalStats
+         validity=validMFCLFrqStats
 )
-setValidity("MFCLVitalStats", validMFCLVitalStats)
-remove(validMFCLVitalStats)
+setValidity("MFCLFrqStats", validMFCLFrqStats)
+remove(validMFCLFrqStats)
+#createMFCLAccesors("MFCLFrqStats")
+MFCLFrqStats <- function() {return(new("MFCLFrqStats"))}
 
 
 
@@ -103,8 +106,8 @@ setClass("MFCLLenFreq",
 )
 setValidity("MFCLLenFreq", validMFCLLenFreq)
 remove(validMFCLLenFreq)
-
-
+#createMFCLAccesors("MFCLLenFreq")
+MFCLLenFreq <- function() {return(new("MFCLLenFreq"))}
 
 ###### CLASSS MFCLFrq
 
@@ -115,18 +118,18 @@ validMFCLFrq <- function(object){
 }
 #' An S4 class : Representation of a frq input file for MFCL
 #'
-#' @slot lf_range Range information of the length frequencies
+#' A class comprising an MFCLFrqStats object and an MFCLLenFrq object
 #' 
 setClass("MFCLFrq",
          representation(
-           "MFCLVitalStats",
+           "MFCLFrqStats",
            "MFCLLenFreq"
          ),
          validity=validMFCLFrq
 )
 setValidity("MFCLFrq", validMFCLFrq)
 remove(validMFCLFrq)
-
+MFCLFreq <- function() {return(new("MFCLFreq"))}
 
 
 
@@ -165,6 +168,7 @@ setClass("MFCLBiol",
 )
 setValidity("MFCLBiol", validMFCLBiol)
 remove(validMFCLBiol)
+MFCLBiol <- function() {return(new("MFCLBiol"))}
 
 
 ###### CLASSS MFCLFlags
@@ -184,6 +188,7 @@ setClass("MFCLFlags",
 )
 setValidity("MFCLFlags", validMFCLFlags)
 remove(validMFCLFlags)
+MFCLFlags <- function() {return(new("MFCLFlags"))}
 
 
 ###### CLASSS MFCLTagRep
@@ -215,6 +220,7 @@ setClass("MFCLTagRep",
 )
 setValidity("MFCLTagRep", validMFCLTagRep)
 remove(validMFCLTagRep)
+MFCLTagRep <- function() {return(new("MFCLTagReg"))}
 
 
 ###### CLASSS MFCLRec
@@ -240,6 +246,7 @@ setClass("MFCLRec",
 )
 setValidity("MFCLRec", validMFCLRec)
 remove(validMFCLRec)
+MFCLRec <- function() {return(new("MFCLRec"))}
 
 
 
@@ -272,6 +279,7 @@ setClass("MFCLRegion",
 )
 setValidity("MFCLRegion", validMFCLRegion)
 remove(validMFCLRegion)
+MFCLRegion <- function() {return(new("MFCLRegion"))}
 
 
 
@@ -303,6 +311,7 @@ setClass("MFCLSel",
 )
 setValidity("MFCLSel", validMFCLSel)
 remove(validMFCLSel)
+MFCLSel <- function() {return(new("MFCLSel"))}
 
 
 
@@ -333,7 +342,8 @@ setClass("MFCLPar",
 )
 setValidity("MFCLPar", validMFCLPar)
 remove(validMFCLPar)
-           
+MFCLPar <- function() {return(new("MFCLPar"))}
+
            
  
 

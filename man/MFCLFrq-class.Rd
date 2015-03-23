@@ -5,11 +5,6 @@
 \alias{MFCLFrq-class}
 \title{An S4 class : Representation of a frq input file for MFCL}
 \description{
-An S4 class : Representation of a frq input file for MFCL
+A class comprising an MFCLFrqStats object and an MFCLLenFrq object
 }
-\section{Slots}{
-
-\describe{
-\item{\code{lf_range}}{Range information of the length frequencies}
-}}
 
