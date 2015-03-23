@@ -75,6 +75,10 @@ setClass("MFCLFrqStats",
 setValidity("MFCLFrqStats", validMFCLFrqStats)
 remove(validMFCLFrqStats)
 #createMFCLAccesors("MFCLFrqStats")
+#'MFCLFrqStats
+#'
+#'Basic constructor for MFCLFrqStats class
+#'@export
 MFCLFrqStats <- function() {return(new("MFCLFrqStats"))}
 
 
@@ -107,6 +111,10 @@ setClass("MFCLLenFreq",
 setValidity("MFCLLenFreq", validMFCLLenFreq)
 remove(validMFCLLenFreq)
 #createMFCLAccesors("MFCLLenFreq")
+#'MFCLLenFreq
+#'
+#'Basic constructor for MFCLLenFreq class
+#'@export
 MFCLLenFreq <- function() {return(new("MFCLLenFreq"))}
 
 ###### CLASSS MFCLFrq
@@ -129,7 +137,14 @@ setClass("MFCLFrq",
 )
 setValidity("MFCLFrq", validMFCLFrq)
 remove(validMFCLFrq)
-MFCLFreq <- function() {return(new("MFCLFreq"))}
+
+#'MFCLFrq
+#'
+#'Basic constructor for MFCLFrq class
+#'
+#'@export
+
+MFCLFrq <- function() {return(new("MFCLFrq"))}
 
 
 
@@ -168,6 +183,10 @@ setClass("MFCLBiol",
 )
 setValidity("MFCLBiol", validMFCLBiol)
 remove(validMFCLBiol)
+#'MFCLBiol
+#'
+#'Basic constructor for MFCLBiol class
+#'@export
 MFCLBiol <- function() {return(new("MFCLBiol"))}
 
 
@@ -188,6 +207,10 @@ setClass("MFCLFlags",
 )
 setValidity("MFCLFlags", validMFCLFlags)
 remove(validMFCLFlags)
+#'MFCLFlags
+#'
+#'Basic consstructor for MFCLFlags class
+#'@export
 MFCLFlags <- function() {return(new("MFCLFlags"))}
 
 
@@ -220,6 +243,10 @@ setClass("MFCLTagRep",
 )
 setValidity("MFCLTagRep", validMFCLTagRep)
 remove(validMFCLTagRep)
+#'MFCLTagRep
+#'
+#'Basic constructor for MFCLTagRep class
+#'@export
 MFCLTagRep <- function() {return(new("MFCLTagReg"))}
 
 
@@ -246,6 +273,10 @@ setClass("MFCLRec",
 )
 setValidity("MFCLRec", validMFCLRec)
 remove(validMFCLRec)
+#'MFCLRec
+#'
+#'Basic constructor for MFCLRec class
+#'@export
 MFCLRec <- function() {return(new("MFCLRec"))}
 
 
@@ -279,6 +310,10 @@ setClass("MFCLRegion",
 )
 setValidity("MFCLRegion", validMFCLRegion)
 remove(validMFCLRegion)
+#'MFCLRegion
+#'
+#'Basic constructor for MFCLRegion class
+#'@export
 MFCLRegion <- function() {return(new("MFCLRegion"))}
 
 
@@ -311,6 +346,10 @@ setClass("MFCLSel",
 )
 setValidity("MFCLSel", validMFCLSel)
 remove(validMFCLSel)
+#'MFCLSel
+#'
+#'Basic constructor for MFCLSel class
+#'@export
 MFCLSel <- function() {return(new("MFCLSel"))}
 
 
@@ -342,6 +381,10 @@ setClass("MFCLPar",
 )
 setValidity("MFCLPar", validMFCLPar)
 remove(validMFCLPar)
+#'MFCLPar
+#'
+#'Basic constructor for MFCLPar class
+#'@export
 MFCLPar <- function() {return(new("MFCLPar"))}
 
            
