@@ -56,7 +56,7 @@ read.MFCLFrqStats <- function(frqfile){
   res@data_flags <- matrix(scan(frqfile, nlines=5, skip=line, quiet=quiet), nrow=5, ncol=res@n_fisheries, byrow=T)
   
   line <- grep("Season-region flags", frq)
-  res@data_flags <- matrix(scan(frqfile, nlines=res@n_recs_yr, skip=line, quiet=quiet), 
+  res@season_flags <- matrix(scan(frqfile, nlines=res@n_recs_yr, skip=line, quiet=quiet), 
                            nrow=res@n_recs_yr, ncol=res@n_regions, byrow=T)
   
   res@n_move_yr <- as.numeric(frq[grep("Number of movements per year", frq)+1])
@@ -102,9 +102,11 @@ read.MFCLLenFreq <- function(frqfile){
   nbins <- res@lf_range['LFIntervals']
   
   lffrq <- frq[(line+1):length(frq)]
-  lfobs <- as.numeric(unlist(lapply(lapply(lapply(lffrq, strsplit, split="[[:blank:]]+"),el,1),el, 8))) != -1
+  lfobs <- as.numeric(lapply(lapply(lapply(lffrq, strsplit, split="[[:blank:]]+"),unlist),el, 8)) != -1
   
-  arr <- array(as.numeric(unlist(lapply(lffrq[lfobs], strsplit, split="[[:blank:]]+"))),dim=c(61,5))[8:61,]
+  arr.rows <-nbins+7
+  arr.cols <- sum(lfobs)
+  arr <- array(as.numeric(unlist(lapply(lffrq[lfobs], strsplit, split="[[:blank:]]+"))),dim=c(arr.rows,arr.cols))[8:arr.rows,]
   
   df <- data.frame(year = rep(as.numeric(unlist(lapply(lapply(lapply(lffrq[lfobs], strsplit, split="[[:blank:]]+"),unlist),el,1))),each=nbins),
                    month= rep(as.numeric(unlist(lapply(lapply(lapply(lffrq[lfobs], strsplit, split="[[:blank:]]+"),unlist),el,2))),each=nbins),
@@ -113,7 +115,8 @@ read.MFCLLenFreq <- function(frqfile){
                    catch= rep(as.numeric(unlist(lapply(lapply(lapply(lffrq[lfobs], strsplit, split="[[:blank:]]+"),unlist),el,5))),each=nbins),
                    effort=rep(as.numeric(unlist(lapply(lapply(lapply(lffrq[lfobs], strsplit, split="[[:blank:]]+"),unlist),el,6))),each=nbins),
                    pen  = rep(as.numeric(unlist(lapply(lapply(lapply(lffrq[lfobs], strsplit, split="[[:blank:]]+"),unlist),el,7))),each=nbins),
-                   lenfrq= as.vector(arr))
+                   lenfrq= as.vector(arr),
+                   length= seq(res@lf_range['LFFirst'], res@lf_range['LFWidth']*res@lf_range['LFIntervals']+res@lf_range['LFFirst']-res@lf_range['LFWidth'],by=res@lf_range['LFWidth']))
   
   df2<- data.frame(year = as.numeric(unlist(lapply(lapply(lapply(lffrq[!lfobs], strsplit, split="[[:blank:]]+"),unlist),el,1))),
                    month= as.numeric(unlist(lapply(lapply(lapply(lffrq[!lfobs], strsplit, split="[[:blank:]]+"),unlist),el,2))),
@@ -122,10 +125,11 @@ read.MFCLLenFreq <- function(frqfile){
                    catch= as.numeric(unlist(lapply(lapply(lapply(lffrq[!lfobs], strsplit, split="[[:blank:]]+"),unlist),el,5))),
                    effort=as.numeric(unlist(lapply(lapply(lapply(lffrq[!lfobs], strsplit, split="[[:blank:]]+"),unlist),el,6))),
                    pen  = as.numeric(unlist(lapply(lapply(lapply(lffrq[!lfobs], strsplit, split="[[:blank:]]+"),unlist),el,7))),
-                   lenfrq= -1)
+                   lenfrq= -1,
+                   length= NA)
   
   res@freq <- rbind(df, df2)
-  res@freq <- res@freq[order(res@freq$year, res@freq$month),]
+  res@freq <- res@freq[order(res@freq$fish, res@freq$year, res@freq$month),]
   
   return(res)
   

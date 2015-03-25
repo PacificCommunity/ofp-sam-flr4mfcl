@@ -1,10 +1,10 @@
 
-
+library(FLR4MFCL)
 library(roxygen2)
 
 createGenericMethods <- function(class, path, add=T, omit=c("range")){
   
-  file <- paste(path, "genericMethods.r", sep="//")
+  file <- paste(path, "accesorMethods.r", sep="//")
   
   if(file.exists(file) && add==F) {
     file.remove(file)
