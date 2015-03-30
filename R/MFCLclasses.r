@@ -164,19 +164,35 @@ validMFCLBiol <- function(object){
 }
 setClass("MFCLBiol",
          representation(
-           m                 ="FLQuant",
+           m                 ="numeric",
+           m_devs_age        ="FLQuant",
+           log_m             ="FLQuant",
            mat               ="FLQuant",
-           growth            ="FLPar",
-           cohort_growth_devs="FLQuant",
+           growth            ="array",
+           richards          ="numeric",
+           growth_devs_age   ="FLQuant",
+           growth_curve_devs ="FLQuant",
+           growth_devs_cohort="FLCohort",
            season_growth_pars="numeric",
+           len_bias_pars     ="numeric",
+           common_len_bias_pars  ="numeric",
+           common_len_bias_coffs ="numeric",
            range             ="numeric"
            ),
          prototype=prototype(
-           m                 =FLQuant(),
+           m                 =numeric(),
+           m_devs_age        =FLQuant(),
+           log_m             =FLQuant(),
            mat               =FLQuant(),
-           growth            =FLPar(),
-           cohort_growth_devs=FLQuant(),
+           growth            =array(),
+           richards          =numeric(),
+           growth_devs_age   =FLQuant(),
+           growth_curve_devs =FLQuant(),
+           growth_devs_cohort=FLCohort(),
            season_growth_pars=numeric(),
+           len_bias_pars     =numeric(),
+           common_len_bias_pars  =numeric(),
+           common_len_bias_coffs =numeric(),
            range             =unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
            ),
          validity=validMFCLBiol
@@ -198,10 +214,12 @@ validMFCLFlags <- function(object){
 }
 setClass("MFCLFlags",
          representation(
-           flags   = "data.frame"
+           flags   = "data.frame",
+           unused  ="list"
            ),
          prototype=prototype(
-           flags   = data.frame()
+           flags   = data.frame(),
+           unused  =list()
            ),
          validity=validMFCLFlags
 )
@@ -222,21 +240,21 @@ validMFCLTagRep <- function(object){
 }
 setClass("MFCLTagRep",
          representation(
-           tag_fish_rep_rate  = "FLQuant",
-           tag_fish_rep_grp   = "FLQuant",
-           tag_fish_rep_flags = "FLQuant",
-           tag_fish_rep_target= "FLQuant",
-           tag_fish_rep_pen   = "FLQuant",
-           rep_rate_dev_coffs = "FLQuant",
+           tag_fish_rep_rate  = "array",
+           tag_fish_rep_grp   = "array",
+           tag_fish_rep_flags = "array",
+           tag_fish_rep_target= "array",
+           tag_fish_rep_pen   = "array",
+           rep_rate_dev_coffs = "list",
            range              = "numeric"
          ),
          prototype=prototype(
-           tag_fish_rep_rate  = FLQuant(),
-           tag_fish_rep_grp   = FLQuant(),
-           tag_fish_rep_flags = FLQuant(),
-           tag_fish_rep_target= FLQuant(),
-           tag_fish_rep_pen   = FLQuant(),
-           rep_rate_dev_coffs = FLQuant(),
+           tag_fish_rep_rate  = array(),
+           tag_fish_rep_grp   = array(),
+           tag_fish_rep_flags = array(),
+           tag_fish_rep_target= array(),
+           tag_fish_rep_pen   = array(),
+           rep_rate_dev_coffs = list(),
            range=unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
          ),
          validity=validMFCLTagRep
@@ -247,7 +265,9 @@ remove(validMFCLTagRep)
 #'
 #'Basic constructor for MFCLTagRep class
 #'@export
-MFCLTagRep <- function() {return(new("MFCLTagReg"))}
+MFCLTagRep <- function() {return(new("MFCLTagRep"))}
+
+
 
 
 ###### CLASSS MFCLRec
@@ -258,13 +278,13 @@ validMFCLRec <- function(object){
 }
 setClass("MFCLRec",
          representation(
-           rec_init   ="numeric",
+           rec_init_pop_diff   ="numeric",
            rec_times  ="numeric",
            rel_rec    ="FLQuant",
            range      ="numeric"
          ),
          prototype=prototype(
-           rec_init   =numeric(),
+           rec_init_pop_diff   =numeric(),
            rec_times  =numeric(),
            rel_rec    =FLQuant(),
            range=unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
@@ -289,21 +309,33 @@ validMFCLRegion <- function(object){
 }
 setClass("MFCLRegion",
          representation(
-           control_flags   = "matrix",
-           diff_coffs      = "FLQuant",
-           diff_coffs_age  = "FLQuant",
-           diff_coffs_nl   = "FLQuant",
-           reg_rec_var     = "FLQuant",
-           reg_pars        = "matrix",
-           range           = "numeric"
+           control_flags         = "matrix",
+           move_map              = "numeric",
+           diff_coffs            = "matrix",
+           diff_coffs_age_ssn    = "array",
+           diff_coffs_age_period = "array",
+           diff_coffs_age        = "array",
+           diff_coffs_nl         = "array",
+           diff_coffs_priors     = "array",
+           diff_coffs_age_priors = "array",
+           diff_coffs_nl_priors  = "array",           
+           region_rec_var        = "FLQuant",
+           region_pars           = "matrix",
+           range                 = "numeric"
          ),
          prototype=prototype(
-           control_flags   = matrix(),
-           diff_coffs      = FLQuant(),
-           diff_coffs_age  = FLQuant(),
-           diff_coffs_nl   = FLQuant(),
-           reg_rec_var     = FLQuant(),
-           reg_pars        = matrix(),
+           control_flags         = matrix(),
+           move_map              = numeric(),
+           diff_coffs            = matrix(),
+           diff_coffs_age_ssn    = array(),
+           diff_coffs_age_period = array(),
+           diff_coffs_age        = array(),
+           diff_coffs_nl         = array(),
+           diff_coffs_priors     = array(),
+           diff_coffs_age_priors = array(),
+           diff_coffs_nl_priors  = array(),
+           region_rec_var        = FLQuant(),
+           region_pars           = matrix(),
            range=unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
          ),
          validity=validMFCLRegion
@@ -330,16 +362,23 @@ setClass("MFCLSel",
            fishery_sel          = "FLQuant",
            av_q_coffs           = "FLQuant",
            ini_q_coffs          = "FLQuant",
+           q0_miss              = "FLQuant",
            q_dev_coffs          = "FLQuant",
            sel_dev_coffs        = "FLQuant",
            sel_dev_coffs2       = "FLQuant",
-           season_q_pars        = "matrix",
-           
+           season_q_pars        = "matrix",           
            range                = "numeric"
          ),
          prototype=prototype(
            availability_coffs   = FLQuant(),
            fishery_sel          = FLQuant(),
+           av_q_coffs           = FLQuant(),
+           ini_q_coffs          = FLQuant(),
+           q0_miss              = FLQuant(),
+           q_dev_coffs          = FLQuant(),
+           sel_dev_coffs        = FLQuant(),
+           sel_dev_coffs2       = FLQuant(),
+           season_q_pars        = matrix(),
            range                = unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
          ),
          validity=validMFCLSel

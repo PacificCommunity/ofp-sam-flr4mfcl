@@ -31,9 +31,11 @@ createGenericMethods <- function(class, path, add=T, omit=c("range")){
   slots <- names(getSlots(class))[is.element(names(getSlots(class)), omit)]
   if(length(slots)>0){
     for(slot in slots){
+      # Accessor
       cat(paste("#'", slot, "\n", "#'@export ",slot, "\n", sep=""), file=file, append=T)
       cat(paste("setMethod('",slot,"', signature(x='",class,"'),function(x) return(slot(x,'",slot,"'))) \n",sep=""),file=file, append=T) 
-      cat(paste("#'", slot,  "\n", "#'@export \n", sep=""), file=file, append=T)
+      # Replacer
+      cat(paste("#'", slot,  "\n", "#'@export ", slot,"<- ","\n", sep=""), file=file, append=T)
       cat(paste("setGeneric('",slot,"<-', function(object, ..., value) standardGeneric('",slot,"<-')) \n",sep=""), file=file, append=T)
       cat(paste("setReplaceMethod('",slot,"', signature(object='",class,"', value=unname(getSlots('",class,"')['",slot,"'])),
                                 function(object, value){slot(object, '",slot,"') <- value; return(object)}) \n", sep=""), file=file, append=T  )
