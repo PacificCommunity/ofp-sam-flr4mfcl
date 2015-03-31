@@ -363,9 +363,10 @@ setClass("MFCLSel",
            av_q_coffs           = "FLQuant",
            ini_q_coffs          = "FLQuant",
            q0_miss              = "FLQuant",
-           q_dev_coffs          = "FLQuant",
-           sel_dev_coffs        = "FLQuant",
-           sel_dev_coffs2       = "FLQuant",
+           q_dev_coffs          = "list",
+           sel_dev_corr         = "FLQuant",
+           sel_dev_coffs        = "matrix",
+           sel_dev_coffs2       = "list",
            season_q_pars        = "matrix",           
            range                = "numeric"
          ),
@@ -375,9 +376,10 @@ setClass("MFCLSel",
            av_q_coffs           = FLQuant(),
            ini_q_coffs          = FLQuant(),
            q0_miss              = FLQuant(),
-           q_dev_coffs          = FLQuant(),
-           sel_dev_coffs        = FLQuant(),
-           sel_dev_coffs2       = FLQuant(),
+           q_dev_coffs          = list(),
+           sel_dev_corr         = FLQuant(),
+           sel_dev_coffs        = matrix(),
+           sel_dev_coffs2       = list(),
            season_q_pars        = matrix(),
            range                = unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
          ),
@@ -392,6 +394,46 @@ remove(validMFCLSel)
 MFCLSel <- function() {return(new("MFCLSel"))}
 
 
+###### CLASSS MFCLParBits
+
+validMFCLParBits <- function(object){
+  #Everything is fine
+  return(TRUE)
+}
+setClass("MFCLParBits",
+         representation(
+           fm_level_devs        = "character",
+           obj_fun              = "numeric",
+           n_pars               = "numeric",
+           tag_lik              = "numeric",
+           mn_len_pen           = "numeric",
+           max_grad             = "numeric",
+           av_fish_mort_inst    = "numeric",
+           av_fish_mort_year    = "numeric",
+           av_fish_mort_age     = "numeric",
+           range                = "numeric"
+         ),
+         prototype=prototype(
+           fm_level_devs        = character(),
+           obj_fun              = numeric(),
+           n_pars               = numeric(),
+           tag_lik              = numeric(),
+           mn_len_pen           = numeric(),
+           max_grad             = numeric(),
+           av_fish_mort_inst    = numeric(),
+           av_fish_mort_year    = numeric(),
+           av_fish_mort_age     = numeric(),
+           range                = unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
+         ),
+         validity=validMFCLParBits
+)
+setValidity("MFCLParBits", validMFCLParBits)
+remove(validMFCLParBits)
+#'MFCLParBits
+#'
+#'Basic constructor for MFCLParBits class
+#'@export
+MFCLParBits <- function() {return(new("MFCLParBits"))}
 
 
 
@@ -411,6 +453,9 @@ setClass("MFCLPar",
            "MFCLFlags",
            "MFCLTagRep",
            "MFCLRec",
+           "MFCLRegion",
+           "MFCLSel",
+           "MFCLParBits",
            range="numeric"
            ),
          prototype=prototype(

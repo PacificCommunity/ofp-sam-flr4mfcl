@@ -1,6 +1,6 @@
 # Automatically generated Generic Methods 
 # Generated from 'createGenericMethods' 
-# Generated on  Mon Mar 30 14:02:17 2015 
+# Generated on  Tue Mar 31 13:37:16 2015 
  
 # class  MFCLFrqStats 
 #'n_regions
@@ -572,6 +572,15 @@ setMethod('ini_q_coffs', signature('MFCLSel'),function(object) return(slot(objec
 setGeneric('ini_q_coffs<-', function(object, ..., value) standardGeneric('ini_q_coffs<-')) 
 setReplaceMethod('ini_q_coffs', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['ini_q_coffs'])),
                                 function(object, value){slot(object, 'ini_q_coffs') <- value; return(object)}) 
+#'q0_miss
+#'@export q0_miss
+setGeneric('q0_miss', function(object, ...) standardGeneric('q0_miss')) 
+setMethod('q0_miss', signature('MFCLSel'),function(object) return(slot(object, 'q0_miss'))) 
+#'q0_miss
+#'@export 
+setGeneric('q0_miss<-', function(object, ..., value) standardGeneric('q0_miss<-')) 
+setReplaceMethod('q0_miss', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['q0_miss'])),
+                                function(object, value){slot(object, 'q0_miss') <- value; return(object)}) 
 #'q_dev_coffs
 #'@export q_dev_coffs
 setGeneric('q_dev_coffs', function(object, ...) standardGeneric('q_dev_coffs')) 
@@ -581,6 +590,15 @@ setMethod('q_dev_coffs', signature('MFCLSel'),function(object) return(slot(objec
 setGeneric('q_dev_coffs<-', function(object, ..., value) standardGeneric('q_dev_coffs<-')) 
 setReplaceMethod('q_dev_coffs', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['q_dev_coffs'])),
                                 function(object, value){slot(object, 'q_dev_coffs') <- value; return(object)}) 
+#'sel_dev_corr
+#'@export sel_dev_corr
+setGeneric('sel_dev_corr', function(object, ...) standardGeneric('sel_dev_corr')) 
+setMethod('sel_dev_corr', signature('MFCLSel'),function(object) return(slot(object, 'sel_dev_corr'))) 
+#'sel_dev_corr
+#'@export 
+setGeneric('sel_dev_corr<-', function(object, ..., value) standardGeneric('sel_dev_corr<-')) 
+setReplaceMethod('sel_dev_corr', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['sel_dev_corr'])),
+                                function(object, value){slot(object, 'sel_dev_corr') <- value; return(object)}) 
 #'sel_dev_coffs
 #'@export sel_dev_coffs
 setGeneric('sel_dev_coffs', function(object, ...) standardGeneric('sel_dev_coffs')) 
@@ -615,4 +633,94 @@ setMethod('range', signature(x='MFCLSel'),function(x) return(slot(x,'range')))
 #'@export range<- 
 setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
 setReplaceMethod('range', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['range'])),
+                                function(object, value){slot(object, 'range') <- value; return(object)}) 
+# class  MFCLParBits 
+#'fm_level_devs
+#'@export fm_level_devs
+setGeneric('fm_level_devs', function(object, ...) standardGeneric('fm_level_devs')) 
+setMethod('fm_level_devs', signature('MFCLParBits'),function(object) return(slot(object, 'fm_level_devs'))) 
+#'fm_level_devs
+#'@export 
+setGeneric('fm_level_devs<-', function(object, ..., value) standardGeneric('fm_level_devs<-')) 
+setReplaceMethod('fm_level_devs', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['fm_level_devs'])),
+                                function(object, value){slot(object, 'fm_level_devs') <- value; return(object)}) 
+#'obj_fun
+#'@export obj_fun
+setGeneric('obj_fun', function(object, ...) standardGeneric('obj_fun')) 
+setMethod('obj_fun', signature('MFCLParBits'),function(object) return(slot(object, 'obj_fun'))) 
+#'obj_fun
+#'@export 
+setGeneric('obj_fun<-', function(object, ..., value) standardGeneric('obj_fun<-')) 
+setReplaceMethod('obj_fun', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['obj_fun'])),
+                                function(object, value){slot(object, 'obj_fun') <- value; return(object)}) 
+#'n_pars
+#'@export n_pars
+setGeneric('n_pars', function(object, ...) standardGeneric('n_pars')) 
+setMethod('n_pars', signature('MFCLParBits'),function(object) return(slot(object, 'n_pars'))) 
+#'n_pars
+#'@export 
+setGeneric('n_pars<-', function(object, ..., value) standardGeneric('n_pars<-')) 
+setReplaceMethod('n_pars', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['n_pars'])),
+                                function(object, value){slot(object, 'n_pars') <- value; return(object)}) 
+#'tag_lik
+#'@export tag_lik
+setGeneric('tag_lik', function(object, ...) standardGeneric('tag_lik')) 
+setMethod('tag_lik', signature('MFCLParBits'),function(object) return(slot(object, 'tag_lik'))) 
+#'tag_lik
+#'@export 
+setGeneric('tag_lik<-', function(object, ..., value) standardGeneric('tag_lik<-')) 
+setReplaceMethod('tag_lik', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['tag_lik'])),
+                                function(object, value){slot(object, 'tag_lik') <- value; return(object)}) 
+#'mn_len_pen
+#'@export mn_len_pen
+setGeneric('mn_len_pen', function(object, ...) standardGeneric('mn_len_pen')) 
+setMethod('mn_len_pen', signature('MFCLParBits'),function(object) return(slot(object, 'mn_len_pen'))) 
+#'mn_len_pen
+#'@export 
+setGeneric('mn_len_pen<-', function(object, ..., value) standardGeneric('mn_len_pen<-')) 
+setReplaceMethod('mn_len_pen', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['mn_len_pen'])),
+                                function(object, value){slot(object, 'mn_len_pen') <- value; return(object)}) 
+#'max_grad
+#'@export max_grad
+setGeneric('max_grad', function(object, ...) standardGeneric('max_grad')) 
+setMethod('max_grad', signature('MFCLParBits'),function(object) return(slot(object, 'max_grad'))) 
+#'max_grad
+#'@export 
+setGeneric('max_grad<-', function(object, ..., value) standardGeneric('max_grad<-')) 
+setReplaceMethod('max_grad', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['max_grad'])),
+                                function(object, value){slot(object, 'max_grad') <- value; return(object)}) 
+#'av_fish_mort_inst
+#'@export av_fish_mort_inst
+setGeneric('av_fish_mort_inst', function(object, ...) standardGeneric('av_fish_mort_inst')) 
+setMethod('av_fish_mort_inst', signature('MFCLParBits'),function(object) return(slot(object, 'av_fish_mort_inst'))) 
+#'av_fish_mort_inst
+#'@export 
+setGeneric('av_fish_mort_inst<-', function(object, ..., value) standardGeneric('av_fish_mort_inst<-')) 
+setReplaceMethod('av_fish_mort_inst', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['av_fish_mort_inst'])),
+                                function(object, value){slot(object, 'av_fish_mort_inst') <- value; return(object)}) 
+#'av_fish_mort_year
+#'@export av_fish_mort_year
+setGeneric('av_fish_mort_year', function(object, ...) standardGeneric('av_fish_mort_year')) 
+setMethod('av_fish_mort_year', signature('MFCLParBits'),function(object) return(slot(object, 'av_fish_mort_year'))) 
+#'av_fish_mort_year
+#'@export 
+setGeneric('av_fish_mort_year<-', function(object, ..., value) standardGeneric('av_fish_mort_year<-')) 
+setReplaceMethod('av_fish_mort_year', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['av_fish_mort_year'])),
+                                function(object, value){slot(object, 'av_fish_mort_year') <- value; return(object)}) 
+#'av_fish_mort_age
+#'@export av_fish_mort_age
+setGeneric('av_fish_mort_age', function(object, ...) standardGeneric('av_fish_mort_age')) 
+setMethod('av_fish_mort_age', signature('MFCLParBits'),function(object) return(slot(object, 'av_fish_mort_age'))) 
+#'av_fish_mort_age
+#'@export 
+setGeneric('av_fish_mort_age<-', function(object, ..., value) standardGeneric('av_fish_mort_age<-')) 
+setReplaceMethod('av_fish_mort_age', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['av_fish_mort_age'])),
+                                function(object, value){slot(object, 'av_fish_mort_age') <- value; return(object)}) 
+#'range
+#'@export range
+setMethod('range', signature(x='MFCLParBits'),function(x) return(slot(x,'range'))) 
+#'range
+#'@export range<- 
+setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
+setReplaceMethod('range', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['range'])),
                                 function(object, value){slot(object, 'range') <- value; return(object)}) 

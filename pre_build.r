@@ -55,6 +55,8 @@ createGenericMethods("MFCLTagRep", path='C://R4MFCL//FLR4MFCL//R',add=T)
 createGenericMethods("MFCLRec",    path='C://R4MFCL//FLR4MFCL//R',add=T)
 createGenericMethods("MFCLRegion", path='C://R4MFCL//FLR4MFCL//R',add=T)
 createGenericMethods("MFCLSel",    path='C://R4MFCL//FLR4MFCL//R',add=T)
+createGenericMethods("MFCLParBits",path='C://R4MFCL//FLR4MFCL//R',add=T)
+
 
 
 roxygenize("C://R4MFCL//FLR4MFCL")
