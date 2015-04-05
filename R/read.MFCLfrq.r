@@ -83,57 +83,93 @@ read.MFCLFrqStats <- function(frqfile){
 
 read.MFCLLenFreq <- function(frqfile){
   
-  res <- new("MFCLLenFreq")
+  quick.check <- function(obj, both, ...){
+    if(!both){
+      if(lf_range(obj)["WFIntervals"]>0 & lf_range(obj)["LFIntervals"]>0)
+        stop("I don't know if the frequency data are by length or weight: check the lf_range inputs")
+      if(lf_range(obj)["WFIntervals"]==0 & lf_range(obj)["LFIntervals"]==0)
+        stop("Both the length intervals and weight intervals are set to 0: check the lf_range inputs")
+    }
+    return(TRUE)
+  }
   
+  build.df <- function(lffrq, arr.rows, nfields, frqlen=NA, frqwt=NA, inc=0, inc2=0, inc3=0){    
+    mat  <- matrix(as.numeric(unlist(strsplit(lffrq[nfields==arr.rows], split="[[:blank:]]+"))), ncol=arr.rows, byrow=T)
+    df   <- apply(mat[,1:7],2,rep,each=arr.rows-(7+inc))
+    colnames(df) <- c("year", "month", "week", "fishery", "catch", "effort", "penalty")    
+    df   <- cbind(df, length=frqlen, weight=frqwt, freq=as.vector(t(mat[,(min(nfields)-inc2):(arr.rows-inc3)])))     
+    return(df)
+  }
+  
+  res  <- new("MFCLLenFreq")  
   frq  <- readLines(frqfile)  
   
-  line <- grep("Datasets", frq)+1
-  dat  <- as.numeric(unlist(strsplit(frq[line], split="[[:blank:]]+")))
-  dat  <- dat[!is.na(dat)]
-  names(dat) <- names(res@lf_range)
-  res@lf_range <- dat
+  dat  <- as.numeric(unlist(strsplit(frq[grep("Datasets", frq)+1], split="[[:blank:]]+")))
+  slot(res, "lf_range")[] <- dat[!is.na(dat)]
   
-  line <- grep("age_nage", frq)+1
-  dat  <- as.numeric(unlist(strsplit(frq[line], split="[[:blank:]]+")))
-  dat  <- dat[!is.na(dat)]
-  names(dat) <- names(res@age_nage)
-  res@age_nage <- dat
+  dat  <- as.numeric(unlist(strsplit(frq[grep("age_nage", frq)+1], split="[[:blank:]]+")))
+  slot(res, "age_nage")[] <- dat[!is.na(dat)]
   
-  nbins <- res@lf_range['LFIntervals']
+  nLbins <- lf_range(res)['LFIntervals']; Lwidth <- lf_range(res)["LFWidth"]; Lfirst <- lf_range(res)["LFFirst"]
+  nWbins <- lf_range(res)['WFIntervals']; Wwidth <- lf_range(res)["WFWidth"]; Wfirst <- lf_range(res)["WFFirst"]
   
-  lffrq <- frq[(line+1):length(frq)]
-  lfobs <- as.numeric(lapply(lapply(lapply(lffrq, strsplit, split="[[:blank:]]+"),unlist),el, 8)) != -1
+  line1 <- grep("age_nage", frq)+2  # first line of frequency data
+  lffrq <- frq[line1:length(frq)]   # just the length frequency data 
   
-  arr.rows <-nbins+7
-  arr.cols <- sum(lfobs)
-  arr <- array(as.numeric(unlist(lapply(lffrq[lfobs], strsplit, split="[[:blank:]]+"))),dim=c(arr.rows,arr.cols))[8:arr.rows,]
+  nfields <- count.fields(frqfile, skip=line1-1)          # number of fields in each line of the frequency data
+  both    <- length(table(nfields))>2 & min(nfields) > 8  # check if you have both length and weight frequency data
   
-  df <- data.frame(year = rep(as.numeric(unlist(lapply(lapply(lapply(lffrq[lfobs], strsplit, split="[[:blank:]]+"),unlist),el,1))),each=nbins),
-                   month= rep(as.numeric(unlist(lapply(lapply(lapply(lffrq[lfobs], strsplit, split="[[:blank:]]+"),unlist),el,2))),each=nbins),
-                   week = rep(as.numeric(unlist(lapply(lapply(lapply(lffrq[lfobs], strsplit, split="[[:blank:]]+"),unlist),el,3))),each=nbins),
-                   fish = rep(as.numeric(unlist(lapply(lapply(lapply(lffrq[lfobs], strsplit, split="[[:blank:]]+"),unlist),el,4))),each=nbins),
-                   catch= rep(as.numeric(unlist(lapply(lapply(lapply(lffrq[lfobs], strsplit, split="[[:blank:]]+"),unlist),el,5))),each=nbins),
-                   effort=rep(as.numeric(unlist(lapply(lapply(lapply(lffrq[lfobs], strsplit, split="[[:blank:]]+"),unlist),el,6))),each=nbins),
-                   pen  = rep(as.numeric(unlist(lapply(lapply(lapply(lffrq[lfobs], strsplit, split="[[:blank:]]+"),unlist),el,7))),each=nbins),
-                   lenfrq= as.vector(arr),
-                   length= seq(res@lf_range['LFFirst'], res@lf_range['LFWidth']*res@lf_range['LFIntervals']+res@lf_range['LFFirst']-res@lf_range['LFWidth'],by=res@lf_range['LFWidth']))
+  frqlen <- frqwt <- NA
+  if(nLbins>0) {frqlen <- seq(Lfirst, Lwidth*nLbins+Lfirst-Lwidth, by=Lwidth)}
+  if(nWbins>0) {frqwt  <- seq(Wfirst, Wwidth*nWbins+Wfirst-Wwidth, by=Wwidth)}
   
-  df2<- data.frame(year = as.numeric(unlist(lapply(lapply(lapply(lffrq[!lfobs], strsplit, split="[[:blank:]]+"),unlist),el,1))),
-                   month= as.numeric(unlist(lapply(lapply(lapply(lffrq[!lfobs], strsplit, split="[[:blank:]]+"),unlist),el,2))),
-                   week = as.numeric(unlist(lapply(lapply(lapply(lffrq[!lfobs], strsplit, split="[[:blank:]]+"),unlist),el,3))),
-                   fish = as.numeric(unlist(lapply(lapply(lapply(lffrq[!lfobs], strsplit, split="[[:blank:]]+"),unlist),el,4))),
-                   catch= as.numeric(unlist(lapply(lapply(lapply(lffrq[!lfobs], strsplit, split="[[:blank:]]+"),unlist),el,5))),
-                   effort=as.numeric(unlist(lapply(lapply(lapply(lffrq[!lfobs], strsplit, split="[[:blank:]]+"),unlist),el,6))),
-                   pen  = as.numeric(unlist(lapply(lapply(lapply(lffrq[!lfobs], strsplit, split="[[:blank:]]+"),unlist),el,7))),
-                   lenfrq= -1,
-                   length= NA)
   
-  res@freq <- rbind(df, df2)
+  if(!both & quick.check(res, both)){ # If only one type of frequency data - length or weight 
+    
+    # no frequency data-frame bit
+    df1 <- as.data.frame(matrix(as.numeric(unlist(strsplit(lffrq[nfields==8], split="[[:blank:]]+"))), ncol=8, byrow=T)[,-8])
+    colnames(df1) <- c("year", "month", "week", "fishery", "catch", "effort", "penalty")
+    df1 <- cbind(df1, length=NA, weight=NA, freq=-1)
+    
+    # with frequency data-frame bit - array size depends if you have length or weight data
+    df2      <- build.df(lffrq, arr.rows=(7+ifelse(nLbins>0,nLbins,nWbins)), nfields, frqlen, frqwt, inc=0)   
+    dfall    <- rbind(df1, df2)
+  }  
+        
+  if(both){  # if you have both length and weight frequency data ...
+    
+    # no frequency data-frame bit
+    df1 <- as.data.frame(matrix(as.numeric(unlist(strsplit(lffrq[nfields==min(nfields)], split="[[:blank:]]+"))), ncol=min(nfields), byrow=T)[,1:(min(nfields)-2)])
+    colnames(df1) <- c("year", "month", "week", "fishery", "catch", "effort", "penalty")
+    df1 <- cbind(df1, length=NA, weight=NA, freq=-1)
+    
+    # length frequency data-frame bit
+    dfL      <- build.df(lffrq, arr.rows=(7+nLbins+1), nfields, frqlen, frqwt=NA, inc=1, inc2=1, inc3=1)
+    
+    # weight frequency data-frame bit
+    dfW      <- build.df(lffrq, arr.rows=(7+1+nWbins), nfields, frqlen=NA, frqwt, inc=1, inc2=0, inc3=0)
+    
+    # length and weight frequency data-frame bit
+    dfLW      <- build.df(lffrq, arr.rows=(7+nLbins+nWbins), nfields, 
+                         frqlen=rep(c(frqlen, rep(NA, length(frqwt))), dim(mat)[1]), 
+                         frqwt =rep(c(rep(NA, length(frqlen)), frqwt), dim(mat)[1]), inc=0, inc2=1, inc3=0)
+  
+    dfall <- rbind(df1, dfL, dfW, dfLW) 
+  }
+  
+  res@freq <- dfall
   res@freq <- res@freq[order(res@freq$fish, res@freq$year, res@freq$month),]
   
   return(res)
   
 }
+
+
+
+
+
+
+
 
 #' MFCL frq file reader
 #'

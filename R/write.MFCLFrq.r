@@ -49,10 +49,19 @@ write.len <- function(x, file, append=T, ...){
   cat("\n# age_nage   age_age1 \n", file=file, append=T)
   cat(paste(paste(as.vector(age_nage(x)), collapse="      "),"\n"), file=file, append=T)
   
-  lfobs <- freq(x)[freq(x)$lenfrq!=-1,]
-  #lfwide<- reshape(lfobs, timevar='length', idvar=c('year','month','week','fish','catch','effort','pen'), direction="wide")
-  lfwide<- lfobs[lfobs$length==2,c("year","month","week","fish","catch","effort","pen")]
-  lfwide<- cbind(lfwide, t(array(lfobs$lenfrq, dim=c(54, 1785)))) 
+  # rows with no frequency data
+  noobs <- freq(x)[is.na(freq(x)$length) & is.na(freq(x)$weight),]
+  noobs <- cbind(noobs[1:7], length=-1, weight=-1)
+  
+  # rows with length frequency data
+  lobs  <- freq(x)[!is.na(freq(x)$length) & is.na(freq(x)$weight),]
+  
+  lfwide<- lobs[lobs$length==lf_range(x)["LFFirst"],c("year","month","week","fishery","catch","effort","penalty")]    
+  lfwide<- cbind(lfwide, t(array(lobs$freq, dim=c(lf_range(x)['LFIntervals'], nrow(lfwide))))) 
+  
+  
+  
+  
   
   
   lfnobs<- freq(x)[freq(x)$lenfrq==-1,]
@@ -76,6 +85,10 @@ write.len <- function(x, file, append=T, ...){
   writeLines(fullOutput, con=file)
   
 }
+
+
+#lfwide<- reshape(lfobs, timevar='length', idvar=c('year','month','week','fish','catch','effort','pen'), direction="wide")
+
 
 ##########################################################################
 #

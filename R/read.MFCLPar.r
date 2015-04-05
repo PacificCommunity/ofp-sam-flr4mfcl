@@ -198,17 +198,30 @@ read.MFCLRec <- function(parfile, first.yr=1972) {
   
   nseasons <- length(scan(parfile, skip=grep("# season_flags", par)+1, nline=1, quiet=quiet))
   nyears   <- length(scan(parfile, skip=grep("# Cohort specific growth deviations", par), nline=1, quiet=quiet)) / nseasons 
- 
+  nregions <- length(scan(parfile, skip=grep("# region parameters", par)+1, nline=1, quiet=quiet))
+  nagecls  <- as.numeric(par[grep("# The number of age classes", par)+1])  
+  
   dims        <- dimnames(FLQuant(quant="age"))
   dims$age    <- "0"
   dims$season <- as.character(1:nseasons)
   dims$year   <- as.character(first.yr:(first.yr+nyears-1))
   
+  dims2       <- dims
+  dims2$age   <- as.character(1:((nagecls/nseasons)-1))
+  dims2$year  <- as.character(first.yr)
+  dims2$area  <- as.character(1:nregions)
+  
   rel_rec <- array(scan(parfile, skip=grep("# relative recruitment", par)+1, nlines=1, quiet=quiet),dim=c(nseasons, nyears, 1,1,1,1))
+  rel_ini <- array(scan(parfile, skip=grep("# relative initial population", par)+1, nlines=nregions, quiet=quiet),dim=c(nseasons, (nagecls/nseasons)-1, nregions,1,1,1))
   
   slot(res, "rec_init_pop_diff") <- as.numeric(par[grep("# rec init pop level difference", par)+1])
   slot(res, "rec_times")         <- scan(parfile, skip=grep("# recruitment times", par), nlines=1, quiet=quiet)
   slot(res, "rel_rec")           <- FLQuant(aperm(rel_rec, c(3,2,4,1,5,6)), dimnames=dims)
+  slot(res, "rel_ini_pop")       <- FLQuant(aperm(rel_ini, c(2,4,5,1,3,6)), dimnames=dims2)
+  
+  slot(res, "tot_pop")           <- as.numeric(par[grep("# total populations scaling parameter", par)+1])
+  slot(res, "tot_pop_implicit")  <- as.numeric(par[grep("# implicit total populations scaling parameter ", par)+1])
+  
   
   slot(res, "range") <- c(min=min(as.numeric(dims$age)), max=max(as.numeric(dims$age)), plusgroup=NA,
                           minyear=min(as.numeric(dims$year)), maxyear=max(as.numeric(dims$year)))

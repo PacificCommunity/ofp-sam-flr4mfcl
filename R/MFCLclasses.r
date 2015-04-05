@@ -279,15 +279,21 @@ validMFCLRec <- function(object){
 setClass("MFCLRec",
          representation(
            rec_init_pop_diff   ="numeric",
-           rec_times  ="numeric",
-           rel_rec    ="FLQuant",
-           range      ="numeric"
+           rec_times           ="numeric",
+           rel_rec             ="FLQuant",
+           tot_pop             ="numeric",
+           tot_pop_implicit    ="numeric",
+           rel_ini_pop         ="FLQuant",
+           range               ="numeric"
          ),
          prototype=prototype(
            rec_init_pop_diff   =numeric(),
-           rec_times  =numeric(),
-           rel_rec    =FLQuant(),
-           range=unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
+           rec_times           =numeric(),
+           rel_rec             =FLQuant(),
+           tot_pop             =numeric(),
+           tot_pop_implicit    = numeric(),
+           rel_ini_pop         =FLQuant(),
+           range               =unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
          ),
          validity=validMFCLRec
 )
