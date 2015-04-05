@@ -48,6 +48,7 @@ createGenericMethods <- function(class, path, add=T, omit=c("range")){
 # Frq file objects
 createGenericMethods("MFCLFrqStats",path='C://R4MFCL//FLR4MFCL//R',add=F)  # working
 createGenericMethods("MFCLLenFreq", path='C://R4MFCL//FLR4MFCL//R',add=T)  # working
+
 # Par file objects
 createGenericMethods("MFCLBiol",   path='C://R4MFCL//FLR4MFCL//R',add=T)
 createGenericMethods("MFCLFlags",  path='C://R4MFCL//FLR4MFCL//R',add=T)
