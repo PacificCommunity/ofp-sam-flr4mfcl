@@ -1,6 +1,6 @@
 # Automatically generated Generic Methods 
 # Generated from 'createGenericMethods' 
-# Generated on  Tue Mar 31 13:37:16 2015 
+# Generated on  Fri Apr 10 13:33:31 2015 
  
 # class  MFCLFrqStats 
 #'n_regions
@@ -229,6 +229,24 @@ setMethod('richards', signature('MFCLBiol'),function(object) return(slot(object,
 setGeneric('richards<-', function(object, ..., value) standardGeneric('richards<-')) 
 setReplaceMethod('richards', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['richards'])),
                                 function(object, value){slot(object, 'richards') <- value; return(object)}) 
+#'growth_var_pars
+#'@export growth_var_pars
+setGeneric('growth_var_pars', function(object, ...) standardGeneric('growth_var_pars')) 
+setMethod('growth_var_pars', signature('MFCLBiol'),function(object) return(slot(object, 'growth_var_pars'))) 
+#'growth_var_pars
+#'@export 
+setGeneric('growth_var_pars<-', function(object, ..., value) standardGeneric('growth_var_pars<-')) 
+setReplaceMethod('growth_var_pars', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['growth_var_pars'])),
+                                function(object, value){slot(object, 'growth_var_pars') <- value; return(object)}) 
+#'n_mean_constraints
+#'@export n_mean_constraints
+setGeneric('n_mean_constraints', function(object, ...) standardGeneric('n_mean_constraints')) 
+setMethod('n_mean_constraints', signature('MFCLBiol'),function(object) return(slot(object, 'n_mean_constraints'))) 
+#'n_mean_constraints
+#'@export 
+setGeneric('n_mean_constraints<-', function(object, ..., value) standardGeneric('n_mean_constraints<-')) 
+setReplaceMethod('n_mean_constraints', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['n_mean_constraints'])),
+                                function(object, value){slot(object, 'n_mean_constraints') <- value; return(object)}) 
 #'growth_devs_age
 #'@export growth_devs_age
 setGeneric('growth_devs_age', function(object, ...) standardGeneric('growth_devs_age')) 
@@ -292,6 +310,15 @@ setMethod('common_len_bias_coffs', signature('MFCLBiol'),function(object) return
 setGeneric('common_len_bias_coffs<-', function(object, ..., value) standardGeneric('common_len_bias_coffs<-')) 
 setReplaceMethod('common_len_bias_coffs', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['common_len_bias_coffs'])),
                                 function(object, value){slot(object, 'common_len_bias_coffs') <- value; return(object)}) 
+#'dimensions
+#'@export dimensions
+setGeneric('dimensions', function(object, ...) standardGeneric('dimensions')) 
+setMethod('dimensions', signature('MFCLBiol'),function(object) return(slot(object, 'dimensions'))) 
+#'dimensions
+#'@export 
+setGeneric('dimensions<-', function(object, ..., value) standardGeneric('dimensions<-')) 
+setReplaceMethod('dimensions', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['dimensions'])),
+                                function(object, value){slot(object, 'dimensions') <- value; return(object)}) 
 #'range
 #'@export range
 setMethod('range', signature(x='MFCLBiol'),function(x) return(slot(x,'range'))) 
@@ -410,6 +437,33 @@ setMethod('rel_rec', signature('MFCLRec'),function(object) return(slot(object, '
 setGeneric('rel_rec<-', function(object, ..., value) standardGeneric('rel_rec<-')) 
 setReplaceMethod('rel_rec', signature(object='MFCLRec', value=unname(getSlots('MFCLRec')['rel_rec'])),
                                 function(object, value){slot(object, 'rel_rec') <- value; return(object)}) 
+#'tot_pop
+#'@export tot_pop
+setGeneric('tot_pop', function(object, ...) standardGeneric('tot_pop')) 
+setMethod('tot_pop', signature('MFCLRec'),function(object) return(slot(object, 'tot_pop'))) 
+#'tot_pop
+#'@export 
+setGeneric('tot_pop<-', function(object, ..., value) standardGeneric('tot_pop<-')) 
+setReplaceMethod('tot_pop', signature(object='MFCLRec', value=unname(getSlots('MFCLRec')['tot_pop'])),
+                                function(object, value){slot(object, 'tot_pop') <- value; return(object)}) 
+#'tot_pop_implicit
+#'@export tot_pop_implicit
+setGeneric('tot_pop_implicit', function(object, ...) standardGeneric('tot_pop_implicit')) 
+setMethod('tot_pop_implicit', signature('MFCLRec'),function(object) return(slot(object, 'tot_pop_implicit'))) 
+#'tot_pop_implicit
+#'@export 
+setGeneric('tot_pop_implicit<-', function(object, ..., value) standardGeneric('tot_pop_implicit<-')) 
+setReplaceMethod('tot_pop_implicit', signature(object='MFCLRec', value=unname(getSlots('MFCLRec')['tot_pop_implicit'])),
+                                function(object, value){slot(object, 'tot_pop_implicit') <- value; return(object)}) 
+#'rel_ini_pop
+#'@export rel_ini_pop
+setGeneric('rel_ini_pop', function(object, ...) standardGeneric('rel_ini_pop')) 
+setMethod('rel_ini_pop', signature('MFCLRec'),function(object) return(slot(object, 'rel_ini_pop'))) 
+#'rel_ini_pop
+#'@export 
+setGeneric('rel_ini_pop<-', function(object, ..., value) standardGeneric('rel_ini_pop<-')) 
+setReplaceMethod('rel_ini_pop', signature(object='MFCLRec', value=unname(getSlots('MFCLRec')['rel_ini_pop'])),
+                                function(object, value){slot(object, 'rel_ini_pop') <- value; return(object)}) 
 #'range
 #'@export range
 setMethod('range', signature(x='MFCLRec'),function(x) return(slot(x,'range'))) 
@@ -446,6 +500,15 @@ setMethod('diff_coffs', signature('MFCLRegion'),function(object) return(slot(obj
 setGeneric('diff_coffs<-', function(object, ..., value) standardGeneric('diff_coffs<-')) 
 setReplaceMethod('diff_coffs', signature(object='MFCLRegion', value=unname(getSlots('MFCLRegion')['diff_coffs'])),
                                 function(object, value){slot(object, 'diff_coffs') <- value; return(object)}) 
+#'diff_coffs_mat
+#'@export diff_coffs_mat
+setGeneric('diff_coffs_mat', function(object, ...) standardGeneric('diff_coffs_mat')) 
+setMethod('diff_coffs_mat', signature('MFCLRegion'),function(object) return(slot(object, 'diff_coffs_mat'))) 
+#'diff_coffs_mat
+#'@export 
+setGeneric('diff_coffs_mat<-', function(object, ..., value) standardGeneric('diff_coffs_mat<-')) 
+setReplaceMethod('diff_coffs_mat', signature(object='MFCLRegion', value=unname(getSlots('MFCLRegion')['diff_coffs_mat'])),
+                                function(object, value){slot(object, 'diff_coffs_mat') <- value; return(object)}) 
 #'diff_coffs_age_ssn
 #'@export diff_coffs_age_ssn
 setGeneric('diff_coffs_age_ssn', function(object, ...) standardGeneric('diff_coffs_age_ssn')) 
@@ -554,6 +617,15 @@ setMethod('fishery_sel', signature('MFCLSel'),function(object) return(slot(objec
 setGeneric('fishery_sel<-', function(object, ..., value) standardGeneric('fishery_sel<-')) 
 setReplaceMethod('fishery_sel', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['fishery_sel'])),
                                 function(object, value){slot(object, 'fishery_sel') <- value; return(object)}) 
+#'fishery_sel_age_comp
+#'@export fishery_sel_age_comp
+setGeneric('fishery_sel_age_comp', function(object, ...) standardGeneric('fishery_sel_age_comp')) 
+setMethod('fishery_sel_age_comp', signature('MFCLSel'),function(object) return(slot(object, 'fishery_sel_age_comp'))) 
+#'fishery_sel_age_comp
+#'@export 
+setGeneric('fishery_sel_age_comp<-', function(object, ..., value) standardGeneric('fishery_sel_age_comp<-')) 
+setReplaceMethod('fishery_sel_age_comp', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['fishery_sel_age_comp'])),
+                                function(object, value){slot(object, 'fishery_sel_age_comp') <- value; return(object)}) 
 #'av_q_coffs
 #'@export av_q_coffs
 setGeneric('av_q_coffs', function(object, ...) standardGeneric('av_q_coffs')) 
@@ -590,6 +662,33 @@ setMethod('q_dev_coffs', signature('MFCLSel'),function(object) return(slot(objec
 setGeneric('q_dev_coffs<-', function(object, ..., value) standardGeneric('q_dev_coffs<-')) 
 setReplaceMethod('q_dev_coffs', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['q_dev_coffs'])),
                                 function(object, value){slot(object, 'q_dev_coffs') <- value; return(object)}) 
+#'effort_dev_coffs
+#'@export effort_dev_coffs
+setGeneric('effort_dev_coffs', function(object, ...) standardGeneric('effort_dev_coffs')) 
+setMethod('effort_dev_coffs', signature('MFCLSel'),function(object) return(slot(object, 'effort_dev_coffs'))) 
+#'effort_dev_coffs
+#'@export 
+setGeneric('effort_dev_coffs<-', function(object, ..., value) standardGeneric('effort_dev_coffs<-')) 
+setReplaceMethod('effort_dev_coffs', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['effort_dev_coffs'])),
+                                function(object, value){slot(object, 'effort_dev_coffs') <- value; return(object)}) 
+#'catch_dev_coffs
+#'@export catch_dev_coffs
+setGeneric('catch_dev_coffs', function(object, ...) standardGeneric('catch_dev_coffs')) 
+setMethod('catch_dev_coffs', signature('MFCLSel'),function(object) return(slot(object, 'catch_dev_coffs'))) 
+#'catch_dev_coffs
+#'@export 
+setGeneric('catch_dev_coffs<-', function(object, ..., value) standardGeneric('catch_dev_coffs<-')) 
+setReplaceMethod('catch_dev_coffs', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['catch_dev_coffs'])),
+                                function(object, value){slot(object, 'catch_dev_coffs') <- value; return(object)}) 
+#'catch_dev_coffs_flag
+#'@export catch_dev_coffs_flag
+setGeneric('catch_dev_coffs_flag', function(object, ...) standardGeneric('catch_dev_coffs_flag')) 
+setMethod('catch_dev_coffs_flag', signature('MFCLSel'),function(object) return(slot(object, 'catch_dev_coffs_flag'))) 
+#'catch_dev_coffs_flag
+#'@export 
+setGeneric('catch_dev_coffs_flag<-', function(object, ..., value) standardGeneric('catch_dev_coffs_flag<-')) 
+setReplaceMethod('catch_dev_coffs_flag', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['catch_dev_coffs_flag'])),
+                                function(object, value){slot(object, 'catch_dev_coffs_flag') <- value; return(object)}) 
 #'sel_dev_corr
 #'@export sel_dev_corr
 setGeneric('sel_dev_corr', function(object, ...) standardGeneric('sel_dev_corr')) 
@@ -626,6 +725,15 @@ setMethod('season_q_pars', signature('MFCLSel'),function(object) return(slot(obj
 setGeneric('season_q_pars<-', function(object, ..., value) standardGeneric('season_q_pars<-')) 
 setReplaceMethod('season_q_pars', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['season_q_pars'])),
                                 function(object, value){slot(object, 'season_q_pars') <- value; return(object)}) 
+#'fish_params
+#'@export fish_params
+setGeneric('fish_params', function(object, ...) standardGeneric('fish_params')) 
+setMethod('fish_params', signature('MFCLSel'),function(object) return(slot(object, 'fish_params'))) 
+#'fish_params
+#'@export 
+setGeneric('fish_params<-', function(object, ..., value) standardGeneric('fish_params<-')) 
+setReplaceMethod('fish_params', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['fish_params'])),
+                                function(object, value){slot(object, 'fish_params') <- value; return(object)}) 
 #'range
 #'@export range
 setMethod('range', signature(x='MFCLSel'),function(x) return(slot(x,'range'))) 

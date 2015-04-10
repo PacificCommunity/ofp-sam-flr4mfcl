@@ -44,6 +44,7 @@ createGenericMethods <- function(class, path, add=T, omit=c("range")){
 }
 
 
+#source("C://R4MFCL//FLR4MFCL//R//MFCLclasses.r")
 
 # Frq file objects
 createGenericMethods("MFCLFrqStats",path='C://R4MFCL//FLR4MFCL//R',add=F)  # working

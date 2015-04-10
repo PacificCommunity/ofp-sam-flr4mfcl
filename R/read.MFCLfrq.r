@@ -151,8 +151,8 @@ read.MFCLLenFreq <- function(frqfile){
     
     # length and weight frequency data-frame bit
     dfLW      <- build.df(lffrq, arr.rows=(7+nLbins+nWbins), nfields, 
-                         frqlen=rep(c(frqlen, rep(NA, length(frqwt))), dim(mat)[1]), 
-                         frqwt =rep(c(rep(NA, length(frqlen)), frqwt), dim(mat)[1]), inc=0, inc2=1, inc3=0)
+                         frqlen=c(frqlen, rep(NA, length(frqwt))), 
+                         frqwt =c(rep(NA, length(frqlen)), frqwt), inc=0, inc2=1, inc3=0)
   
     dfall <- rbind(df1, dfL, dfW, dfLW) 
   }

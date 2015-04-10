@@ -68,8 +68,16 @@ read.MFCLBiol <- function(parfile, first.yr=1972){
   slot(res, "growth_devs_cohort")   <- FLCohort(scan(parfile, skip=grep("# Cohort specific growth deviations",par), 
                                                      n=nyears*nseasons, quiet=quiet), dimnames=dims_cohort)
   
+  slot(res, "dimensions") <- c(agecls=nagecls, years=nyears, seasons=nseasons, regions=nregions, fisheries=nfish, taggrps=ntaggrps)
+  
   slot(res, "range") <- c(min=min(as.numeric(dims_all$age)), max=max(as.numeric(dims_all$age)), plusgroup=NA,
                           minyear=min(as.numeric(dims_all$year)), maxyear=max(as.numeric(dims_all$year)))
+  
+  slot(res, "growth_var_pars") <- t(array(scan(parfile, skip=grep("# Variance parameters",  par), n=6, quiet=quiet), dim=c(3,2),
+                                          dimnames=list(c("ini","min","max"),c("Length","Size"))))
+  
+  slot(res, "n_mean_constraints") <- as.numeric(par[grep("# The number of mean constraints", par)+1])
+  
   return(res)
 }  
 
@@ -276,6 +284,10 @@ read.MFCLRegion <- function(parfile, first.yr=1972) {
   slot(res, 'move_map')      <- scan(parfile, skip=grep("# movement map",par),nlines=1, quiet=quiet)
   slot(res, 'diff_coffs')    <- matrix(scan(parfile, skip=grep("# movement coefficients",par),nlines=length(slot(res, 'move_map')), 
                                             quiet=quiet), nrow=nseasons, byrow=T)
+  
+  slot(res, 'diff_coffs_mat')<- matrix(scan(parfile, skip=grep("# The diffusion coefficients",par),nlines=nregions, 
+                                            quiet=quiet), nrow=nregions, byrow=T)
+  
   slot(res, 'diff_coffs_age_period') <- dca
   slot(res, 'diff_coffs_age') <- matrix(scan(parfile, skip=grep("# age dependent movement coefficients",par),nlines=length(slot(res, 'move_map')), 
                                              quiet=quiet), nrow=nseasons, byrow=T)
@@ -326,6 +338,7 @@ read.MFCLSel <- function(parfile) {
   nregions <- length(scan(parfile, skip=grep("# region parameters", par)+1, nline=1, quiet=quiet))
   nseasons <- length(scan(parfile, skip=grep("# season_flags", par)+1, nline=1, quiet=quiet))
   nfish    <- grep("# tag flags", par) - grep("# fish flags", par) -1
+  nqgroups <- max(array(scan(parfile, skip=grep("# fish flags", par), nlines=nfish, quiet=T), dim=c(100,nfish))[29,])
   
   dims1    <- list(age=as.character(seq(0,(nagecls/nseasons)-1)), year='all', unit='unique', season=c(as.character(1:nseasons)), area='all')
   dims2    <- list(age=as.character(seq(0,(nagecls/nseasons)-1)), year='all', unit=c(as.character(1:nfish)), season=c(as.character(1:nseasons)), area='all')
@@ -335,16 +348,27 @@ read.MFCLSel <- function(parfile) {
   qdc      <- lapply(strsplit(par[qdc_ptr:(qdc_ptr+nfish-1)], split="[[:blank:]]+"), as.numeric)
   qdc      <- lapply(qdc, function(x){x[!is.na(x)]})
   
+  edc_ptr  <- grep("# effort deviation coefficients",par)+1
+  edc      <- lapply(strsplit(par[edc_ptr:(edc_ptr+nfish-1)], split="[[:blank:]]+"), as.numeric)
+  edc      <- lapply(edc, function(x){x[!is.na(x)]})
+  
+  cdc_ptr  <- grep("# The grouped_catch_dev_coffs",par)[2]+1
+  cdc      <- lapply(strsplit(par[cdc_ptr:(cdc_ptr+nqgroups-1)], split="[[:blank:]]+"), as.numeric)
+  cdc      <- lapply(cdc, function(x){x[!is.na(x)]})
+  
   sdc_ptr  <- grep("# sel_dev_coffs ",par)
   sdc_ptrs <- c(sdc_ptr, sdc_ptr+cumsum(unlist(lapply(qdc, length))+1)+c(1:nfish))[-(nfish+1)]
   sdc      <- list(nfish)
   for(i in 1:nfish)
     sdc[[i]] <- matrix(scan(parfile, skip=sdc_ptrs[i], nlines=unlist(lapply(qdc, length))[i]+1, quiet=quiet), ncol=nagecls, byrow=T)
   
+  
   slot(res, 'availability_coffs') <- FLQuant(aperm(array(scan(parfile, skip=grep("# availability coffs", par)+1,nlines=1, quiet=quiet), 
                                                    dim=c(nseasons, nagecls/nseasons,1,1,1)),c(2,3,4,1,5)), dimnames=dims1)
   slot(res, 'fishery_sel')  <- FLQuant(aperm(array(scan(parfile, skip=grep("# fishery selectivity", par),nlines=nfish, quiet=quiet), 
                                              dim=c(nseasons, nagecls/nseasons,nfish,1,1)),c(2,4,3,1,5)), dimnames=dims2)
+  slot(res, 'fishery_sel_age_comp')  <- FLQuant(aperm(array(scan(parfile, skip=grep("# age-dependent component of fishery selectivity", par),nlines=nfish, quiet=quiet), 
+                                                   dim=c(nseasons, nagecls/nseasons,nfish,1,1)),c(2,4,3,1,5)), dimnames=dims2)
   slot(res, 'av_q_coffs')   <- FLQuant(aperm(array(scan(parfile, skip=grep("# average catchability coefficients", par)+1,n=nfish, quiet=quiet), 
                                                    dim=c(nseasons, nagecls/nseasons,1,1,1)),c(2,3,4,1,5)), dimnames=dims1)
   slot(res, 'ini_q_coffs')  <- FLQuant(aperm(array(scan(parfile, skip=grep("# initial trend in catchability coefficients ", par)+1,n=nfish, quiet=quiet), 
@@ -354,12 +378,16 @@ read.MFCLSel <- function(parfile) {
   slot(res, 'sel_dev_corr') <- FLQuant(aperm(array(scan(parfile, skip=grep("# correlation in selectivity deviations", par), n=nfish, quiet=quiet), 
                                                    dim=c(nfish, 1,1,1,1)),c(2,3,1,4,5)), dimnames=dims3)  
   slot(res, 'season_q_pars')<- matrix(scan(parfile, skip=grep("# seasonal_catchability_pars", par),nlines=nfish, quiet=quiet), ncol=12, byrow=T)
-    
-  slot(res, 'q_dev_coffs')  <- qdc
+  
+  slot(res, 'q_dev_coffs')      <- qdc
+  slot(res, 'effort_dev_coffs') <- edc
+  slot(res, 'catch_dev_coffs')  <- cdc
+  slot(res, 'catch_dev_coffs_flag') <- as.numeric(par[grep("# The grouped_catch_dev_coffs flag", par)+1])
   # the big ones
   slot(res, 'sel_dev_coffs') <- matrix(scan(parfile, skip=grep("# selectivity deviation coefficients ", par)+2,
                                             nlines=sum(unlist(lapply(qdc, length)))-nfish, quiet=quiet), ncol=nagecls, byrow=T)
   slot(res, 'sel_dev_coffs2')<- sdc
+  slot(res, 'fish_params')   <- matrix(scan(parfile, skip=grep("# extra fishery parameters", par)+2,nlines=20, quiet=quiet), ncol=nfish, byrow=T)
     
   slot(res, 'range') <- c(min=0, max=nagecls/nseasons, plusgroup=NA, minyear=1, maxyear=1)
   
@@ -390,6 +418,7 @@ read.MFCLParBits <- function(parfile) {
   par    <- readLines(parfile)
   
   taglik <- unlist(strsplit(par[grep("# Likelihood component for tags",          par)], split="[[:blank:]]+"))
+  mn_l_p <- unlist(strsplit(par[grep("# Average fish mort per fishing incident", par)], split="[[:blank:]]+"))
   av_f_i <- unlist(strsplit(par[grep("# Average fish mort per fishing incident", par)], split="[[:blank:]]+"))
   av_f_y <- unlist(strsplit(par[grep("# Average fish mort per year is",          par)], split="[[:blank:]]+"))
   av_f_a <- unlist(strsplit(par[grep("# Average fish mort per year by age class",par)+1], split="[[:blank:]]+"))
@@ -399,6 +428,7 @@ read.MFCLParBits <- function(parfile) {
   slot(res, 'n_pars')   <- scan(parfile, skip=grep("# The number of parameters",par), n=1, quiet=quiet)
   slot(res, 'tag_lik')  <- as.numeric(taglik[length(taglik)])
   slot(res, 'max_grad') <- scan(parfile, skip=grep("# Maximum magnitude gradient value ",par), n=1, quiet=quiet)
+  slot(res, 'mn_len_pen')        <- as.numeric(mn_l_p[length(mn_l_p)])
   slot(res, 'av_fish_mort_inst') <- as.numeric(av_f_i[length(av_f_i)])
   slot(res, 'av_fish_mort_year') <- as.numeric(av_f_y[length(av_f_y)])
   slot(res, 'av_fish_mort_age')  <- as.numeric(av_f_a[-1])
@@ -429,7 +459,7 @@ read.MFCLParBits <- function(parfile) {
 #'
 #' @export
 
-read.MFCLPar <- function(parfile) {
+read.MFCLPar <- function(parfile, first.yr=1972) {
   
   res <- new("MFCLPar")
   
@@ -441,11 +471,11 @@ read.MFCLPar <- function(parfile) {
   }
   par    <- readLines(parfile)
   
-  res <- slotcopy(read.MFCLBiol(parfile), res)
+  res <- slotcopy(read.MFCLBiol(parfile, first.yr), res)
   res <- slotcopy(read.MFCLFlags(parfile), res)
   res <- slotcopy(read.MFCLTagRep(parfile), res)
-  res <- slotcopy(read.MFCLRec(parfile), res)
-  res <- slotcopy(read.MFCLRegion(parfile), res)
+  res <- slotcopy(read.MFCLRec(parfile, first.yr), res)
+  res <- slotcopy(read.MFCLRegion(parfile, first.yr), res)
   res <- slotcopy(read.MFCLSel(parfile), res)
   res <- slotcopy(read.MFCLParBits(parfile), res)
   

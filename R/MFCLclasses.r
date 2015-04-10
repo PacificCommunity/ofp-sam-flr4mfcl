@@ -170,6 +170,8 @@ setClass("MFCLBiol",
            mat               ="FLQuant",
            growth            ="array",
            richards          ="numeric",
+           growth_var_pars   ="array",
+           n_mean_constraints="numeric",
            growth_devs_age   ="FLQuant",
            growth_curve_devs ="FLQuant",
            growth_devs_cohort="FLCohort",
@@ -177,6 +179,7 @@ setClass("MFCLBiol",
            len_bias_pars     ="numeric",
            common_len_bias_pars  ="numeric",
            common_len_bias_coffs ="numeric",
+           dimensions        ="numeric",
            range             ="numeric"
            ),
          prototype=prototype(
@@ -186,6 +189,8 @@ setClass("MFCLBiol",
            mat               =FLQuant(),
            growth            =array(),
            richards          =numeric(),
+           growth_var_pars   =array(),
+           n_mean_constraints=numeric(),
            growth_devs_age   =FLQuant(),
            growth_curve_devs =FLQuant(),
            growth_devs_cohort=FLCohort(),
@@ -193,6 +198,7 @@ setClass("MFCLBiol",
            len_bias_pars     =numeric(),
            common_len_bias_pars  =numeric(),
            common_len_bias_coffs =numeric(),
+           dimensions        =unlist(list(agecls=as.numeric(NA), years=NA, seasons=NA, regions=NA, fisheries=NA, taggrps=NA)),
            range             =unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
            ),
          validity=validMFCLBiol
@@ -204,6 +210,8 @@ remove(validMFCLBiol)
 #'Basic constructor for MFCLBiol class
 #'@export
 MFCLBiol <- function() {return(new("MFCLBiol"))}
+
+
 
 
 ###### CLASSS MFCLFlags
@@ -230,6 +238,8 @@ remove(validMFCLFlags)
 #'Basic consstructor for MFCLFlags class
 #'@export
 MFCLFlags <- function() {return(new("MFCLFlags"))}
+
+
 
 
 ###### CLASSS MFCLTagRep
@@ -318,7 +328,8 @@ setClass("MFCLRegion",
            control_flags         = "matrix",
            move_map              = "numeric",
            diff_coffs            = "matrix",
-           diff_coffs_age_ssn    = "array",
+           diff_coffs_mat        = "matrix",
+           diff_coffs_age_ssn        = "array",
            diff_coffs_age_period = "array",
            diff_coffs_age        = "array",
            diff_coffs_nl         = "array",
@@ -333,7 +344,8 @@ setClass("MFCLRegion",
            control_flags         = matrix(),
            move_map              = numeric(),
            diff_coffs            = matrix(),
-           diff_coffs_age_ssn    = array(),
+           diff_coffs_mat        = matrix(),
+           diff_coffs_age_ssn        = array(),
            diff_coffs_age_period = array(),
            diff_coffs_age        = array(),
            diff_coffs_nl         = array(),
@@ -366,27 +378,37 @@ setClass("MFCLSel",
          representation(
            availability_coffs   = "FLQuant",
            fishery_sel          = "FLQuant",
+           fishery_sel_age_comp = "FLQuant",
            av_q_coffs           = "FLQuant",
            ini_q_coffs          = "FLQuant",
            q0_miss              = "FLQuant",
            q_dev_coffs          = "list",
+           effort_dev_coffs     = "list",
+           catch_dev_coffs      = "list",
+           catch_dev_coffs_flag = "numeric",
            sel_dev_corr         = "FLQuant",
            sel_dev_coffs        = "matrix",
            sel_dev_coffs2       = "list",
-           season_q_pars        = "matrix",           
+           season_q_pars        = "matrix",   
+           fish_params          = "matrix",
            range                = "numeric"
          ),
          prototype=prototype(
            availability_coffs   = FLQuant(),
            fishery_sel          = FLQuant(),
+           fishery_sel_age_comp = FLQuant(),
            av_q_coffs           = FLQuant(),
            ini_q_coffs          = FLQuant(),
            q0_miss              = FLQuant(),
            q_dev_coffs          = list(),
+           effort_dev_coffs     = list(),
+           catch_dev_coffs      = list(),
+           catch_dev_coffs_flag = numeric(),
            sel_dev_corr         = FLQuant(),
            sel_dev_coffs        = matrix(),
            sel_dev_coffs2       = list(),
            season_q_pars        = matrix(),
+           fish_params          = matrix(),
            range                = unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
          ),
          validity=validMFCLSel
