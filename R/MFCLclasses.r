@@ -1,9 +1,9 @@
-
+#hello.
 
 
 ######################################################################
 ###
-###  Frq file 
+###  Frq file
 ###
 #######################################################################
 
@@ -21,10 +21,10 @@ validMFCLFrqStats <- function(object){
 #' @slot n_tag_groups Number of tag groups
 #' @slot n_recs_yr Number of recruitment events each year
 #' @slot rec_month Month in which recruitment occurs - 0 means first month of each period
-#' @slot generic_diffusion Logical 
+#' @slot generic_diffusion Logical
 #' @slot frq_age_len Logical. Is the frq file age or length based
 #' @slot frq_version The version of the frq file
-#' @slot region_size Size of each region relative to first region 
+#' @slot region_size Size of each region relative to first region
 #' @slot region_fish
 #' @slot move_matrix
 #' @slot data_flags
@@ -32,7 +32,7 @@ validMFCLFrqStats <- function(object){
 #' @slot n_move_yr
 #' @slot move_weeks
 #' @slot range
-#' 
+#'
 setClass("MFCLFrqStats",
          representation(
            n_regions    = "numeric",
@@ -68,7 +68,7 @@ setClass("MFCLFrqStats",
            season_flags = matrix(),
            n_move_yr    = numeric(),
            move_weeks   = numeric(),
-           range        =unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1)) 
+           range        =unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
          ),
          validity=validMFCLFrqStats
 )
@@ -94,7 +94,7 @@ validMFCLLenFreq <- function(object){
 #' @slot lf_range Range information of the length frequencies
 #' @slot age_nage I don't know what this is but it's in the frq file
 #' @slot freq Data frame of length frequency information.
-#' 
+#'
 setClass("MFCLLenFreq",
          representation(
            lf_range    ="numeric",
@@ -120,14 +120,14 @@ MFCLLenFreq <- function() {return(new("MFCLLenFreq"))}
 ###### CLASSS MFCLFrq
 
 validMFCLFrq <- function(object){
-  
+
   # Everything is fine
   return(TRUE)
 }
 #' An S4 class : Representation of a frq input file for MFCL
 #'
 #' A class comprising an MFCLFrqStats object and an MFCLLenFrq object
-#' 
+#'
 setClass("MFCLFrq",
          representation(
            "MFCLFrqStats",
@@ -151,7 +151,7 @@ MFCLFrq <- function() {return(new("MFCLFrq"))}
 
 ######################################################################
 ###
-###  Par file 
+###  Par file
 ###
 #######################################################################
 
@@ -335,7 +335,7 @@ setClass("MFCLRegion",
            diff_coffs_nl         = "array",
            diff_coffs_priors     = "array",
            diff_coffs_age_priors = "array",
-           diff_coffs_nl_priors  = "array",           
+           diff_coffs_nl_priors  = "array",
            region_rec_var        = "FLQuant",
            region_pars           = "matrix",
            range                 = "numeric"
@@ -389,7 +389,7 @@ setClass("MFCLSel",
            sel_dev_corr         = "FLQuant",
            sel_dev_coffs        = "matrix",
            sel_dev_coffs2       = "list",
-           season_q_pars        = "matrix",   
+           season_q_pars        = "matrix",
            fish_params          = "matrix",
            range                = "numeric"
          ),
@@ -499,8 +499,8 @@ remove(validMFCLPar)
 #'@export
 MFCLPar <- function() {return(new("MFCLPar"))}
 
-           
- 
+
+
 
 
 
