@@ -20,7 +20,7 @@ read.MFCLFrqStats <- function(frqfile){
   res <- new("MFCLFrqStats")
   
   quiet=TRUE
-  tt <- scan(frqfile, nlines=400, comment.char='#', quiet=quiet)
+  tt <- scan(frqfile, nlines=100, comment.char='#', quiet=quiet)
   
   res@n_regions <- tt[1]
   res@n_fisheries <- tt[2]
@@ -33,6 +33,7 @@ read.MFCLFrqStats <- function(frqfile){
   res@frq_version <- tt[10]
   
   frq  <- readLines(frqfile)  
+  
   line <- grep("Relative Region Size", frq)+1
   dat  <- as.numeric(unlist(strsplit(frq[line], split=" ")))
   res@region_size <- FLQuant(dat[!is.na(dat)], 
@@ -53,16 +54,15 @@ read.MFCLFrqStats <- function(frqfile){
   }
     
   line <- grep("Data flags", frq)
-  res@data_flags <- matrix(scan(frqfile, nlines=5, skip=line, quiet=quiet), nrow=5, ncol=res@n_fisheries, byrow=T)
+  res@data_flags <- matrix(as.numeric(unlist(strsplit(frq[line+1:5], split=" "))),nrow=5, ncol=res@n_fisheries, byrow=T)
   
   line <- grep("Season-region flags", frq)
-  res@season_flags <- matrix(scan(frqfile, nlines=res@n_recs_yr, skip=line, quiet=quiet), 
-                           nrow=res@n_recs_yr, ncol=res@n_regions, byrow=T)
+  res@season_flags <- matrix(as.numeric(unlist(strsplit(frq[line+1:res@n_recs_yr], split=" "))), nrow=res@n_recs_yr, ncol=res@n_regions, byrow=T)
   
   res@n_move_yr <- as.numeric(frq[grep("Number of movements per year", frq)+1])
   
   line <- grep("Weeks in which movement occurs", frq)
-  res@move_weeks <- scan(frqfile, nlines=1, skip=line, quiet=quiet)
+  res@move_weeks <- as.numeric(unlist(strsplit(frq[line+1], split=" ")))
   
   return(res)
 }

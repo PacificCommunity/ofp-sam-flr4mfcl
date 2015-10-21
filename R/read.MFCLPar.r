@@ -6,8 +6,9 @@
 #' Other dimensions are interpreted from the data blocks so care should be taken to check
 #' that these have been reproduced correctly
 #'
-#' @param parfile A character string giving the name and path of the frq file to be read 
-#' @param first.yr The first year of the time seires
+#' @param parfile:  A character string giving the name and path of the frq file to be read 
+#' @param parobj:   A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file
+#' @param first.yr: The first year of the input data time series (default values 1972)
 #'
 #' @return An object of class MFCLBiol
 #'
@@ -17,19 +18,31 @@
 #' @export
 
 
-read.MFCLBiol <- function(parfile, first.yr=1972){
+read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
+  
+  trim.leading  <- function(x) sub("^\\s+", "", x)
+  trim.trailing <- function(x) sub("\\s+$", "", x) # not used - maybe delete
+  trim.hash     <- function(x) sub("#",     "", x) # not used - maybe delete
+  
+  splitter      <- function(ff, tt, ll=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)+ll]),split="[[:blank:]]+"))
   
   res <- new("MFCLBiol")
-  quiet <- TRUE
   
-  par    <- readLines(parfile)
+  if(is.null(parobj)){
+    par <- readLines(parfile)
+    par <- par[nchar(par)>=1]                                          # remove blank lines
+    par <- par[-seq(1,length(par))[grepl("# ", par) & nchar(par)<3]]   # remove single hashes with no text "# "
+  }
+  if(!is.null(parobj))
+    par <- parobj
   
-  nseasons <- length(scan(parfile, skip=grep("# season_flags", par)+1, nline=1, quiet=quiet))
-  nyears   <- length(scan(parfile, skip=grep("# Cohort specific growth deviations", par), nline=1, quiet=quiet)) / nseasons
-  nagecls  <- as.numeric(par[grep("# The number of age classes", par)+1])  
+  nseasons <- length(splitter(par, "# season_flags"))
+  nyears   <- length(splitter(par, "# Cohort specific growth deviations"))
+  nagecls  <- as.numeric(par[grep("# The number of age classes", par)+1])
+  
   nfish    <- grep("# tag flags", par) - grep("# fish flags", par) -1
   ntaggrps <- grep("# tag fish rep", par)[1] - grep("# tag flags", par) -1
-  nregions <- length(scan(parfile, skip=grep("# region parameters", par)+1, nline=1, quiet=quiet))
+  nregions <- length(splitter(par, "# region parameters"))
   
   dims_age        <- dimnames(FLQuant(quant="age"))
   dims_age$age    <- as.character(0:((nagecls/nseasons)-1))
@@ -45,35 +58,35 @@ read.MFCLBiol <- function(parfile, first.yr=1972){
   dims_cohort$cohort <- as.character(first.yr:(first.yr+nyears))
   dims_cohort$season <- as.character(1:nseasons)
   
-    
-  age_class_pars <- t(array(scan(parfile, skip=grep("# age-class related parameters",  par)+1, n=nagecls*5, quiet=quiet), dim=c(nagecls,5)))
+  age_class_pars <- t(array(as.numeric(splitter(par, "# age-class related parameters", 1:5)), dim=c(nagecls, 5)))
   
-  slot(res, "m")                 <- as.numeric(par[grep("# natural mortality coefficient", par)+2])
+  slot(res, "m")                 <- as.numeric(par[grep("# natural mortality coefficient", par)+1])
   slot(res, "m_devs_age")        <- FLQuant(age_class_pars[2,], dimnames=dims_age)
   slot(res, "log_m")             <- FLQuant(age_class_pars[5,], dimnames=dims_age)
   slot(res, "growth_devs_age")   <- FLQuant(age_class_pars[3,], dimnames=dims_age)  
   slot(res, "growth_curve_devs") <- FLQuant(age_class_pars[4,], dimnames=dims_age)  
   
-  slot(res, "mat")      <- FLQuant(aperm(array(scan(parfile, skip=grep("# percent maturity ",  par), n=nagecls, quiet=quiet),
-                                         dim=c(nseasons,nagecls/nseasons,1,1,1)),c(2,3,4,1,5)), dimnames=dims_age)
-  slot(res, "growth")   <- t(array(scan(parfile, skip=grep("# The von Bertalanffy parameters",  par), n=9, quiet=quiet), dim=c(3,3),
-                                   dimnames=list(c("est","min","max"),c("Lmin","Lmax","k"))))
+  slot(res, "mat")      <- FLQuant(aperm(array(as.numeric(splitter(par, "# percent maturity")),
+                                               dim=c(nseasons,nagecls/nseasons,1,1,1)),c(2,3,4,1,5)), dimnames=dims_age)
+
+  slot(res, "growth")   <- t(array(as.numeric(splitter(par, "# The von Bertalanffy parameters", 1:3)),
+                                   dim=c(3,3), dimnames=list(c("est","min","max"),c("Lmin","Lmax","k"))))
+                                       
   slot(res, "richards") <- as.numeric(par[grep("# extra par for Richards",  par)+1])
   
-  slot(res, "len_bias_pars")        <- scan(parfile, skip=grep("# First Length bias parameters",    par), n=nfish, quiet=quiet)
-  slot(res, "common_len_bias_pars") <- scan(parfile, skip=grep("# Common first Length bias flags",  par), n=nfish, quiet=quiet)
-  slot(res, "common_len_bias_coffs")<- scan(parfile, skip=grep("# Common first Length bias coffs",  par), n=nfish, quiet=quiet)
-  slot(res, "season_growth_pars")   <- scan(parfile, skip=grep("# Seasonal growth parameters",      par), n=30,    quiet=quiet)
+  slot(res, "len_bias_pars")        <- as.numeric(splitter(par, "# First Length bias parameters"))
+  slot(res, "common_len_bias_pars") <- as.numeric(splitter(par, "# Common first Length bias flags"))
+  slot(res, "common_len_bias_coffs")<- as.numeric(splitter(par, "# Common first Length bias coffs"))
+  slot(res, "season_growth_pars")   <- as.numeric(splitter(par, "# Seasonal growth parameters"))
   
-  slot(res, "growth_devs_cohort")   <- FLCohort(scan(parfile, skip=grep("# Cohort specific growth deviations",par), 
-                                                     n=nyears*nseasons, quiet=quiet), dimnames=dims_cohort)
+  slot(res, "growth_devs_cohort")   <- FLCohort(as.numeric(splitter(par, "# Cohort specific growth deviations")), dimnames=dims_cohort)
   
   slot(res, "dimensions") <- c(agecls=nagecls, years=nyears, seasons=nseasons, regions=nregions, fisheries=nfish, taggrps=ntaggrps)
   
   slot(res, "range") <- c(min=min(as.numeric(dims_all$age)), max=max(as.numeric(dims_all$age)), plusgroup=NA,
                           minyear=min(as.numeric(dims_all$year)), maxyear=max(as.numeric(dims_all$year)))
   
-  slot(res, "growth_var_pars") <- t(array(scan(parfile, skip=grep("# Variance parameters",  par), n=6, quiet=quiet), dim=c(3,2),
+  slot(res, "growth_var_pars") <- t(array(as.numeric(splitter(par,"# Variance parameters", 1:2)), dim=c(3,2),
                                           dimnames=list(c("ini","min","max"),c("Length","Size"))))
   
   slot(res, "n_mean_constraints") <- as.numeric(par[grep("# The number of mean constraints", par)+1])
@@ -90,7 +103,8 @@ read.MFCLBiol <- function(parfile, first.yr=1972){
 #'
 #' Reads the Flag information from the par file and creates an MFCLFlags object
 #'
-#' @param parfile A character string giving the name and path of the frq file to be read 
+#' @param parfile: A character string giving the name and path of the frq file to be read 
+#' @param parobj:  A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file
 #'
 #' @return An object of class MFCLFlags
 #'
@@ -99,24 +113,32 @@ read.MFCLBiol <- function(parfile, first.yr=1972){
 #'
 #' @export
 
-read.MFCLFlags <- function(parfile) {
+read.MFCLFlags <- function(parfile, parobj=NULL) {
+
+  trim.leading  <- function(x) sub("^\\s+", "", x)
+  splitter      <- function(ff, tt, ll=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)+ll]),split="[[:blank:]]+"))
   
-  res <- new("MFCLFlags")
-  quiet <- TRUE
+  res    <- new("MFCLFlags")
   
-  par    <- readLines(parfile)
+  if(is.null(parobj)){
+    par <- readLines(parfile)
+    par <- par[nchar(par)>=1]                                          # remove blank lines
+    par <- par[-seq(1,length(par))[grepl("# ", par) & nchar(par)<3]]   # remove single hashes with no text "# "
+  }
+  if(!is.null(parobj))
+    par <- parobj
   
   nfish    <- grep("# tag flags", par) - grep("# fish flags", par) -1
   ntaggrps <- grep("# tag fish rep", par)[1] - grep("# tag flags", par) -1
-  nregions <- length(scan(parfile, skip=grep("# region parameters", par)+1, nline=1, quiet=quiet))
+  nregions <- length(splitter(par,"# region parameters"))
   
-  parflags   <- scan(parfile, skip=grep("# The parest_flags", par), nlines=1, quiet=quiet) # 400 of them
-  ageflags   <- scan(parfile, skip=grep("# age flags",        par), nlines=1, quiet=quiet) # 200 of them
-  fishflags  <- scan(parfile, skip=grep("# fish flags",       par), nlines=nfish, quiet=quiet) # 100 for each fishery
-  tagflags   <- scan(parfile, skip=grep("# tag flags",        par), nlines=ntaggrps, quiet=quiet) # 10 for each tag group
-  yearflags  <- scan(parfile, skip=grep("# year_flags",       par), nlines=10, quiet=quiet)
-  seasonflags<- scan(parfile, skip=grep("# season_flags",     par), nlines=10, quiet=quiet)
-  regionflags<- scan(parfile, skip=grep("# region control flags", par), nlines=10, quiet=quiet) # 10 for each region
+  parflags   <- as.numeric(splitter(par,"# The parest_flags"))      # 400 of them
+  ageflags   <- as.numeric(splitter(par,"# age flags"))             # 200 of them
+  fishflags  <- as.numeric(splitter(par,"# fish flags", 1:nfish))   # 100 for each fishery
+  tagflags   <- as.numeric(splitter(par,"# tag flags",  1:ntaggrps)) # 10 for each tag group
+  yearflags  <- as.numeric(splitter(par,"# year_flags", 1:10))
+  seasonflags<- as.numeric(splitter(par,"# season_flags",1:10))
+  regionflags<- as.numeric(splitter(par,"# region control flags",1:10)) # 10 for each region
   
   parflagsdf <- data.frame(flagtype=1, flag=1:length(parflags), value=parflags)
   ageflagsdf <- data.frame(flagtype=2, flag=1:length(ageflags), value=ageflags)
@@ -142,7 +164,8 @@ read.MFCLFlags <- function(parfile) {
 #'
 #' Reads the TAaRep information from the par file and creates an MFCLTagRep object
 #'
-#' @param parfile A character string giving the name and path of the frq file to be read 
+#' @param parfile: A character string giving the name and path of the frq file to be read 
+#' @param parobj:  A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file
 #'
 #' @return An object of class MFCLTagRep
 #'
@@ -151,29 +174,31 @@ read.MFCLFlags <- function(parfile) {
 #'
 #' @export
 
-read.MFCLTagRep <- function(parfile) {
- 
-  res <- new("MFCLTagRep")
-  quiet <- TRUE
+read.MFCLTagRep <- function(parfile, parobj=NULL) {
+
+  trim.leading  <- function(x) sub("^\\s+", "", x)
+  splitter      <- function(ff, tt, ll=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[1]+ll]),split="[[:blank:]]+"))  
   
-  par    <- readLines(parfile)
+  res <- new("MFCLTagRep")
+  
+  if(is.null(parobj)){
+    par <- readLines(parfile)
+    par <- par[nchar(par)>=1]                                          # remove blank lines
+    par <- par[-seq(1,length(par))[grepl("# ", par) & nchar(par)<3]]   # remove single hashes with no text "# "
+  }
+  if(!is.null(parobj))
+    par <- parobj
   
   nfish    <- grep("# tag flags", par) - grep("# fish flags", par) -1
   ntaggrps <- grep("# tag fish rep", par)[1] - grep("# tag flags", par) -1
-  dims     <- c(nfish, ntaggrps+1)
+  arraydims<- c(nfish, ntaggrps+1)
   
-  dev_coffs<- list(length=nfish)
-  for(i in 1:nfish)
-    dev_coffs[i] <- paste(scan(parfile, skip=grep("# Reporting rate dev coffs",par)+i,nlines=1, quiet=quiet), collapse=" ")
-  
-  lapply(lapply(lapply(dev_coffs, strsplit, split=" "), unlist), as.numeric)
-  
-  slot(res, 'tag_fish_rep_rate') <- t(array(scan(parfile, skip=grep("# tag fish rep",             par),nlines=ntaggrps+1, quiet=quiet), dim=dims))
-  slot(res, 'tag_fish_rep_grp')  <- t(array(scan(parfile, skip=grep("# tag fish rep group flags", par),nlines=ntaggrps+1, quiet=quiet), dim=dims))
-  slot(res, 'tag_fish_rep_flags')<- t(array(scan(parfile, skip=grep("# tag_fish_rep active flags",par),nlines=ntaggrps+1, quiet=quiet), dim=dims))
-  slot(res, 'tag_fish_rep_target')<-t(array(scan(parfile, skip=grep("# tag_fish_rep target",      par),nlines=ntaggrps+1, quiet=quiet), dim=dims))
-  slot(res, 'tag_fish_rep_pen')   <-t(array(scan(parfile, skip=grep("# tag_fish_rep penalty",     par),nlines=ntaggrps+1, quiet=quiet), dim=dims))
-  slot(res, 'rep_rate_dev_coffs') <- dev_coffs
+  slot(res, 'tag_fish_rep_rate') <- t(array(as.numeric(splitter(par, "# tag fish rep", 1:(ntaggrps+1))), dim=arraydims))
+  slot(res, 'tag_fish_rep_grp')  <- t(array(as.numeric(splitter(par, "# tag fish rep group flags", 1:(ntaggrps+1))), dim=arraydims))
+  slot(res, 'tag_fish_rep_flags')<- t(array(as.numeric(splitter(par, "# tag_fish_rep active flags",1:(ntaggrps+1))), dim=arraydims))
+  slot(res, 'tag_fish_rep_target')<-t(array(as.numeric(splitter(par, "# tag_fish_rep target",      1:(ntaggrps+1))), dim=arraydims))
+  slot(res, 'tag_fish_rep_pen')   <-t(array(as.numeric(splitter(par, "# tag_fish_rep penalty",     1:(ntaggrps+1))), dim=arraydims))
+  slot(res, 'rep_rate_dev_coffs') <- lapply(seq(1:nfish), function(x) as.numeric(splitter(par, "# Reporting rate dev coffs",x)))
                                       
   return(res)
 }
@@ -188,7 +213,9 @@ read.MFCLTagRep <- function(parfile) {
 #'
 #' Reads the recruitment information from the par file and creates an MFCLec object
 #'
-#' @param parfile A character string giving the name and path of the frq file to be read 
+#' @param parfile: A character string giving the name and path of the frq file to be read 
+#' @param parobj:  A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file
+#' @param first.yr: The first year of the input data time series (default value 1972)
 #'
 #' @return An object of class MFCLRec
 #'
@@ -197,33 +224,41 @@ read.MFCLTagRep <- function(parfile) {
 #'
 #' @export
 
-read.MFCLRec <- function(parfile, first.yr=1972) {
-  
+read.MFCLRec <- function(parfile, parobj=NULL, first.yr=1972) {
+
+  trim.leading  <- function(x) sub("^\\s+", "", x)
+  splitter      <- function(ff, tt, ll=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[1]+ll]),split="[[:blank:]]+"))  
+
   res <- new("MFCLRec")
-  quiet <- TRUE
   
-  par    <- readLines(parfile)
+  if(is.null(parobj)){
+    par <- readLines(parfile)
+    par <- par[nchar(par)>=1]                                          # remove blank lines
+    par <- par[-seq(1,length(par))[grepl("#", par) & nchar(par)<3]]   # remove single hashes with no text "# "
+  }
+  if(!is.null(parobj))
+    par <- parobj
   
-  nseasons <- length(scan(parfile, skip=grep("# season_flags", par)+1, nline=1, quiet=quiet))
-  nyears   <- length(scan(parfile, skip=grep("# Cohort specific growth deviations", par), nline=1, quiet=quiet)) / nseasons 
-  nregions <- length(scan(parfile, skip=grep("# region parameters", par)+1, nline=1, quiet=quiet))
+  nseasons <- length(splitter(par, "# season_flags"))
+  nyears   <- length(splitter(par, "# Cohort specific growth deviations"))
+  nregions <- length(splitter(par,"# region parameters"))
   nagecls  <- as.numeric(par[grep("# The number of age classes", par)+1])  
   
   dims        <- dimnames(FLQuant(quant="age"))
   dims$age    <- "0"
   dims$season <- as.character(1:nseasons)
-  dims$year   <- as.character(first.yr:(first.yr+nyears-1))
+  dims$year   <- as.character(first.yr:(first.yr+(nyears/nseasons)-1))
   
   dims2       <- dims
   dims2$age   <- as.character(1:((nagecls/nseasons)-1))
   dims2$year  <- as.character(first.yr)
   dims2$area  <- as.character(1:nregions)
   
-  rel_rec <- array(scan(parfile, skip=grep("# relative recruitment", par)+1, nlines=1, quiet=quiet),dim=c(nseasons, nyears, 1,1,1,1))
-  rel_ini <- array(scan(parfile, skip=grep("# relative initial population", par)+1, nlines=nregions, quiet=quiet),dim=c(nseasons, (nagecls/nseasons)-1, nregions,1,1,1))
+  rel_rec <- array(as.numeric(splitter(par, "# relative recruitment")),dim=c(nseasons, nyears/nseasons, 1,1,1,1))
+  rel_ini <- array(as.numeric(splitter(par, "# relative initial population", 1:nregions)),dim=c(nseasons, (nagecls/nseasons)-1, nregions,1,1,1))
   
   slot(res, "rec_init_pop_diff") <- as.numeric(par[grep("# rec init pop level difference", par)+1])
-  slot(res, "rec_times")         <- scan(parfile, skip=grep("# recruitment times", par), nlines=1, quiet=quiet)
+  slot(res, "rec_times")         <- as.numeric(splitter(par, "# recruitment times"))
   slot(res, "rel_rec")           <- FLQuant(aperm(rel_rec, c(3,2,4,1,5,6)), dimnames=dims)
   slot(res, "rel_ini_pop")       <- FLQuant(aperm(rel_ini, c(2,4,5,1,3,6)), dimnames=dims2)
   
@@ -245,7 +280,9 @@ read.MFCLRec <- function(parfile, first.yr=1972) {
 #'
 #' Reads the region specific information from the par file and creates an MFCLRegion object
 #'
-#' @param parfile A character string giving the name and path of the frq file to be read 
+#' @param parfile: A character string giving the name and path of the frq file to be read 
+#' @param parobj:  A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file
+#' @param first.yr: The first year of the input data time series (default value 1972)
 #'
 #' @return An object of class MFCLRec
 #'
@@ -254,17 +291,25 @@ read.MFCLRec <- function(parfile, first.yr=1972) {
 #'
 #' @export
 
-read.MFCLRegion <- function(parfile, first.yr=1972) {
+read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972) {
+
+  trim.leading  <- function(x) sub("^\\s+", "", x)
+  splitter      <- function(ff, tt, ll=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[1]+ll]),split="[[:blank:]]+"))    
   
   res <- new("MFCLRegion")
-  quiet <- TRUE
   
-  par    <- readLines(parfile)
+  if(is.null(parobj)){
+    par <- readLines(parfile)
+    par <- par[nchar(par)>=1]                                          # remove blank lines
+    par <- par[-seq(1,length(par))[grepl("# ", par) & nchar(par)<3]]   # remove single hashes with no text "# "
+  }
+  if(!is.null(parobj))
+    par <- parobj
   
+  nseasons <- length(splitter(par, "# season_flags"))
+  nyears   <- length(splitter(par, "# Cohort specific growth deviations"))/nseasons
+  nregions <- length(splitter(par,"# region parameters"))
   nagecls  <- as.numeric(par[grep("# The number of age classes", par)+1])  
-  nregions <- length(scan(parfile, skip=grep("# region parameters", par)+1, nline=1, quiet=quiet))
-  nseasons <- length(scan(parfile, skip=grep("# season_flags", par)+1, nline=1, quiet=quiet))
-  nyears   <- length(scan(parfile, skip=grep("# Cohort specific growth deviations", par), nline=1, quiet=quiet)) / nseasons
   
   dca <- par[(grep("# movement matrices", par)+2):grep("# age dependent movement coefficients",par)[1]]
   dca <- lapply(lapply(dca[-seq(nregions+1, length(dca), by=nregions+1)], strsplit, split="[[:blank:]]+"), unlist)
@@ -273,37 +318,32 @@ read.MFCLRegion <- function(parfile, first.yr=1972) {
                      dimnames=list(from=as.character(1:nregions), age=as.character(1:nagecls), period=as.character(1:nseasons), to=as.character(1:nregions))),
                c(1,4,2,3))
   
-  rrv <- aperm(array(scan(parfile, skip=grep("# regional recruitment variation ",par),nlines=nyears*nseasons, 
-                     quiet=quiet), dim=c(nregions, nseasons, nyears, 1, 1)), 
+  rrv <- aperm(array(as.numeric(splitter(par, "# regional recruitment variation ", 1:(nyears*nseasons))), 
+                     dim=c(nregions, nseasons, nyears, 1, 1)), 
                c(4,3,5,2,1)) 
   
   
-  
-  slot(res, 'control_flags') <- t(array(scan(parfile, skip=grep("# region control flags",par),nlines=10, quiet=quiet), 
+  slot(res, 'control_flags') <- t(array(as.numeric(splitter(par, "# region control flags",1:10)), 
                                         dim=c(nregions,10)))
-  slot(res, 'move_map')      <- scan(parfile, skip=grep("# movement map",par),nlines=1, quiet=quiet)
-  slot(res, 'diff_coffs')    <- matrix(scan(parfile, skip=grep("# movement coefficients",par),nlines=length(slot(res, 'move_map')), 
-                                            quiet=quiet), nrow=nseasons, byrow=T)
-  
-  slot(res, 'diff_coffs_mat')<- matrix(scan(parfile, skip=grep("# The diffusion coefficients",par),nlines=nregions, 
-                                            quiet=quiet), nrow=nregions, byrow=T)
+  slot(res, 'move_map')      <- as.numeric(splitter(par, "# movement map"))
+  slot(res, 'diff_coffs')    <- matrix(as.numeric(splitter(par,"# movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons, byrow=T)  
+  slot(res, 'diff_coffs_mat')<- matrix(as.numeric(splitter(par, "# The diffusion coefficients",1:nregions)), nrow=nregions, byrow=T)
   
   slot(res, 'diff_coffs_age_period') <- dca
-  slot(res, 'diff_coffs_age') <- matrix(scan(parfile, skip=grep("# age dependent movement coefficients",par),nlines=length(slot(res, 'move_map')), 
-                                             quiet=quiet), nrow=nseasons, byrow=T)
-  slot(res, 'diff_coffs_nl')  <- matrix(scan(parfile, skip=grep("# nonlinear movement coefficients",par),nlines=length(slot(res, 'move_map')), 
-                                             quiet=quiet), nrow=nseasons, byrow=T)
-  slot(res, 'diff_coffs_priors')  <- matrix(scan(parfile, skip=grep("# Movement coefficients priors ",par),nlines=length(slot(res, 'move_map')), 
-                                             quiet=quiet), nrow=nseasons, byrow=T)
-  slot(res, 'diff_coffs_age_priors') <- matrix(scan(parfile, skip=grep("# age dependent movement coefficients priors",par),nlines=length(slot(res, 'move_map')), 
-                                             quiet=quiet), nrow=nseasons, byrow=T)
-  slot(res, 'diff_coffs_nl_priors')  <- matrix(scan(parfile, skip=grep("# nonlinear movement coefficients priors",par),nlines=length(slot(res, 'move_map')), 
-                                             quiet=quiet), nrow=nseasons, byrow=T)
+  slot(res, 'diff_coffs_age') <- matrix(as.numeric(splitter(par, "# age dependent movement coefficients",1:length(slot(res, 'move_map')))), 
+                                        nrow=nseasons, byrow=T)
+  slot(res, 'diff_coffs_nl')  <- matrix(as.numeric(splitter(par, "# nonlinear movement coefficients",1:length(slot(res, 'move_map')))), 
+                                        nrow=nseasons, byrow=T)
+  slot(res, 'diff_coffs_priors')  <- matrix(as.numeric(splitter(par,"# Movement coefficients priors ",1:length(slot(res, 'move_map')))), 
+                                        nrow=nseasons, byrow=T)
+  slot(res, 'diff_coffs_age_priors') <- matrix(as.numeric(splitter(par, "# age dependent movement coefficients priors",1:length(slot(res, 'move_map')))), 
+                                        nrow=nseasons, byrow=T)
+  slot(res, 'diff_coffs_nl_priors')  <- matrix(as.numeric(splitter(par, "# nonlinear movement coefficients priors",1:length(slot(res, 'move_map')))), 
+                                        nrow=nseasons, byrow=T)
   slot(res, 'region_rec_var') <- FLQuant(rrv, dimnames=list(age="all", year=as.character(seq(first.yr, first.yr+nyears-1)),unit="unique", 
                                                             season=as.character(1:nseasons),area=as.character(1:nregions)))
   
-  slot(res, 'region_pars') <- matrix(scan(parfile, skip=grep("# region parameters ",par),nlines=10, 
-                                             quiet=quiet), ncol=nregions, byrow=T)
+  slot(res, 'region_pars') <- matrix(as.numeric(splitter(par, "# region parameters ",1:10)), ncol=nregions, byrow=T)
   
   slot(res, 'range') <- c(min=0, max=nagecls/nseasons, plusgroup=NA, minyear=first.yr, maxyear=max(as.numeric(dimnames(region_rec_var(res))$year)))
   
@@ -318,7 +358,8 @@ read.MFCLRegion <- function(parfile, first.yr=1972) {
 #'
 #' Reads the Selection information from the par file and creates an MFCLSel object
 #'
-#' @param parfile A character string giving the name and path of the frq file to be read 
+#' @param parfile: A character string giving the name and path of the frq file to be read 
+#' @param parobj:  A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file
 #'
 #' @return An object of class MFCLSel
 #'
@@ -327,67 +368,71 @@ read.MFCLRegion <- function(parfile, first.yr=1972) {
 #'
 #' @export
 
-read.MFCLSel <- function(parfile) {
+read.MFCLSel <- function(parfile, parobj=NULL) {
+
+  trim.leading  <- function(x) sub("^\\s+", "", x)
+  splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+"))      
   
   res <- new("MFCLSel")
-  quiet <- TRUE
   
-  par    <- readLines(parfile)
+  if(is.null(parobj)){
+    par <- readLines(parfile)
+    par <- par[nchar(par)>=1]                                          # remove blank lines
+    par <- par[-seq(1,length(par))[grepl("# ", par) & nchar(par)<3]]   # remove single hashes with no text "# "
+  }
+  if(!is.null(parobj))
+    par <- parobj
+
   
+  nseasons <- length(splitter(par, "# season_flags"))
+  nregions <- length(splitter(par,"# region parameters"))
   nagecls  <- as.numeric(par[grep("# The number of age classes", par)+1])  
-  nregions <- length(scan(parfile, skip=grep("# region parameters", par)+1, nline=1, quiet=quiet))
-  nseasons <- length(scan(parfile, skip=grep("# season_flags", par)+1, nline=1, quiet=quiet))
   nfish    <- grep("# tag flags", par) - grep("# fish flags", par) -1
-  nqgroups <- max(array(scan(parfile, skip=grep("# fish flags", par), nlines=nfish, quiet=T), dim=c(100,nfish))[29,])
+  nqgroups <- max(array(as.numeric(splitter(par, "# fish flags",1:nfish)),dim=c(100,nfish))[29,], na.rm=T) #max value of fishf lag 29
   
   dims1    <- list(age=as.character(seq(0,(nagecls/nseasons)-1)), year='all', unit='unique', season=c(as.character(1:nseasons)), area='all')
   dims2    <- list(age=as.character(seq(0,(nagecls/nseasons)-1)), year='all', unit=c(as.character(1:nfish)), season=c(as.character(1:nseasons)), area='all')
   dims3    <- list(age='all', year='all', unit=as.character(1:nfish), season="all", area="all")
-  
-  qdc_ptr  <- grep("# catchability deviation coefficients",par)+2
-  qdc      <- lapply(strsplit(par[qdc_ptr:(qdc_ptr+nfish-1)], split="[[:blank:]]+"), as.numeric)
-  qdc      <- lapply(qdc, function(x){x[!is.na(x)]})
-  
-  edc_ptr  <- grep("# effort deviation coefficients",par)+1
-  edc      <- lapply(strsplit(par[edc_ptr:(edc_ptr+nfish-1)], split="[[:blank:]]+"), as.numeric)
-  edc      <- lapply(edc, function(x){x[!is.na(x)]})
-  
-  cdc_ptr  <- grep("# The grouped_catch_dev_coffs",par)[2]+1
-  cdc      <- lapply(strsplit(par[cdc_ptr:(cdc_ptr+nqgroups-1)], split="[[:blank:]]+"), as.numeric)
-  cdc      <- lapply(cdc, function(x){x[!is.na(x)]})
-  
-  sdc_ptr  <- grep("# sel_dev_coffs ",par)
-  sdc_ptrs <- c(sdc_ptr, sdc_ptr+cumsum(unlist(lapply(qdc, length))+1)+c(1:nfish))[-(nfish+1)]
-  sdc      <- list(nfish)
-  for(i in 1:nfish)
-    sdc[[i]] <- matrix(scan(parfile, skip=sdc_ptrs[i], nlines=unlist(lapply(qdc, length))[i]+1, quiet=quiet), ncol=nagecls, byrow=T)
-  
-  
-  slot(res, 'availability_coffs') <- FLQuant(aperm(array(scan(parfile, skip=grep("# availability coffs", par)+1,nlines=1, quiet=quiet), 
+
+  qdc      <- lapply(1:nfish, function(x) as.numeric(splitter(par, "# catchability deviation coefficients",x)))
+  edc      <- lapply(1:nfish, function(x) as.numeric(splitter(par, "# effort deviation coefficients",      x)))
+  cdc      <- lapply(1:nqgroups, function(x) as.numeric(splitter(par, "# The grouped_catch_dev_coffs",     x, inst=2)))
+
+  sdc_end  <- cumsum(lapply(qdc, length))
+  sdc_start<- c(1, sdc_end[-length(sdc_end)]+1)
+  sdc_lines<- lapply(seq(nfish), function(x) seq(sdc_start[x], sdc_end[x]))
+  sdc      <- lapply(sdc_lines, function(x) matrix(as.numeric(splitter(par, "# sel_dev_coffs", x)),ncol=nagecls))
+    
+  slot(res, 'availability_coffs') <- FLQuant(aperm(array(as.numeric(splitter(par,"# availability coffs")), 
                                                    dim=c(nseasons, nagecls/nseasons,1,1,1)),c(2,3,4,1,5)), dimnames=dims1)
-  slot(res, 'fishery_sel')  <- FLQuant(aperm(array(scan(parfile, skip=grep("# fishery selectivity", par),nlines=nfish, quiet=quiet), 
-                                             dim=c(nseasons, nagecls/nseasons,nfish,1,1)),c(2,4,3,1,5)), dimnames=dims2)
-  slot(res, 'fishery_sel_age_comp')  <- FLQuant(aperm(array(scan(parfile, skip=grep("# age-dependent component of fishery selectivity", par),nlines=nfish, quiet=quiet), 
+  slot(res, 'fishery_sel')        <- FLQuant(aperm(array(as.numeric(splitter(par,"# fishery selectivity",nfish)), 
                                                    dim=c(nseasons, nagecls/nseasons,nfish,1,1)),c(2,4,3,1,5)), dimnames=dims2)
-  slot(res, 'av_q_coffs')   <- FLQuant(aperm(array(scan(parfile, skip=grep("# average catchability coefficients", par)+1,n=nfish, quiet=quiet), 
+  slot(res, 'fishery_sel_age_comp')<-FLQuant(aperm(array(as.numeric(splitter(par,"# age-dependent component of fishery selectivity", nfish)), 
+                                                   dim=c(nseasons, nagecls/nseasons,nfish,1,1)),c(2,4,3,1,5)), dimnames=dims2)
+  
+  slot(res, 'av_q_coffs')  <- FLQuant(aperm(array(as.numeric(splitter(par,"# average catchability coefficients")),
+                                                    dim=c(1,1,1,nfish,1)),c(2,3,4,1,5)), dimnames=dims3)
+  
+  slot(res, 'ini_q_coffs')  <- FLQuant(aperm(array(as.numeric(splitter(par,"# initial trend in catchability coefficients ")),
                                                    dim=c(nseasons, nagecls/nseasons,1,1,1)),c(2,3,4,1,5)), dimnames=dims1)
-  slot(res, 'ini_q_coffs')  <- FLQuant(aperm(array(scan(parfile, skip=grep("# initial trend in catchability coefficients ", par)+1,n=nfish, quiet=quiet), 
-                                                   dim=c(nseasons, nagecls/nseasons,1,1,1)),c(2,3,4,1,5)), dimnames=dims1)
-  slot(res, 'q0_miss')      <- FLQuant(aperm(array(scan(parfile, skip=grep("# q0_miss", par)+1, n=nfish, quiet=quiet), 
+  
+  slot(res, 'q0_miss')      <- FLQuant(aperm(array(as.numeric(splitter(par,"# q0_miss")),
                                                    dim=c(nseasons, nagecls/nseasons,1,1,1)),c(2,3,4,1,5)), dimnames=dims1)  
-  slot(res, 'sel_dev_corr') <- FLQuant(aperm(array(scan(parfile, skip=grep("# correlation in selectivity deviations", par), n=nfish, quiet=quiet), 
+  
+  slot(res, 'sel_dev_corr') <- FLQuant(aperm(array(as.numeric(splitter(par,"# correlation in selectivity deviations")), 
                                                    dim=c(nfish, 1,1,1,1)),c(2,3,1,4,5)), dimnames=dims3)  
-  slot(res, 'season_q_pars')<- matrix(scan(parfile, skip=grep("# seasonal_catchability_pars", par),nlines=nfish, quiet=quiet), ncol=12, byrow=T)
+  
+  slot(res, 'season_q_pars')<- matrix(as.numeric(splitter(par,"# seasonal_catchability_pars", nfish)), ncol=12, byrow=T)
   
   slot(res, 'q_dev_coffs')      <- qdc
   slot(res, 'effort_dev_coffs') <- edc
   slot(res, 'catch_dev_coffs')  <- cdc
   slot(res, 'catch_dev_coffs_flag') <- as.numeric(par[grep("# The grouped_catch_dev_coffs flag", par)+1])
   # the big ones
-  slot(res, 'sel_dev_coffs') <- matrix(scan(parfile, skip=grep("# selectivity deviation coefficients ", par)+2,
-                                            nlines=sum(unlist(lapply(qdc, length)))-nfish, quiet=quiet), ncol=nagecls, byrow=T)
+  slot(res, 'sel_dev_coffs') <- matrix(as.numeric(splitter(par,"# selectivity deviation coefficients ",
+                                            1:sum(unlist(lapply(qdc, length))))), ncol=nagecls, byrow=T)
   slot(res, 'sel_dev_coffs2')<- sdc
-  slot(res, 'fish_params')   <- matrix(scan(parfile, skip=grep("# extra fishery parameters", par)+2,nlines=20, quiet=quiet), ncol=nfish, byrow=T)
+  slot(res, 'fish_params')   <- matrix(as.numeric(splitter(par,"# extra fishery parameters", 20)), ncol=nfish, byrow=T)
     
   slot(res, 'range') <- c(min=0, max=nagecls/nseasons, plusgroup=NA, minyear=1, maxyear=1)
   
@@ -401,7 +446,8 @@ read.MFCLSel <- function(parfile) {
 #'
 #' Reads the remaining information from the par file and creates an MFCLParBits object
 #'
-#' @param parfile A character string giving the name and path of the frq file to be read 
+#' @param parfile: A character string giving the name and path of the frq file to be read 
+#' @param parobj:  A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file
 #'
 #' @return An object of class MFCLParBit
 #'
@@ -410,12 +456,20 @@ read.MFCLSel <- function(parfile) {
 #'
 #' @export
 
-read.MFCLParBits <- function(parfile) {
+read.MFCLParBits <- function(parfile, parobj=NULL) {
+
+  trim.leading  <- function(x) sub("^\\s+", "", x)
+  splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+"))    
   
   res <- new("MFCLParBits")
-  quiet <- TRUE
-  
-  par    <- readLines(parfile)
+
+  if(is.null(parobj)){
+    par <- readLines(parfile)
+    par <- par[nchar(par)>=1]                                          # remove blank lines
+    par <- par[-seq(1,length(par))[grepl("# ", par) & nchar(par)<3]]   # remove single hashes with no text "# "
+  }
+  if(!is.null(parobj))
+    par <- parobj
   
   taglik <- unlist(strsplit(par[grep("# Likelihood component for tags",          par)], split="[[:blank:]]+"))
   mn_l_p <- unlist(strsplit(par[grep("# Average fish mort per fishing incident", par)], split="[[:blank:]]+"))
@@ -424,10 +478,10 @@ read.MFCLParBits <- function(parfile) {
   av_f_a <- unlist(strsplit(par[grep("# Average fish mort per year by age class",par)+1], split="[[:blank:]]+"))
   
   slot(res, 'fm_level_devs') <- par[(grep("# fm_level_devs", par)+1):(grep("# movement map", par)-1)]
-  slot(res, 'obj_fun')  <- scan(parfile, skip=grep("# Objective function value",par), n=1, quiet=quiet)
-  slot(res, 'n_pars')   <- scan(parfile, skip=grep("# The number of parameters",par), n=1, quiet=quiet)
+  slot(res, 'obj_fun')  <- as.numeric(splitter(par, "# Objective function value"))
+  slot(res, 'n_pars')   <- as.numeric(splitter(par, "# The number of parameters"))
   slot(res, 'tag_lik')  <- as.numeric(taglik[length(taglik)])
-  slot(res, 'max_grad') <- scan(parfile, skip=grep("# Maximum magnitude gradient value ",par), n=1, quiet=quiet)
+  slot(res, 'max_grad') <- as.numeric(splitter(par, "# Maximum magnitude gradient value"))
   slot(res, 'mn_len_pen')        <- as.numeric(mn_l_p[length(mn_l_p)])
   slot(res, 'av_fish_mort_inst') <- as.numeric(av_f_i[length(av_f_i)])
   slot(res, 'av_fish_mort_year') <- as.numeric(av_f_y[length(av_f_y)])
@@ -450,7 +504,8 @@ read.MFCLParBits <- function(parfile) {
 #'
 #' Reads information from the par file and creates an MFCLPar object
 #'
-#' @param parfile A character string giving the name and path of the frq file to be read 
+#' @param parfile:  A character string giving the name and path of the frq file to be read 
+#' @param first.yr: The first year of the input data time series (default values 1972)
 #'
 #' @return An object of class MFCLPar
 #'
@@ -470,14 +525,16 @@ read.MFCLPar <- function(parfile, first.yr=1972) {
     return(to)
   }
   par    <- readLines(parfile)
+  par <- par[nchar(par)>=1]                                          # remove blank lines
+  par <- par[-seq(1,length(par))[grepl("#", par) & nchar(par)<3]]   # remove single hashes with no text "# "  
   
-  res <- slotcopy(read.MFCLBiol(parfile, first.yr), res)
-  res <- slotcopy(read.MFCLFlags(parfile), res)
-  res <- slotcopy(read.MFCLTagRep(parfile), res)
-  res <- slotcopy(read.MFCLRec(parfile, first.yr), res)
-  res <- slotcopy(read.MFCLRegion(parfile, first.yr), res)
-  res <- slotcopy(read.MFCLSel(parfile), res)
-  res <- slotcopy(read.MFCLParBits(parfile), res)
+  res <- slotcopy(read.MFCLBiol(parfile, par, first.yr), res)
+  res <- slotcopy(read.MFCLFlags(parfile, par), res)
+  res <- slotcopy(read.MFCLTagRep(parfile, par), res)
+  res <- slotcopy(read.MFCLRec(parfile, par, first.yr), res)
+  res <- slotcopy(read.MFCLRegion(parfile, par, first.yr), res)
+  res <- slotcopy(read.MFCLSel(parfile, par), res)
+  res <- slotcopy(read.MFCLParBits(parfile, par), res)
   
   slot(res, 'range') <- c(min=0, max=max(as.numeric(unlist(dimnames(fishery_sel(res))['age']))), 
                           plusgroup=NA, 
