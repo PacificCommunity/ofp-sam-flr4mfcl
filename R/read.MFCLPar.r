@@ -255,12 +255,12 @@ read.MFCLRec <- function(parfile, parobj=NULL, first.yr=1972) {
   dims2$area  <- as.character(1:nregions)
   
   rel_rec <- array(as.numeric(splitter(par, "# relative recruitment")),dim=c(nseasons, nyears/nseasons, 1,1,1,1))
-  rel_ini <- array(as.numeric(splitter(par, "# relative initial population", 1:nregions)),dim=c(nseasons, (nagecls/nseasons)-1, nregions,1,1,1))
+  rel_ini <- array(as.numeric(splitter(par, "# relative initial population", 1:nregions)),dim=c(nregions, nagecls-1))
   
   slot(res, "rec_init_pop_diff") <- as.numeric(par[grep("# rec init pop level difference", par)+1])
   slot(res, "rec_times")         <- as.numeric(splitter(par, "# recruitment times"))
   slot(res, "rel_rec")           <- FLQuant(aperm(rel_rec, c(3,2,4,1,5,6)), dimnames=dims)
-  slot(res, "rel_ini_pop")       <- FLQuant(aperm(rel_ini, c(2,4,5,1,3,6)), dimnames=dims2)
+  slot(res, "rel_ini_pop")       <- rel_ini #FLQuant(aperm(rel_ini, c(2,4,5,1,3,6)), dimnames=dims2)
   
   slot(res, "tot_pop")           <- as.numeric(par[grep("# total populations scaling parameter", par)+1])
   slot(res, "tot_pop_implicit")  <- as.numeric(par[grep("# implicit total populations scaling parameter ", par)+1])
@@ -398,31 +398,31 @@ read.MFCLSel <- function(parfile, parobj=NULL) {
   edc      <- lapply(1:nfish, function(x) as.numeric(splitter(par, "# effort deviation coefficients",      x)))
   cdc      <- lapply(1:nqgroups, function(x) as.numeric(splitter(par, "# The grouped_catch_dev_coffs",     x, inst=2)))
 
-  sdc_end  <- cumsum(lapply(qdc, length))
+  sdc_end  <- cumsum(lapply(qdc, length))+seq(length(qdc))
   sdc_start<- c(1, sdc_end[-length(sdc_end)]+1)
   sdc_lines<- lapply(seq(nfish), function(x) seq(sdc_start[x], sdc_end[x]))
   sdc      <- lapply(sdc_lines, function(x) matrix(as.numeric(splitter(par, "# sel_dev_coffs", x)),ncol=nagecls))
     
   slot(res, 'availability_coffs') <- FLQuant(aperm(array(as.numeric(splitter(par,"# availability coffs")), 
                                                    dim=c(nseasons, nagecls/nseasons,1,1,1)),c(2,3,4,1,5)), dimnames=dims1)
-  slot(res, 'fishery_sel')        <- FLQuant(aperm(array(as.numeric(splitter(par,"# fishery selectivity",nfish)), 
+  slot(res, 'fishery_sel')        <- FLQuant(aperm(array(as.numeric(splitter(par,"# fishery selectivity",1:nfish)), 
                                                    dim=c(nseasons, nagecls/nseasons,nfish,1,1)),c(2,4,3,1,5)), dimnames=dims2)
-  slot(res, 'fishery_sel_age_comp')<-FLQuant(aperm(array(as.numeric(splitter(par,"# age-dependent component of fishery selectivity", nfish)), 
+  slot(res, 'fishery_sel_age_comp')<-FLQuant(aperm(array(as.numeric(splitter(par,"# age-dependent component of fishery selectivity", 1:nfish)), 
                                                    dim=c(nseasons, nagecls/nseasons,nfish,1,1)),c(2,4,3,1,5)), dimnames=dims2)
   
   slot(res, 'av_q_coffs')  <- FLQuant(aperm(array(as.numeric(splitter(par,"# average catchability coefficients")),
                                                     dim=c(1,1,1,nfish,1)),c(2,3,4,1,5)), dimnames=dims3)
   
   slot(res, 'ini_q_coffs')  <- FLQuant(aperm(array(as.numeric(splitter(par,"# initial trend in catchability coefficients ")),
-                                                   dim=c(nseasons, nagecls/nseasons,1,1,1)),c(2,3,4,1,5)), dimnames=dims1)
+                                                   dim=c(nfish, 1,1,1,1)),c(2,3,1,4,5)), dimnames=dims3)
   
   slot(res, 'q0_miss')      <- FLQuant(aperm(array(as.numeric(splitter(par,"# q0_miss")),
-                                                   dim=c(nseasons, nagecls/nseasons,1,1,1)),c(2,3,4,1,5)), dimnames=dims1)  
+                                                   dim=c(nfish, 1,1,1,1)),c(2,3,1,4,5)), dimnames=dims3)
   
   slot(res, 'sel_dev_corr') <- FLQuant(aperm(array(as.numeric(splitter(par,"# correlation in selectivity deviations")), 
                                                    dim=c(nfish, 1,1,1,1)),c(2,3,1,4,5)), dimnames=dims3)  
   
-  slot(res, 'season_q_pars')<- matrix(as.numeric(splitter(par,"# seasonal_catchability_pars", nfish)), ncol=12, byrow=T)
+  slot(res, 'season_q_pars')<- matrix(as.numeric(splitter(par,"# seasonal_catchability_pars", 1:nfish)), ncol=12, byrow=T)
   
   slot(res, 'q_dev_coffs')      <- qdc
   slot(res, 'effort_dev_coffs') <- edc
@@ -432,7 +432,7 @@ read.MFCLSel <- function(parfile, parobj=NULL) {
   slot(res, 'sel_dev_coffs') <- matrix(as.numeric(splitter(par,"# selectivity deviation coefficients ",
                                             1:sum(unlist(lapply(qdc, length))))), ncol=nagecls, byrow=T)
   slot(res, 'sel_dev_coffs2')<- sdc
-  slot(res, 'fish_params')   <- matrix(as.numeric(splitter(par,"# extra fishery parameters", 20)), ncol=nfish, byrow=T)
+  slot(res, 'fish_params')   <- matrix(as.numeric(splitter(par,"# extra fishery parameters", 1:20)), ncol=nfish, byrow=T)
     
   slot(res, 'range') <- c(min=0, max=nagecls/nseasons, plusgroup=NA, minyear=1, maxyear=1)
   

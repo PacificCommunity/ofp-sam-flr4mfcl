@@ -293,7 +293,7 @@ setClass("MFCLRec",
            rel_rec             ="FLQuant",
            tot_pop             ="numeric",
            tot_pop_implicit    ="numeric",
-           rel_ini_pop         ="FLQuant",
+           rel_ini_pop         ="array",
            range               ="numeric"
          ),
          prototype=prototype(
@@ -302,7 +302,7 @@ setClass("MFCLRec",
            rel_rec             =FLQuant(),
            tot_pop             =numeric(),
            tot_pop_implicit    = numeric(),
-           rel_ini_pop         =FLQuant(),
+           rel_ini_pop         =array(),
            range               =unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
          ),
          validity=validMFCLRec
