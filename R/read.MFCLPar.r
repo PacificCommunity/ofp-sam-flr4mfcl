@@ -54,8 +54,8 @@ read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
   dims_all$area   <- as.character(1:nregions)
   
   dims_cohort        <- dimnames(FLCohort())
-  dims_cohort$age    <- "0"
-  dims_cohort$cohort <- as.character(first.yr:(first.yr+nyears))
+  #dims_cohort$age    <- "0"
+  dims_cohort$cohort <- as.character(first.yr:(first.yr+(nyears-1)/nseasons))
   dims_cohort$season <- as.character(1:nseasons)
   
   age_class_pars <- t(array(as.numeric(splitter(par, "# age-class related parameters", 1:5)), dim=c(nagecls, 5)))
