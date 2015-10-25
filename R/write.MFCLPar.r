@@ -20,11 +20,11 @@ write.par <- function(x, file, append=F, ...){
   float <- function(x) formatC(x, digits=3, format='f')
   
   cat("# The parest_flags \n",                file=file, append=append)
-  cat(flags(x)[flags(x)$flagtype==1,'value'], file=file, append=T)
+  cat(paste(formatC(flags(x)[flags(x)$flagtype==1,'value'], format='d'), collapse=' '), file=file, append=T)
   cat("\n \n# The number of age classes \n",  file=file, append=T)
   cat(dimensions(x)["agecls"],                file=file, append=T)
   cat("\n# age flags \n",                     file=file, append=T)
-  cat(flags(x)[flags(x)$flagtype==2,'value'], file=file, append=T)
+  cat(paste(formatC(flags(x)[flags(x)$flagtype==2,'value'], format='d'), collapse=' '), file=file, append=T)
   
   cat("\n \n# fish flags \n",                 file=file, append=T)
   write.table(t(matrix(flags(x)[is.element(flags(x)$flagtype, -1:-dimensions(x)['fisheries']),'value'], 
@@ -58,7 +58,7 @@ write.par <- function(x, file, append=F, ...){
   cat(formatC(as.vector(aperm(rel_rec(x), c(4,2,1,3,5,6))),format="e", digits=12), file=file, append=T)
   
   cat("\n \n# Reporting rate dev coffs \n",   file=file, append=T) 
-  lapply(lapply(lapply(lapply(rep_rate_dev_coffs(x), paste, collapse=" "), paste, "\n"),unlist), cat, file=file, append=T)
+  cat(unlist(lapply(lapply(rep_rate_dev_coffs(x), paste, collapse=" "), paste, "\n")), file=file, append=T)
   
   cat("\n# availability coffs \n# \n",   file=file, append=T) 
   cat(as.vector(aperm(availability_coffs(x), c(4,1,2,3,5,6))), file=file, append=T)
@@ -86,7 +86,7 @@ write.par <- function(x, file, append=F, ...){
   cat(as.vector(q0_miss(x)), file=file, append=T)
   
   cat("\n# fm_level_devs     \n",   file=file, append=T) 
-  lapply(lapply(fm_level_devs(x), paste, "\n"),cat, file=file, append=T)
+  cat(unlist(lapply(fm_level_devs(x), paste, "\n")), file=file, append=T)
   
   cat(paste("# movement map \n", paste(move_map(x), collapse=" ")),  file=file, append=T) 
   
@@ -123,7 +123,7 @@ write.par <- function(x, file, append=F, ...){
               col.names=F, row.names=F, file=file, append=T)
   
   cat("\n# effort deviation coefficients   \n",   file=file, append=T) 
-  lapply(lapply(lapply(effort_dev_coffs(x), paste, collapse=" "), paste, "\n"),cat, file=file, append=T)
+  cat(unlist(lapply(lapply(effort_dev_coffs(x), paste, collapse=" "), paste, "\n")),file=file, append=T)
   
   cat(paste("\n# correlation in selectivity deviations    \n", paste(as.vector(sel_dev_corr(x)), collapse=" ")),  file=file, append=T) 
   
@@ -145,13 +145,16 @@ write.par <- function(x, file, append=F, ...){
   write.table(region_pars(x),  col.names=F, row.names=F, file=file, append=T)
   
   cat("\n# catchability deviation coefficients  \n# \n",   file=file, append=T) 
-  lapply(lapply(lapply(q_dev_coffs(x), paste, collapse=" "), paste, "\n"),cat, file=file, append=T)
+  cat(unlist(lapply(lapply(q_dev_coffs(x), paste, collapse=" "), paste, "\n")), file=file, append=T)
   
   cat("\n \n# selectivity deviation coefficients    \n#  \n",   file=file, append=T) 
   write.table(sel_dev_coffs(x),  col.names=F, row.names=F, file=file, append=T)
   
   cat("\n# sel_dev_coffs \n",   file=file, append=T) 
-  lapply(sel_dev_coffs2(x), function(mm){write.table(mm, col.names=F, row.names=F, file=file, append=T); cat('\n', file=file, append=T)})
+  for(mm in 1:length(sel_dev_coffs2(x))){
+    write.table(sel_dev_coffs2(x)[[mm]], col.names=F, row.names=F, file=file, append=T)
+    cat('\n', file=file, append=T)
+  }
   
    
   cat("\n# year_flags      \n",   file=file, append=T) 
@@ -186,7 +189,7 @@ write.par <- function(x, file, append=F, ...){
   cat(paste("\n# The grouped_catch_dev_coffs flag \n", catch_dev_coffs_flag(x)),  file=file, append=T)   
   
   cat("\n# The grouped_catch_dev_coffs \n",   file=file, append=T) 
-  lapply(catch_dev_coffs(x), function(mm){cat(mm, file=file, append=T); cat('\n', file=file, append=T)})
+  cat(unlist(lapply(lapply(catch_dev_coffs(x), paste, collapse=' '), paste, '\n')), file=file, append=T)
   
 #  cat(paste("\n \n# Objective function value \n", obj_fun(x)),  file=file, append=T) 
 #  cat(paste("\n# The number of parameters \n",    n_pars(x)),   file=file, append=T) 
