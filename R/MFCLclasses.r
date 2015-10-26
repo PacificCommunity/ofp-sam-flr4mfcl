@@ -506,6 +506,49 @@ MFCLPar <- function() {return(new("MFCLPar"))}
 
 
 
+###### CLASSS projControl
+
+validprojControl <- function(object){
+  #Everything is fine
+  return(TRUE)
+}
+setClass("projControl",
+         representation(
+           nyears              ="numeric",
+           nsims               ="numeric",
+           avyrs               ="character",
+           caeff               ="numeric",
+           scaler              ="numeric"
+         ),
+         prototype=prototype(
+           nyears              =numeric(),
+           nsims               =numeric(),
+           avyrs               =character(),
+           caeff               =numeric(),
+           scaler              =numeric()
+         ),
+         validity=validprojControl
+)
+setValidity("projControl", validprojControl)
+remove(validprojControl)
+#'projControl
+#'
+#'Basic constructor for projControl class
+#'@export
+projControl <- function(nyears=as.numeric(NULL), nsims=as.numeric(NULL), avyrs='', caeff=as.numeric(NULL), scaler=as.numeric(NULL)) {
+
+  res <- new("projControl")
+  slot(res, 'nyears') <- nyears
+  slot(res, 'nsims')  <- nsims
+  slot(res, 'avyrs')  <- avyrs
+  slot(res, 'caeff')  <- caeff
+  slot(res, 'scaler') <- scaler
+  
+  return(res)
+}
+pp <- projControl(nyears=3, nsims=200, avyrs='2012', caeff=1, scaler=1)
+
+
 
 
 
