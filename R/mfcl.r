@@ -5,12 +5,26 @@
 #' @aliases mfcl
 
 setMethod("mfcl", signature(frq="MFCLFrq", par="MFCLPar"), 
-  function(frq, par, outpar="out.par", switch=NULL, ...){
+  function(frq, par, outpar="out.par", tag=NULL, newflags=NULL, ...){
   
   path <- system.file("extdata",package="FLR4MFCL")
-  system(paste(path, "/mfclo64 --version", sep=""))  
-})
   
+  write(frq, "xx.frq")
+  write(par, "xx.par")
+  
+  if(!is.null(tag))
+    writeLines(tag, "xx.tag")
+  
+  if(!is.null(newflags))
+    flagsarg <- paste(" -switch", paste(newflags, collapse=" "))
+  
+  system(paste(path, "/mfclo64 xx.frq xx.par ", outpar, flagsarg, sep=""))  
+  
+  #file.remove("xx.frq","xx.par","xx.tag")
+  #system(paste(path, "/mfclo64 --version", sep=""))  
+})
+
+
 
 #' setMFCLversion
 #'
@@ -29,12 +43,21 @@ setMethod("mfcl", signature(frq="MFCLFrq", par="MFCLPar"),
  
 setMFCLversion <- function(version="2015_devvsn_1.1.4.3_linux"){
   
+  #rev(unlist(strsplit(packageDescription("FLR4MFCL")$Built, split=" ")))[1]
+  
+  oldpath <- getwd()
   path <- system.file("extdata",package="FLR4MFCL")
+  
   from <- paste(path, "/", version, sep="")
   to   <- paste(path, "/mfclo64", sep="")
-  file.copy(from=from, to=to, overwrite=TRUE)
-  system(paste("chmod 111 ", path, "/mfclo64", sep=""))
   
+  if(file.exists(to))
+    file.remove(to)
+  
+  file.copy(from=from, to=to, overwrite=TRUE)
+  system(paste("chmod 777 ", path, "/mfclo64", sep=""))
+  
+  setwd(oldpath)
 }
 
 
@@ -42,7 +65,7 @@ setMFCLversion <- function(version="2015_devvsn_1.1.4.3_linux"){
 
 #' availableMFCLversions
 #'
-#' Returns the available versions of MFCL  within the package
+#' Returns the available versions of MFCL within the package
 #' Currently only the 2015 development version of MFCL is available
 #'
 #' 
@@ -56,7 +79,8 @@ setMFCLversion <- function(version="2015_devvsn_1.1.4.3_linux"){
 
 availableMFCLversions <- function(){
   
-  dir(system.file("extdata",package="FLR4MFCL"))
+  res <- dir(system.file("extdata",package="FLR4MFCL"))
+  return(res[res!='mfclo64'])
     
 }
 
