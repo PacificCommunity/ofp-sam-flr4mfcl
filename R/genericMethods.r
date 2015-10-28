@@ -51,6 +51,32 @@ setGeneric('write', function(x, file, append=F, ...) standardGeneric('write'))
 #' @examples
 #' write(MFCLFrqStats())
 
-setGeneric('mfcl', function(frq, par, outpar, switch, ...) standardGeneric('mfcl')) 
+setGeneric('mfcl', function(frq, par, ...) standardGeneric('mfcl')) 
+
+
+
+#' generate
+#'
+#' generates modified input files for mfcl
+#'
+#' @param x:    An object of class MFCLFrq.
+#' @param ctrl:    An object of class MFCLprojCtrl.
+#'
+#' @param ... Additional argument list that might not ever
+#'  be used.
+#'
+#' @return Modified input file in accordance with projection settings.
+#' 
+#' @seealso \code{\link{projCtrl}} 
+#' 
+#' @export
+#' @docType methods
+#' @rdname mfcl-methods
+#'
+#' @examples
+#' generate(MFCLFrq(), MFCLprojControl())
+
+setGeneric('generate', function(x, ctrl, ...) standardGeneric('mfcl')) 
+
 
 

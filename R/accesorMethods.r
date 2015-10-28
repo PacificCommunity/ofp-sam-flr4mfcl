@@ -1,6 +1,6 @@
 # Automatically generated Generic Methods 
 # Generated from 'createGenericMethods' 
-# Generated on  Mon Oct 26 10:32:23 2015 
+# Generated on  Tue Oct 27 09:48:57 2015 
  
 # class  MFCLFrqStats 
 #'n_regions
@@ -832,3 +832,49 @@ setMethod('range', signature(x='MFCLParBits'),function(x) return(slot(x,'range')
 setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
 setReplaceMethod('range', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['range'])),
                                 function(object, value){slot(object, 'range') <- value; return(object)}) 
+# class  MFCLprojControl 
+#'nyears
+#'@export nyears
+setGeneric('nyears', function(object, ...) standardGeneric('nyears')) 
+setMethod('nyears', signature('MFCLprojControl'),function(object) return(slot(object, 'nyears'))) 
+#'nyears
+#'@export 
+setGeneric('nyears<-', function(object, ..., value) standardGeneric('nyears<-')) 
+setReplaceMethod('nyears', signature(object='MFCLprojControl', value=unname(getSlots('MFCLprojControl')['nyears'])),
+                                function(object, value){slot(object, 'nyears') <- value; return(object)}) 
+#'nsims
+#'@export nsims
+setGeneric('nsims', function(object, ...) standardGeneric('nsims')) 
+setMethod('nsims', signature('MFCLprojControl'),function(object) return(slot(object, 'nsims'))) 
+#'nsims
+#'@export 
+setGeneric('nsims<-', function(object, ..., value) standardGeneric('nsims<-')) 
+setReplaceMethod('nsims', signature(object='MFCLprojControl', value=unname(getSlots('MFCLprojControl')['nsims'])),
+                                function(object, value){slot(object, 'nsims') <- value; return(object)}) 
+#'avyrs
+#'@export avyrs
+setGeneric('avyrs', function(object, ...) standardGeneric('avyrs')) 
+setMethod('avyrs', signature('MFCLprojControl'),function(object) return(slot(object, 'avyrs'))) 
+#'avyrs
+#'@export 
+setGeneric('avyrs<-', function(object, ..., value) standardGeneric('avyrs<-')) 
+setReplaceMethod('avyrs', signature(object='MFCLprojControl', value=unname(getSlots('MFCLprojControl')['avyrs'])),
+                                function(object, value){slot(object, 'avyrs') <- value; return(object)}) 
+#'caeff
+#'@export caeff
+setGeneric('caeff', function(object, ...) standardGeneric('caeff')) 
+setMethod('caeff', signature('MFCLprojControl'),function(object) return(slot(object, 'caeff'))) 
+#'caeff
+#'@export 
+setGeneric('caeff<-', function(object, ..., value) standardGeneric('caeff<-')) 
+setReplaceMethod('caeff', signature(object='MFCLprojControl', value=unname(getSlots('MFCLprojControl')['caeff'])),
+                                function(object, value){slot(object, 'caeff') <- value; return(object)}) 
+#'scaler
+#'@export scaler
+setGeneric('scaler', function(object, ...) standardGeneric('scaler')) 
+setMethod('scaler', signature('MFCLprojControl'),function(object) return(slot(object, 'scaler'))) 
+#'scaler
+#'@export 
+setGeneric('scaler<-', function(object, ..., value) standardGeneric('scaler<-')) 
+setReplaceMethod('scaler', signature(object='MFCLprojControl', value=unname(getSlots('MFCLprojControl')['scaler'])),
+                                function(object, value){slot(object, 'scaler') <- value; return(object)}) 

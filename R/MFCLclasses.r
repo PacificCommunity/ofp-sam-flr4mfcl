@@ -508,11 +508,11 @@ MFCLPar <- function() {return(new("MFCLPar"))}
 
 ###### CLASSS projControl
 
-validprojControl <- function(object){
+validMFCLprojControl <- function(object){
   #Everything is fine
   return(TRUE)
 }
-setClass("projControl",
+setClass("MFCLprojControl",
          representation(
            nyears              ="numeric",
            nsims               ="numeric",
@@ -527,17 +527,17 @@ setClass("projControl",
            caeff               =numeric(),
            scaler              =numeric()
          ),
-         validity=validprojControl
+         validity=validMFCLprojControl
 )
-setValidity("projControl", validprojControl)
-remove(validprojControl)
+setValidity("MFCLprojControl", validMFCLprojControl)
+remove(validMFCLprojControl)
 #'projControl
 #'
 #'Basic constructor for projControl class
 #'@export
-projControl <- function(nyears=as.numeric(NULL), nsims=as.numeric(NULL), avyrs='', caeff=as.numeric(NULL), scaler=as.numeric(NULL)) {
+MFCLprojControl <- function(nyears=as.numeric(NULL), nsims=as.numeric(NULL), avyrs='', caeff=as.numeric(NULL), scaler=as.numeric(NULL)) {
 
-  res <- new("projControl")
+  res <- new("MFCLprojControl")
   slot(res, 'nyears') <- nyears
   slot(res, 'nsims')  <- nsims
   slot(res, 'avyrs')  <- avyrs
@@ -546,7 +546,7 @@ projControl <- function(nyears=as.numeric(NULL), nsims=as.numeric(NULL), avyrs='
   
   return(res)
 }
-pp <- projControl(nyears=3, nsims=200, avyrs='2012', caeff=1, scaler=1)
+#pp <- MFCLprojControl(nyears=3, nsims=200, avyrs='2012', caeff=1, scaler=1)
 
 
 
