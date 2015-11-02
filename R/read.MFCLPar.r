@@ -40,7 +40,7 @@ read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
   nyears   <- length(splitter(par, "# Cohort specific growth deviations"))
   nagecls  <- as.numeric(par[grep("# The number of age classes", par)+1])
   
-  nfish    <- grep("# tag flags", par) - grep("# fish flags", par) -1
+  nfish    <- grep("# tag flags", par) - grep("# fish flags", par)[1] -1
   ntaggrps <- grep("# tag fish rep", par)[1] - grep("# tag flags", par) -1
   nregions <- length(splitter(par, "# region parameters"))
   
@@ -116,7 +116,7 @@ read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
 read.MFCLFlags <- function(parfile, parobj=NULL) {
 
   trim.leading  <- function(x) sub("^\\s+", "", x)
-  splitter      <- function(ff, tt, ll=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)+ll]),split="[[:blank:]]+"))
+  splitter      <- function(ff, tt, ll=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[1]+ll]),split="[[:blank:]]+"))
   
   res    <- new("MFCLFlags")
   
@@ -128,7 +128,7 @@ read.MFCLFlags <- function(parfile, parobj=NULL) {
   if(!is.null(parobj))
     par <- parobj
   
-  nfish    <- grep("# tag flags", par) - grep("# fish flags", par) -1
+  nfish    <- grep("# tag flags", par) - grep("# fish flags", par)[1] -1
   ntaggrps <- grep("# tag fish rep", par)[1] - grep("# tag flags", par) -1
   nregions <- length(splitter(par,"# region parameters"))
   
@@ -175,31 +175,36 @@ read.MFCLFlags <- function(parfile, parobj=NULL) {
 #' @export
 
 read.MFCLTagRep <- function(parfile, parobj=NULL) {
-
+  
   trim.leading  <- function(x) sub("^\\s+", "", x)
   splitter      <- function(ff, tt, ll=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[1]+ll]),split="[[:blank:]]+"))  
+  nlines        <- function(ff, tt) grep('#',ff)[grep('#',ff)>grep(tt,ff)[1]][1]-grep(tt,ff)[1]-1
   
   res <- new("MFCLTagRep")
   
   if(is.null(parobj)){
     par <- readLines(parfile)
     par <- par[nchar(par)>=1]                                          # remove blank lines
-    par <- par[-seq(1,length(par))[grepl("# ", par) & nchar(par)<3]]   # remove single hashes with no text "# "
+    if(any(grepl("# ", par) & nchar(par)<3))
+      par <- par[-seq(1,length(par))[grepl("# ", par) & nchar(par)<3]]   # remove single hashes with no text "# "
   }
   if(!is.null(parobj))
     par <- parobj
   
-  nfish    <- grep("# tag flags", par) - grep("# fish flags", par) -1
-  ntaggrps <- grep("# tag fish rep", par)[1] - grep("# tag flags", par) -1
-  arraydims<- c(nfish, ntaggrps+1)
+  nfish    <- length(splitter(par, '# tag fish rep', 1))
   
-  slot(res, 'tag_fish_rep_rate') <- t(array(as.numeric(splitter(par, "# tag fish rep", 1:(ntaggrps+1))), dim=arraydims))
-  slot(res, 'tag_fish_rep_grp')  <- t(array(as.numeric(splitter(par, "# tag fish rep group flags", 1:(ntaggrps+1))), dim=arraydims))
-  slot(res, 'tag_fish_rep_flags')<- t(array(as.numeric(splitter(par, "# tag_fish_rep active flags",1:(ntaggrps+1))), dim=arraydims))
-  slot(res, 'tag_fish_rep_target')<-t(array(as.numeric(splitter(par, "# tag_fish_rep target",      1:(ntaggrps+1))), dim=arraydims))
-  slot(res, 'tag_fish_rep_pen')   <-t(array(as.numeric(splitter(par, "# tag_fish_rep penalty",     1:(ntaggrps+1))), dim=arraydims))
+  slot(res, 'tag_fish_rep_rate') <- t(array(as.numeric(splitter(par, "# tag fish rep", 1:(nlines(par, "# tag fish rep")))), 
+                                            dim=c(nfish, nlines(par, "# tag fish rep"))))
+  slot(res, 'tag_fish_rep_grp')  <- t(array(as.numeric(splitter(par, "# tag fish rep group flags", 1:(nlines(par, "# tag fish rep group flags")))), 
+                                            dim=c(nfish, nlines(par, "# tag fish rep group flags"))))
+  slot(res, 'tag_fish_rep_flags')<- t(array(as.numeric(splitter(par, "# tag_fish_rep active flags",1:(nlines(par, "# tag_fish_rep active flags")))), 
+                                            dim=c(nfish, nlines(par, "# tag_fish_rep active flags"))))
+  slot(res, 'tag_fish_rep_target')<-t(array(as.numeric(splitter(par, "# tag_fish_rep target",      1:(nlines(par, "# tag_fish_rep target")))), 
+                                            dim=c(nfish, nlines(par, "# tag_fish_rep target"))))
+  slot(res, 'tag_fish_rep_pen')   <-t(array(as.numeric(splitter(par, "# tag_fish_rep penalty",     1:(nlines(par, "# tag_fish_rep penalty")))), 
+                                            dim=c(nfish, nlines(par, "# tag_fish_rep penalty"))))
   slot(res, 'rep_rate_dev_coffs') <- lapply(seq(1:nfish), function(x) as.numeric(splitter(par, "# Reporting rate dev coffs",x)))
-                                      
+  
   return(res)
 }
 
@@ -387,7 +392,7 @@ read.MFCLSel <- function(parfile, parobj=NULL) {
   nseasons <- length(splitter(par, "# season_flags"))
   nregions <- length(splitter(par,"# region parameters"))
   nagecls  <- as.numeric(par[grep("# The number of age classes", par)+1])  
-  nfish    <- grep("# tag flags", par) - grep("# fish flags", par) -1
+  nfish    <- grep("# tag flags", par) - grep("# fish flags", par)[1] -1
   nqgroups <- max(array(as.numeric(splitter(par, "# fish flags",1:nfish)),dim=c(100,nfish))[29,], na.rm=T) #max value of fishf lag 29
   
   dims1    <- list(age=as.character(seq(0,(nagecls/nseasons)-1)), year='all', unit='unique', season=c(as.character(1:nseasons)), area='all')
@@ -543,6 +548,69 @@ read.MFCLPar <- function(parfile, first.yr=1972) {
   
   return(res)
 }
+
+
+
+
+
+#' read.MFCLIni
+#'
+#' Reads information from the ini file and creates an MFCLIni object
+#'
+#' @param inifile:  A character string giving the name and path of the ini file to be read 
+#' 
+#'
+#' @return An object of class MFCLIni
+#'
+#' @examples
+#' read.MFCLIni("C://R4MFCL//test_data//skj_ref_case//skj.ini")
+#'
+#' @export
+
+read.MFCLIni <- function(inifile, first.yr=1972) {
+  
+  trim.leading  <- function(x) sub("^\\s+", "", x) 
+  splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+")) 
+  
+  slotcopy <- function(from, to){
+    for(slotname in slotNames(from)){
+      slot(to, slotname) <- slot(from, slotname)
+    }
+    return(to)
+  }
+  
+  res <- new("MFCLIni")
+  
+  par    <- readLines(inifile)
+  par <- par[nchar(par)>=1]                                          # remove blank lines
+  if(any(grepl("# ", par) & nchar(par)<3))
+    par <- par[-seq(1,length(par))[grepl("# ", par) & nchar(par)<3]]   # remove single hashes with no text "# "
+  
+  nages    <- length(splitter(par, "# maturity at age"))
+  nregions <- length(splitter(par, "# recruitment distribution by region"))
+  
+  
+  res <- slotcopy(read.MFCLTagRep(parfile, par), res)
+  
+  slot(res, 'm')          <- as.numeric(splitter(par, '# natural mortality'))
+  slot(res, 'mat')        <- as.numeric(splitter(par, '# maturity at age'))
+  slot(res, 'move_map')   <- as.numeric(splitter(par, '# movement map'))
+  slot(res, 'diff_coffs') <- as.array(matrix(as.numeric(splitter(par, '# diffusion coffs', 1:(nregions-1))),nrow=nregions-1, byrow=T))
+  slot(res, 'age_pars')   <- as.array(matrix(as.numeric(splitter(par, '# age_pars', 1:10)), nrow=10, byrow=T))
+  slot(res, 'rec_dist')   <- as.numeric(splitter(par, '# recruitment distribution'))
+  slot(res, 'growth')     <- t(array(as.numeric(splitter(par, '# The von Bertalanffy', c(3,5,7))), 
+                                   dim=c(3,3), dimnames=list(c("est","min","max"),c("Lmin","Lmax","k"))))
+  slot(res, 'lw_params')  <- as.numeric(splitter(par, '# Length-weight'))
+  slot(res, 'sv')         <- as.numeric(splitter(par, '# sv'))  
+  slot(res, 'sd_length_at_age')   <- as.numeric(splitter(par, '# Generic SD'))  
+  slot(res, 'sd_length_dep')      <- as.numeric(splitter(par, '# Length-dependent SD'))
+  slot(res, 'n_mn_constraints')   <- as.numeric(splitter(par, '# The number of mean constraints'))
+  
+  
+  return(res)
+}
+
+
 
 
 

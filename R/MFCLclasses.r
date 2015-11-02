@@ -465,6 +465,61 @@ MFCLParBits <- function() {return(new("MFCLParBits"))}
 
 
 
+
+
+###### CLASSS MFCLIni
+
+validMFCLIni <- function(object){
+  #Everything is fine
+  return(TRUE)
+}
+setClass("MFCLIni",
+         representation(
+           "MFCLTagRep",
+           mat                 ="numeric",
+           m                   ="numeric",
+           move_map            ="numeric",
+           diff_coffs          ="matrix",
+           age_pars            ="matrix",
+           rec_dist            ="numeric",
+           growth              ="array",
+           lw_params           ="numeric",
+           sv                  ="numeric",
+           sd_length_at_age    ="numeric",
+           sd_length_dep       ='numeric',
+           n_mn_constraints    ='numeric',
+           range               ='numeric'
+         ),
+         prototype=prototype(
+           mat                 =numeric(),
+           m                   =numeric(),
+           move_map            =numeric(),
+           diff_coffs          =matrix(),
+           age_pars            =matrix(),
+           rec_dist            =numeric(),
+           growth              =array(),
+           lw_params           =numeric(),
+           sv                  =numeric(),
+           sd_length_at_age    =numeric(),
+           sd_length_dep       =numeric(),
+           n_mn_constraints    =numeric(),
+           range               =unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
+         ),
+         validity=validMFCLIni
+)
+setValidity("MFCLIni", validMFCLIni)
+remove(validMFCLIni)
+#'MFCLRec
+#'
+#'Basic constructor for MFCLRec class
+#'@export
+MFCLIni <- function() {return(new("MFCLIni"))}
+
+
+
+
+
+
 ###### CLASSS MFCLPar
 
 validMFCLPar <- function(object){

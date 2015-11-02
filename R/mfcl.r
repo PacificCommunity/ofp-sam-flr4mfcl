@@ -32,8 +32,11 @@ setGeneric('mfcl', function(frq, par, ...) standardGeneric('mfcl'))
 #' @aliases mfcl
 
 setMethod("mfcl", signature(frq="MFCLFrq", par="MFCLPar"), 
-  function(frq, par, outpar="out.par", tag=NULL, newflags=NULL, ...){
+  function(frq, par, outpar="out.par", tag=NULL, makepar=F, newflags=NULL, ...){
   
+  if(is.null(outpar))
+    outpar <- "out.par"
+    
   path <- system.file("extdata",package="FLR4MFCL")
   
   write(frq, "xx.frq")
@@ -43,13 +46,45 @@ setMethod("mfcl", signature(frq="MFCLFrq", par="MFCLPar"),
     writeLines(tag, "xx.tag")
   
   if(!is.null(newflags))
-    flagsarg <- paste(" -switch", paste(newflags, collapse=" "))
+    newflags <- paste(" -switch", paste(newflags, collapse=" "))
   
-  system(paste(path, "/mfclo64 xx.frq xx.par ", outpar, flagsarg, sep=""))  
+  makepararg <- ifelse(makepar, " -makepar", "")
+  
+  system(paste(path, "/mfclo64 xx.frq xx.par ", outpar, newflags, makepararg, sep=""))  
   
   #file.remove("xx.frq","xx.par","xx.tag")
   #system(paste(path, "/mfclo64 --version", sep=""))  
 })
+
+
+#' @rdname mfcl-methods
+#' @aliases mfcl
+
+setMethod("mfcl", signature(frq="MFCLFrq", par="MFCLIni"), 
+          function(frq, par, outpar="out.par", tag=NULL, makepar=F, newflags=NULL, ...){
+            
+            if(is.null(outpar))
+              outpar <- "00.par"
+            
+            path <- system.file("extdata",package="FLR4MFCL")
+            
+            write(frq, "xx.frq")
+            write(par, "xx.par")
+            
+            if(!is.null(tag))
+              writeLines(tag, "xx.tag")
+            
+            if(!is.null(newflags))
+              newflags <- paste(" -switch", paste(newflags, collapse=" "))
+            
+            makepararg <- ifelse(makepar, " -makepar", "")
+            
+            system(paste(path, "/mfclo64 xx.frq xx.par ", outpar, newflags, makepararg, sep=""))  
+            
+            #file.remove("xx.frq","xx.par","xx.tag")
+            #system(paste(path, "/mfclo64 --version", sep=""))  
+          })
+
 
 
 
