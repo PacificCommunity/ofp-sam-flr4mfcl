@@ -57,6 +57,9 @@ write.par <- function(x, file, append=F, ...){
   cat("\n# relative recruitment \n",   file=file, append=T) 
   cat(formatC(as.vector(aperm(rel_rec(x), c(4,2,1,3,5,6))),format="e", digits=12), file=file, append=T)
   
+  cat("\n# Lambdas for augmented Lagrangian \n", file=file, append=T)
+  cat(unlist(lapply(lagrangian(x), paste, "\n")), file=file, append=T)
+  
   cat("\n \n# Reporting rate dev coffs \n",   file=file, append=T) 
   cat(unlist(lapply(lapply(rep_rate_dev_coffs(x), paste, collapse=" "), paste, "\n")), file=file, append=T)
   
@@ -156,12 +159,14 @@ write.par <- function(x, file, append=F, ...){
     cat('\n', file=file, append=T)
   }
   
-   
   cat("\n# year_flags      \n",   file=file, append=T) 
   write.table(unused(x)$yrflags,  col.names=F, row.names=F, file=file, append=T)
   
   cat("\n# season_flags      \n",   file=file, append=T) 
   write.table(unused(x)$snflags,  col.names=F, row.names=F, file=file, append=T)
+  
+  cat("# The logistic normal parameters \n", file=file, append=T)
+  cat(unlist(lapply(logistic_normal_params(x), paste, "\n")), file=file, append=T)
   
   cat("\n# The von Bertalanffy parameters  \n",   file=file, append=T) 
   write.table(growth(x),  col.names=F, row.names=F, file=file, append=T)

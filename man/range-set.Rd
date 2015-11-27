@@ -17,8 +17,12 @@ range(object, ...) <- value
 range(object, ...) <- value
 
 range(object, ...) <- value
+
+range(object, ...) <- value
 }
 \description{
+range
+
 range
 
 range

@@ -439,6 +439,8 @@ setClass("MFCLParBits",
            av_fish_mort_inst    = "numeric",
            av_fish_mort_year    = "numeric",
            av_fish_mort_age     = "numeric",
+           logistic_normal_params = "character",
+           lagrangian             = "character",
            range                = "numeric"
          ),
          prototype=prototype(
@@ -451,6 +453,8 @@ setClass("MFCLParBits",
            av_fish_mort_inst    = numeric(),
            av_fish_mort_year    = numeric(),
            av_fish_mort_age     = numeric(),
+           logistic_normal_params = character(),
+           lagrangian             = character(),
            range                = unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
          ),
          validity=validMFCLParBits
@@ -476,33 +480,23 @@ validMFCLIni <- function(object){
 setClass("MFCLIni",
          representation(
            "MFCLTagRep",
-           mat                 ="numeric",
-           m                   ="numeric",
-           move_map            ="numeric",
-           diff_coffs          ="matrix",
+           "MFCLBiol",
+           "MFCLRegion",
            age_pars            ="matrix",
            rec_dist            ="numeric",
-           growth              ="array",
            lw_params           ="numeric",
            sv                  ="numeric",
            sd_length_at_age    ="numeric",
            sd_length_dep       ='numeric',
-           n_mn_constraints    ='numeric',
            range               ='numeric'
          ),
          prototype=prototype(
-           mat                 =numeric(),
-           m                   =numeric(),
-           move_map            =numeric(),
-           diff_coffs          =matrix(),
            age_pars            =matrix(),
            rec_dist            =numeric(),
-           growth              =array(),
            lw_params           =numeric(),
            sv                  =numeric(),
            sd_length_at_age    =numeric(),
            sd_length_dep       =numeric(),
-           n_mn_constraints    =numeric(),
            range               =unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
          ),
          validity=validMFCLIni

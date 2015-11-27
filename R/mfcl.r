@@ -1,5 +1,3 @@
-
-
 #' mfcl
 #'
 #' Runs MFCL with defined inputs
@@ -24,9 +22,6 @@
 #' write(MFCLFrqStats())
 
 setGeneric('mfcl', function(frq, par, ...) standardGeneric('mfcl')) 
-
-
-
 
 #' @rdname mfcl-methods
 #' @aliases mfcl
