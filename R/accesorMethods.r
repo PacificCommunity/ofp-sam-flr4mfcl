@@ -1,7 +1,25 @@
 # Automatically generated Generic Methods 
 # Generated from 'createGenericMethods' 
-# Generated on  Tue Nov 17 09:10:55 2015 
+# Generated on  Thu Jan 14 15:15:58 2016 
  
+# class  MFCLBase 
+#'dimensions
+#'@export dimensions
+setGeneric('dimensions', function(object, ...) standardGeneric('dimensions')) 
+setMethod('dimensions', signature('MFCLBase'),function(object) return(slot(object, 'dimensions'))) 
+#'dimensions
+#'@export 
+setGeneric('dimensions<-', function(object, ..., value) standardGeneric('dimensions<-')) 
+setReplaceMethod('dimensions', signature(object='MFCLBase', value=unname(getSlots('MFCLBase')['dimensions'])),
+                                function(object, value){slot(object, 'dimensions') <- value; return(object)}) 
+#'range
+#'@export range
+setMethod('range', signature(x='MFCLBase'),function(x) return(slot(x,'range'))) 
+#'range
+#'@export range<- 
+setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
+setReplaceMethod('range', signature(object='MFCLBase', value=unname(getSlots('MFCLBase')['range'])),
+                                function(object, value){slot(object, 'range') <- value; return(object)}) 
 # class  MFCLFrqStats 
 #'n_regions
 #'@export n_regions
@@ -418,15 +436,6 @@ setMethod('common_len_bias_coffs', signature('MFCLIni'),function(object) return(
 setGeneric('common_len_bias_coffs<-', function(object, ..., value) standardGeneric('common_len_bias_coffs<-')) 
 setReplaceMethod('common_len_bias_coffs', signature(object='MFCLIni', value=unname(getSlots('MFCLIni')['common_len_bias_coffs'])),
                                 function(object, value){slot(object, 'common_len_bias_coffs') <- value; return(object)}) 
-#'dimensions
-#'@export dimensions
-setGeneric('dimensions', function(object, ...) standardGeneric('dimensions')) 
-setMethod('dimensions', signature('MFCLIni'),function(object) return(slot(object, 'dimensions'))) 
-#'dimensions
-#'@export 
-setGeneric('dimensions<-', function(object, ..., value) standardGeneric('dimensions<-')) 
-setReplaceMethod('dimensions', signature(object='MFCLIni', value=unname(getSlots('MFCLIni')['dimensions'])),
-                                function(object, value){slot(object, 'dimensions') <- value; return(object)}) 
 #'control_flags
 #'@export control_flags
 setGeneric('control_flags', function(object, ...) standardGeneric('control_flags')) 
@@ -688,23 +697,6 @@ setMethod('common_len_bias_coffs', signature('MFCLBiol'),function(object) return
 setGeneric('common_len_bias_coffs<-', function(object, ..., value) standardGeneric('common_len_bias_coffs<-')) 
 setReplaceMethod('common_len_bias_coffs', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['common_len_bias_coffs'])),
                                 function(object, value){slot(object, 'common_len_bias_coffs') <- value; return(object)}) 
-#'dimensions
-#'@export dimensions
-setGeneric('dimensions', function(object, ...) standardGeneric('dimensions')) 
-setMethod('dimensions', signature('MFCLBiol'),function(object) return(slot(object, 'dimensions'))) 
-#'dimensions
-#'@export 
-setGeneric('dimensions<-', function(object, ..., value) standardGeneric('dimensions<-')) 
-setReplaceMethod('dimensions', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['dimensions'])),
-                                function(object, value){slot(object, 'dimensions') <- value; return(object)}) 
-#'range
-#'@export range
-setMethod('range', signature(x='MFCLBiol'),function(x) return(slot(x,'range'))) 
-#'range
-#'@export range<- 
-setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
-setReplaceMethod('range', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['range'])),
-                                function(object, value){slot(object, 'range') <- value; return(object)}) 
 # class  MFCLFlags 
 #'flags
 #'@export flags
@@ -1228,6 +1220,178 @@ setMethod('range', signature(x='MFCLParBits'),function(x) return(slot(x,'range')
 setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
 setReplaceMethod('range', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['range'])),
                                 function(object, value){slot(object, 'range') <- value; return(object)}) 
+# class  MFCLRep 
+#'fishery_realizations
+#'@export fishery_realizations
+setGeneric('fishery_realizations', function(object, ...) standardGeneric('fishery_realizations')) 
+setMethod('fishery_realizations', signature('MFCLRep'),function(object) return(slot(object, 'fishery_realizations'))) 
+#'fishery_realizations
+#'@export 
+setGeneric('fishery_realizations<-', function(object, ..., value) standardGeneric('fishery_realizations<-')) 
+setReplaceMethod('fishery_realizations', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['fishery_realizations'])),
+                                function(object, value){slot(object, 'fishery_realizations') <- value; return(object)}) 
+#'mean_laa
+#'@export mean_laa
+setGeneric('mean_laa', function(object, ...) standardGeneric('mean_laa')) 
+setMethod('mean_laa', signature('MFCLRep'),function(object) return(slot(object, 'mean_laa'))) 
+#'mean_laa
+#'@export 
+setGeneric('mean_laa<-', function(object, ..., value) standardGeneric('mean_laa<-')) 
+setReplaceMethod('mean_laa', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['mean_laa'])),
+                                function(object, value){slot(object, 'mean_laa') <- value; return(object)}) 
+#'sd_laa
+#'@export sd_laa
+setGeneric('sd_laa', function(object, ...) standardGeneric('sd_laa')) 
+setMethod('sd_laa', signature('MFCLRep'),function(object) return(slot(object, 'sd_laa'))) 
+#'sd_laa
+#'@export 
+setGeneric('sd_laa<-', function(object, ..., value) standardGeneric('sd_laa<-')) 
+setReplaceMethod('sd_laa', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['sd_laa'])),
+                                function(object, value){slot(object, 'sd_laa') <- value; return(object)}) 
+#'m_at_age
+#'@export m_at_age
+setGeneric('m_at_age', function(object, ...) standardGeneric('m_at_age')) 
+setMethod('m_at_age', signature('MFCLRep'),function(object) return(slot(object, 'm_at_age'))) 
+#'m_at_age
+#'@export 
+setGeneric('m_at_age<-', function(object, ..., value) standardGeneric('m_at_age<-')) 
+setReplaceMethod('m_at_age', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['m_at_age'])),
+                                function(object, value){slot(object, 'm_at_age') <- value; return(object)}) 
+#'sel
+#'@export sel
+setGeneric('sel', function(object, ...) standardGeneric('sel')) 
+setMethod('sel', signature('MFCLRep'),function(object) return(slot(object, 'sel'))) 
+#'sel
+#'@export 
+setGeneric('sel<-', function(object, ..., value) standardGeneric('sel<-')) 
+setReplaceMethod('sel', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['sel'])),
+                                function(object, value){slot(object, 'sel') <- value; return(object)}) 
+#'q_fishery
+#'@export q_fishery
+setGeneric('q_fishery', function(object, ...) standardGeneric('q_fishery')) 
+setMethod('q_fishery', signature('MFCLRep'),function(object) return(slot(object, 'q_fishery'))) 
+#'q_fishery
+#'@export 
+setGeneric('q_fishery<-', function(object, ..., value) standardGeneric('q_fishery<-')) 
+setReplaceMethod('q_fishery', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['q_fishery'])),
+                                function(object, value){slot(object, 'q_fishery') <- value; return(object)}) 
+#'q_effdev
+#'@export q_effdev
+setGeneric('q_effdev', function(object, ...) standardGeneric('q_effdev')) 
+setMethod('q_effdev', signature('MFCLRep'),function(object) return(slot(object, 'q_effdev'))) 
+#'q_effdev
+#'@export 
+setGeneric('q_effdev<-', function(object, ..., value) standardGeneric('q_effdev<-')) 
+setReplaceMethod('q_effdev', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['q_effdev'])),
+                                function(object, value){slot(object, 'q_effdev') <- value; return(object)}) 
+#'fm
+#'@export fm
+setGeneric('fm', function(object, ...) standardGeneric('fm')) 
+setMethod('fm', signature('MFCLRep'),function(object) return(slot(object, 'fm'))) 
+#'fm
+#'@export 
+setGeneric('fm<-', function(object, ..., value) standardGeneric('fm<-')) 
+setReplaceMethod('fm', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['fm'])),
+                                function(object, value){slot(object, 'fm') <- value; return(object)}) 
+#'popN
+#'@export popN
+setGeneric('popN', function(object, ...) standardGeneric('popN')) 
+setMethod('popN', signature('MFCLRep'),function(object) return(slot(object, 'popN'))) 
+#'popN
+#'@export 
+setGeneric('popN<-', function(object, ..., value) standardGeneric('popN<-')) 
+setReplaceMethod('popN', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['popN'])),
+                                function(object, value){slot(object, 'popN') <- value; return(object)}) 
+#'rec_region
+#'@export rec_region
+setGeneric('rec_region', function(object, ...) standardGeneric('rec_region')) 
+setMethod('rec_region', signature('MFCLRep'),function(object) return(slot(object, 'rec_region'))) 
+#'rec_region
+#'@export 
+setGeneric('rec_region<-', function(object, ..., value) standardGeneric('rec_region<-')) 
+setReplaceMethod('rec_region', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['rec_region'])),
+                                function(object, value){slot(object, 'rec_region') <- value; return(object)}) 
+#'totalBiomass
+#'@export totalBiomass
+setGeneric('totalBiomass', function(object, ...) standardGeneric('totalBiomass')) 
+setMethod('totalBiomass', signature('MFCLRep'),function(object) return(slot(object, 'totalBiomass'))) 
+#'totalBiomass
+#'@export 
+setGeneric('totalBiomass<-', function(object, ..., value) standardGeneric('totalBiomass<-')) 
+setReplaceMethod('totalBiomass', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['totalBiomass'])),
+                                function(object, value){slot(object, 'totalBiomass') <- value; return(object)}) 
+#'adultBiomass
+#'@export adultBiomass
+setGeneric('adultBiomass', function(object, ...) standardGeneric('adultBiomass')) 
+setMethod('adultBiomass', signature('MFCLRep'),function(object) return(slot(object, 'adultBiomass'))) 
+#'adultBiomass
+#'@export 
+setGeneric('adultBiomass<-', function(object, ..., value) standardGeneric('adultBiomass<-')) 
+setReplaceMethod('adultBiomass', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['adultBiomass'])),
+                                function(object, value){slot(object, 'adultBiomass') <- value; return(object)}) 
+#'adultBiomass_nofish
+#'@export adultBiomass_nofish
+setGeneric('adultBiomass_nofish', function(object, ...) standardGeneric('adultBiomass_nofish')) 
+setMethod('adultBiomass_nofish', signature('MFCLRep'),function(object) return(slot(object, 'adultBiomass_nofish'))) 
+#'adultBiomass_nofish
+#'@export 
+setGeneric('adultBiomass_nofish<-', function(object, ..., value) standardGeneric('adultBiomass_nofish<-')) 
+setReplaceMethod('adultBiomass_nofish', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['adultBiomass_nofish'])),
+                                function(object, value){slot(object, 'adultBiomass_nofish') <- value; return(object)}) 
+#'vulnBiomass
+#'@export vulnBiomass
+setGeneric('vulnBiomass', function(object, ...) standardGeneric('vulnBiomass')) 
+setMethod('vulnBiomass', signature('MFCLRep'),function(object) return(slot(object, 'vulnBiomass'))) 
+#'vulnBiomass
+#'@export 
+setGeneric('vulnBiomass<-', function(object, ..., value) standardGeneric('vulnBiomass<-')) 
+setReplaceMethod('vulnBiomass', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['vulnBiomass'])),
+                                function(object, value){slot(object, 'vulnBiomass') <- value; return(object)}) 
+#'srr
+#'@export srr
+setGeneric('srr', function(object, ...) standardGeneric('srr')) 
+setMethod('srr', signature('MFCLRep'),function(object) return(slot(object, 'srr'))) 
+#'srr
+#'@export 
+setGeneric('srr<-', function(object, ..., value) standardGeneric('srr<-')) 
+setReplaceMethod('srr', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['srr'])),
+                                function(object, value){slot(object, 'srr') <- value; return(object)}) 
+#'ssb
+#'@export ssb
+setGeneric('ssb', function(object, ...) standardGeneric('ssb')) 
+setMethod('ssb', signature('MFCLRep'),function(object) return(slot(object, 'ssb'))) 
+#'ssb
+#'@export 
+setGeneric('ssb<-', function(object, ..., value) standardGeneric('ssb<-')) 
+setReplaceMethod('ssb', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['ssb'])),
+                                function(object, value){slot(object, 'ssb') <- value; return(object)}) 
+#'ssb_obs
+#'@export ssb_obs
+setGeneric('ssb_obs', function(object, ...) standardGeneric('ssb_obs')) 
+setMethod('ssb_obs', signature('MFCLRep'),function(object) return(slot(object, 'ssb_obs'))) 
+#'ssb_obs
+#'@export 
+setGeneric('ssb_obs<-', function(object, ..., value) standardGeneric('ssb_obs<-')) 
+setReplaceMethod('ssb_obs', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['ssb_obs'])),
+                                function(object, value){slot(object, 'ssb_obs') <- value; return(object)}) 
+#'rec
+#'@export rec
+setGeneric('rec', function(object, ...) standardGeneric('rec')) 
+setMethod('rec', signature('MFCLRep'),function(object) return(slot(object, 'rec'))) 
+#'rec
+#'@export 
+setGeneric('rec<-', function(object, ..., value) standardGeneric('rec<-')) 
+setReplaceMethod('rec', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['rec'])),
+                                function(object, value){slot(object, 'rec') <- value; return(object)}) 
+#'rec_obs
+#'@export rec_obs
+setGeneric('rec_obs', function(object, ...) standardGeneric('rec_obs')) 
+setMethod('rec_obs', signature('MFCLRep'),function(object) return(slot(object, 'rec_obs'))) 
+#'rec_obs
+#'@export 
+setGeneric('rec_obs<-', function(object, ..., value) standardGeneric('rec_obs<-')) 
+setReplaceMethod('rec_obs', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['rec_obs'])),
+                                function(object, value){slot(object, 'rec_obs') <- value; return(object)}) 
 # class  MFCLprojControl 
 #'nyears
 #'@export nyears
