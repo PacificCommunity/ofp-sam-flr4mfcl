@@ -158,12 +158,30 @@ MFCLFrq <- function() {return(new("MFCLFrq"))}
 
 ###### CLASSS MFCLBiol  (from .par file)
 
+setClass("MFCLBase",
+         representation(
+           dimensions        ="numeric",
+           range             ="numeric"
+         ),
+         prototype=prototype(
+           dimensions        =unlist(list(agecls=as.numeric(NA), years=NA, seasons=NA, regions=NA, fisheries=NA, taggrps=NA)),
+           range             =unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
+         ))
+#'MFCLBase
+#'
+#'Basic constructor for MFCLBase class
+#'@export
+MFCLBase <- function() {return(new("MFCLBase"))}         
+         
+
+
 validMFCLBiol <- function(object){
   #Everything is fine
   return(TRUE)
 }
 setClass("MFCLBiol",
          representation(
+           "MFCLBase",
            m                 ="numeric",
            m_devs_age        ="FLQuant",
            log_m             ="FLQuant",
@@ -178,9 +196,7 @@ setClass("MFCLBiol",
            season_growth_pars="numeric",
            len_bias_pars     ="numeric",
            common_len_bias_pars  ="numeric",
-           common_len_bias_coffs ="numeric",
-           dimensions        ="numeric",
-           range             ="numeric"
+           common_len_bias_coffs ="numeric"
            ),
          prototype=prototype(
            m                 =numeric(),
@@ -197,9 +213,7 @@ setClass("MFCLBiol",
            season_growth_pars=numeric(),
            len_bias_pars     =numeric(),
            common_len_bias_pars  =numeric(),
-           common_len_bias_coffs =numeric(),
-           dimensions        =unlist(list(agecls=as.numeric(NA), years=NA, seasons=NA, regions=NA, fisheries=NA, taggrps=NA)),
-           range             =unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
+           common_len_bias_coffs =numeric()
            ),
          validity=validMFCLBiol
 )
@@ -547,6 +561,70 @@ remove(validMFCLPar)
 #'Basic constructor for MFCLPar class
 #'@export
 MFCLPar <- function() {return(new("MFCLPar"))}
+
+
+
+
+###### CLASSS MFCLRep
+
+validMFCLRep <- function(object){
+  #Everything is fine
+  return(TRUE)
+}
+
+setClass("MFCLRep",
+         representation(
+           "MFCLBase",
+           fishery_realizations="FLQuant",
+           mean_laa            ="FLQuant",
+           sd_laa              ="FLQuant",
+           m_at_age            ="FLQuant",
+           sel                 ="FLQuant",
+           q_fishery           ='FLQuant',
+           q_effdev            ='FLQuant',
+           fm                   ='FLQuant',
+           popN                 ='FLQuant',
+           rec_region          ='FLQuant',
+           totalBiomass        ='FLQuant',
+           adultBiomass        ='FLQuant',
+           adultBiomass_nofish ='FLQuant',
+           vulnBiomass         ='FLQuant',
+           srr                 ='FLPar',
+           ssb                 ='FLQuant',
+           ssb_obs             ='FLQuant',
+           rec                 ='FLQuant',
+           rec_obs             ='FLQuant'
+         ),
+         prototype=prototype(
+           fishery_realizations=FLQuant(),
+           mean_laa            =FLQuant(),
+           sd_laa              =FLQuant(),
+           m_at_age            =FLQuant(),
+           sel                 =FLQuant(),
+           q_fishery           =FLQuant(),
+           q_effdev            =FLQuant(),
+           fm                  =FLQuant(),
+           popN                =FLQuant(),
+           rec_region          =FLQuant(),
+           totalBiomass        =FLQuant(),
+           adultBiomass        =FLQuant(),
+           adultBiomass_nofish =FLQuant(),
+           vulnBiomass         =FLQuant(),
+           srr                 =FLPar(),
+           ssb                 =FLQuant(),
+           ssb_obs             =FLQuant(),
+           rec                 =FLQuant(),
+           rec_obs             =FLQuant()
+         ),
+         validity=validMFCLRep
+)
+setValidity("MFCLRep", validMFCLRep)
+remove(validMFCLRep)
+#'MFCLRep
+#'
+#'Basic constructor for MFCLRep class
+#'@export
+MFCLRep <- function() {return(new("MFCLRep"))}
 
 
 

@@ -49,7 +49,7 @@ read.MFCLFrqStats <- function(frqfile){
   line <- grep("Incidence matrix", frq)
   res@move_matrix <- matrix(NA, nrow=res@n_regions, ncol=res@n_regions)
   for(i in 1:(res@n_regions-1)){
-    dat <- as.numeric(unlist(strsplit(frq[line+i], split=" ")))
+    dat <- as.numeric(unlist(strsplit(frq[line+i], split=" ")))[!is.na(as.numeric(unlist(strsplit(frq[line+i], split=" "))))]
     res@move_matrix[i,(i+1):res@n_regions] <- dat
   }
     

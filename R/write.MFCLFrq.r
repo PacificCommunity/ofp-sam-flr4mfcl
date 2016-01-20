@@ -100,7 +100,7 @@ write.len <- function(x, file, append=T, ...){
   char_ord  <- rbind(noobs[,c(1:7)], lfwide[,c(1:7)], wfwide[,c(1:7)], lwfwide[,c(1:7)])
   char_ord  <- order(char_ord$fishery, char_ord$year, char_ord$month)
   
-  cat(char_all[char_ord], file=file, append=T)
+  cat(char_all[char_ord], file=file, append=T, sep="")
     
 }
 
