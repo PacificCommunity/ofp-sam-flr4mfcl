@@ -53,8 +53,11 @@ setMethod("generate", signature(x="MFCLFrq", y="MFCLprojControl"),
             avdata <- rbind(avdata, freq(x)[is.element(freq(x)$year, avyrs(ctrl)) & freq(x)$length %in% lf_range(x)['LFFirst'] ,],
                                     freq(x)[is.element(freq(x)$year, avyrs(ctrl)) & freq(x)$weight %in% lf_range(x)['WFFirst'] ,])
             
-            avcatch  <- sweep(tapply(avdata$catch,  list(avdata$month, avdata$fishery), sum, na.rm=T), 2, sc_df$scaler, "*")
-            aveffort <- sweep(tapply(avdata$effort, list(avdata$month, avdata$fishery), sum, na.rm=T), 2, sc_df$scaler, "*")
+            avdata$catch[avdata$catch == -1] <- NA
+            avdata$effort[avdata$effort == -1] <- NA
+            
+            avcatch  <- sweep(tapply(avdata$catch,  list(avdata$month, avdata$fishery), sum), 2, sc_df$scaler, "*")
+            aveffort <- sweep(tapply(avdata$effort, list(avdata$month, avdata$fishery), sum), 2, sc_df$scaler, "*")
             
             projdat  <- data.frame(year    = rep(proj.yrs, each=(n_fisheries(x)*length(qtrs))),
                                    month   = qtrs,
@@ -64,20 +67,23 @@ setMethod("generate", signature(x="MFCLFrq", y="MFCLprojControl"),
                                    effort  = c(aveffort),
                                    penalty = -1.0, length=NA, weight=NA, freq=-1)
             
-            projdat <- projdat[!is.na(projdat$catch) & !is.na(projdat$effort),]
-            
-            projdat[is.element(projdat$fishery, sc_df[sc_df$caeff==1, 'fishery']), 'effort'] <- -1
-            projdat[is.element(projdat$fishery, sc_df[sc_df$caeff==2, 'fishery']), 'catch']  <- -1
+            # remove records with missing values from projection years
+            projdat2 <- rbind(projdat[is.element(projdat$fishery, sc_df[sc_df$caeff==1, 'fishery']) & !is.na(projdat$catch),],
+                              projdat[is.element(projdat$fishery, sc_df[sc_df$caeff==2, 'fishery']) & !is.na(projdat$effort),])
             
             # set the penalty to 1.0 for those fisheries with standardised CPUE -- maybe ?
             std.fish <- seq(1:n_fisheries(x))[tapply(freq(x)$penalty, freq(x)$fishery, mean)>0]
-            projdat$penalty[is.element(projdat$fishery, std.fish)] <- 1.0
+            projdat2$penalty[is.element(projdat2$fishery, std.fish)] <- 1.0
             
-            freq(x) <- rbind(freq(x), projdat)
+            # set catch/effort to -1 for fisheries projected on effort/catch
+            projdat2[is.element(projdat2$fishery, sc_df[sc_df$caeff==1, 'fishery']),'effort'] <- -1
+            projdat2[is.element(projdat2$fishery, sc_df[sc_df$caeff==2, 'fishery']),'catch'] <- -1
+            
+            freq(x) <- rbind(freq(x), projdat2)
             
             data_flags(x)[2,] <- as.numeric(avyrs(ctrl))+1
             data_flags(x)[3,] <- as.numeric(qtrs[1])
-            lf_range(x)['Datasets'] <- lf_range(x)['Datasets']+nrow(projdat)
+            lf_range(x)['Datasets'] <- lf_range(x)['Datasets']+nrow(projdat2)
             slot(x,'range')['maxyear']     <- max(freq(x)$year)
             
             return(x)
@@ -111,11 +117,17 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar"),
      eff_dev_coff_incs     <- unlist(lapply(effort_dev_coffs(y),length)) - unlist(lapply(effort_dev_coffs(x),length))
      effort_dev_coffs(x)   <- lapply(1:dimensions(x)["fisheries"], function(g) c(effort_dev_coffs(x)[[g]], rep(0, eff_dev_coff_incs[g])))
      
+     catch_dev_coffs(x)    <- lapply(1:dimensions(x)["fisheries"], function(g) c(catch_dev_coffs(x)[[g]], 
+                                                                                 rep(0, length(rep_rate_dev_coffs(y)[[g]])-length(catch_dev_coffs(x)[[g]]))))
+     
      region_rec_var(x)     <- window(region_rec_var(x), start=range(x)['minyear'], end=range(y)['maxyear'])
      region_rec_var(x)[is.na(region_rec_var(x))] <- 0
      
      rel_rec(x) <- window(rel_rec(x), start=range(x)['minyear'], end=range(y)['maxyear'])
      rel_rec(x)[,proj.yrs] <- rel_rec(y)[,proj.yrs] 
+     
+     dimensions(x)         <- dimensions(y)
+     range(x)              <- range(y)
      
      return(x)
             
