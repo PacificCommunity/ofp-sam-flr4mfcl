@@ -18,7 +18,7 @@
 #' @docType methods
 #' @rdname rep-methods
 #'
-#' @examples
+
 
 
 setGeneric('SBSBF0', function(rep.obj, year, sbf0.years, ...) standardGeneric('SBSBF0')) 

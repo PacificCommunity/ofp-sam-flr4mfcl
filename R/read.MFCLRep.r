@@ -40,7 +40,7 @@ read.MFCLRep <- function(repfile) {
   dnms1 <- list(age=0:range(res)['max'],year='all', unit='unique', season=1:dimensions(res)['seasons'])
   dnms2 <- list(age='all', year=range(res)['minyear']:range(res)["maxyear"], unit='unique', season=1:dimensions(res)['seasons'], area=1:dimensions(res)['regions'])
   dnms3 <- list(age=1:dimensions(res)['agecls'], year='all', unit=1:dimensions(res)['fisheries'], season='all', area='all')
-  
+  dnms4 <- list(age='all', year=range(res)['minyear']:range(res)["maxyear"], unit='unique', season=1:dimensions(res)['seasons'], area='all')
   
   # fishery realisations - incomplete (to come back to later when it's important)
   temp <- pp[(grep("# Time of each realization by fishery", pp)+1):(grep("# Time of each realization by fishery", pp)+dimensions(res)['fisheries'])]
@@ -81,8 +81,16 @@ read.MFCLRep <- function(repfile) {
   fdat    <- array(as.numeric(unlist(strsplit(trim.leading(dat),split="[[:blank:]]+"))), dim=c(dimensions(res)['agecls'], dimensions(res)['years'], dimensions(res)['regions'],1,1)) 
   res@fm  <- FLQuant(aperm(fdat, c(1,2,4,5,3)))  
     
+  # rec_region  
+  rec_region(res) <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Recruitment", 1:dimensions(res)['years'])), 
+                                         dim=c(dimensions(res)["regions"], dimensions(res)['seasons'], dimensions(res)['years']/dimensions(res)["seasons"],1,1)), 
+                                   c(4,3,5,2,1)), dimnames=dnms2)
   
+  ssb(res)  <- FLQuant(aperm(array(c(NA,as.numeric(splitter(pp, "# Observed spawning Biomass"))),c(4,61,1,1,1)), c(3,2,4,1,5)), dimnames=dnms4)
+  rec(res)  <- FLQuant(aperm(array(c(NA,as.numeric(splitter(pp, "# Observed recruitment"))),     c(4,61,1,1,1)), c(3,2,4,1,5)), dimnames=dnms4)
   
+  srr(res)  <- FLPar(suppressWarnings(as.numeric(splitter(pp, "# Beverton-Holt")))[!is.na(suppressWarnings(as.numeric(splitter(pp, "# Beverton-Holt"))))],
+                     params=c('a','b', 'steepness'))
     
   return(res)
 }

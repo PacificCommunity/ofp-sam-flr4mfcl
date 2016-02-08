@@ -482,7 +482,38 @@ remove(validMFCLParBits)
 MFCLParBits <- function() {return(new("MFCLParBits"))}
 
 
+###### CLASSS MFCLIniBits
 
+validMFCLIniBits <- function(object){
+  #Everything is fine
+  return(TRUE)
+}
+setClass("MFCLIniBits",
+         representation(
+           age_pars            ="matrix",
+           rec_dist            ="numeric",
+           lw_params           ="numeric",
+           sv                  ="numeric",
+           sd_length_at_age    ="numeric",
+           sd_length_dep       ='numeric'
+         ),
+         prototype=prototype(
+           age_pars            =matrix(),
+           rec_dist            =numeric(),
+           lw_params           =numeric(),
+           sv                  =numeric(),
+           sd_length_at_age    =numeric(),
+           sd_length_dep       =numeric()
+         ),
+         validity=validMFCLIniBits
+)
+setValidity("MFCLIniBits", validMFCLIniBits)
+remove(validMFCLIniBits)
+#'MFCLIniBits
+#'
+#'Basic constructor for MFCLIniBits class
+#'@export
+MFCLIniBits <- function() {return(new("MFCLIniBits"))}
 
 
 ###### CLASSS MFCLIni
@@ -493,33 +524,21 @@ validMFCLIni <- function(object){
 }
 setClass("MFCLIni",
          representation(
+           "MFCLBase",
            "MFCLTagRep",
            "MFCLBiol",
            "MFCLRegion",
-           age_pars            ="matrix",
-           rec_dist            ="numeric",
-           lw_params           ="numeric",
-           sv                  ="numeric",
-           sd_length_at_age    ="numeric",
-           sd_length_dep       ='numeric',
-           range               ='numeric'
+           "MFCLIniBits"
          ),
          prototype=prototype(
-           age_pars            =matrix(),
-           rec_dist            =numeric(),
-           lw_params           =numeric(),
-           sv                  =numeric(),
-           sd_length_at_age    =numeric(),
-           sd_length_dep       =numeric(),
-           range               =unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
          ),
          validity=validMFCLIni
 )
 setValidity("MFCLIni", validMFCLIni)
 remove(validMFCLIni)
-#'MFCLRec
+#'MFCLIni
 #'
-#'Basic constructor for MFCLRec class
+#'Basic constructor for MFCLIni class
 #'@export
 MFCLIni <- function() {return(new("MFCLIni"))}
 
@@ -550,7 +569,6 @@ setClass("MFCLPar",
            range="numeric"
            ),
          prototype=prototype(
-           range=unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
            ),
          validity=validMFCLPar
 )

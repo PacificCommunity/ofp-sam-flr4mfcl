@@ -28,12 +28,17 @@
 
 
 setMethod("update", signature(object="MFCLFrq"), 
-          function(object, years, multiplier, quantity, ...){
-            
-            freq(object)[is.element(freq(object)$year, years) & freq(object)[,quantity]!=-1, quantity] <- 
-              freq(object)[is.element(freq(object)$year, years) & freq(object)[,quantity]!=-1, quantity]*multiplier
+          function(object, years, fisheries, multiplier, quantity, ...){
             
             
-          })
+  freq(object)[is.element(freq(object)$year, years) & is.element(freq(object)$fishery, fisheries) & freq(object)[,quantity]!=-1, quantity] <- 
+      freq(object)[is.element(freq(object)$year, years) & is.element(freq(object)$fishery, fisheries) & freq(object)[,quantity]!=-1, quantity]*multiplier
+  
+  return(object)
+            
+})
+
+
+
 
 

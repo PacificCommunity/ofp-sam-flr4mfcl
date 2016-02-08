@@ -34,7 +34,7 @@ write.ini <- function(x, file, append=F, ...){
   cat("# tag_fish_rep penalty \n", file=file, append=T)
   write.table(tag_fish_rep_pen(x),  row.names=F, col.names=F, file=file, append=T)
   cat("# maturity at age \n", file=file, append=T)
-  cat(c(aperm(mat(ini), c(4,1,2,3,5,6))), file=file, append=T)
+  cat(c(aperm(mat(x), c(4,1,2,3,5,6))), file=file, append=T)
   cat("\n# natural mortality (per year)\n", file=file, append=T)
   cat(c(m(x)), file=file, append=T)
   cat("\n# movement map\n", file=file, append=T)
