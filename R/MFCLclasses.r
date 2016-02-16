@@ -603,8 +603,8 @@ setClass("MFCLTag",
            release_groups  = numeric(),
            release_lengths  = numeric(),
            recoveries      = numeric(),
-           releases        = data.frame(region=NULL, year=NULL, month=NULL, program=NULL, lendist=NULL),
-           recaptures      = data.frame(region=NULL, year=NULL, month=NULL, program=NULL, rel.length=NULL, recap.fishery=NULL, recap.year=NULL, recap.month=NULL, recap.number=NULL)
+           releases        = data.frame(rel.group=NULL, region=NULL, year=NULL, month=NULL, program=NULL, lendist=NULL),
+           recaptures      = data.frame(rel.group=NULL, region=NULL, year=NULL, month=NULL, program=NULL, rel.length=NULL, recap.fishery=NULL, recap.year=NULL, recap.month=NULL, recap.number=NULL)
          ),
          validity=validMFCLTag
 )

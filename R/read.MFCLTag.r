@@ -39,7 +39,8 @@ read.MFCLTag <- function(tagfile) {
     
     topdat.event <- as.numeric(unlist(strsplit(trim.leading(tagdat[release.marker[mm]+2]), split="[[:blank:]]+")))
     
-    releases(res) <- rbind(releases(res), data.frame(region =topdat.event[1],
+    releases(res) <- rbind(releases(res), data.frame(rel.group  =mm,
+                                                     region =topdat.event[1],
                                                      year   =topdat.event[2],
                                                      month  =topdat.event[3],
                                                      program=program,
@@ -51,7 +52,8 @@ read.MFCLTag <- function(tagfile) {
       tempdat <-t(array(as.numeric(unlist(strsplit(trim.leading(tagdat[recapture.marker[mm2]+1:nrows]), 
                                                  split="[[:blank:]]+"))), dim=c(5, nrows)))
       
-      recaptures(res)<- rbind(recaptures(res), data.frame(region       =topdat.event[1],
+      recaptures(res)<- rbind(recaptures(res), data.frame(rel.group    =mm,
+                                                          region       =topdat.event[1],
                                                           year         =topdat.event[2],
                                                           month        =topdat.event[3],
                                                           program      =program,
