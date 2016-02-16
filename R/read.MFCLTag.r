@@ -64,6 +64,8 @@ read.MFCLTag <- function(tagfile) {
                                                           recap.number =tempdat[,5]))    
     mm2 <- mm2 + 1
     }
-  }  
+  }
+  
+  range(res) <- c(min(release_lengths(x)), max(release_lengths(x)), NA, min(releases(x)$year), max(recaptures(x)$recap.year))
   return(res)
 }

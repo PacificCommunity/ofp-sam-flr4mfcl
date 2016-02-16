@@ -34,14 +34,13 @@ write.tag <- function(x, file, append=F, ...){
     
     if(rel %in% recaptures(x)$rel.group){
       cat(recapture.header, file=file, append=T)
-      write.table(recaptures(kk)[recaptures(kk)$rel.group==rel,c('rel.length','recap.fishery','recap.year','recap.month','recap.number')],
+      write.table(recaptures(x)[recaptures(x)$rel.group==rel,c('rel.length','recap.fishery','recap.year','recap.month','recap.number')],
                   col.names=FALSE, row.names=FALSE, file=file, append=T)
     }
   }
 }
 
 
-write.tag(kk, 'crap.txt')
 
 
 

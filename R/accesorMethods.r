@@ -1300,3 +1300,15 @@ setMethod('recaptures', signature('MFCLTag'),function(object) return(slot(object
 setGeneric('recaptures<-', function(object, ..., value) standardGeneric('recaptures<-')) 
 setReplaceMethod('recaptures', signature(object='MFCLTag', value=unname(getSlots('MFCLTag')['recaptures'])),
                  function(object, value){slot(object, 'recaptures') <- value; return(object)}) 
+
+#'range
+#'@export range
+setMethod('range', signature(x='MFCLTag'),function(x) return(slot(x,'range'))) 
+#'range
+#'@export range<- 
+setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
+setReplaceMethod('range', signature(object='MFCLTag', value=unname(getSlots('MFCLIni')['range'])),
+                 function(object, value){slot(object, 'range') <- value; return(object)}) 
+
+
+
