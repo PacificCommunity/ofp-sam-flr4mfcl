@@ -1306,7 +1306,7 @@ setReplaceMethod('recaptures', signature(object='MFCLTag', value=unname(getSlots
 setMethod('range', signature(x='MFCLTag'),function(x) return(slot(x,'range'))) 
 #'range
 #'@export range<- 
-setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
+#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
 setReplaceMethod('range', signature(object='MFCLTag', value=unname(getSlots('MFCLIni')['range'])),
                  function(object, value){slot(object, 'range') <- value; return(object)}) 
 
