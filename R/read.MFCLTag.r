@@ -66,6 +66,6 @@ read.MFCLTag <- function(tagfile) {
     }
   }
   
-  range(res) <- c(min(release_lengths(x)), max(release_lengths(x)), NA, min(releases(x)$year), max(recaptures(x)$recap.year))
+  range(res) <- c(min(release_lengths(res)), max(release_lengths(res)), NA, min(releases(res)$year), max(recaptures(res)$recap.year))
   return(res)
 }
