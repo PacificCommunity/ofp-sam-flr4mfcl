@@ -67,7 +67,7 @@ setMethod("mfcl", signature(frq="MFCLFrq", par="MFCLPar"),
   write(par, "xx.par")
   
   if(!is.null(tag))
-    writeLines(tag, "xx.tag")
+    write(tag, "xx.tag")
   
   if(!is.null(newflags))
     newflags <- paste(" -switch", paste(newflags, collapse=" "))
@@ -98,7 +98,7 @@ setMethod("mfcl", signature(frq="MFCLFrq", par="MFCLIni"),
             write(par, "xx.ini")
             
             if(!is.null(tag))
-              writeLines(tag, "xx.tag")
+              write(tag, "xx.tag")
             
             if(!is.null(newflags))
               newflags <- paste(" -switch", paste(newflags, collapse=" "))
