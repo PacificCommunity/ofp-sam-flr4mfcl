@@ -164,7 +164,7 @@ setReplaceMethod('move_weeks', signature(object='MFCLFrqStats', value=unname(get
 setMethod('range', signature(x='MFCLFrqStats'),function(x) return(slot(x,'range'))) 
 #'range
 #'@export range<- 
-setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
+#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
 setReplaceMethod('range', signature(object='MFCLFrqStats', value=unname(getSlots('MFCLFrqStats')['range'])),
                                 function(object, value){slot(object, 'range') <- value; return(object)}) 
 
@@ -349,7 +349,7 @@ setReplaceMethod('dimensions', signature(object='MFCLBiol', value=unname(getSlot
 setMethod('range', signature(x='MFCLBiol'),function(x) return(slot(x,'range'))) 
 #'range
 #'@export range<- 
-setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
+#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
 setReplaceMethod('range', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['range'])),
                                 function(object, value){slot(object, 'range') <- value; return(object)}) 
 
@@ -435,7 +435,7 @@ setReplaceMethod('rep_rate_dev_coffs', signature(object='MFCLTagRep', value=unna
 setMethod('range', signature(x='MFCLTagRep'),function(x) return(slot(x,'range'))) 
 #'range
 #'@export range<- 
-setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
+#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
 setReplaceMethod('range', signature(object='MFCLTagRep', value=unname(getSlots('MFCLTagRep')['range'])),
                                                  function(object, value){slot(object, 'range') <- value; return(object)}) 
 
@@ -500,7 +500,7 @@ setReplaceMethod('rel_ini_pop', signature(object='MFCLRec', value=unname(getSlot
 setMethod('range', signature(x='MFCLRec'),function(x) return(slot(x,'range'))) 
 #'range
 #'@export range<- 
-setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
+#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
 setReplaceMethod('range', signature(object='MFCLRec', value=unname(getSlots('MFCLRec')['range'])),
                                 function(object, value){slot(object, 'range') <- value; return(object)}) 
 
@@ -628,7 +628,7 @@ setReplaceMethod('region_pars', signature(object='MFCLRegion', value=unname(getS
 setMethod('range', signature(x='MFCLRegion'),function(x) return(slot(x,'range'))) 
 #'range
 #'@export range<- 
-setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
+#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
 setReplaceMethod('range', signature(object='MFCLRegion', value=unname(getSlots('MFCLRegion')['range'])),
                                 function(object, value){slot(object, 'range') <- value; return(object)}) 
 
@@ -774,7 +774,7 @@ setReplaceMethod('fish_params', signature(object='MFCLSel', value=unname(getSlot
 setMethod('range', signature(x='MFCLSel'),function(x) return(slot(x,'range'))) 
 #'range
 #'@export range<- 
-setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
+#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
 setReplaceMethod('range', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['range'])),
                                 function(object, value){slot(object, 'range') <- value; return(object)}) 
 
@@ -884,7 +884,7 @@ setReplaceMethod('lagrangian', signature(object='MFCLParBits', value=unname(getS
 setMethod('range', signature(x='MFCLParBits'),function(x) return(slot(x,'range'))) 
 #'range
 #'@export range<- 
-setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
+#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
 setReplaceMethod('range', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['range'])),
                                 function(object, value){slot(object, 'range') <- value; return(object)}) 
 
@@ -1132,7 +1132,7 @@ setReplaceMethod('dimensions', signature(object='MFCLRep', value=unname(getSlots
 setMethod('range', signature(x='MFCLRep'),function(x) return(slot(x,'range'))) 
 #'range
 #'@export range<- 
-setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
+#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
 setReplaceMethod('range', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['range'])),
                                 function(object, value){slot(object, 'range') <- value; return(object)}) 
 
@@ -1191,7 +1191,7 @@ setReplaceMethod('scaler', signature(object='MFCLprojControl', value=unname(getS
 setMethod('range', signature(x='MFCLFrq'),function(x) return(slot(x,'range'))) 
 #'range
 #'@export range<- 
-setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
+#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
 setReplaceMethod('range', signature(object='MFCLFrq', value=unname(getSlots('MFCLFrq')['range'])),
                  function(object, value){slot(object, 'range') <- value; return(object)}) 
 
@@ -1202,7 +1202,7 @@ setReplaceMethod('range', signature(object='MFCLFrq', value=unname(getSlots('MFC
 setMethod('range', signature(x='MFCLPar'),function(x) return(slot(x,'range'))) 
 #'range
 #'@export range<- 
-setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
+#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
 setReplaceMethod('range', signature(object='MFCLPar', value=unname(getSlots('MFCLPar')['range'])),
                  function(object, value){slot(object, 'range') <- value; return(object)}) 
 
@@ -1223,7 +1223,7 @@ setReplaceMethod('dimensions', signature(object='MFCLPar', value=unname(getSlots
 setMethod('range', signature(x='MFCLIni'),function(x) return(slot(x,'range'))) 
 #'range
 #'@export range<- 
-setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
+#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
 setReplaceMethod('range', signature(object='MFCLIni', value=unname(getSlots('MFCLIni')['range'])),
                  function(object, value){slot(object, 'range') <- value; return(object)}) 
 
@@ -1234,7 +1234,7 @@ setReplaceMethod('range', signature(object='MFCLIni', value=unname(getSlots('MFC
 setMethod('range', signature(x='MFCLRep'),function(x) return(slot(x,'range'))) 
 #'range
 #'@export range<- 
-setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
+#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
 setReplaceMethod('range', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['range'])),
                  function(object, value){slot(object, 'range') <- value; return(object)}) 
 
