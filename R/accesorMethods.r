@@ -337,11 +337,11 @@ setReplaceMethod('common_len_bias_coffs', signature(object='MFCLBiol', value=unn
                                 function(object, value){slot(object, 'common_len_bias_coffs') <- value; return(object)}) 
 #'dimensions
 #'@export dimensions
-setGeneric('dimensions', function(object, ...) standardGeneric('dimensions')) 
+#setGeneric('dimensions', function(object, ...) standardGeneric('dimensions')) 
 setMethod('dimensions', signature('MFCLBiol'),function(object) return(slot(object, 'dimensions'))) 
 #'dimensions
 #'@export 
-setGeneric('dimensions<-', function(object, ..., value) standardGeneric('dimensions<-')) 
+#setGeneric('dimensions<-', function(object, ..., value) standardGeneric('dimensions<-')) 
 setReplaceMethod('dimensions', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['dimensions'])),
                                 function(object, value){slot(object, 'dimensions') <- value; return(object)}) 
 #'range
@@ -1120,11 +1120,11 @@ setReplaceMethod('rec_obs', signature(object='MFCLRep', value=unname(getSlots('M
                                 function(object, value){slot(object, 'rec_obs') <- value; return(object)}) 
 #'dimensions
 #'@export dimensions
-setGeneric('dimensions', function(object, ...) standardGeneric('dimensions')) 
+#setGeneric('dimensions', function(object, ...) standardGeneric('dimensions')) 
 setMethod('dimensions', signature('MFCLRep'),function(object) return(slot(object, 'dimensions'))) 
 #'dimensions
 #'@export 
-setGeneric('dimensions<-', function(object, ..., value) standardGeneric('dimensions<-')) 
+#setGeneric('dimensions<-', function(object, ..., value) standardGeneric('dimensions<-')) 
 setReplaceMethod('dimensions', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['dimensions'])),
                                 function(object, value){slot(object, 'dimensions') <- value; return(object)}) 
 #'range
@@ -1208,11 +1208,11 @@ setReplaceMethod('range', signature(object='MFCLPar', value=unname(getSlots('MFC
 
 #'dimensions
 #'@export dimensions
-setGeneric('dimensions', function(object, ...) standardGeneric('dimensions')) 
+#setGeneric('dimensions', function(object, ...) standardGeneric('dimensions')) 
 setMethod('dimensions', signature('MFCLPar'),function(object) return(slot(object, 'dimensions'))) 
 #'dimensions
 #'@export 
-setGeneric('dimensions<-', function(object, ..., value) standardGeneric('dimensions<-')) 
+#setGeneric('dimensions<-', function(object, ..., value) standardGeneric('dimensions<-')) 
 setReplaceMethod('dimensions', signature(object='MFCLPar', value=unname(getSlots('MFCLPar')['dimensions'])),
                  function(object, value){slot(object, 'dimensions') <- value; return(object)}) 
 
@@ -1240,11 +1240,63 @@ setReplaceMethod('range', signature(object='MFCLRep', value=unname(getSlots('MFC
 
 #'dimensions
 #'@export dimensions
-setGeneric('dimensions', function(object, ...) standardGeneric('dimensions')) 
+#setGeneric('dimensions', function(object, ...) standardGeneric('dimensions')) 
 setMethod('dimensions', signature('MFCLRep'),function(object) return(slot(object, 'dimensions'))) 
 #'dimensions
 #'@export 
-setGeneric('dimensions<-', function(object, ..., value) standardGeneric('dimensions<-')) 
+#setGeneric('dimensions<-', function(object, ..., value) standardGeneric('dimensions<-')) 
 setReplaceMethod('dimensions', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['dimensions'])),
                  function(object, value){slot(object, 'dimensions') <- value; return(object)}) 
 
+#############################################################################################################
+# class  MFCLTag
+#'release_groups
+#'@export release_groups
+setGeneric('release_groups', function(object, ...) standardGeneric('release_groups')) 
+setMethod('release_groups', signature('MFCLTag'),function(object) return(slot(object, 'release_groups'))) 
+#'release_groups
+#'@export 
+setGeneric('release_groups<-', function(object, ..., value) standardGeneric('release_groups<-')) 
+setReplaceMethod('release_groups', signature(object='MFCLTag', value=unname(getSlots('MFCLTag')['release_groups'])),
+                 function(object, value){slot(object, 'release_groups') <- value; return(object)}) 
+
+#'release_lengths
+#'@export release_lengths
+setGeneric('release_lengths', function(object, ...) standardGeneric('release_lengths')) 
+setMethod('release_lengths', signature('MFCLTag'),function(object) return(slot(object, 'release_lengths'))) 
+#'lengths
+#'@export 
+setGeneric('release_lengths<-', function(object, ..., value) standardGeneric('release_lengths<-')) 
+setReplaceMethod('release_lengths', signature(object='MFCLTag', value=unname(getSlots('MFCLTag')['release_lengths'])),
+                 function(object, value){slot(object, 'release_lengths') <- value; return(object)}) 
+
+
+#'recoveries
+#'@export recoveries
+setGeneric('recoveries', function(object, ...) standardGeneric('recoveries')) 
+setMethod('recoveries', signature('MFCLTag'),function(object) return(slot(object, 'recoveries'))) 
+#'recoveries
+#'@export 
+setGeneric('recoveries<-', function(object, ..., value) standardGeneric('recoveries<-')) 
+setReplaceMethod('recoveries', signature(object='MFCLTag', value=unname(getSlots('MFCLTag')['recoveries'])),
+                 function(object, value){slot(object, 'recoveries') <- value; return(object)}) 
+
+#'releases
+#'@export releases
+setGeneric('releases', function(object, ...) standardGeneric('releases')) 
+setMethod('releases', signature('MFCLTag'),function(object) return(slot(object, 'releases'))) 
+#'releases
+#'@export 
+setGeneric('releases<-', function(object, ..., value) standardGeneric('releases<-')) 
+setReplaceMethod('releases', signature(object='MFCLTag', value=unname(getSlots('MFCLTag')['releases'])),
+                 function(object, value){slot(object, 'releases') <- value; return(object)}) 
+
+#'recaptures
+#'@export recaptures
+setGeneric('recaptures', function(object, ...) standardGeneric('recaptures')) 
+setMethod('recaptures', signature('MFCLTag'),function(object) return(slot(object, 'recaptures'))) 
+#'recaptures
+#'@export 
+setGeneric('recaptures<-', function(object, ..., value) standardGeneric('recaptures<-')) 
+setReplaceMethod('recaptures', signature(object='MFCLTag', value=unname(getSlots('MFCLTag')['recaptures'])),
+                 function(object, value){slot(object, 'recaptures') <- value; return(object)}) 

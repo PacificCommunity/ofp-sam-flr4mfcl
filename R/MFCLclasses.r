@@ -583,6 +583,45 @@ MFCLPar <- function() {return(new("MFCLPar"))}
 
 
 
+
+
+###### CLASSS MFCLTag
+
+validMFCLTag <- function(object){
+  #Everything is fine
+  return(TRUE)
+}
+setClass("MFCLTag",
+         representation(
+           release_groups  = "numeric",
+           release_lengths = "numeric",
+           recoveries      = "numeric",
+           releases        = "data.frame",
+           recaptures      = "data.frame"
+         ),
+         prototype=prototype(
+           release_groups  = numeric(),
+           release_lengths  = numeric(),
+           recoveries      = numeric(),
+           releases        = data.frame(region=NULL, year=NULL, month=NULL, program=NULL, lendist=NULL),
+           recaptures      = data.frame(region=NULL, year=NULL, month=NULL, program=NULL, rel.length=NULL, recap.fishery=NULL, recap.year=NULL, recap.month=NULL, recap.number=NULL)
+         ),
+         validity=validMFCLTag
+)
+setValidity("MFCLTag", validMFCLTag)
+remove(validMFCLTag)
+#'MFCLTag
+#'
+#'Basic constructor for MFCLTag class
+#'@export
+MFCLTag <- function() {return(new("MFCLTag"))}
+
+
+
+
+
+
+
 ###### CLASSS MFCLRep
 
 validMFCLRep <- function(object){
