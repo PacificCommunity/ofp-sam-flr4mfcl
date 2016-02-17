@@ -44,6 +44,7 @@ read.MFCLTag <- function(tagfile) {
                                                      year   =topdat.event[2],
                                                      month  =topdat.event[3],
                                                      program=program,
+                                                     length =release_lengths(res), 
                                                      lendist=as.numeric(unlist(strsplit(trim.leading(tagdat[release.marker[mm]+3]), split="[[:blank:]]+")))))
     
     if(recapture.marker[mm2]<release.marker[mm+1]) {    
