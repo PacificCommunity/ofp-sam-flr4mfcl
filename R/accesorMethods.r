@@ -1,4 +1,4 @@
-# Automatically generated Generic Methods 
+# Automatically generated Generic Methods - and then updated by hand
 # Generated from 'createGenericMethods' 
 # Generated on  Tue Feb  2 11:46:03 2016 
 
@@ -202,11 +202,11 @@ setReplaceMethod('freq', signature(object='MFCLLenFreq', value=unname(getSlots('
 # class  MFCLBiol 
 #'m
 #'@export m
-setGeneric('m', function(object, ...) standardGeneric('m')) 
+#setGeneric('m', function(object, ...) standardGeneric('m')) 
 setMethod('m', signature('MFCLBiol'),function(object) return(slot(object, 'm'))) 
 #'m
 #'@export 
-setGeneric('m<-', function(object, ..., value) standardGeneric('m<-')) 
+#setGeneric('m<-', function(object, ..., value) standardGeneric('m<-')) 
 setReplaceMethod('m', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['m'])),
                                 function(object, value){slot(object, 'm') <- value; return(object)}) 
 #'m_devs_age
@@ -229,11 +229,11 @@ setReplaceMethod('log_m', signature(object='MFCLBiol', value=unname(getSlots('MF
                                 function(object, value){slot(object, 'log_m') <- value; return(object)}) 
 #'mat
 #'@export mat
-setGeneric('mat', function(object, ...) standardGeneric('mat')) 
+#setGeneric('mat', function(object, ...) standardGeneric('mat')) 
 setMethod('mat', signature('MFCLBiol'),function(object) return(slot(object, 'mat'))) 
 #'mat
 #'@export 
-setGeneric('mat<-', function(object, ..., value) standardGeneric('mat<-')) 
+#setGeneric('mat<-', function(object, ..., value) standardGeneric('mat<-')) 
 setReplaceMethod('mat', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['mat'])),
                                 function(object, value){slot(object, 'mat') <- value; return(object)}) 
 #'growth
@@ -1084,11 +1084,11 @@ setReplaceMethod('srr', signature(object='MFCLRep', value=unname(getSlots('MFCLR
                                 function(object, value){slot(object, 'srr') <- value; return(object)}) 
 #'ssb
 #'@export ssb
-setGeneric('ssb', function(object, ...) standardGeneric('ssb')) 
+#setGeneric('ssb', function(object, ...) standardGeneric('ssb')) 
 setMethod('ssb', signature('MFCLRep'),function(object) return(slot(object, 'ssb'))) 
 #'ssb
 #'@export 
-setGeneric('ssb<-', function(object, ..., value) standardGeneric('ssb<-')) 
+#setGeneric('ssb<-', function(object, ..., value) standardGeneric('ssb<-')) 
 setReplaceMethod('ssb', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['ssb'])),
                                 function(object, value){slot(object, 'ssb') <- value; return(object)}) 
 #'ssb_obs
@@ -1102,11 +1102,11 @@ setReplaceMethod('ssb_obs', signature(object='MFCLRep', value=unname(getSlots('M
                                 function(object, value){slot(object, 'ssb_obs') <- value; return(object)}) 
 #'rec
 #'@export rec
-setGeneric('rec', function(object, ...) standardGeneric('rec')) 
+#setGeneric('rec', function(object, ...) standardGeneric('rec')) 
 setMethod('rec', signature('MFCLRep'),function(object) return(slot(object, 'rec'))) 
 #'rec
 #'@export 
-setGeneric('rec<-', function(object, ..., value) standardGeneric('rec<-')) 
+#setGeneric('rec<-', function(object, ..., value) standardGeneric('rec<-')) 
 setReplaceMethod('rec', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['rec'])),
                                 function(object, value){slot(object, 'rec') <- value; return(object)}) 
 #'rec_obs
