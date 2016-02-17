@@ -604,7 +604,7 @@ setClass("MFCLTag",
            release_groups  = numeric(),
            release_lengths  = numeric(),
            recoveries      = numeric(),
-           releases        = data.frame(rel.group=NULL, region=NULL, year=NULL, month=NULL, program=NULL, lendist=NULL),
+           releases        = data.frame(rel.group=NULL, region=NULL, year=NULL, month=NULL, program=NULL, length=NULL, lendist=NULL),
            recaptures      = data.frame(rel.group=NULL, region=NULL, year=NULL, month=NULL, program=NULL, rel.length=NULL, recap.fishery=NULL, recap.year=NULL, recap.month=NULL, recap.number=NULL),
            range           = unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
            ),
