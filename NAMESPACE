@@ -306,6 +306,7 @@ exportMethods(
   "update",
   "vulnBiomass",
   "vulnBiomass<-",
+  "window",
   "write"
 )
 
