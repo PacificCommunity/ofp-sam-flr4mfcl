@@ -62,15 +62,29 @@ setMethod("window", signature(x="MFCLTag"),
             if(start < range(x)['minyear'] | end > range(x)['maxyear'])
               stop("Error: This method does not yet allow the extension of MFCL objects beyond their current year range")
             
-            # remove releases and recaptures from end year -1 (based on release year)
-            releases(x)   <- releases(x)[releases(x)$year     %in% start:(end-1),]
-            recaptures(x) <- recaptures(x)[recaptures(x)$year %in% start:(end-1),]
+            # remove releases and recaptures from end year (based on release year)
+            releases(x)   <- releases(x)[releases(x)$year     %in% start:(end),]
+            recaptures(x) <- recaptures(x)[recaptures(x)$year %in% start:(end),]
             
             # then remove any recaptures from end year (based on recapture year) 
-            recaptures(x) <- recaptures(x)[recaptures(x)$recap.year %in% start:(end-1),]
+            recaptures(x) <- recaptures(x)[recaptures(x)$recap.year %in% start:(end),]
             
+            rel.num.map <- cbind(new = 1:length(sort(unique(releases(x)$rel.group))),
+                                 old = sort(unique(releases(x)$rel.group)))
+            
+            for(rr in rel.num.map[,'old']){
+              releases(x)[releases(x)$rel.group==rr, "rel.group"]     <- rel.num.map[rel.num.map[,'old']==rr, 'new']
+              recaptures(x)[recaptures(x)$rel.group==rr, "rel.group"] <- rel.num.map[rel.num.map[,'old']==rr, 'new']
+            }
+              
             release_groups(x) <- max(releases(x)$rel.group)
-            recoveries(x)     <- as.vector(rowSums(table(recaptures(x)$rel.group, recaptures(x)$recap.number)))
+            
+            dummydat <- rbind(recaptures(x), 
+                              data.frame(rel.group = 1:release_groups(x), region=1, year=1900, month=1, program=as.factor('SSAP'), rel.length=1, 
+                                         recap.fishery=1, recap.year=1900, recap.month=1, recap.number=1))
+            
+            recoveries(x)     <- as.vector(tapply(dummydat$recap.number>0, dummydat$rel.group, sum))-1
+            
             
             range(x)[c("minyear", "maxyear")] <- c(start, end)
             
