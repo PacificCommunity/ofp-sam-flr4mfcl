@@ -49,7 +49,7 @@ read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
   dims_age$season <- as.character(1:nseasons)
   
   dims_all        <- dims_age
-  dims_all$year   <- as.character(first.yr:(first.yr+nyears))
+  dims_all$year   <- as.character(first.yr:(first.yr+(nyears/nseasons)))
   dims_all$season <- as.character(1:nseasons)
   dims_all$area   <- as.character(1:nregions)
   
@@ -113,7 +113,7 @@ read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
 #'
 #' @export
 
-read.MFCLFlags <- function(parfile, parobj=NULL) {
+read.MFCLFlags <- function(parfile, parobj=NULL, first.yr=1972) {
 
   trim.leading  <- function(x) sub("^\\s+", "", x)
   splitter      <- function(ff, tt, ll=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[1]+ll]),split="[[:blank:]]+"))
@@ -174,7 +174,7 @@ read.MFCLFlags <- function(parfile, parobj=NULL) {
 #'
 #' @export
 
-read.MFCLTagRep <- function(parfile, parobj=NULL) {
+read.MFCLTagRep <- function(parfile, parobj=NULL, first.yr=1972) {
   
   trim.leading  <- function(x) sub("^\\s+", "", x)
   splitter      <- function(ff, tt, ll=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[1]+ll]),split="[[:blank:]]+"))  
@@ -373,7 +373,7 @@ read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972) {
 #'
 #' @export
 
-read.MFCLSel <- function(parfile, parobj=NULL) {
+read.MFCLSel <- function(parfile, parobj=NULL, first.yr=1972) {
 
   trim.leading  <- function(x) sub("^\\s+", "", x)
   splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+"))      
@@ -461,7 +461,7 @@ read.MFCLSel <- function(parfile, parobj=NULL) {
 #'
 #' @export
 
-read.MFCLParBits <- function(parfile, parobj=NULL) {
+read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972) {
 
   trim.leading  <- function(x) sub("^\\s+", "", x)
   splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+"))    
@@ -536,13 +536,13 @@ read.MFCLPar <- function(parfile, first.yr=1972) {
   par <- par[nchar(par)>=1]                                          # remove blank lines
   par <- par[-seq(1,length(par))[grepl("#", par) & nchar(par)<3]]   # remove single hashes with no text "# "  
   
-  res <- slotcopy(read.MFCLBiol(parfile, par, first.yr), res)
-  res <- slotcopy(read.MFCLFlags(parfile, par), res)
-  res <- slotcopy(read.MFCLTagRep(parfile, par), res)
-  res <- slotcopy(read.MFCLRec(parfile, par, first.yr), res)
-  res <- slotcopy(read.MFCLRegion(parfile, par, first.yr), res)
-  res <- slotcopy(read.MFCLSel(parfile, par), res)
-  res <- slotcopy(read.MFCLParBits(parfile, par), res)
+  res <- slotcopy(read.MFCLBiol(parfile,  par, first.yr), res)
+  res <- slotcopy(read.MFCLFlags(parfile, par, first.yr), res)
+  res <- slotcopy(read.MFCLTagRep(parfile,par, first.yr), res)
+  res <- slotcopy(read.MFCLRec(parfile,   par, first.yr), res)
+  res <- slotcopy(read.MFCLRegion(parfile,par, first.yr), res)
+  res <- slotcopy(read.MFCLSel(parfile,   par, first.yr), res)
+  res <- slotcopy(read.MFCLParBits(parfile,par), res)
   
   slot(res, 'range') <- c(min=0, max=max(as.numeric(unlist(dimnames(fishery_sel(res))['age']))), 
                           plusgroup=NA, 
