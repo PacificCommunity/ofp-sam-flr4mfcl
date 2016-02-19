@@ -18,7 +18,7 @@ write.tag <- function(x, file, append=F, ...){
   cat(paste(release_groups(x), release_lengths(x)[1], length(release_lengths(x)), release_lengths(x)[2]-release_lengths(x)[1], sep="            "), file=file, append=T)
   
   cat(paste("\n#\n#\n# TAG RECOVERIES\n#    "), file=file, append=T)
-  write.table(rbind(1:251, recoveries(x)), row.names=FALSE, col.names=FALSE, , file=file, append=T)
+  write.table(rbind(1:release_groups(x), recoveries(x)), row.names=FALSE, col.names=FALSE, , file=file, append=T)
   
   release.header1 <- "#\n#\n#---------------------------------\n# "
   release.header2 <- "- RELEASE REGION    YEAR    MONTH   Tag_program  "  
