@@ -13,10 +13,6 @@ write.simNumAge <- function(simNumAge, filename, ctrl, nregions, iter){
   
 }
 
-sna <- simNum
-from.nyrs <- 30
-to.nyrs <- 20
-nqts <- 4; nitns <- 200, nareas<- 5
 
 
 setSimYrs <- function(sna, from.nyrs, to.nyrs, nqtrs=4, nitns=200, nareas=5){
