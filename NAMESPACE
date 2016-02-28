@@ -33,6 +33,7 @@ export(
   "write.simNumAge",
   "check.mfcl.cfg",
   "setMFCLversion",
+  "setSimYrs",
   "availableMFCLversions"
 )
 exportClasses(
