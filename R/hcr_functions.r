@@ -13,13 +13,18 @@ write.simNumAge <- function(simNumAge, filename, ctrl, nregions, iter){
   
 }
 
+sna <- simNum
+from.nyrs <- 30
+to.nyrs <- 20
+nqts <- 4; nitns <- 200, nareas<- 5
+
 
 setSimYrs <- function(sna, from.nyrs, to.nyrs, nqtrs=4, nitns=200, nareas=5){
   
   trim.leading  <- function(x) sub("^\\s+", "", x)
   splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+"))   
   
-  srec <- array(as.numeric(splitter(sna, "recruitment", ll=nitns*nareas)), dim=c(nitns*nareas, from.nyrs*nqtrs))[,1:(to.nyrs*nqtrs)]
+  srec <- t(array(as.numeric(splitter(sna, "recruitment", ll=1:(nitns*nareas))), dim=c(from.nyrs*nqtrs, nitns*nareas)))[,1:(to.nyrs*nqtrs)]
   
   res <- c(sna[1:grep("recruitment", sna)], paste(" ", apply(srec, 1, paste, collapse=" ")))
 }
