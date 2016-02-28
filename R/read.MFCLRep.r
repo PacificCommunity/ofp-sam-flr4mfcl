@@ -50,13 +50,13 @@ read.MFCLRep <- function(repfile) {
                                                             unit=as.character(1:dimensions(res)['fisheries']), season=as.character(1:dimensions(res)['seasons'])))
   # mean length at age
   mean_laa(res) <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Mean lengths at age")),
-                                       dim=c(dimensions(res)['seasons'], (range(res)['max']-range(res)['min']+1), 1,1,1)), c(1,3,4,2,5)), dimnames=dnms1 )
+                                       dim=c(dimensions(res)['seasons'], (range(res)['max']-range(res)['min']+1), 1,1,1)), c(2,3,4,1,5)), dimnames=dnms1 )
   # sd length at age
   sd_laa(res) <- FLQuant(aperm(array(as.numeric(splitter(pp, "# SD of length at age")),
-                                       dim=c(dimensions(res)['seasons'], (range(res)['max']-range(res)['min']+1), 1,1,1)), c(1,3,4,2,5)), dimnames=dnms1 )
+                                       dim=c(dimensions(res)['seasons'], (range(res)['max']-range(res)['min']+1), 1,1,1)), c(2,3,4,1,5)), dimnames=dnms1 )
   # m at age
   m_at_age(res) <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Natural mortality at age")),
-                                       dim=c(dimensions(res)['seasons'], (range(res)['max']-range(res)['min']+1), 1,1,1)), c(1,3,4,2,5)), dimnames=dnms1 )
+                                       dim=c(dimensions(res)['seasons'], (range(res)['max']-range(res)['min']+1), 1,1,1)), c(2,3,4,1,5)), dimnames=dnms1 )
   # adult biomass  
   adultBiomass(res) <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Adult biomass", 1:dimensions(res)['years'])), 
                                      dim=c(dimensions(res)["regions"], dimensions(res)['seasons'], dimensions(res)['years']/dimensions(res)["seasons"],1,1)), 
