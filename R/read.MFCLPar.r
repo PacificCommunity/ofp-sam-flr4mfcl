@@ -391,7 +391,7 @@ read.MFCLSel <- function(parfile, parobj=NULL, first.yr=1972) {
   if(!is.null(parobj))
     par <- parobj
 
-  
+  parversion <- as.numeric(splitter(par, "# The parest_flags"))[200]
   nseasons <- length(splitter(par, "# season_flags"))
   nregions <- length(splitter(par,"# region parameters"))
   nagecls  <- as.numeric(par[grep("# The number of age classes", par)+1])  
@@ -440,7 +440,13 @@ read.MFCLSel <- function(parfile, parobj=NULL, first.yr=1972) {
   slot(res, 'sel_dev_coffs') <- matrix(as.numeric(splitter(par,"# selectivity deviation coefficients ",
                                             1:sum(unlist(lapply(qdc, length))))), ncol=nagecls, byrow=T)
   slot(res, 'sel_dev_coffs2')<- sdc
-  slot(res, 'fish_params')   <- matrix(as.numeric(splitter(par,"# extra fishery parameters", 1:20)), ncol=nfish, byrow=T)
+  
+  getfishparms <- function(xx, version){
+    switch(as.character(version),
+           '1049' = matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:20)), ncol=nfish, byrow=T),
+           '1050' = matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:50)), ncol=nfish, byrow=T))
+  }
+  slot(res, 'fish_params')   <- getfishparms(par, parversion)
     
   slot(res, 'range') <- c(min=0, max=nagecls/nseasons, plusgroup=NA, minyear=1, maxyear=1)
   
