@@ -122,6 +122,7 @@ exportMethods(
   "fishery_sel_age_comp<-",
   "flags",
   "flags<-",
+  "flagval",
   "fm",
   "fm<-",
   "fm_level_devs",

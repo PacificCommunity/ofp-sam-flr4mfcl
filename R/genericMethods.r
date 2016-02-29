@@ -30,8 +30,10 @@ setGeneric('write', function(x, file, append=F, ...) standardGeneric('write'))
 
 #'@export version
 setGeneric('version', function(x, ...) standardGeneric('version')) 
-setMethod('version', signature(x='MFCLPar'),function(x) flags(par)[flags(x)$flagtype==1 & flags(x)$flag==200,'value']) 
+setMethod('version', signature(x='MFCLPar'),function(x) flagval(x, 1, 200)$value)  #flags(par)[flags(x)$flagtype==1 & flags(x)$flag==200,'value']) 
 
 setMethod('version', signature(x='MFCLFrq'),function(x) return(slot(x,'frq_version'))) 
 
 
+setGeneric('flagval', function(x, flagtype, flag, ...) standardGeneric('flagval'))
+setMethod('flagval', signature(x='MFCLPar'), function(x, flagtype, flag) flags(par)[flags(x)$flagtype %in% flagtype & flags(x)$flag %in% flag,])
