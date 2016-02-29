@@ -28,8 +28,10 @@ setGeneric('write', function(x, file, append=F, ...) standardGeneric('write'))
 
 
 
+#'@export version
+setGeneric('version', function(x, ...) standardGeneric('version')) 
+setMethod('version', signature(x='MFCLPar'),function(x) flags(par)[flags(x)$flagtype==1 & flags(x)$flag==200,'value']) 
 
-
-
+setMethod('version', signature(x='MFCLFrq'),function(x) return(slot(x,'frq_version'))) 
 
 
