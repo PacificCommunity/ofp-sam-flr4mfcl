@@ -305,6 +305,7 @@ exportMethods(
   "unused",
   "unused<-",
   "update",
+  "version",
   "vulnBiomass",
   "vulnBiomass<-",
   "window",
