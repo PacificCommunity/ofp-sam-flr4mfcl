@@ -34,6 +34,11 @@ setMethod('version', signature(x='MFCLPar'),function(x) flagval(x, 1, 200)$value
 
 setMethod('version', signature(x='MFCLFrq'),function(x) return(slot(x,'frq_version'))) 
 
-
+#'@export flagval
 setGeneric('flagval', function(x, flagtype, flag, ...) standardGeneric('flagval'))
-setMethod('flagval', signature(x='MFCLPar'), function(x, flagtype, flag) flags(par)[flags(x)$flagtype %in% flagtype & flags(x)$flag %in% flag,])
+setMethod('flagval', signature(x='MFCLPar'), function(x, flagtype, flag) flags(x)[flags(x)$flagtype %in% flagtype & flags(x)$flag %in% flag,])
+
+#'@export 
+setGeneric('flagval<-', function(x, flagtype, flag, value) standardGeneric('flagval<-')) 
+setReplaceMethod('flagval', signature(x='MFCLPar'),
+                 function(x, flagtype, flag, value){flags(x)[flags(x)$flagtype %in% flagtype & flags(x)$flag %in% flag, 'value'] <- value; return(x)}) 
