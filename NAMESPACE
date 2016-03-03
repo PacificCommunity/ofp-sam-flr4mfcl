@@ -123,6 +123,7 @@ exportMethods(
   "flags",
   "flags<-",
   "flagval",
+  "flagval<-",
   "fm",
   "fm<-",
   "fm_level_devs",
