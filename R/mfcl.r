@@ -131,19 +131,22 @@ setMethod("mfcl", signature(frq="MFCLFrq", par="MFCLIni"),
  
 setMFCLversion <- function(version="2015_devvsn_1.1.4.3_linux"){
   
-  #rev(unlist(strsplit(packageDescription("FLR4MFCL")$Built, split=" ")))[1]
+  opsys <- rev(unlist(strsplit(packageDescription("FLR4MFCL")$Built, split=" ")))[1]
   
   oldpath <- getwd()
   path <- system.file("extdata",package="FLR4MFCL")
   
   from <- paste(path, "/", version, sep="")
-  to   <- paste(path, "/mfclo64", sep="")
   
-  if(file.exists(to))
-    file.remove(to)
+  to   <- switch(opsys,
+                 "linux"   = paste(path, "/mfclo64",     sep=""),
+                 "windows" = paste(path, "/mfclo64.exe", sep=""))
+  
   
   file.copy(from=from, to=to, overwrite=TRUE)
-  system(paste("chmod 777 ", path, "/mfclo64", sep=""))
+  
+  if(opsys=="linux")
+    system(paste("chmod 777 ", path, "/mfclo64", sep=""))
   
   setwd(oldpath)
 }
@@ -168,7 +171,36 @@ setMFCLversion <- function(version="2015_devvsn_1.1.4.3_linux"){
 availableMFCLversions <- function(){
   
   res <- dir(system.file("extdata",package="FLR4MFCL"))
-  return(res[res!='mfclo64'])
+  res2<- res[grep("mfcl", res)]
+  return(res2[!is.element(res2,c('mfclo64','mfclo64.exe'))])
     
 }
+
+
+
+#' getMFCLversion
+#'
+#' Returns the version of MFCL to be used for this session
+#'
+#' 
+#'
+#' @return the mfcl version
+#'
+#' @examples
+#' getMFCLversion()
+#'
+#' @export
+
+getMFCLversion <- function(){
+  
+  opsys<- rev(unlist(strsplit(packageDescription("FLR4MFCL")$Built, split=" ")))[1]
+  path <- system.file("extdata",package="FLR4MFCL")
+  
+  system(paste(path, "/mfclo64 --version", sep=""))
+  
+}
+
+
+
+
 
