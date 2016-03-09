@@ -33,7 +33,9 @@ export(
   "write.simNumAge",
   "check.mfcl.cfg",
   "setMFCLversion",
-  "availableMFCLversions"
+  "setSimYrs",
+  "availableMFCLversions",
+  "getMFCLversion"
 )
 exportClasses(
   "MFCLBase",
@@ -121,6 +123,8 @@ exportMethods(
   "fishery_sel_age_comp<-",
   "flags",
   "flags<-",
+  "flagval",
+  "flagval<-",
   "fm",
   "fm<-",
   "fm_level_devs",
@@ -304,6 +308,7 @@ exportMethods(
   "unused",
   "unused<-",
   "update",
+  "version",
   "vulnBiomass",
   "vulnBiomass<-",
   "window",

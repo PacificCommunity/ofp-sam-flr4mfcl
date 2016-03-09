@@ -17,6 +17,9 @@
 
 read.MFCLFrqStats <- function(frqfile){
   
+  trim.leading  <- function(x) sub("^\\s+", "", x) 
+  splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+")) 
+  
   res <- new("MFCLFrqStats")
   
   quiet=TRUE
@@ -40,24 +43,26 @@ read.MFCLFrqStats <- function(frqfile){
                              dimnames=list(len='all',year='all',unit='unique',
                                            season='all',area=as.character(1:res@n_regions)))
   
-  line <- grep("Region in which each fishery is located", frq)+1
-  dat  <- as.numeric(unlist(strsplit(frq[line], split=" ")))
+#  line <- grep("Region in which each fishery is located", frq)+1
+#  dat  <- as.numeric(unlist(strsplit(frq[line], split=" ")))
+  dat  <- as.numeric(splitter(frq, "Region in which each fishery is located"))
   res@region_fish <- FLQuant(dat[!is.na(dat)], 
                              dimnames=list(len='all',year='all',unit=as.character(1:res@n_fisheries),
                                            season='all',area='all'))
-  
-  line <- grep("Incidence matrix", frq)
-  res@move_matrix <- matrix(NA, nrow=res@n_regions, ncol=res@n_regions)
-  for(i in 1:(res@n_regions-1)){
-    dat <- as.numeric(unlist(strsplit(frq[line+i], split=" ")))[!is.na(as.numeric(unlist(strsplit(frq[line+i], split=" "))))]
-    res@move_matrix[i,(i+1):res@n_regions] <- dat
+  if(n_regions(res)>1){
+    line <- grep("Incidence matrix", frq)
+    res@move_matrix <- matrix(NA, nrow=res@n_regions, ncol=res@n_regions)
+    for(i in 1:(res@n_regions-1)){
+      dat <- as.numeric(unlist(strsplit(frq[line+i], split=" ")))[!is.na(as.numeric(unlist(strsplit(frq[line+i], split=" "))))]
+      res@move_matrix[i,(i+1):res@n_regions] <- dat
+    }
+    line <- grep("Season-region flags", frq)
+    res@season_flags <- matrix(as.numeric(unlist(strsplit(frq[line+1:res@n_recs_yr], split=" "))), nrow=res@n_recs_yr, ncol=res@n_regions, byrow=T)
   }
     
-  line <- grep("Data flags", frq)
-  res@data_flags <- matrix(as.numeric(unlist(strsplit(frq[line+1:5], split=" "))),nrow=5, ncol=res@n_fisheries, byrow=T)
-  
-  line <- grep("Season-region flags", frq)
-  res@season_flags <- matrix(as.numeric(unlist(strsplit(frq[line+1:res@n_recs_yr], split=" "))), nrow=res@n_recs_yr, ncol=res@n_regions, byrow=T)
+#  line <- grep("Data flags", frq)
+#  res@data_flags <- matrix(as.numeric(unlist(strsplit(frq[line+1:5], split=" "))),nrow=5, ncol=res@n_fisheries, byrow=T)
+  res@data_flags <- matrix(as.numeric(splitter(frq, "Data flags", 1:5)), nrow=5, byrow=T)
   
   res@n_move_yr <- as.numeric(frq[grep("Number of movements per year", frq)+1])
   
