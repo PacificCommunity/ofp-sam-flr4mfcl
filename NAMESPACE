@@ -34,7 +34,8 @@ export(
   "check.mfcl.cfg",
   "setMFCLversion",
   "setSimYrs",
-  "availableMFCLversions"
+  "availableMFCLversions",
+  "getMFCLversion"
 )
 exportClasses(
   "MFCLBase",
