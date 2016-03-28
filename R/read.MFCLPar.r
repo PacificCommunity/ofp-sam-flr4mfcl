@@ -128,8 +128,9 @@ read.MFCLFlags <- function(parfile, parobj=NULL, first.yr=1972) {
   if(!is.null(parobj))
     par <- parobj
   
-  nfish    <- grep("# tag flags", par) - grep("# fish flags", par)[1] -1
-  ntaggrps <- grep("# tag fish rep", par)[1] - grep("# tag flags", par) -1
+  #nfish    <- grep("# tag flags", par) - grep("# fish flags", par)[1] -1
+  nfish    <- length(splitter(par, "# q0_miss"))
+  ntaggrps <- max(0,grep("# tag fish rep", par)[1] - grep("# tag flags", par) -1)
   nregions <- length(splitter(par,"# region parameters"))
   
   parflags   <- as.numeric(splitter(par,"# The parest_flags"))      # 400 of them
