@@ -57,26 +57,36 @@ setMethod("window", signature(x="MFCLFrq"),
 
 
 setMethod("window", signature(x="MFCLTag"),
-          function(x, start=range(x)['minyear'], end=range(x)['maxyear'], extend=FALSE, ...){
+          function(x, start=range(x)['minyear'], end=range(x)['maxyear'], extend=FALSE, precheck=FALSE, ...){
             
             if(start < range(x)['minyear'] | end > range(x)['maxyear'])
               stop("Error: This method does not yet allow the extension of MFCL objects beyond their current year range")
+            
+            orig.rel.grps <- unique(releases(x)$rel.group)
             
             # remove releases and recaptures from end year (based on release year)
             releases(x)   <- releases(x)[releases(x)$year     %in% start:(end),]
             recaptures(x) <- recaptures(x)[recaptures(x)$year %in% start:(end),]
             
+            new.rel.grps <- unique(releases(x)$rel.group)
+            
             # then remove any recaptures from end year (based on recapture year) 
             recaptures(x) <- recaptures(x)[recaptures(x)$recap.year %in% start:(end),]
             
+            # map old release group numbers to new release group numbers 
             rel.num.map <- cbind(new = 1:length(sort(unique(releases(x)$rel.group))),
                                  old = sort(unique(releases(x)$rel.group)))
             
+            if(precheck) # return the tag release groups that have been removed so you know how to modify the ini
+              return(orig.rel.grps[!is.element(orig.rel.grps, rel.num.map[,'old'])])
+            
+            # renumber the release groups (and corresponding recapture groups)
             for(rr in rel.num.map[,'old']){
               releases(x)[releases(x)$rel.group==rr, "rel.group"]     <- rel.num.map[rel.num.map[,'old']==rr, 'new']
               recaptures(x)[recaptures(x)$rel.group==rr, "rel.group"] <- rel.num.map[rel.num.map[,'old']==rr, 'new']
             }
-              
+            
+            # reset objects for new data structure
             release_groups(x) <- max(releases(x)$rel.group)
             
             dummydat <- rbind(recaptures(x), 
@@ -84,7 +94,6 @@ setMethod("window", signature(x="MFCLTag"),
                                          recap.fishery=1, recap.year=1900, recap.month=1, recap.number=1))
             
             recoveries(x)     <- as.vector(tapply(dummydat$recap.number>0, dummydat$rel.group, sum))-1
-            
             
             range(x)[c("minyear", "maxyear")] <- c(start, end)
             
