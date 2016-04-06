@@ -81,7 +81,7 @@ setMethod("generate", signature(x="MFCLFrq", y="MFCLprojControl"),
             
             freq(x) <- rbind(freq(x), projdat2)
             
-            data_flags(x)[2,] <- as.numeric(avyrs(ctrl))+1
+            data_flags(x)[2,] <- as.numeric(max(avyrs(ctrl)))+1
             data_flags(x)[3,] <- as.numeric(qtrs[1])
             lf_range(x)['Datasets'] <- lf_range(x)['Datasets']+nrow(projdat2)
             slot(x,'range')['maxyear']     <- max(freq(x)$year)
