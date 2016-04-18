@@ -113,12 +113,12 @@ read.MFCLLenFreq <- function(frqfile){
   slot(res, "lf_range")[] <- dat[!is.na(dat)]
   
   dat  <- as.numeric(unlist(strsplit(frq[grep("age_nage", frq)+1], split="[[:blank:]]+")))
-  slot(res, "age_nage")[] <- dat[!is.na(dat)]
+  slot(res, "age_nage")[] <- ifelse(length(dat)>1, dat[!is.na(dat)], NA)
   
   nLbins <- lf_range(res)['LFIntervals']; Lwidth <- lf_range(res)["LFWidth"]; Lfirst <- lf_range(res)["LFFirst"]
   nWbins <- lf_range(res)['WFIntervals']; Wwidth <- lf_range(res)["WFWidth"]; Wfirst <- lf_range(res)["WFFirst"]
   
-  line1 <- grep("age_nage", frq)+2  # first line of frequency data
+  line1 <- ifelse(all(is.na(slot(res, "age_nage"))), grep("Datasets", frq)+2, grep("age_nage", frq)+2)  # first line of frequency data
   lffrq <- frq[line1:length(frq)]   # just the length frequency data 
   
   nfields <- count.fields(frqfile, skip=line1-1)          # number of fields in each line of the frequency data
