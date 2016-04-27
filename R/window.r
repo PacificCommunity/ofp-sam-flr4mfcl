@@ -63,10 +63,15 @@ setMethod("window", signature(x="MFCLTag"),
               stop("Error: This method does not yet allow the extension of MFCL objects beyond their current year range")
             
             orig.rel.grps <- unique(releases(x)$rel.group)
+            max.rel.month <- max(releases(x)[releases(x)$year==range(x)['maxyear'],'month'])
             
             # remove releases and recaptures from end year (based on release year)
             releases(x)   <- releases(x)[releases(x)$year     %in% start:(end),]
+            # set the last release month 
+            releases(x)   <- releases(x)[!(releases(x)$year==end & releases(x)$month>max.rel.month),]
+            
             recaptures(x) <- recaptures(x)[recaptures(x)$year %in% start:(end),]
+            recaptures(x) <- recaptures(x)[!(recaptures(x)$year==end & recaptures(x)$month>max.rel.month),]
             
             new.rel.grps <- unique(releases(x)$rel.group)
             
@@ -90,7 +95,7 @@ setMethod("window", signature(x="MFCLTag"),
             release_groups(x) <- max(releases(x)$rel.group)
             
             dummydat <- rbind(recaptures(x), 
-                              data.frame(rel.group = 1:release_groups(x), region=1, year=1900, month=1, program=as.factor('SSAP'), rel.length=1, 
+                              data.frame(rel.group = 1:release_groups(x), region=1, year=1900, month=1, program=as.factor('DD'), rel.length=1, 
                                          recap.fishery=1, recap.year=1900, recap.month=1, recap.number=1))
             
             recoveries(x)     <- as.vector(tapply(dummydat$recap.number>0, dummydat$rel.group, sum))-1

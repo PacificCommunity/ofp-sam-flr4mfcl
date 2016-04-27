@@ -444,6 +444,7 @@ read.MFCLSel <- function(parfile, parobj=NULL, first.yr=1972) {
   
   getfishparms <- function(xx, version){
     switch(as.character(version),
+           '1046' = matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:20)), ncol=nfish, byrow=T),
            '1049' = matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:20)), ncol=nfish, byrow=T),
            '1050' = matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:50)), ncol=nfish, byrow=T))
   }

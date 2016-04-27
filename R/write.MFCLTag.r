@@ -30,7 +30,9 @@ write.tag <- function(x, file, append=F, ...){
     cat('\n', file=file, append=T)    
     write.table(releases(x)[releases(x)$rel.group==rel, c('region', 'year', 'month')][1,], 
                 col.names=FALSE, row.names=FALSE, file=file, append=T) 
-    cat(releases(x)[releases(x)$rel.group==rel, 'lendist'], file=file, append=T)
+    #cat(releases(x)[releases(x)$rel.group==rel, 'lendist'], file=file, append=T)
+    write.table(array(releases(x)[releases(x)$rel.group==rel, 'lendist'], dim=c(1,length(release_lengths(x)))), 
+                col.names=FALSE, row.names=FALSE, file=file, append=T)
     
     if(rel %in% recaptures(x)$rel.group){
       cat(recapture.header, file=file, append=T)
