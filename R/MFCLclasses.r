@@ -652,7 +652,9 @@ setClass("MFCLRep",
            ssb                 ='FLQuant',
            ssb_obs             ='FLQuant',
            rec                 ='FLQuant',
-           rec_obs             ='FLQuant'
+           rec_obs             ='FLQuant',
+           eq_biomass          ='FLQuant',
+           eq_yield            ='FLQuant'
          ),
          prototype=prototype(
            fishery_realizations=FLQuant(),
@@ -673,7 +675,9 @@ setClass("MFCLRep",
            ssb                 =FLQuant(),
            ssb_obs             =FLQuant(),
            rec                 =FLQuant(),
-           rec_obs             =FLQuant()
+           rec_obs             =FLQuant(),
+           eq_biomass          =FLQuant(),
+           eq_yield            =FLQuant()
          ),
          validity=validMFCLRep
 )
@@ -684,10 +688,6 @@ remove(validMFCLRep)
 #'Basic constructor for MFCLRep class
 #'@export
 MFCLRep <- function() {return(new("MFCLRep"))}
-
-
-
-
 
 
 
@@ -736,5 +736,33 @@ MFCLprojControl <- function(nyears=as.numeric(NULL), nsims=as.numeric(NULL), avy
 
 
 
+
+
+###### CLASSS MFCLCatch
+
+validMFCLCatch <- function(object){
+  #Everything is fine
+  return(TRUE)
+}
+setClass("MFCLCatch",
+         representation(
+           total_catch         ="FLQuant",
+           fishery_catch       ="FLQuant",
+           range               ="numeric"
+         ),
+         prototype=prototype(
+           total_catch         =FLQuant(),
+           fishery_catch       =FLQuant(),
+           range               =unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
+         ),
+         validity=validMFCLCatch
+)
+setValidity("MFCLCatch", validMFCLCatch)
+remove(validMFCLCatch)
+#'MFCLCatch
+#'
+#'Basic constructor for MFCLCatch class
+#'@export
+MFCLCatch <- function() {return(new("MFCLCatch"))}
 
 

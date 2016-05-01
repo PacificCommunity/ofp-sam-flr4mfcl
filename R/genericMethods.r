@@ -42,3 +42,10 @@ setMethod('flagval', signature(x='MFCLPar'), function(x, flagtype, flag) flags(x
 setGeneric('flagval<-', function(x, flagtype, flag, value) standardGeneric('flagval<-')) 
 setReplaceMethod('flagval', signature(x='MFCLPar'),
                  function(x, flagtype, flag, value){flags(x)[flags(x)$flagtype %in% flagtype & flags(x)$flag %in% flag, 'value'] <- value; return(x)}) 
+
+#'@export steepness
+setGeneric('steepness', function(x) standardGeneric('steepness'))
+setMethod('steepness', signature(x='MFCLIni'), function(x) return(slot(x, 'sv')))
+
+setGeneric('steepness<-', function(x, value) standardGeneric('steepness<-'))
+setReplaceMethod('steepness', signature(x='MFCLIni'), function(x, value){slot(x, 'sv') <- value; return(x)})
