@@ -99,6 +99,10 @@ read.MFCLRep <- function(repfile) {
                                            dim=c(dimensions(res)['fisheries'], dimensions(res)["seasons"], dimensions(res)['years']/dimensions(res)["seasons"], 1,1)), 
                                      c(4,3,1,2,5)), dimnames=dnms6)
   
+  dat_length <- length(splitter(pp, "# Equilibrium adult biomass"))
+  # equilibrium biomass
+  eq_biomass(res) <- FLQuant(array(as.numeric(splitter(pp, "# Equilibrium adult biomass")), dim=c(1,1,dat_length,1,1,1)))
+  eq_yield(res)   <- FLQuant(array(as.numeric(splitter(pp, "# Equilibrium yield")), dim=c(1,1,dat_length,1,1,1)))
   
   return(res)
 }
