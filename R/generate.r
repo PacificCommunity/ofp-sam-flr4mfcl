@@ -56,13 +56,16 @@ setMethod("generate", signature(x="MFCLFrq", y="MFCLprojControl"),
             avdata$catch[avdata$catch == -1] <- NA
             avdata$effort[avdata$effort == -1] <- NA
             
-            avcatch  <- sweep(tapply(avdata$catch,  list(avdata$month, avdata$fishery), sum), 2, sc_df$scaler, "*")
-            aveffort <- sweep(tapply(avdata$effort, list(avdata$month, avdata$fishery), sum), 2, sc_df$scaler, "*")
+            flts     <- as.numeric(colnames(tapply(avdata$catch,  list(avdata$month, avdata$fishery), sum)))
+            avcatch  <- sweep(tapply(avdata$catch,  list(avdata$month, avdata$fishery), sum), 2, sc_df$scaler[flts], "*")
+            aveffort <- sweep(tapply(avdata$effort, list(avdata$month, avdata$fishery), sum), 2, sc_df$scaler[flts], "*")
             
-            projdat  <- data.frame(year    = rep(proj.yrs, each=(n_fisheries(x)*length(qtrs))),
+            projdat  <- data.frame(year    = rep(proj.yrs, each=(length(flts)*length(qtrs))),
+                                   #year    = rep(proj.yrs, each=(n_fisheries(x)*length(qtrs))),
                                    month   = qtrs,
                                    week    = week,
-                                   fishery = rep(rep(1:n_fisheries(x),each=length(qtrs)), nyears(ctrl)),
+                                   #fishery = rep(rep(1:n_fisheries(x),each=length(qtrs)), nyears(ctrl)),
+                                   fishery = rep(rep(flts, each=length(qtrs)), nyears(ctrl)),
                                    catch   = c(avcatch), 
                                    effort  = c(aveffort),
                                    penalty = -1.0, length=NA, weight=NA, freq=-1)
@@ -118,7 +121,7 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar"),
      effort_dev_coffs(x)   <- lapply(1:dimensions(x)["fisheries"], function(g) c(effort_dev_coffs(x)[[g]], rep(0, eff_dev_coff_incs[g])))
      
      catch_dev_coffs(x)    <- lapply(1:dimensions(x)["fisheries"], function(g) c(catch_dev_coffs(x)[[g]], 
-                                                                                 rep(0, length(rep_rate_dev_coffs(y)[[g]])-length(catch_dev_coffs(x)[[g]]))))
+                                                    rep(0, length(rep_rate_dev_coffs(y)[[g]])-length(catch_dev_coffs(x)[[g]]))))
      
      region_rec_var(x)     <- window(region_rec_var(x), start=range(x)['minyear'], end=range(y)['maxyear'])
      region_rec_var(x)[is.na(region_rec_var(x))] <- 0
