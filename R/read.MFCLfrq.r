@@ -134,7 +134,8 @@ read.MFCLLenFreq <- function(frqfile){
     # no frequency data-frame bit
     df1 <- as.data.frame(matrix(as.numeric(unlist(strsplit(lffrq[nfields==8], split="[[:blank:]]+"))), ncol=8, byrow=T)[,-8])
     colnames(df1) <- c("year", "month", "week", "fishery", "catch", "effort", "penalty")
-    df1 <- cbind(df1, length=NA, weight=NA, freq=-1)
+    if(nrow(df1)>0)
+      df1 <- cbind(df1, length=NA, weight=NA, freq=-1)
     
     # with frequency data-frame bit - array size depends if you have length or weight data
     df2      <- build.df(lffrq, arr.rows=(7+ifelse(nLbins>0,nLbins,nWbins)), nfields, frqlen, frqwt, inc=0)   
