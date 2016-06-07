@@ -63,6 +63,7 @@ write.ini <- function(x, file, append=F, ...){
   cat(c(sd_length_dep(x)), file=file, append=T)
   cat("\n# The number of mean constraints\n", file=file, append=T)
   cat(c(n_mean_constraints(x)), file=file, append=T)
+  cat("\n", file=file, append=T)
 }
 
 
