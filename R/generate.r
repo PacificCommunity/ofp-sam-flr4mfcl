@@ -52,6 +52,7 @@ setMethod("generate", signature(x="MFCLFrq", y="MFCLprojControl"),
             avdata <- freq(x)[is.element(freq(x)$year, avyrs(ctrl)) & is.na(freq(x)$length) & is.na(freq(x)$weight) ,]
             avdata <- rbind(avdata, freq(x)[is.element(freq(x)$year, avyrs(ctrl)) & freq(x)$length %in% lf_range(x)['LFFirst'] ,],
                                     freq(x)[is.element(freq(x)$year, avyrs(ctrl)) & freq(x)$weight %in% lf_range(x)['WFFirst'] ,])
+            avdata <- avdata[!duplicated(avdata[,1:7]),] # remove duplicates that can occur if you have both length and wgt freq data
             
             avdata$catch[avdata$catch == -1] <- NA
             avdata$effort[avdata$effort == -1] <- NA
