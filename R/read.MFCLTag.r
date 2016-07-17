@@ -34,7 +34,7 @@ read.MFCLTag <- function(tagfile) {
   
   mm2 <- 1
   for(mm in 1:(length(release.marker)-1)){ 
-
+    
     program      <- rev(unlist(strsplit(tagdat[release.marker[mm]+1], split="[[:blank:]]+")))[1]
     
     topdat.event <- as.numeric(unlist(strsplit(trim.leading(tagdat[release.marker[mm]+2]), split="[[:blank:]]+")))
@@ -45,9 +45,10 @@ read.MFCLTag <- function(tagfile) {
                                                      month  =topdat.event[3],
                                                      program=program,
                                                      length =release_lengths(res), 
-                                                     lendist=as.numeric(unlist(strsplit(trim.leading(tagdat[release.marker[mm]+3]), split="[[:blank:]]+")))))
+                                                     lendist=as.numeric(unlist(strsplit(trim.leading(tagdat[release.marker[mm]+3]), 
+                                                                                        split="[[:blank:]]+")))))
     
-    if(recapture.marker[mm2]<release.marker[mm+1]) {    
+    if(length(recapture.marker) >= mm2 & recapture.marker[mm2]<release.marker[mm+1]) {    
       nrows   <- min(hash.marker[hash.marker>recapture.marker[mm2] & hash.marker<release.marker[mm+1]]) - recapture.marker[mm2] - 1
 
       tempdat <-t(array(as.numeric(unlist(strsplit(trim.leading(tagdat[recapture.marker[mm2]+1:nrows]), 
