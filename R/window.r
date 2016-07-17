@@ -63,15 +63,16 @@ setMethod("window", signature(x="MFCLTag"),
               stop("Error: This method does not yet allow the extension of MFCL objects beyond their current year range")
             
             orig.rel.grps <- unique(releases(x)$rel.group)
-            max.rel.month <- max(releases(x)[releases(x)$year==range(x)['maxyear'],'month'])
+            max.rel.year  <- max(releases(x)$year)
+            max.rel.month <- max(releases(x)[releases(x)$year==max.rel.year,'month'])
             
-            # remove releases and recaptures from end year (based on release year)
-            releases(x)   <- releases(x)[releases(x)$year     %in% start:(end),]
+            # remove releases and recaptures from end (based on release year)
+            releases(x)   <- releases(x)[releases(x)$year     %in% start:(end-1),] # no rleases in final year
             # set the last release month 
-            releases(x)   <- releases(x)[!(releases(x)$year==end & releases(x)$month>max.rel.month),]
+            #releases(x)   <- releases(x)[!(releases(x)$year==end & releases(x)$month>max.rel.month),]
             
-            recaptures(x) <- recaptures(x)[recaptures(x)$year %in% start:(end),]
-            recaptures(x) <- recaptures(x)[!(recaptures(x)$year==end & recaptures(x)$month>max.rel.month),]
+            recaptures(x) <- recaptures(x)[recaptures(x)$year %in% start:(end-1),]
+            #recaptures(x) <- recaptures(x)[!(recaptures(x)$year==end & recaptures(x)$month>max.rel.month),]
             
             new.rel.grps <- unique(releases(x)$rel.group)
             
