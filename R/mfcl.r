@@ -139,6 +139,7 @@ setMFCLversion <- function(version="2015_devvsn_1.1.4.3_linux"){
   from <- paste(path, "/", version, sep="")
   
   to   <- switch(opsys,
+                 "unix"    = paste(path, "/mfclo64",     sep=""),
                  "linux"   = paste(path, "/mfclo64",     sep=""),
                  "windows" = paste(path, "/mfclo64.exe", sep=""))
   
