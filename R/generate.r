@@ -52,17 +52,19 @@ setMethod("generate", signature(x="MFCLFrq", y="MFCLprojControl"),
             avdata <- freq(x)[is.element(freq(x)$year, avyrs(ctrl)) & is.na(freq(x)$length) & is.na(freq(x)$weight) ,]
             avdata <- rbind(avdata, freq(x)[is.element(freq(x)$year, avyrs(ctrl)) & freq(x)$length %in% lf_range(x)['LFFirst'] ,],
                                     freq(x)[is.element(freq(x)$year, avyrs(ctrl)) & freq(x)$weight %in% lf_range(x)['WFFirst'] ,])
+            avdata <- avdata[!duplicated(avdata[,1:7]),] # remove duplicates that can occur if you have both length and wgt freq data
             
             avdata$catch[avdata$catch == -1] <- NA
             avdata$effort[avdata$effort == -1] <- NA
             
-            avcatch  <- sweep(tapply(avdata$catch,  list(avdata$month, avdata$fishery), sum), 2, sc_df$scaler, "*")
-            aveffort <- sweep(tapply(avdata$effort, list(avdata$month, avdata$fishery), sum), 2, sc_df$scaler, "*")
+            flts     <- as.numeric(colnames(tapply(avdata$catch,  list(avdata$month, avdata$fishery), sum)))
+            avcatch  <- sweep(tapply(avdata$catch,  list(avdata$month, avdata$fishery), sum), 2, sc_df$scaler[flts], "*")
+            aveffort <- sweep(tapply(avdata$effort, list(avdata$month, avdata$fishery), sum), 2, sc_df$scaler[flts], "*")
             
-            projdat  <- data.frame(year    = rep(proj.yrs, each=(n_fisheries(x)*length(qtrs))),
+            projdat  <- data.frame(year    = rep(proj.yrs, each=(length(flts)*length(qtrs))),
                                    month   = qtrs,
                                    week    = week,
-                                   fishery = rep(rep(1:n_fisheries(x),each=length(qtrs)), nyears(ctrl)),
+                                   fishery = rep(rep(flts, each=length(qtrs)), nyears(ctrl)),
                                    catch   = c(avcatch), 
                                    effort  = c(aveffort),
                                    penalty = -1.0, length=NA, weight=NA, freq=-1)
@@ -117,8 +119,11 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar"),
      eff_dev_coff_incs     <- unlist(lapply(effort_dev_coffs(y),length)) - unlist(lapply(effort_dev_coffs(x),length))
      effort_dev_coffs(x)   <- lapply(1:dimensions(x)["fisheries"], function(g) c(effort_dev_coffs(x)[[g]], rep(0, eff_dev_coff_incs[g])))
      
-     catch_dev_coffs(x)    <- lapply(1:dimensions(x)["fisheries"], function(g) c(catch_dev_coffs(x)[[g]], 
-                                                                                 rep(0, length(rep_rate_dev_coffs(y)[[g]])-length(catch_dev_coffs(x)[[g]]))))
+#     catch_dev_coffs(x)    <- lapply(1:dimensions(x)["fisheries"], function(g) c(catch_dev_coffs(x)[[g]], 
+#                                                    rep(0, length(rep_rate_dev_coffs(y)[[g]])-length(catch_dev_coffs(x)[[g]]))))
+     
+     catch_dev_coffs(x)    <- lapply(1:length(catch_dev_coffs(x)), 
+                                     function(g) c(catch_dev_coffs(x)[[g]], rep(0, length(proj.yrs)*dimensions(x)['seasons'])))
      
      region_rec_var(x)     <- window(region_rec_var(x), start=range(x)['minyear'], end=range(y)['maxyear'])
      region_rec_var(x)[is.na(region_rec_var(x))] <- 0

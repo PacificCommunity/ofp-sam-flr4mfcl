@@ -29,23 +29,25 @@ write.par <- function(x, file, append=F, ...){
   cat("\n \n# fish flags \n",                 file=file, append=T)
   write.table(t(matrix(flags(x)[is.element(flags(x)$flagtype, -1:-dimensions(x)['fisheries']),'value'], 
                        ncol=dimensions(x)['fisheries'])), row.names=F, col.names=F, file=file, append=T)
-  cat("# tag flags\n",                       file=file, append=T)  
-  write.table(t(matrix(flags(x)[is.element(flags(x)$flagtype, -10000:-(10000+dimensions(x)["taggrps"]-1)),'value'], 
-                       ncol=dimensions(x)['taggrps'])), row.names=F, col.names=F, file=file, append=T)
+  if(!all(is.na(flags(x)[is.element(flags(x)$flagtype, -10000:-(10000+dimensions(x)["taggrps"]-1)),'value']))){
+    cat("# tag flags\n",                       file=file, append=T)  
+    write.table(t(matrix(flags(x)[is.element(flags(x)$flagtype, -10000:-(10000+dimensions(x)["taggrps"]-1)),'value'], 
+                         ncol=dimensions(x)['taggrps'])), row.names=F, col.names=F, file=file, append=T)
   
-  cat("# tag fish rep\n",  file=file, append=T)  
-  write.table(tag_fish_rep_rate(x), row.names=F, col.names=F, file=file, append=T)
+    cat("# tag fish rep\n",  file=file, append=T)  
+    write.table(tag_fish_rep_rate(x), row.names=F, col.names=F, file=file, append=T)
   
-  cat("\n# tag fish rep group flags\n", file=file, append=T)  
-  write.table(tag_fish_rep_grp(x),  row.names=F, col.names=F, file=file, append=T)
+    cat("\n# tag fish rep group flags\n", file=file, append=T)  
+    write.table(tag_fish_rep_grp(x),  row.names=F, col.names=F, file=file, append=T)
   
-  cat("# tag_fish_rep active flags \n", file=file, append=T)  
-  write.table(tag_fish_rep_flags(x), row.names=F, col.names=F, file=file, append=T)
+    cat("# tag_fish_rep active flags \n", file=file, append=T)  
+    write.table(tag_fish_rep_flags(x), row.names=F, col.names=F, file=file, append=T)
   
-  cat("# tag_fish_rep target\n", file=file, append=T)  
-  write.table(tag_fish_rep_target(x), row.names=F, col.names=F, file=file, append=T)
+    cat("# tag_fish_rep target\n", file=file, append=T)  
+    write.table(tag_fish_rep_target(x), row.names=F, col.names=F, file=file, append=T)
   
-  cat("\n# tag_fish_rep penalty\n", file=file, append=T); write.table(tag_fish_rep_pen(x), row.names=F, col.names=F, file=file, append=T)  
+    cat("\n# tag_fish_rep penalty\n", file=file, append=T); write.table(tag_fish_rep_pen(x), row.names=F, col.names=F, file=file, append=T)  
+  }
   cat("\n# region control flags \n",file=file, append=T); write.table(control_flags(x), row.names=F, col.names=F, file=file, append=T)  
   cat("\n# percent maturity  \n",   file=file, append=T); cat(float(as.vector(aperm(mat(x), c(4,1,2,3,5,6)))), file=file, append=T)
   

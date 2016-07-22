@@ -47,8 +47,10 @@ read.MFCLIni <- function(inifile, first.yr=1972, nseasons=4) {
                                                dim=c(nseasons,nages/nseasons,1,1,1)),c(2,3,4,1,5)), dimnames=dims_age)
   slot(res, 'move_map')   <- as.numeric(splitter(par, '# movement map'))
 #  slot(res, 'diff_coffs') <- as.array(matrix(as.numeric(splitter(par, '# diffusion coffs', 1:(max(c(nregions-1,1))))),nrow=max(c(nregions-1,1)), byrow=T))
+#  slot(res, 'diff_coffs') <- as.array(matrix(as.numeric(splitter(par, '# diffusion coffs', 1:(max(c(length(slot(res,'move_map'))),1)))),nrow=max(c(nregions-1,1)), byrow=T))
   slot(res, 'diff_coffs') <- as.array(matrix(as.numeric(splitter(par, '# diffusion coffs', 1:(max(c(length(slot(res,'move_map'))),1)))),
-                                             nrow=max(c(nregions-1,1)), byrow=T))
+                                             nrow=length(slot(res,"move_map")), byrow=T))
+  
   slot(res, 'age_pars')   <- as.array(matrix(as.numeric(splitter(par, '# age_pars', 1:10)), nrow=10, byrow=T))
   slot(res, 'rec_dist')   <- as.numeric(splitter(par, '# recruitment distribution'))
   slot(res, 'growth')     <- t(array(as.numeric(splitter(par, '# The von Bertalanffy', c(3,5,7))), 

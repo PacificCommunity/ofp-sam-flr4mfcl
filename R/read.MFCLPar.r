@@ -40,8 +40,8 @@ read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
   nyears   <- length(splitter(par, "# Cohort specific growth deviations"))
   nagecls  <- as.numeric(par[grep("# The number of age classes", par)+1])
   
-  nfish    <- grep("# tag flags", par) - grep("# fish flags", par)[1] -1
-  ntaggrps <- grep("# tag fish rep", par)[1] - grep("# tag flags", par) -1
+  nfish    <- length(splitter(par, "# q0_miss")) #grep("# tag flags", par) - grep("# fish flags", par)[1] -1
+  ntaggrps <- max(grep("# tag fish rep", par)[1] - grep("# tag flags", par) -1, 0)
   nregions <- length(splitter(par, "# region parameters"))
   
   dims_age        <- dimnames(FLQuant(quant="age"))
@@ -192,6 +192,9 @@ read.MFCLTagRep <- function(parfile, parobj=NULL, first.yr=1972) {
   if(!is.null(parobj))
     par <- parobj
   
+  if(length(grep("# tag fish rep", par))==0)  # if there's no tag data just return without doing anything
+    return(res)
+    
   nfish    <- length(splitter(par, '# tag fish rep', 1))
   
   slot(res, 'tag_fish_rep_rate') <- t(array(as.numeric(splitter(par, "# tag fish rep", 1:(nlines(par, "# tag fish rep")))), 
@@ -396,7 +399,7 @@ read.MFCLSel <- function(parfile, parobj=NULL, first.yr=1972) {
   nseasons <- length(splitter(par, "# season_flags"))
   nregions <- length(splitter(par,"# region parameters"))
   nagecls  <- as.numeric(par[grep("# The number of age classes", par)+1])  
-  nfish    <- grep("# tag flags", par) - grep("# fish flags", par)[1] -1
+  nfish    <- length(splitter(par, "# q0_miss")) #grep("# tag flags", par) - grep("# fish flags", par)[1] -1
   nqgroups <- max(array(as.numeric(splitter(par, "# fish flags",1:nfish)),dim=c(100,nfish))[29,], na.rm=T) #max value of fishf lag 29
   
   dims1    <- list(age=as.character(seq(0,(nagecls/nseasons)-1)), year='all', unit='unique', season=c(as.character(1:nseasons)), area='all')
@@ -446,7 +449,8 @@ read.MFCLSel <- function(parfile, parobj=NULL, first.yr=1972) {
     switch(as.character(version),
            '1046' = matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:20)), ncol=nfish, byrow=T),
            '1049' = matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:20)), ncol=nfish, byrow=T),
-           '1050' = matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:50)), ncol=nfish, byrow=T))
+           '1050' = matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:50)), ncol=nfish, byrow=T),
+           '1051' = matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:50)), ncol=nfish, byrow=T))
   }
   slot(res, 'fish_params')   <- getfishparms(par, parversion)
     
