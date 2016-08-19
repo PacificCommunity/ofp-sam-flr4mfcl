@@ -103,7 +103,7 @@ read.MFCLLenFreq <- function(frqfile){
     df   <- apply(mat[,1:7],2,rep,each=arr.rows-(7+inc))
     colnames(df) <- c("year", "month", "week", "fishery", "catch", "effort", "penalty")    
     #df   <- cbind(df, length=frqlen, weight=frqwt, freq=as.vector(t(mat[,(min(nfields)-inc2):(arr.rows-inc3)])))     
-    df   <- cbind(df, length=frqlen, weight=frqwt, freq=as.vector(t(mat[,(7-inc2):(arr.rows-inc3)])))     
+    df   <- cbind(df, length=frqlen, weight=frqwt, freq=as.vector(t(mat[,(8-inc2):(arr.rows-inc3)])))     
     return(df)
   }
   
