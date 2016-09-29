@@ -25,10 +25,10 @@ write.stat <- function(x, file, append=F, ...){
   write.table(move_matrix(x), file=file, append=T, col.names=F, row.names=F, na=" ")
   cat("#\n# \n# Data flags (for records 1, 0=catch in number; 1=catch in weight) \n", file=file, append=T)
   write.table(data_flags(x), file=file, append=T, col.names=F, row.names=F)
-  if(n_regions(x)>1){
+#  if(n_regions(x)>1){
     cat("# Season-region flags \n", file=file, append=T)
     write.table(season_flags(x), file=file, append=T, col.names=F, row.names=F)
-  }
+#  }
   cat("# Number of movements per year \n", file=file, append=T)
   cat(paste(n_move_yr(x), "\n"), file=file, append=T)
   cat("# Weeks in which movement occurs \n", file=file, append=T)

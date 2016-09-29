@@ -56,9 +56,10 @@ read.MFCLFrqStats <- function(frqfile){
       dat <- as.numeric(unlist(strsplit(frq[line+i], split=" ")))[!is.na(as.numeric(unlist(strsplit(frq[line+i], split=" "))))]
       res@move_matrix[i,(i+1):res@n_regions] <- dat
     }
-    line <- grep("Season-region flags", frq)
-    res@season_flags <- matrix(as.numeric(unlist(strsplit(frq[line+1:res@n_recs_yr], split=" "))), nrow=res@n_recs_yr, ncol=res@n_regions, byrow=T)
   }
+  line <- grep("Season-region flags", frq)
+  res@season_flags <- matrix(as.numeric(unlist(strsplit(frq[line+1:res@n_recs_yr], split=" "))), nrow=res@n_recs_yr, ncol=res@n_regions, byrow=T)
+  
     
 #  line <- grep("Data flags", frq)
 #  res@data_flags <- matrix(as.numeric(unlist(strsplit(frq[line+1:5], split=" "))),nrow=5, ncol=res@n_fisheries, byrow=T)
