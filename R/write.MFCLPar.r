@@ -195,8 +195,12 @@ write.par <- function(x, file, append=F, ...){
   
   cat(paste("\n# The grouped_catch_dev_coffs flag \n", catch_dev_coffs_flag(x)),  file=file, append=T)   
   
-  cat("\n# The grouped_catch_dev_coffs \n",   file=file, append=T) 
-  cat(unlist(lapply(lapply(catch_dev_coffs(x), paste, collapse=' '), paste, '\n')), file=file, append=T)
+  if(!all(is.na(catch_dev_coffs(x)))){
+    cat("\n# The grouped_catch_dev_coffs \n",   file=file, append=T) 
+    cat(unlist(lapply(lapply(catch_dev_coffs(x), paste, collapse=' '), paste, '\n')), file=file, append=T)
+  }
+  
+  cat("\n ", file=file, append=T)
   
 #  cat(paste("\n \n# Objective function value \n", obj_fun(x)),  file=file, append=T) 
 #  cat(paste("\n# The number of parameters \n",    n_pars(x)),   file=file, append=T) 
