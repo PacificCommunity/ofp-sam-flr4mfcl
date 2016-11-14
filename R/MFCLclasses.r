@@ -455,7 +455,8 @@ setClass("MFCLParBits",
            av_fish_mort_age     = "numeric",
            logistic_normal_params = "character",
            lagrangian             = "character",
-           range                = "numeric"
+           range                = "numeric",
+           historic_flags       = "character"
          ),
          prototype=prototype(
            fm_level_devs        = character(),
@@ -469,7 +470,8 @@ setClass("MFCLParBits",
            av_fish_mort_age     = numeric(),
            logistic_normal_params = character(),
            lagrangian             = character(),
-           range                = unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
+           range                = unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1)),
+           historic_flags       = character()
          ),
          validity=validMFCLParBits
 )

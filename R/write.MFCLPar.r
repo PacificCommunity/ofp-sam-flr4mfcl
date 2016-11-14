@@ -202,6 +202,12 @@ write.par <- function(x, file, append=F, ...){
   
   cat("\n ", file=file, append=T)
   
+  cat("# Historical_flags  \n", file=file, append=T)
+
+  cat(paste(slot(x, 'historic_flags'),"\n"), file=file, append=T)
+  
+  #writeLines(slot(x, 'historic_flags'), file=file, append=T)  
+  
 #  cat(paste("\n \n# Objective function value \n", obj_fun(x)),  file=file, append=T) 
 #  cat(paste("\n# The number of parameters \n",    n_pars(x)),   file=file, append=T) 
 #  cat(paste("\n# Likelihood component for tags ", tag_lik(x)),  file=file, append=T) 

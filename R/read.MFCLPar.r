@@ -514,6 +514,9 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972, version='new')
     slot(res, 'logistic_normal_params') <- par[(grep("# The logistic normal parameters", par)+1):(grep("# The logistic normal parameters", par)+6)]
     slot(res, 'lagrangian') <- par[(grep("# Lambdas for augmented Lagrangian", par)+1):(grep("# Reporting rate dev coffs", par)-1)]
   }
+  
+  slot(res, 'historic_flags') <- par[(grep("# Historical_flags", par)+1):length(par)]
+    
   return(res)
 }
 
