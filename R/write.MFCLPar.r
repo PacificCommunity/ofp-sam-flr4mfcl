@@ -57,7 +57,8 @@ write.par <- function(x, file, append=F, ...){
   cat(paste("\n# recruitment times    \n", paste(rec_times(x), collapse=" ")),  file=file, append=T) 
   
   cat("\n# relative recruitment \n",   file=file, append=T) 
-  cat(formatC(as.vector(aperm(rel_rec(x), c(4,2,1,3,5,6))),format="e", digits=12), file=file, append=T)
+  #cat(formatC(as.vector(aperm(rel_rec(x), c(4,2,1,3,5,6))),format="e", digits=12), file=file, append=T)
+  cat(formatC(as.vector(aperm(rel_rec(x), c(4,2,1,3,5,6)))[-1],format="e", digits=12), file=file, append=T) # drop the first because it is now an NA
   
   cat("\n# Lambdas for augmented Lagrangian \n", file=file, append=T)
   cat(unlist(lapply(lagrangian(x), paste, "\n")), file=file, append=T)

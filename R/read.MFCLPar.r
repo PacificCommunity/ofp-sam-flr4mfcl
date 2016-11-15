@@ -263,7 +263,9 @@ read.MFCLRec <- function(parfile, parobj=NULL, first.yr=1972) {
   dims2$year  <- as.character(first.yr)
   dims2$area  <- as.character(1:nregions)
   
-  rel_rec <- array(as.numeric(splitter(par, "# relative recruitment")),dim=c(nseasons, nyears/nseasons, 1,1,1,1))
+  #rel_rec <- array(     as.numeric(splitter(par, "# relative recruitment")),dim=c(nseasons, nyears/nseasons, 1,1,1,1))
+  rel_rec <- array(c(NA, as.numeric(splitter(par, "# relative recruitment")),dim=c(nseasons, nyears/nseasons, 1,1,1,1)))
+  
   rel_ini <- array(as.numeric(splitter(par, "# relative initial population", 1:nregions)),dim=c(nregions, nagecls-1))
   
   slot(res, "rec_init_pop_diff") <- as.numeric(par[grep("# rec init pop level difference", par)+1])
