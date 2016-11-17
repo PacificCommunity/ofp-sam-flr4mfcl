@@ -48,7 +48,10 @@ write.par <- function(x, file, append=F, ...){
   
     cat("\n# tag_fish_rep penalty\n", file=file, append=T); write.table(tag_fish_rep_pen(x), row.names=F, col.names=F, file=file, append=T)  
   }
-  cat("\n# region control flags \n",file=file, append=T); write.table(control_flags(x), row.names=F, col.names=F, file=file, append=T)  
+  cat("\n# region control flags \n",file=file, append=T); #write.table(control_flags(x), row.names=F, col.names=F, file=file, append=T)  
+  write.table(t(array(flagval(x, -100000:-100009,1:dimensions(x)["regions"])$value, dim=c(dimensions(x)["regions"], 10))), 
+              col.names=F, row.names=F, file=file, append=T)
+  
   cat("\n# percent maturity  \n",   file=file, append=T); cat(float(as.vector(aperm(mat(x), c(4,1,2,3,5,6)))), file=file, append=T)
   
   cat(paste("\n# total populations scaling parameter   \n", tot_pop(x)),  file=file, append=T) 
