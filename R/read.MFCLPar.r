@@ -449,6 +449,7 @@ read.MFCLSel <- function(parfile, parobj=NULL, first.yr=1972) {
   
   getfishparms <- function(xx, version){
     switch(as.character(version),
+           '1042' = matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:20)), ncol=nfish, byrow=T),
            '1046' = matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:20)), ncol=nfish, byrow=T),
            '1049' = matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:20)), ncol=nfish, byrow=T),
            '1050' = matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:50)), ncol=nfish, byrow=T),
@@ -517,7 +518,8 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972, version='new')
     slot(res, 'lagrangian') <- par[(grep("# Lambdas for augmented Lagrangian", par)+1):(grep("# Reporting rate dev coffs", par)-1)]
   }
   
-  slot(res, 'historic_flags') <- par[(grep("# Historical_flags", par)+1):length(par)]
+  if(length(grep("# Historical_flags", par))>0)
+    slot(res, 'historic_flags') <- par[(grep("# Historical_flags", par)+1):length(par)]
     
   return(res)
 }
