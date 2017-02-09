@@ -46,6 +46,14 @@ setReplaceMethod('flagval', signature(x='MFCLPar'),
 #'@export steepness
 setGeneric('steepness', function(x) standardGeneric('steepness'))
 setMethod('steepness', signature(x='MFCLIni'), function(x) return(slot(x, 'sv')))
+setMethod('steepness', signature(x='MFCLPar'), function(x) return(slot(x, 'season_growth_pars')[29]))
 
 setGeneric('steepness<-', function(x, value) standardGeneric('steepness<-'))
 setReplaceMethod('steepness', signature(x='MFCLIni'), function(x, value){slot(x, 'sv') <- value; return(x)})
+setReplaceMethod('steepness', signature(x='MFCLPar'), function(x, value){slot(x, 'season_growth_pars')[29] <- value; return(x)})
+
+#'@export lw_params
+setMethod('lw_params', signature(object='MFCLPar'), function(object) return(slot(object, 'season_growth_pars')[27:28]))
+setReplaceMethod('lw_params', signature(object='MFCLPar'), function(object, value){slot(object, 'season_growth_pars')[27:28] <- value; return(x)})
+
+
