@@ -43,13 +43,22 @@ read.MFCLRep <- function(repfile) {
   dnms4 <- list(age='all', year=range(res)['minyear']+c(1:((length(splitter(pp, "# Observed spawning Biomass"))+1)/dimensions(res)['seasons']))-1, unit='unique', season=1:dimensions(res)['seasons'], area='all')
   dnms4a<- list(age='all', year=range(res)['minyear']:range(res)['maxyear'], unit='unique', season='all', area='unique')
   dnms5 <- dnms2; dnms5$age <- 1:dimensions(res)['agecls']
-  dnms6 <- list(age='all', year=range(res)['minyear']:range(res)["maxyear"], unit=1:dimensions(res)['fisheries'], season=1:dimensions(res)['seasons'], area='all')
+  dnms6 <- list(age='all', year=range(res)['minyear']:range(res)["maxyear"], unit=1:dimensions(res)['fisheries'], season=1:dimensions(res)['seasons'], area='unique')
   
-  # fishery realisations - incomplete (to come back to later when it's important)
+  
+  # fishery realisations 
   temp <- pp[(grep("# Time of each realization by fishery", pp)+1):(grep("# Time of each realization by fishery", pp)+dimensions(res)['fisheries'])]
   temp2<- lapply(temp, function(xx){as.numeric(unlist(strsplit(trim.leading(xx), split="[[:blank:]]+")))})
-  fishery_realizations(res) <- FLQuant(FALSE, dimnames=list(age='all', year=as.character(range(res)['minyear']:range(res)['maxyear']), 
-                                                            unit=as.character(1:dimensions(res)['fisheries']), season=as.character(1:dimensions(res)['seasons'])))
+  if(dimensions(res)['seasons']==4)
+    fish.real <- rep(range(res)['minyear']:range(res)['maxyear'], each=4)+(1/8)*c(1,3,5,7)
+  
+  fishery_realizations(res) <- FLQuant(NA, dimnames=dnms6)
+  
+  for(ff in 1:dimensions(res)['fisheries']){
+    fishery_realizations(res)[,,ff,,,] <- aperm(array(fish.real %in% temp2[[ff]], 
+                                                      dim=c(dimensions(res)['seasons'],dimensions(res)['years']/dimensions(res)['seasons'],1,1,1,1)), 
+                                                c(3,2,4,1,5,6))}
+  
   # mean length at age
   mean_laa(res) <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Mean lengths at age")),
                                        dim=c(dimensions(res)['seasons'], (range(res)['max']-range(res)['min']+1), 1,1,1)), c(2,3,4,1,5)), dimnames=dnms1 )
