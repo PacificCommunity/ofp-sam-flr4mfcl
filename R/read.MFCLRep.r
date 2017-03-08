@@ -41,6 +41,7 @@ read.MFCLRep <- function(repfile) {
   dnms2 <- list(age='all', year=range(res)['minyear']:range(res)["maxyear"], unit='unique', season=1:dimensions(res)['seasons'], area=1:dimensions(res)['regions'])
   dnms3 <- list(age=1:dimensions(res)['agecls'], year='all', unit=1:dimensions(res)['fisheries'], season='all', area='all')
   dnms4 <- list(age='all', year=range(res)['minyear']+c(1:((length(splitter(pp, "# Observed spawning Biomass"))+1)/dimensions(res)['seasons']))-1, unit='unique', season=1:dimensions(res)['seasons'], area='all')
+  dnms4a<- list(age='all', year=range(res)['minyear']:range(res)['maxyear'], unit='unique', season='all', area='unique')
   dnms5 <- dnms2; dnms5$age <- 1:dimensions(res)['agecls']
   dnms6 <- list(age='all', year=range(res)['minyear']:range(res)["maxyear"], unit=1:dimensions(res)['fisheries'], season=1:dimensions(res)['seasons'], area='all')
   
@@ -85,10 +86,16 @@ read.MFCLRep <- function(repfile) {
   
 
   if(length(grep("# Observed spawning Biomass", pp))>0) {
-    yrs_orig  <- (length(splitter(pp, "# Observed spawning Biomass"))+1)/dimensions(res)['seasons']
-    ssb(res)  <- FLQuant(aperm(array(c(NA,as.numeric(splitter(pp, "# Observed spawning Biomass"))),c(dimensions(res)['seasons'],yrs_orig,1,1,1)), c(3,2,4,1,5)), dimnames=dnms4)
-    rec(res)  <- FLQuant(aperm(array(c(NA,as.numeric(splitter(pp, "# Observed recruitment"))),     c(dimensions(res)['seasons'],yrs_orig,1,1,1)), c(3,2,4,1,5)), dimnames=dnms4)
-
+    #yrs_orig  <- (length(splitter(pp, "# Observed spawning Biomass"))+1)/dimensions(res)['seasons']
+    
+    if(length(splitter(pp, "# Observed spawning Biomass"))==dimensions(res)['years']){
+      ssb(res)  <- FLQuant(aperm(array(c(NA,as.numeric(splitter(pp, "# Observed spawning Biomass"))),c(dimensions(res)['seasons'],dimensions(res)['years'],1,1,1)), c(3,2,4,1,5)), dimnames=dnms4)
+      rec(res)  <- FLQuant(aperm(array(c(NA,as.numeric(splitter(pp, "# Observed recruitment"))),     c(dimensions(res)['seasons'],dimensions(res)['years'],1,1,1)), c(3,2,4,1,5)), dimnames=dnms4)
+    }
+    if(length(splitter(pp, "# Observed spawning Biomass"))==dimensions(res)['years']/dimensions(res)['seasons']){
+      ssb(res)  <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Observed spawning Biomass")),c(1,dimensions(res)['years']/dimensions(res)['seasons'],1,1,1)), c(3,2,4,1,5)), dimnames=dnms4a)
+      rec(res)  <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Observed recruitment")),     c(1,dimensions(res)['years']/dimensions(res)['seasons'],1,1,1)), c(3,2,4,1,5)), dimnames=dnms4a)
+    }
   
     srr(res)  <- FLPar(suppressWarnings(as.numeric(splitter(pp, "# Beverton-Holt")))[!is.na(suppressWarnings(as.numeric(splitter(pp, "# Beverton-Holt"))))],
                        params=c('a','b', 'steepness'))

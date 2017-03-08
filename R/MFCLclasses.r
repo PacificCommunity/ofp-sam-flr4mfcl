@@ -455,7 +455,8 @@ setClass("MFCLParBits",
            av_fish_mort_age     = "numeric",
            logistic_normal_params = "character",
            lagrangian             = "character",
-           range                = "numeric"
+           range                = "numeric",
+           historic_flags       = "character"
          ),
          prototype=prototype(
            fm_level_devs        = character(),
@@ -469,7 +470,8 @@ setClass("MFCLParBits",
            av_fish_mort_age     = numeric(),
            logistic_normal_params = character(),
            lagrangian             = character(),
-           range                = unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
+           range                = unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1)),
+           historic_flags       = character()
          ),
          validity=validMFCLParBits
 )
@@ -764,5 +766,47 @@ remove(validMFCLCatch)
 #'Basic constructor for MFCLCatch class
 #'@export
 MFCLCatch <- function() {return(new("MFCLCatch"))}
+
+
+
+
+########################
+##
+## MFCL diagnostics output classes
+##
+########################
+
+
+###### CLASSS MFCLLenFit
+
+validMFCLLenFit <- function(object){
+  #Everything is fine
+  return(TRUE)
+}
+setClass("MFCLLenFit",
+         representation(
+           laa                 ="FLQuant",
+           lenfits             ="data.frame",
+           lenagefits          ="data.frame",
+           range               ="numeric"
+         ),
+         prototype=prototype(
+           laa                 =FLQuant(),
+           lenfits             =data.frame(fishery=NULL, year=NULL, month=NULL, length=NULL, obs=NULL, pred=NULL),
+           lenagefits          =data.frame(fishery=NULL, year=NULL, month=NULL, length=NULL, age=NULL, pred=NULL), 
+           range               =unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
+         ),
+         validity=validMFCLLenFit
+)
+setValidity("MFCLLenFit", validMFCLLenFit)
+remove(validMFCLLenFit)
+#'MFCLLenFit
+#'
+#'Basic constructor for MFCLCatch class
+#'@export
+MFCLLenFit <- function() {return(new("MFCLLenFit"))}
+
+
+
 
 

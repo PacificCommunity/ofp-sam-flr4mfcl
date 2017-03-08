@@ -48,7 +48,10 @@ write.par <- function(x, file, append=F, ...){
   
     cat("\n# tag_fish_rep penalty\n", file=file, append=T); write.table(tag_fish_rep_pen(x), row.names=F, col.names=F, file=file, append=T)  
   }
-  cat("\n# region control flags \n",file=file, append=T); write.table(control_flags(x), row.names=F, col.names=F, file=file, append=T)  
+  cat("\n# region control flags \n",file=file, append=T); #write.table(control_flags(x), row.names=F, col.names=F, file=file, append=T)  
+  write.table(t(array(flagval(x, -100000:-100009,1:dimensions(x)["regions"])$value, dim=c(dimensions(x)["regions"], 10))), 
+              col.names=F, row.names=F, file=file, append=T)
+  
   cat("\n# percent maturity  \n",   file=file, append=T); cat(float(as.vector(aperm(mat(x), c(4,1,2,3,5,6)))), file=file, append=T)
   
   cat(paste("\n# total populations scaling parameter   \n", tot_pop(x)),  file=file, append=T) 
@@ -57,7 +60,8 @@ write.par <- function(x, file, append=F, ...){
   cat(paste("\n# recruitment times    \n", paste(rec_times(x), collapse=" ")),  file=file, append=T) 
   
   cat("\n# relative recruitment \n",   file=file, append=T) 
-  cat(formatC(as.vector(aperm(rel_rec(x), c(4,2,1,3,5,6))),format="e", digits=12), file=file, append=T)
+  #cat(formatC(as.vector(aperm(rel_rec(x), c(4,2,1,3,5,6))),format="e", digits=12), file=file, append=T)
+  cat(formatC(as.vector(aperm(rel_rec(x), c(4,2,1,3,5,6)))[-1],format="e", digits=12), file=file, append=T) # drop the first because it is now an NA
   
   cat("\n# Lambdas for augmented Lagrangian \n", file=file, append=T)
   cat(unlist(lapply(lagrangian(x), paste, "\n")), file=file, append=T)
@@ -201,6 +205,12 @@ write.par <- function(x, file, append=F, ...){
   }
   
   cat("\n ", file=file, append=T)
+  
+  cat("# Historical_flags  \n", file=file, append=T)
+
+  cat(paste(slot(x, 'historic_flags'),"\n"), file=file, append=T)
+  
+  #writeLines(slot(x, 'historic_flags'), file=file, append=T)  
   
 #  cat(paste("\n \n# Objective function value \n", obj_fun(x)),  file=file, append=T) 
 #  cat(paste("\n# The number of parameters \n",    n_pars(x)),   file=file, append=T) 

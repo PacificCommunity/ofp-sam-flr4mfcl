@@ -17,6 +17,7 @@ export(
   "MFCLTag",
   "MFCLprojControl",
   "MFCLCatch",
+  "MFCLLenFit",
   "read.MFCLBiol",
   "read.MFCLFlags",
   "read.MFCLFrq",
@@ -32,6 +33,7 @@ export(
   "read.MFCLTag",
   "read.MFCLTagRep",
   "read.MFCLCatch",
+  "read.MFCLLenFit",
   "write.simNumAge",
   "check.mfcl.cfg",
   "setMFCLversion",
@@ -57,7 +59,8 @@ exportClasses(
   "MFCLTagRep",
   "MFCLTag",
   "MFCLprojControl",
-  'MFCLCatch'
+  'MFCLCatch',
+  'MFCLLenFit'
 )
 exportMethods(
   "adultBiomass",
@@ -159,10 +162,16 @@ exportMethods(
   "growth_var_pars<-",
   "ini_q_coffs",
   "ini_q_coffs<-",
+  "laa",
+  "laa<-",
   "lagrangian",
   "lagrangian<-",
   "len_bias_pars",
   "len_bias_pars<-",
+  "lenagefits",
+  "lenagefits<-",
+  "lenfits",
+  "lenfits<-",
   "lf_range",
   "lf_range<-",
   "log_m",

@@ -1364,4 +1364,45 @@ setReplaceMethod('range', signature(object='MFCLCatch', value=unname(getSlots('M
                  function(object, value){slot(object, 'range') <- value; return(object)}) 
 
 
+#############################################################################################################
+# class  MFCLLenFit
+#'laa
+#'@export laa
+setGeneric('laa', function(object, ...) standardGeneric('laa'))
+setMethod('laa', signature('MFCLLenFit'), function(object) return(slot(object, 'laa')))
+#'laa
+#'@export
+setGeneric('laa<-', function(object, ..., value) standardGeneric('laa<-'))
+setReplaceMethod('laa', signature(object='MFCLLenFit', value=unname(getSlots('MFCLLenFit')['laa'])), 
+                 function(object, value){slot(object, 'laa') <- value; return(object)})
+
+#'lenfits
+#'@export lenfits
+setGeneric('lenfits', function(object, ...) standardGeneric('lenfits'))
+setMethod('lenfits', signature('MFCLLenFit'), function(object) return(slot(object, 'lenfits')))
+#'lenfits
+#'@export
+setGeneric('lenfits<-', function(object, ..., value) standardGeneric('lenfits<-'))
+setReplaceMethod('lenfits', signature(object='MFCLLenFit', value=unname(getSlots('MFCLLenFit')['lenfits'])), 
+                 function(object, value){slot(object, 'lenfits') <- value; return(object)})
+
+#'lenagefits
+#'@export lenagefits
+setGeneric('lenagefits', function(object, ...) standardGeneric('lenagefits'))
+setMethod('lenagefits', signature('MFCLLenFit'), function(object) return(slot(object, 'lenagefits')))
+#'lenagefits
+#'@export
+setGeneric('lenagefits<-', function(object, ..., value) standardGeneric('lenagefits<-'))
+setReplaceMethod('lenagefits', signature(object='MFCLLenFit', value=unname(getSlots('MFCLLenFit')['lenagefits'])), 
+                 function(object, value){slot(object, 'lenagefits') <- value; return(object)})
+
+#'range
+#'@export range
+setMethod('range', signature(x='MFCLLenFit'),function(x) return(slot(x,'range'))) 
+#'range
+#'@export range<- 
+#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
+setReplaceMethod('range', signature(object='MFCLLenFit', value=unname(getSlots('MFCLLenFit')['range'])),
+                 function(object, value){slot(object, 'range') <- value; return(object)}) 
+
 

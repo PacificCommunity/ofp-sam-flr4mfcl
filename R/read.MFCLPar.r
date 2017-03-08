@@ -263,7 +263,9 @@ read.MFCLRec <- function(parfile, parobj=NULL, first.yr=1972) {
   dims2$year  <- as.character(first.yr)
   dims2$area  <- as.character(1:nregions)
   
-  rel_rec <- array(as.numeric(splitter(par, "# relative recruitment")),dim=c(nseasons, nyears/nseasons, 1,1,1,1))
+  #rel_rec <- array(     as.numeric(splitter(par, "# relative recruitment")),dim=c(nseasons, nyears/nseasons, 1,1,1,1))
+  rel_rec <- array(c(NA, as.numeric(splitter(par, "# relative recruitment"))),dim=c(nseasons, nyears/nseasons, 1,1,1,1))
+  
   rel_ini <- array(as.numeric(splitter(par, "# relative initial population", 1:nregions)),dim=c(nregions, nagecls-1))
   
   slot(res, "rec_init_pop_diff") <- as.numeric(par[grep("# rec init pop level difference", par)+1])
@@ -447,6 +449,7 @@ read.MFCLSel <- function(parfile, parobj=NULL, first.yr=1972) {
   
   getfishparms <- function(xx, version){
     switch(as.character(version),
+           '1042' = matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:20)), ncol=nfish, byrow=T),
            '1046' = matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:20)), ncol=nfish, byrow=T),
            '1049' = matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:20)), ncol=nfish, byrow=T),
            '1050' = matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:50)), ncol=nfish, byrow=T),
@@ -514,6 +517,10 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972, version='new')
     slot(res, 'logistic_normal_params') <- par[(grep("# The logistic normal parameters", par)+1):(grep("# The logistic normal parameters", par)+6)]
     slot(res, 'lagrangian') <- par[(grep("# Lambdas for augmented Lagrangian", par)+1):(grep("# Reporting rate dev coffs", par)-1)]
   }
+  
+  if(length(grep("# Historical_flags", par))>0)
+    slot(res, 'historic_flags') <- par[(grep("# Historical_flags", par)+1):length(par)]
+    
   return(res)
 }
 
