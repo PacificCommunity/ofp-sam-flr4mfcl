@@ -1,4 +1,7 @@
 export(
+  "availableMFCLversions",
+  "check.mfcl.cfg",
+  "getMFCLversion",
   "MFCLBase",
   "MFCLBiol",
   "MFCLFlags",
@@ -18,6 +21,7 @@ export(
   "MFCLprojControl",
   "MFCLCatch",
   "MFCLLenFit",
+  "qts",
   "read.MFCLBiol",
   "read.MFCLFlags",
   "read.MFCLFrq",
@@ -34,12 +38,9 @@ export(
   "read.MFCLTagRep",
   "read.MFCLCatch",
   "read.MFCLLenFit",
-  "write.simNumAge",
-  "check.mfcl.cfg",
   "setMFCLversion",
   "setSimYrs",
-  "availableMFCLversions",
-  "getMFCLversion"
+  "write.simNumAge"
 )
 exportClasses(
   "MFCLBase",
