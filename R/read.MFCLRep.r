@@ -47,18 +47,14 @@ read.MFCLRep <- function(repfile) {
   
   
   # fishery realisations 
-  temp <- pp[(grep("# Time of each realization by fishery", pp)+1):(grep("# Time of each realization by fishery", pp)+dimensions(res)['fisheries'])]
-  temp2<- lapply(temp, function(xx){as.numeric(unlist(strsplit(trim.leading(xx), split="[[:blank:]]+")))})
-  if(dimensions(res)['seasons']==4)
-    fish.real <- rep(range(res)['minyear']:range(res)['maxyear'], each=4)+(1/8)*c(1,3,5,7)
+  temp2 <- lapply(1:dimensions(res)['fisheries'], function(x){as.numeric(splitter(pp,"# Time of each realization", ll=x))})
   
-  fishery_realizations(res) <- FLQuant(NA, dimnames=dnms6)
-  
-  for(ff in 1:dimensions(res)['fisheries']){
-    fishery_realizations(res)[,,ff,,,] <- aperm(array(fish.real %in% temp2[[ff]], 
-                                                      dim=c(dimensions(res)['seasons'],dimensions(res)['years']/dimensions(res)['seasons'],1,1,1,1)), 
-                                                c(3,2,4,1,5,6))}
-  
+  fishery_realizations(res) <- as.FLQuant(data.frame(age   ='all', 
+                                                     year  =floor(unlist(temp2)),
+                                                     unit  =rep(1:length(temp2), unlist(lapply(temp2, length))), 
+                                                     season=ceiling(((unlist(temp2))-floor(unlist(temp2)))*4), 
+                                                     area  = 'unique', iter=1, data  = 1))
+
   # mean length at age
   mean_laa(res) <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Mean lengths at age")),
                                        dim=c(dimensions(res)['seasons'], (range(res)['max']-range(res)['min']+1), 1,1,1)), c(2,3,4,1,5)), dimnames=dnms1 )
@@ -68,6 +64,24 @@ read.MFCLRep <- function(repfile) {
   # m at age
   m_at_age(res) <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Natural mortality at age")),
                                        dim=c(dimensions(res)['seasons'], (range(res)['max']-range(res)['min']+1), 1,1,1)), c(2,3,4,1,5)), dimnames=dnms1 )
+  
+  # q_fishery
+  temp_q_dat     <- as.numeric(splitter(pp,"# Catchability by realization", 1:dimensions(res)['fisheries']))
+  q_fishery(res) <- as.FLQuant(data.frame(age   ="all", 
+                                          year  =floor(unlist(temp2)), 
+                                          unit  =rep(1:length(temp2), unlist(lapply(temp2, length))), 
+                                          season=ceiling(((unlist(temp2))-floor(unlist(temp2)))*4), 
+                                          area  = 'unique', iter=1, 
+                                          data  = unlist(temp_q_dat)))
+  # q_effdev
+  temp_q_dat     <- as.numeric(splitter(pp,"dev.", 1:dimensions(res)['fisheries']))
+  q_effdev(res)  <- as.FLQuant(data.frame(age   ="all", 
+                                          year  =floor(unlist(temp2)), 
+                                          unit  =rep(1:length(temp2), unlist(lapply(temp2, length))), 
+                                          season=ceiling(((unlist(temp2))-floor(unlist(temp2)))*4), 
+                                          area  = 'unique', iter=1, 
+                                          data  = unlist(temp_q_dat)))
+  
   # adult biomass  
   adultBiomass(res) <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Adult biomass", 1:dimensions(res)['years'])), 
                                      dim=c(dimensions(res)["regions"], dimensions(res)['seasons'], dimensions(res)['years']/dimensions(res)["seasons"],1,1)), 
