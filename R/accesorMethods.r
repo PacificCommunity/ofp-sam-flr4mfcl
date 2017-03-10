@@ -1186,24 +1186,44 @@ setMethod('avyrs', signature('MFCLprojControl'),function(object) return(slot(obj
 setGeneric('avyrs<-', function(object, ..., value) standardGeneric('avyrs<-')) 
 setReplaceMethod('avyrs', signature(object='MFCLprojControl', value=unname(getSlots('MFCLprojControl')['avyrs'])),
                                 function(object, value){slot(object, 'avyrs') <- value; return(object)}) 
+#'controls
+#'@export controls
+setGeneric('controls', function(object, ...) standardGeneric('controls')) 
+setMethod('controls', signature('MFCLprojControl'),function(object) return(slot(object, 'controls'))) 
+#'controls
+#'@export 
+setGeneric('controls<-', function(object, ..., value) standardGeneric('controls<-')) 
+setReplaceMethod('controls', signature(object='MFCLprojControl', value=unname(getSlots('MFCLprojControl')['controls'])),
+                 function(object, value){slot(object, 'controls') <- value; return(object)}) 
 #'caeff
 #'@export caeff
 setGeneric('caeff', function(object, ...) standardGeneric('caeff')) 
-setMethod('caeff', signature('MFCLprojControl'),function(object) return(slot(object, 'caeff'))) 
+setMethod('caeff', signature('MFCLprojControl'),function(object) return(slot(object, 'controls')$caeff)) 
 #'caeff
 #'@export 
 setGeneric('caeff<-', function(object, ..., value) standardGeneric('caeff<-')) 
-setReplaceMethod('caeff', signature(object='MFCLprojControl', value=unname(getSlots('MFCLprojControl')['caeff'])),
-                                function(object, value){slot(object, 'caeff') <- value; return(object)}) 
+setReplaceMethod('caeff', signature(object='MFCLprojControl', value="numeric"), #unname(getSlots('MFCLprojControl')['controls'])),
+                                function(object, value){slot(object, 'controls')$caeff <- value; return(object)}) 
 #'scaler
 #'@export scaler
 setGeneric('scaler', function(object, ...) standardGeneric('scaler')) 
-setMethod('scaler', signature('MFCLprojControl'),function(object) return(slot(object, 'scaler'))) 
+setMethod('scaler', signature('MFCLprojControl'),function(object) return(slot(object, 'controls')$scaler)) 
 #'scaler
 #'@export 
 setGeneric('scaler<-', function(object, ..., value) standardGeneric('scaler<-')) 
-setReplaceMethod('scaler', signature(object='MFCLprojControl', value=unname(getSlots('MFCLprojControl')['scaler'])),
-                                function(object, value){slot(object, 'scaler') <- value; return(object)}) 
+setReplaceMethod('scaler', signature(object='MFCLprojControl', value="numeric"), #unname(getSlots('MFCLprojControl')['scaler'])),
+                                function(object, value){slot(object, 'controls')$scaler <- value; return(object)}) 
+
+#'ess
+#'@export ess
+setGeneric('ess', function(object, ...) standardGeneric('ess')) 
+setMethod('ess', signature('MFCLprojControl'),function(object) return(slot(object, 'controls')$ess)) 
+#'ess
+#'@export 
+setGeneric('ess<-', function(object, ..., value) standardGeneric('ess<-')) 
+setReplaceMethod('ess', signature(object='MFCLprojControl', value="numeric"), #unname(getSlots('MFCLprojControl')['scaler'])),
+                 function(object, value){slot(object, 'controls')$ess <- value; return(object)}) 
+
 
 #############################################################################################################
 # class  MFCLFrq

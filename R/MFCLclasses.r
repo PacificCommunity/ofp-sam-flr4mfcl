@@ -705,15 +705,13 @@ setClass("MFCLprojControl",
            nyears              ="numeric",
            nsims               ="numeric",
            avyrs               ="character",
-           caeff               ="numeric",
-           scaler              ="numeric"
+           controls            ="data.frame"
          ),
          prototype=prototype(
            nyears              =numeric(),
            nsims               =numeric(),
            avyrs               =character(),
-           caeff               =numeric(),
-           scaler              =numeric()
+           controls            =data.frame(name=NULL, region=NULL, caeff=NULL, scaler=NULL, ess=NULL)
          ),
          validity=validMFCLprojControl
 )
@@ -723,14 +721,13 @@ remove(validMFCLprojControl)
 #'
 #'Basic constructor for projControl class
 #'@export
-MFCLprojControl <- function(nyears=as.numeric(NULL), nsims=as.numeric(NULL), avyrs='', caeff=as.numeric(NULL), scaler=as.numeric(NULL)) {
+MFCLprojControl <- function(nyears=as.numeric(NULL), nsims=as.numeric(NULL), avyrs='', controls=data.frame(name=NULL, region=NULL, caeff=NULL, scaler=NULL, ess=NULL)) {
 
   res <- new("MFCLprojControl")
   slot(res, 'nyears') <- nyears
   slot(res, 'nsims')  <- nsims
   slot(res, 'avyrs')  <- avyrs
-  slot(res, 'caeff')  <- caeff
-  slot(res, 'scaler') <- scaler
+  slot(res, 'controls')  <- controls
   
   return(res)
 }

@@ -448,13 +448,22 @@ read.MFCLSel <- function(parfile, parobj=NULL, first.yr=1972) {
   slot(res, 'sel_dev_coffs2')<- sdc
   
   getfishparms <- function(xx, version){
-    switch(as.character(version),
-           '1042' = matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:20)), ncol=nfish, byrow=T),
-           '1046' = matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:20)), ncol=nfish, byrow=T),
-           '1049' = matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:20)), ncol=nfish, byrow=T),
-           '1050' = matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:50)), ncol=nfish, byrow=T),
-           '1051' = matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:50)), ncol=nfish, byrow=T))
+    if(parversion>1040 & parversion<150)
+      mm <- matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:20)), ncol=nfish, byrow=T)
+    
+    if(parversion>1049 & parversion<1060)
+      mm <- matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:50)), ncol=nfish, byrow=T)
+
+#    switch(as.character(version),
+#           '1042' = matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:20)), ncol=nfish, byrow=T),
+#           '1046' = matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:20)), ncol=nfish, byrow=T),
+#           '1049' = matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:20)), ncol=nfish, byrow=T),
+#           '1050' = matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:50)), ncol=nfish, byrow=T),
+#           '1051' = matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:50)), ncol=nfish, byrow=T))
+  
+    return(mm)
   }
+    
   slot(res, 'fish_params')   <- getfishparms(par, parversion)
     
   slot(res, 'range') <- c(min=0, max=nagecls/nseasons, plusgroup=NA, minyear=1, maxyear=1)
