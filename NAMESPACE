@@ -38,6 +38,7 @@ export(
   "read.MFCLTagRep",
   "read.MFCLCatch",
   "read.MFCLLenFit",
+  "recPeriod",
   "setMFCLversion",
   "setSimYrs",
   "write.simNumAge"
