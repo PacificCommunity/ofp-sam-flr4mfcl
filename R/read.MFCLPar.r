@@ -447,11 +447,11 @@ read.MFCLSel <- function(parfile, parobj=NULL, first.yr=1972) {
                                             1:sum(unlist(lapply(qdc, length))))), ncol=nagecls, byrow=T)
   slot(res, 'sel_dev_coffs2')<- sdc
   
-  getfishparms <- function(xx, version){
-    if(parversion>1040 & parversion<150)
+  getfishparms <- function(xx, vsn){
+    if(vsn>1040 & vsn<1050)
       mm <- matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:20)), ncol=nfish, byrow=T)
     
-    if(parversion>1049 & parversion<1060)
+    if(vsn>1049 & vsn<1060)
       mm <- matrix(as.numeric(splitter(xx,"# extra fishery parameters", 1:50)), ncol=nfish, byrow=T)
 
 #    switch(as.character(version),
