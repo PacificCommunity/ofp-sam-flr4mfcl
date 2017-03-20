@@ -104,6 +104,13 @@ setMethod("generate", signature(x="MFCLFrq", y="MFCLprojControl"),
 setMethod("generate", signature(x="MFCLPar", y="MFCLPar"), 
           function(x, y, ...){
      
+     # set stochastic recruitment flags
+     if(flagval(x, 1, 232)$value == 0)
+       flagval(x, 1, 232) <- recPeriod(x, af199=flagval(x, 2, 199)$value, af200=flagval(x, 2, 200)$value)['pf232']
+     if(flagval(x, 1, 233)$value == 0)
+       flagval(x, 1, 233) <- recPeriod(x, af199=flagval(x, 2, 200)$value, af200=flagval(x, 2, 200)$value)['pf233']
+     
+     
      proj.yrs <- dimnames(rel_rec(y))[[2]][!is.element(dimnames(rel_rec(y))[[2]], dimnames(rel_rec(x))[[2]])]
        
      rep_rate_dev_coffs(x) <- rep_rate_dev_coffs(y)
@@ -130,6 +137,7 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar"),
      
      rel_rec(x) <- window(rel_rec(x), start=range(x)['minyear'], end=range(y)['maxyear'])
      rel_rec(x)[,proj.yrs] <- rel_rec(y)[,proj.yrs] 
+    
      
      dimensions(x)         <- dimensions(y)
      range(x)              <- range(y)
