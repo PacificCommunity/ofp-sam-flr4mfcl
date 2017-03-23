@@ -139,6 +139,11 @@ write.par <- function(x, file, append=F, ...){
   cat("\n \n# extra fishery parameters   \n# \n \n",   file=file, append=T) 
   write.table(fish_params(x),  col.names=F, row.names=F, file=file, append=T)
   
+  if(version(x)>=1052){
+    cat("\n \n# species parameters   \n# \n \n",   file=file, append=T) 
+    write.table(slot(x, 'spp_params'),  col.names=F, row.names=F, file=file, append=T)
+  }
+  
   cat("\n \n# seasonal_catchability_pars     \n",   file=file, append=T) 
   write.table(season_q_pars(x),  col.names=F, row.names=F, file=file, append=T)
   

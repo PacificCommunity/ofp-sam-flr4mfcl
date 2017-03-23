@@ -769,6 +769,15 @@ setMethod('fish_params', signature('MFCLSel'),function(object) return(slot(objec
 setGeneric('fish_params<-', function(object, ..., value) standardGeneric('fish_params<-')) 
 setReplaceMethod('fish_params', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['fish_params'])),
                                 function(object, value){slot(object, 'fish_params') <- value; return(object)}) 
+#'spp_params
+#'@export spp_params
+setGeneric('spp_params', function(object, ...) standardGeneric('spp_params')) 
+setMethod('spp_params', signature('MFCLSel'),function(object) return(slot(object, 'spp_params'))) 
+#'fish_params
+#'@export 
+setGeneric('spp_params<-', function(object, ..., value) standardGeneric('spp_params<-')) 
+setReplaceMethod('spp_params', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['spp_params'])),
+                 function(object, value){slot(object, 'spp_params') <- value; return(object)}) 
 #'range
 #'@export range
 setMethod('range', signature(x='MFCLSel'),function(x) return(slot(x,'range'))) 

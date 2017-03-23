@@ -405,6 +405,7 @@ setClass("MFCLSel",
            sel_dev_coffs2       = "list",
            season_q_pars        = "matrix",
            fish_params          = "matrix",
+           spp_params           = "matrix",
            range                = "numeric"
          ),
          prototype=prototype(
@@ -423,6 +424,7 @@ setClass("MFCLSel",
            sel_dev_coffs2       = list(),
            season_q_pars        = matrix(),
            fish_params          = matrix(),
+           spp_params           = matrix(),
            range                = unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
          ),
          validity=validMFCLSel

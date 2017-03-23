@@ -303,6 +303,8 @@ exportMethods(
   "sel_dev_coffs<-",
   "sel_dev_corr",
   "sel_dev_corr<-",
+  "spp_params",
+  "spp_params<-",
   "srr",
   "srr<-",
   "ssb",
