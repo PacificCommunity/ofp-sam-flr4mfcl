@@ -458,12 +458,8 @@ read.MFCLSel <- function(parfile, parobj=NULL, first.yr=1972) {
   }
   slot(res, 'fish_params')   <- getfishparms(par, parversion)
   
-  getsppparms <- function(xx, vsn, n_spp=1){
-    if(vsn>=1052)
-      ss <- matrix(as.numeric(splitter(xx,"# species parameters", 1:20)), ncol=n_spp, byrow=T)
-    return(ss)
-  }
-  slot(res, 'spp_params') <- getsppparms(par, parversion)
+  if(parversion>=1052)
+    slot(res, 'spp_params') <- matrix(as.numeric(splitter(par, "# species parameters", 1:20)), ncol=1, byrow=T)
   
   slot(res, 'range') <- c(min=0, max=nagecls/nseasons, plusgroup=NA, minyear=1, maxyear=1)
   
