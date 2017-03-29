@@ -125,9 +125,9 @@ read.MFCLRep <- function(repfile) {
   }
   
   # Vulnerable Biomass
-  vulnBiomass(res) <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Exploitable population biomass by fishery", 1:dimensions(res)['years'], inst=1)), 
-                                           dim=c(dimensions(res)['fisheries'], dimensions(res)["seasons"], dimensions(res)['years']/dimensions(res)["seasons"], 1,1)), 
-                                     c(4,3,1,2,5)), dimnames=dnms6)
+  vulnBiomass(res) <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Exploitable population biomass by fishery", 1:dimensions(res)['fisheries'], inst=1)), 
+                                           dim=c(dimensions(res)["seasons"], dimensions(res)['years']/dimensions(res)["seasons"], dimensions(res)['fisheries'], 1,1)), 
+                                     c(4,2,3,1,5)), dimnames=dnms6)
   
   dat_length <- length(splitter(pp, "# Equilibrium adult biomass"))
   # equilibrium biomass
