@@ -16,6 +16,7 @@
 read.MFCLIni <- function(inifile, first.yr=1972, nseasons=4) {
   
   trim.leading  <- function(x) sub("^\\s+", "", x) 
+  trim.trailing <- function(x) sub("\\s+$", "", x)
   splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+")) 
   
   slotcopy <- function(from, to){
@@ -27,7 +28,7 @@ read.MFCLIni <- function(inifile, first.yr=1972, nseasons=4) {
   
   res <- new("MFCLIni")
   
-  par    <- readLines(inifile)
+  par <- readLines(inifile)
   par <- par[nchar(par)>=1]                                          # remove blank lines
   if(any(grepl("# ", par) & nchar(par)<3))
     par <- par[-seq(1,length(par))[grepl("# ", par) & nchar(par)<3]]   # remove single hashes with no text "# "
@@ -39,7 +40,7 @@ read.MFCLIni <- function(inifile, first.yr=1972, nseasons=4) {
   dims_age$age    <- as.character(0:((nages/nseasons)-1))
   dims_age$season <- as.character(1:nseasons)
   
-  if(any(par=="# tag fish rep"))
+  if(any(grep("# tag fish rep", par)))
     res <- slotcopy(read.MFCLTagRep(parfile, par), res)
   
   slot(res, 'm')          <- as.numeric(splitter(par, '# natural mortality'))
@@ -61,6 +62,11 @@ read.MFCLIni <- function(inifile, first.yr=1972, nseasons=4) {
   slot(res, 'sd_length_dep')      <- as.numeric(splitter(par, '# Length-dependent SD'))
   slot(res, 'n_mean_constraints')   <- as.numeric(splitter(par, '# The number of mean constraints'))
   
-  
+  slot(res, 'dimensions') <- c(agecls   =nages,
+                               years    =NA,
+                               sesons   =dim(slot(res, 'mat'))[4],
+                               regions  =nregions,
+                               fisheries=dim(slot(res, 'tag_fish_rep_rate'))[2],
+                               taggrps  =dim(slot(res, 'tag_fish_rep_rate'))[1]-1) 
   return(res)
 }
