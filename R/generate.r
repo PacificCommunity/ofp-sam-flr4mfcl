@@ -1,5 +1,43 @@
 
 
+## Unexported local functions
+
+generate.ESS<- function(x, ctrl, projdat2, sc_df){
+  
+  # projdat stuff for which no ESS is specified
+  projdat_noess <- projdat2[is.element(projdat2$fishery, sc_df$fishery[is.na(sc_df$ess)]),]
+  # projdat stuff with an ESS to be applied to length comps
+  projdat_ess_l <- projdat2[is.element(projdat2$fishery, sc_df$fishery[!is.na(sc_df$ess)]) & 
+                              is.element(projdat2$fishery, sc_df$fishery[sc_df$length]),]
+  # projdat stuff with an ESS to be applied to weight comps
+  projdat_ess_w <- projdat2[is.element(projdat2$fishery, sc_df$fishery[!is.na(sc_df$ess)]) & 
+                              is.element(projdat2$fishery, sc_df$fishery[sc_df$weight]),]
+  # add length and weight frequency data to the frq
+  lengths <- seq(lf_range(x)["LFFirst"], by=lf_range(x)["LFWidth"], length=lf_range(x)["LFIntervals"])
+  weights <- seq(lf_range(x)["WFFirst"], by=lf_range(x)["WFWidth"], length=lf_range(x)["WFIntervals"])
+  
+  projdat_ess_ll <- as.data.frame(lapply(projdat_ess_l, rep, each=length(lengths)))
+  projdat_ess_ww <- as.data.frame(lapply(projdat_ess_w, rep, each=length(weights)))
+  projdat_ess_ll$length <- lengths
+  projdat_ess_ww$weight <- weights
+  
+  projdat2      <- rbind(projdat_noess, projdat_ess_ll, projdat_ess_ww)
+  projdat2$freq <- 0
+  
+  for(ff in 1:n_fisheries(x))
+    projdat2[projdat2$length==lf_range(x)["LFFirst"] & projdat2$fishery==ff,'freq'] <- ess(ctrl)[ff]
+  
+  return(projdat2)
+}
+
+
+
+
+
+
+
+
+
 #' generate
 #'
 #' generates modified input files for mfcl.
@@ -47,7 +85,9 @@ setMethod("generate", signature(x="MFCLFrq", y="MFCLprojControl"),
             if(length(scaler(ctrl))>1 & length(scaler(ctrl))!=n_fisheries(x))
               stop("Error: scaler values do not match number of fisheries")
             
-            sc_df <- data.frame(fishery=1:n_fisheries(x), caeff  = caeff(ctrl), scaler = scaler(ctrl))
+            sc_df <- data.frame(fishery=1:n_fisheries(x), caeff  = caeff(ctrl), scaler = scaler(ctrl), ess=ess(ctrl), 
+                                length=tapply(freq(x)$length, freq(x)$fishery, function(tt){any(!is.na(tt))}), 
+                                weight=tapply(freq(x)$weight, freq(x)$fishery, function(tt){any(!is.na(tt))}))
             
             avdata <- freq(x)[is.element(freq(x)$year, avyrs(ctrl)) & is.na(freq(x)$length) & is.na(freq(x)$weight) ,]
             avdata <- rbind(avdata, freq(x)[is.element(freq(x)$year, avyrs(ctrl)) & freq(x)$length %in% lf_range(x)['LFFirst'] ,],
@@ -81,6 +121,12 @@ setMethod("generate", signature(x="MFCLFrq", y="MFCLprojControl"),
             projdat2[is.element(projdat2$fishery, sc_df[sc_df$caeff==1, 'fishery']),'effort'] <- -1
             projdat2[is.element(projdat2$fishery, sc_df[sc_df$caeff==2, 'fishery']),'catch'] <- -1
             
+            ## STOCHASTIC PROJECTIONS WITH ESS
+            # if an ESS is specified - include length composition data and set first value to ESS
+            if(!all(is.na(ess(ctrl)))){
+              projdat2 <- generate.ESS(x, ctrl, projdat2, sc_df)
+            }
+
             freq(x) <- rbind(freq(x), projdat2)
             
             data_flags(x)[2,] <- as.numeric(max(avyrs(ctrl)))+1
