@@ -50,6 +50,8 @@ setMethod("window", signature(x="MFCLFrq"),
             range(x)['minyear'] <- start
             range(x)['maxyear'] <- end
             
+            n_fisheries(x) <- length(unique(freq(x)$fishery))
+            
             return(x)
             
           })
