@@ -707,12 +707,14 @@ setClass("MFCLprojControl",
            nyears              ="numeric",
            nsims               ="numeric",
            avyrs               ="character",
+           fprojyr             ="numeric",
            controls            ="data.frame"
          ),
          prototype=prototype(
            nyears              =numeric(),
            nsims               =numeric(),
            avyrs               =character(),
+           fprojyr             =numeric(),
            controls            =data.frame(name=NULL, region=NULL, caeff=NULL, scaler=NULL, ess=NULL)
          ),
          validity=validMFCLprojControl
@@ -723,12 +725,13 @@ remove(validMFCLprojControl)
 #'
 #'Basic constructor for projControl class
 #'@export
-MFCLprojControl <- function(nyears=as.numeric(NULL), nsims=as.numeric(NULL), avyrs='', controls=data.frame(name=NULL, region=NULL, caeff=NULL, scaler=NULL, ess=NULL)) {
+MFCLprojControl <- function(nyears=as.numeric(NULL), nsims=as.numeric(NULL), avyrs='', fprojyr=as.numeric(NULL), controls=data.frame(name=NULL, region=NULL, caeff=NULL, scaler=NULL, ess=NULL)) {
 
   res <- new("MFCLprojControl")
   slot(res, 'nyears') <- nyears
   slot(res, 'nsims')  <- nsims
   slot(res, 'avyrs')  <- avyrs
+  slot(res, 'fprojyr') <- fprojyr
   slot(res, 'controls')  <- controls
   
   return(res)
@@ -804,6 +807,73 @@ remove(validMFCLLenFit)
 #'Basic constructor for MFCLCatch class
 #'@export
 MFCLLenFit <- function() {return(new("MFCLLenFit"))}
+
+
+
+
+########################
+##
+## MFCL pseudo data objects
+##
+########################
+
+
+###### CLASSS MFCLPseudo
+
+validMFCLPseudo <- function(object){
+  #Everything is fine
+  return(TRUE)
+}
+setClass("MFCLPseudo",
+         representation(
+           catch               ="data.frame",
+           effort              ="data.frame",
+           l_frq               ="data.frame",
+           w_frq               ="data.frame",
+           range               ="numeric"
+         ),
+         prototype=prototype(
+           catch               =data.frame(year=NULL, month=NULL, fishery=NULL, iter=NULL, data=NULL),
+           effort              =data.frame(year=NULL, month=NULL, fishery=NULL, iter=NULL, data=NULL), 
+           l_frq               =data.frame(year=NULL, month=NULL, fishery=NULL, length=NULL, iter=NULL, freq=NULL),
+           w_frq               =data.frame(year=NULL, month=NULL, fishery=NULL, weight=NULL, iter=NULL, freq=NULL),
+           range               =unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
+         ),
+         validity=validMFCLPseudo
+)
+setValidity("MFCLPseudo", validMFCLPseudo)
+remove(validMFCLPseudo)
+#'MFCLPseudo
+#'
+#'Basic constructor for MFCLPseudo class
+#'@export
+MFCLPseudo <- function(catch =data.frame(year=NULL, month=NULL, fishery=NULL, iter=NULL, data=NULL),
+                       effort=data.frame(year=NULL, month=NULL, fishery=NULL, iter=NULL, data=NULL),
+                       l_frq =data.frame(year=NULL, month=NULL, fishery=NULL, length=NULL, iter=NULL, freq=NULL),
+                       w_frq =data.frame(year=NULL, month=NULL, fishery=NULL, weight=NULL, iter=NULL, freq=NULL)) {
+  res <- new("MFCLPseudo")
+  slot(res, "catch") <- catch
+  slot(res, "effort") <- effort
+  slot(res, "l_frq") <- l_frq
+  slot(res, "w_frq") <- w_frq
+  slot(res, "range") <- unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
+  
+  if(nrow(catch)>0)
+    slot(res, "range")[c("minyear","maxyear")] <- range(catch$year)
+  if(nrow(l_frq)>0)
+    slot(res, "range")[c("min", "max")] <- range(l_frq$length)
+  
+  return(res)
+  }
+
+
+
+
+
+
+
+
+
 
 
 
