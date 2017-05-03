@@ -85,6 +85,7 @@ setMethod("generate", signature(x="MFCLFrq", y="MFCLprojControl"),
             if(length(scaler(ctrl))>1 & length(scaler(ctrl))!=n_fisheries(x))
               stop("Error: scaler values do not match number of fisheries")
             
+            #sc_df <- data.frame(fishery=1:n_fisheries(x), caeff  = caeff(ctrl), scaler = scaler(ctrl))
             sc_df <- data.frame(fishery=1:n_fisheries(x), caeff  = caeff(ctrl), scaler = scaler(ctrl), ess=ess(ctrl), 
                                 length=tapply(freq(x)$length, freq(x)$fishery, function(tt){any(!is.na(tt))}), 
                                 weight=tapply(freq(x)$weight, freq(x)$fishery, function(tt){any(!is.na(tt))}))
@@ -131,7 +132,9 @@ setMethod("generate", signature(x="MFCLFrq", y="MFCLprojControl"),
             
             data_flags(x)[2,] <- as.numeric(max(avyrs(ctrl)))+1
             data_flags(x)[3,] <- as.numeric(qtrs[1])
-            lf_range(x)['Datasets'] <- lf_range(x)['Datasets']+nrow(projdat2)
+            #lf_range(x)['Datasets'] <- lf_range(x)['Datasets']+nrow(projdat2)
+            lf_range(x)['Datasets'] <- nrow(freq(x)[is.element(freq(x)$length, c(NA,lf_range(x)['LFFirst'])),]) +
+                                       nrow(freq(x)[is.element(freq(x)$weight, c(   lf_range(x)['WFFirst'])),])
             slot(x,'range')['maxyear']     <- max(freq(x)$year)
             
             return(x)
