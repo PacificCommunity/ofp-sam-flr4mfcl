@@ -227,6 +227,7 @@ exportMethods(
   "nyears<-",
   "obj_fun",
   "obj_fun<-",
+  "plot",
   "popN",
   "popN<-",
   "q0_miss",
