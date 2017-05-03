@@ -147,6 +147,7 @@ exportMethods(
   "fm<-",
   "fm_level_devs",
   "fm_level_devs<-",
+  "fprojyr",
   "freq",
   "freq<-",
   "frq_age_len",
