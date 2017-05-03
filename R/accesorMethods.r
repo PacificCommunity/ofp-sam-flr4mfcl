@@ -1195,6 +1195,15 @@ setMethod('avyrs', signature('MFCLprojControl'),function(object) return(slot(obj
 setGeneric('avyrs<-', function(object, ..., value) standardGeneric('avyrs<-')) 
 setReplaceMethod('avyrs', signature(object='MFCLprojControl', value=unname(getSlots('MFCLprojControl')['avyrs'])),
                                 function(object, value){slot(object, 'avyrs') <- value; return(object)}) 
+#'fprojyr
+#'@export fprojyr
+setGeneric('fprojyr', function(object, ...) standardGeneric('fprojyr')) 
+setMethod('fprojyr', signature('MFCLprojControl'),function(object) return(slot(object, 'fprojyr'))) 
+#'fprojyr
+#'@export 
+setGeneric('fprojyr<-', function(object, ..., value) standardGeneric('fprojyr<-')) 
+setReplaceMethod('fprojyr', signature(object='MFCLprojControl', value=unname(getSlots('MFCLprojControl')['fprojyr'])),
+                 function(object, value){slot(object, 'fprojyr') <- value; return(object)}) 
 #'controls
 #'@export controls
 setGeneric('controls', function(object, ...) standardGeneric('controls')) 
