@@ -1444,3 +1444,44 @@ setReplaceMethod('range', signature(object='MFCLLenFit', value=unname(getSlots('
                  function(object, value){slot(object, 'range') <- value; return(object)}) 
 
 
+
+#############################################################################################################
+# class  MFCLPseudo
+#'catcheff
+#'@export catcheff
+setGeneric('catcheff', function(object, ...) standardGeneric('catcheff'))
+setMethod('catcheff', signature('MFCLPseudo'), function(object) return(slot(object, 'catcheff')))
+#'catcheff
+#'@export
+setGeneric('catcheff<-', function(object, ..., value) standardGeneric('catcheff<-'))
+setReplaceMethod('catcheff', signature(object='MFCLPseudo', value=unname(getSlots('MFCLPseudo')['catcheff'])), 
+                 function(object, value){slot(object, 'catcheff') <- value; return(object)})
+#'l_frq
+#'@export l_frq
+setGeneric('l_frq', function(object, ...) standardGeneric('l_frq'))
+setMethod('l_frq', signature('MFCLPseudo'), function(object) return(slot(object, 'l_frq')))
+#'l_frq
+#'@export
+setGeneric('l_frq<-', function(object, ..., value) standardGeneric('l_frq<-'))
+setReplaceMethod('l_frq', signature(object='MFCLPseudo', value=unname(getSlots('MFCLPseudo')['l_frq'])), 
+                 function(object, value){slot(object, 'l_frq') <- value; return(object)})
+#'w_frq
+#'@export w_frq
+setGeneric('w_frq', function(object, ...) standardGeneric('w_frq'))
+setMethod('w_frq', signature('MFCLPseudo'), function(object) return(slot(object, 'w_frq')))
+#'w_frq
+#'@export
+setGeneric('w_frq<-', function(object, ..., value) standardGeneric('w_frq<-'))
+setReplaceMethod('w_frq', signature(object='MFCLPseudo', value=unname(getSlots('MFCLPseudo')['w_frq'])), 
+                 function(object, value){slot(object, 'w_frq') <- value; return(object)})
+#'range
+#'@export range
+setMethod('range', signature(x='MFCLPseudo'),function(x) return(slot(x,'range'))) 
+#'range
+#'@export range<- 
+#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
+setReplaceMethod('range', signature(object='MFCLPseudo', value=unname(getSlots('MFCLPseudo')['range'])),
+                 function(object, value){slot(object, 'range') <- value; return(object)}) 
+
+
+
