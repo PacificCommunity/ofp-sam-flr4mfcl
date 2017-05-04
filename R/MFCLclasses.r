@@ -826,15 +826,13 @@ validMFCLPseudo <- function(object){
 }
 setClass("MFCLPseudo",
          representation(
-           catch               ="data.frame",
-           effort              ="data.frame",
+           catcheff            ="data.frame",
            l_frq               ="data.frame",
            w_frq               ="data.frame",
            range               ="numeric"
          ),
          prototype=prototype(
-           catch               =data.frame(year=NULL, month=NULL, fishery=NULL, iter=NULL, data=NULL),
-           effort              =data.frame(year=NULL, month=NULL, fishery=NULL, iter=NULL, data=NULL), 
+           catcheff            =data.frame(year=NULL, month=NULL, fishery=NULL, iter=NULL, data=NULL),
            l_frq               =data.frame(year=NULL, month=NULL, fishery=NULL, length=NULL, iter=NULL, freq=NULL),
            w_frq               =data.frame(year=NULL, month=NULL, fishery=NULL, weight=NULL, iter=NULL, freq=NULL),
            range               =unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
@@ -847,21 +845,14 @@ remove(validMFCLPseudo)
 #'
 #'Basic constructor for MFCLPseudo class
 #'@export
-MFCLPseudo <- function(catch =data.frame(year=NULL, month=NULL, fishery=NULL, iter=NULL, data=NULL),
-                       effort=data.frame(year=NULL, month=NULL, fishery=NULL, iter=NULL, data=NULL),
-                       l_frq =data.frame(year=NULL, month=NULL, fishery=NULL, length=NULL, iter=NULL, freq=NULL),
-                       w_frq =data.frame(year=NULL, month=NULL, fishery=NULL, weight=NULL, iter=NULL, freq=NULL)) {
+MFCLPseudo <- function(catcheff =data.frame(year=NULL, month=NULL, fishery=NULL, iter=NULL, data=NULL),
+                       l_frq    =data.frame(year=NULL, month=NULL, fishery=NULL, length=NULL, iter=NULL, freq=NULL),
+                       w_frq    =data.frame(year=NULL, month=NULL, fishery=NULL, weight=NULL, iter=NULL, freq=NULL)) {
   res <- new("MFCLPseudo")
-  slot(res, "catch") <- catch
-  slot(res, "effort") <- effort
+  slot(res, "catcheff") <- catcheff
   slot(res, "l_frq") <- l_frq
   slot(res, "w_frq") <- w_frq
   slot(res, "range") <- unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
-  
-  if(nrow(catch)>0)
-    slot(res, "range")[c("minyear","maxyear")] <- range(catch$year)
-  if(nrow(l_frq)>0)
-    slot(res, "range")[c("min", "max")] <- range(l_frq$length)
   
   return(res)
   }
