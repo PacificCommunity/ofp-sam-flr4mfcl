@@ -1128,6 +1128,46 @@ setGeneric('rec_obs<-', function(object, ..., value) standardGeneric('rec_obs<-'
 setReplaceMethod('rec_obs', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['rec_obs'])),
                                 function(object, value){slot(object, 'rec_obs') <- value; return(object)}) 
 
+#'catch_obs
+#'@export catch_obs
+setGeneric('catch_obs', function(object, ...) standardGeneric('catch_obs')) 
+setMethod('catch_obs', signature('MFCLRep'),function(object) return(slot(object, 'catch_obs'))) 
+#'catch_obs
+#'@export 
+setGeneric('catch_obs<-', function(object, ..., value) standardGeneric('catch_obs<-')) 
+setReplaceMethod('catch_obs', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['catch_obs'])),
+                 function(object, value){slot(object, 'catch_obs') <- value; return(object)}) 
+
+#'catch_pred
+#'@export catch_pred
+setGeneric('catch_pred', function(object, ...) standardGeneric('catch_pred')) 
+setMethod('catch_pred', signature('MFCLRep'),function(object) return(slot(object, 'catch_pred'))) 
+#'catch_pred
+#'@export 
+setGeneric('catch_pred<-', function(object, ..., value) standardGeneric('catch_pred<-')) 
+setReplaceMethod('catch_pred', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['catch_pred'])),
+                 function(object, value){slot(object, 'catch_pred') <- value; return(object)}) 
+
+#'cpue_obs
+#'@export cpue_obs
+setGeneric('cpue_obs', function(object, ...) standardGeneric('cpue_obs')) 
+setMethod('cpue_obs', signature('MFCLRep'),function(object) return(slot(object, 'cpue_obs'))) 
+#'cpue_obs
+#'@export 
+setGeneric('cpue_obs<-', function(object, ..., value) standardGeneric('cpue_obs<-')) 
+setReplaceMethod('cpue_obs', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['cpue_obs'])),
+                 function(object, value){slot(object, 'cpue_obs') <- value; return(object)}) 
+
+#'cpue_pred
+#'@export cpue_pred
+setGeneric('cpue_pred', function(object, ...) standardGeneric('cpue_pred')) 
+setMethod('cpue_pred', signature('MFCLRep'),function(object) return(slot(object, 'cpue_pred'))) 
+#'cpue_pred
+#'@export 
+setGeneric('cpue_pred<-', function(object, ..., value) standardGeneric('cpue_pred<-')) 
+setReplaceMethod('cpue_pred', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['cpue_pred'])),
+                 function(object, value){slot(object, 'cpue_pred') <- value; return(object)}) 
+
 #'eq_biomass
 #'@export eq_biomass
 setGeneric('eq_biomass', function(object, ...) standardGeneric('eq_biomass')) 
