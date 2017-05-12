@@ -88,4 +88,30 @@ flagSummary <- function(par, type){
 
 
 
+#' flagDiff
+#'
+#' flag differences between two par files
+#'
+#' @param par A object of class MFCLPar 
+#' @param par A object of class MFCLPar 
+#'
+#' @return A data frame of flag settings for par1 and par2
+#'
+#' @examples
+#' flagDiff(par, par)
+#'
+#' @export
+
+flagDiff <- function(par1, par2){
+  
+  res <- flags(par1)[flags(par1)$value!=flags(par2)$value,]
+  res <- cbind(res, flags(par2)[flags(par1)$value!=flags(par2)$value, 'value'])
+  colnames(res) <- c("flagtype","flag","par1","par2")
+  
+  return(res)
+}
+
+
+
+
 
