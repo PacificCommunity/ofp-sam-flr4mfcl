@@ -1,6 +1,8 @@
 export(
   "availableMFCLversions",
   "check.mfcl.cfg",
+  "flagSummary",
+  "flagDiff",
   "getMFCLversion",
   "MFCLBase",
   "MFCLBiol",
