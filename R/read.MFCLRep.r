@@ -65,23 +65,36 @@ read.MFCLRep <- function(repfile) {
   m_at_age(res) <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Natural mortality at age")),
                                        dim=c(dimensions(res)['seasons'], (range(res)['max']-range(res)['min']+1), 1,1,1)), c(2,3,4,1,5)), dimnames=dnms1 )
   
-  # q_fishery
-  temp_q_dat     <- as.numeric(splitter(pp,"# Catchability by realization", 1:dimensions(res)['fisheries']))
-  q_fishery(res) <- as.FLQuant(data.frame(age   ="all", 
-                                          year  =floor(unlist(temp2)), 
-                                          unit  =rep(1:length(temp2), unlist(lapply(temp2, length))), 
-                                          season=ceiling(((unlist(temp2))-floor(unlist(temp2)))*4), 
-                                          area  = 'unique', iter=1, 
-                                          data  = unlist(temp_q_dat)))
-  # q_effdev
-  temp_q_dat     <- as.numeric(splitter(pp,"dev.", 1:dimensions(res)['fisheries']))
-  q_effdev(res)  <- as.FLQuant(data.frame(age   ="all", 
-                                          year  =floor(unlist(temp2)), 
-                                          unit  =rep(1:length(temp2), unlist(lapply(temp2, length))), 
-                                          season=ceiling(((unlist(temp2))-floor(unlist(temp2)))*4), 
-                                          area  = 'unique', iter=1, 
-                                          data  = unlist(temp_q_dat)))
+  realizations.df <- data.frame(age   ="all", 
+                                year  =floor(unlist(temp2)), 
+                                unit  =rep(1:length(temp2), unlist(lapply(temp2, length))), 
+                                season=ceiling(((unlist(temp2))-floor(unlist(temp2)))*4), 
+                                area  = 'unique', iter=1)
   
+  # q_fishery
+  temp_dat       <- as.numeric(splitter(pp,"# Catchability by realization", 1:dimensions(res)['fisheries']))
+  q_fishery(res) <- as.FLQuant(cbind(realizations.df, data=unlist(temp_dat)))
+
+  # q_effdev
+  temp_dat       <- as.numeric(splitter(pp,"dev.", 1:dimensions(res)['fisheries']))
+  q_effdev(res)  <- as.FLQuant(cbind(realizations.df, data=unlist(temp_dat)))
+  
+  # catch_obs
+  temp_dat       <- as.numeric(splitter(pp,"# Observed catch by fishery", 1:dimensions(res)['fisheries']))
+  catch_obs(res) <- as.FLQuant(cbind(realizations.df, data=unlist(temp_dat)))
+  
+  # catch_pred
+  temp_dat       <- as.numeric(splitter(pp,"# Predicted catch by fishery", 1:dimensions(res)['fisheries']))
+  catch_pred(res) <- as.FLQuant(cbind(realizations.df, data=unlist(temp_dat)))  
+
+  # cpue_obs
+  temp_dat       <- as.numeric(splitter(pp,"# Observed CPUE by fishery", 1:dimensions(res)['fisheries']))
+  cpue_obs(res) <- as.FLQuant(cbind(realizations.df, data=unlist(temp_dat)))
+  
+  # cpue_pred
+  temp_dat       <- as.numeric(splitter(pp,"# Predicted CPUE by fishery", 1:dimensions(res)['fisheries']))
+  cpue_pred(res) <- as.FLQuant(cbind(realizations.df, data=unlist(temp_dat)))    
+    
   # adult biomass  
   adultBiomass(res) <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Adult biomass", 1:dimensions(res)['years'])), 
                                      dim=c(dimensions(res)["regions"], dimensions(res)['seasons'], dimensions(res)['years']/dimensions(res)["seasons"],1,1)), 
