@@ -80,7 +80,7 @@ flagSummary <- function(par, type){
   
   ffrange <- -1:-dimensions(par)['fisheries']
   switch(type,
-    "projection"     = rbind(flagval(par, 1, c(142, 231:239)), flagval(par, 2, c(20, 190, 191, 195, 161))),
+    "projection"     = rbind(flagval(par, 1, c(142, 231:239)), flagval(par, 2, c(20, 190, 191, 195, 161, 199, 200))),
     "impact_analysis"= rbind(flagval(par, 2, c(170:176, 190, 191, 193)), flagval(par, ffrange, 55)),
     "MSY"            = rbind(flagval(par, 2, c(112, 140:141, 145:155, 161:163, 165:169, 194, 199:200)), flagval(par, ffrange, 70))
   )  
