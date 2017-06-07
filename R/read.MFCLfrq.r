@@ -90,6 +90,8 @@ read.MFCLFrqStats <- function(frqfile){
 
 read.MFCLLenFreq <- function(frqfile){
   
+  trim.leading  <- function(x) sub("^\\s+", "", x) 
+  
   quick.check <- function(obj, both, ...){
     if(!both){
       if(lf_range(obj)["WFIntervals"]>0 & lf_range(obj)["LFIntervals"]>0)
@@ -115,8 +117,9 @@ read.MFCLLenFreq <- function(frqfile){
   dat  <- as.numeric(unlist(strsplit(frq[grep("Datasets", frq)+1], split="[[:blank:]]+")))
   slot(res, "lf_range")[] <- dat[!is.na(dat)]
   
-  dat  <- as.numeric(unlist(strsplit(frq[grep("age_nage", frq)+1], split="[[:blank:]]+")))
-  slot(res, "age_nage")[] <- ifelse(length(dat)>1, dat[!is.na(dat)], NA)
+  dat  <- as.numeric(unlist(strsplit(trim.leading(frq[grep("age_nage", frq)+1]), split="[[:blank:]]+")))
+  if(length(dat)>1)
+    slot(res, "age_nage")[] <- dat
   
   nLbins <- lf_range(res)['LFIntervals']; Lwidth <- lf_range(res)["LFWidth"]; Lfirst <- lf_range(res)["LFFirst"]
   nWbins <- lf_range(res)['WFIntervals']; Wwidth <- lf_range(res)["WFWidth"]; Wfirst <- lf_range(res)["WFFirst"]
