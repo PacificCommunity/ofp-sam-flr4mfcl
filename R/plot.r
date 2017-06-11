@@ -39,7 +39,11 @@ setMethod("plot", signature(x="MFCLLenFreq"), function(x, y="missing", ...){
 
 
 
-setMethod("plot", signature(x="MFCLLenFreq", y="MFCLprojControl"), function(x, y, ...){
+setMethod("plot", signature(x="MFCLLenFreq", y="MFCLprojControl"), function(x, y, fleets='all', ...){
+  
+  if(is.numeric(fleets)){
+    freq(x) <- freq(x)[is.element(freq(x)$fishery, fleets),]
+  }
   
   minfrq <- freq(x)[is.element(freq(x)$length, c(NA, lf_range(x)['LFFirst'])) | is.element(freq(x)$weight, lf_range(x)['WFFirst']),]
   minfrq$yrqtr <- round(minfrq$year+(minfrq$month+1)/12,2)
@@ -55,14 +59,19 @@ setMethod("plot", signature(x="MFCLLenFreq", y="MFCLprojControl"), function(x, y
                 rep("red",   length(as.numeric(avyrs(y)))),
                 rep("beige", length(max(as.numeric(avyrs(y))+1):range(x)['maxyear']))), each=n_recs_yr(x))
       
+  par(mfrow=c(1,1))
   
-  par(mfrow=c(2,2))
+  if(length(catchcatch)>1 & length(efforteffort)>1)
+    par(mfrow=c(1,2))
         
-  barplot(catchcatch,   main="catch (catch projected fleets)", col=cols)
-  barplot(efforteffort, main="effort (effort projected fleets)", col=cols)
+  if(length(catchcatch>1))
+    barplot(catchcatch,   main="catch (catch projected fleets)", col=cols)
+  
+  if(length(efforteffort>1))
+    barplot(efforteffort, main="effort (effort projected fleets)", col=cols)
 
-  barplot(catch, main="catch")
-  barplot(effort, main='effort')
+  #barplot(catch, main="catch")
+  #barplot(effort, main='effort')
   
 })
 
