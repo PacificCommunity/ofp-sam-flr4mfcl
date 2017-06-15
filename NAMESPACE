@@ -46,7 +46,9 @@ export(
   "recPeriod",
   "setMFCLversion",
   "setSimYrs",
-  "write.simNumAge"
+  "write.simNumAge",
+  # assessment plotting stuff
+  "contributions.plot"
 )
 exportClasses(
   "MFCLBase",
