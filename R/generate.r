@@ -161,7 +161,8 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar"),
      
      
      proj.yrs <- dimnames(rel_rec(y))[[2]][!is.element(dimnames(rel_rec(y))[[2]], dimnames(rel_rec(x))[[2]])]
-       
+     
+     # zero filled objects that you can just copy across   
      rep_rate_dev_coffs(x) <- rep_rate_dev_coffs(y)
      fm_level_devs(x)      <- fm_level_devs(y)
      
@@ -172,6 +173,7 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar"),
      unused(x)             <- unused(y)
      lagrangian(x)         <- lagrangian(y)
      
+     # non-zero filled objects that you need to append zeroes to 
      eff_dev_coff_incs     <- unlist(lapply(effort_dev_coffs(y),length)) - unlist(lapply(effort_dev_coffs(x),length))
      effort_dev_coffs(x)   <- lapply(1:dimensions(x)["fisheries"], function(g) c(effort_dev_coffs(x)[[g]], rep(0, eff_dev_coff_incs[g])))
      
