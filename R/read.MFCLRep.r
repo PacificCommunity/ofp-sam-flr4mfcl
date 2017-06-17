@@ -151,6 +151,9 @@ read.MFCLRep <- function(repfile) {
 
   dat     <- pp[(grep("# Population Number by age", pp)+2) : (grep("# Population Number by age", pp)+(dimensions(res)['years']*dimensions(res)['regions'])+dimensions(res)['regions'])]
   dat     <- dat[-grep("# Region", dat)] 
+  if(length(grep("#   Projected years", dat))>0)
+    dat     <- dat[-grep("#   Projected years", dat)]
+  
   popN(res) <- FLQuant(aperm(array(as.numeric(unlist(strsplit(trim.leading(dat),split="[[:blank:]]+"))), 
                                  dim=c(dimensions(res)['agecls'], dimensions(res)['seasons'], dimensions(res)['years']/dimensions(res)['seasons'], dimensions(res)['regions'],1)), 
                            c(1,3,5,2,4)), dimnames=dnms5)   
