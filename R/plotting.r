@@ -76,7 +76,7 @@ points(a-0.2, rep(1,length(a)), pch=15, cex=6, col=cols,xpd=T, bty="n")
 
 
 
-contributions.plot(par, rep, Fmult=0, propn=T)
+#contributions.plot(par, rep, Fmult=0, propn=T)
 
 
 
