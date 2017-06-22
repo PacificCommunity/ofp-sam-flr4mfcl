@@ -25,7 +25,7 @@ setMethod("laa", signature(object="MFCLPar"),
             L1  <- growth(object)['Lmin','est']
             LA  <- growth(object)['Lmax','est']
             K   <- growth(object)['k',   'est']
-            ages<- 1:dimensions(par)['agecls']
+            ages<- 1:dimensions(object)['agecls']
             
             return(L1+(LA-L1)*((1-exp(-K*(ages-1)))/(1-exp(-K*(max(ages)-1)))))
 
@@ -56,7 +56,7 @@ setGeneric('waa', function(object, ...) standardGeneric('waa'))
 setMethod("waa", signature(object="MFCLPar"), 
           function(object, ...){
             
-            return(lw_params(par)[1]*laa(par)^lw_params(par)[2])
+            return(lw_params(object)[1]*laa(object)^lw_params(object)[2])
             
           })
 
