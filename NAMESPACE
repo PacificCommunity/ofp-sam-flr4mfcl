@@ -327,6 +327,7 @@ exportMethods(
   "sel_dev_corr<-",
   "spp_params",
   "spp_params<-",
+  "SPR0",
   "srr",
   "srr<-",
   "ssb",
