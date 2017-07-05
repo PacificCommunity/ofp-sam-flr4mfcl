@@ -65,7 +65,7 @@ if(!propn)
 mtext(side=2, "Proportion of biomass by source region", line=2.5)
 a <- barplot(dat, col=rainbow(6), plot=F)
 
-#dumby plot to plot legend
+#dummy plot to plot legend
 par(mar=c(2,3,0,2))
 plot(0,0, ylim=c(0,1), xlim=c(0,(max(a)+a[1]/2)), type="n", ylab="", xlab="", yaxt="n", xaxt="n", xpd=T, bty="n")
 points(a-0.2, rep(1,length(a)), pch=15, cex=6, col=cols,xpd=T, bty="n")

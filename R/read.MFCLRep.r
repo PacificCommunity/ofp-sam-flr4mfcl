@@ -95,6 +95,10 @@ read.MFCLRep <- function(repfile) {
   temp_dat       <- as.numeric(splitter(pp,"# Predicted CPUE by fishery", 1:dimensions(res)['fisheries']))
   cpue_pred(res) <- as.FLQuant(cbind(realizations.df, data=unlist(temp_dat)))    
     
+  # total biomass  
+  totalBiomass(res) <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Total biomass", 1:dimensions(res)['years'])), 
+                                           dim=c(dimensions(res)["regions"], dimensions(res)['seasons'], dimensions(res)['years']/dimensions(res)["seasons"],1,1)), 
+                                     c(4,3,5,2,1)), dimnames=dnms2)
   # adult biomass  
   adultBiomass(res) <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Adult biomass", 1:dimensions(res)['years'])), 
                                      dim=c(dimensions(res)["regions"], dimensions(res)['seasons'], dimensions(res)['years']/dimensions(res)["seasons"],1,1)), 
