@@ -498,6 +498,8 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972, version='new')
   if(!is.null(parobj))
     par <- parobj
   
+  vsn <- as.numeric(unlist(strsplit(trimws(par[2]), split="[[:blank:]]+")))[200]
+  
   taglik <- unlist(strsplit(par[grep("# Likelihood component for tags",          par)], split="[[:blank:]]+"))
   mn_l_p <- unlist(strsplit(par[grep("# Average fish mort per fishing incident", par)], split="[[:blank:]]+"))
   av_f_i <- unlist(strsplit(par[grep("# Average fish mort per fishing incident", par)], split="[[:blank:]]+"))
@@ -505,7 +507,7 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972, version='new')
   av_f_a <- unlist(strsplit(par[grep("# Average fish mort per year by age class",par)+1], split="[[:blank:]]+"))
   
   mm <- as.numeric(unlist(strsplit(par[grep("# movement map",par)+1], split="[[:blank:]]+")))
-  if(any(mm[!is.na(mm)]>0))
+  if(any(mm[!is.na(mm)]>0) & vsn != 1053)
     slot(res, 'fm_level_devs') <- par[(grep("# fm_level_devs", par)+1):(grep("# movement map", par)-1)]
   
   slot(res, 'obj_fun')  <- as.numeric(splitter(par, "# Objective function value"))
