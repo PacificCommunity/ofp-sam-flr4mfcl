@@ -4,6 +4,7 @@ export(
   "flagSummary",
   "flagDiff",
   "getMFCLversion",
+  "gradients",
   "MFCLBase",
   "MFCLBiol",
   "MFCLFlags",

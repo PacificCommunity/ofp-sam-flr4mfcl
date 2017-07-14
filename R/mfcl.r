@@ -207,3 +207,39 @@ getMFCLversion <- function(){
 
 
 
+#' gradients
+#'
+#' Returns a data.frame of parameters and their gradients in reverse order
+#'
+#' @param grads:  text string of input file name for sorted gradients
+#' @param parnames:  text string of input file name for parameter names
+#' 
+#'
+#' @return data.frame of parameter gradients
+#'
+#' @examples
+#' gradients()
+#'
+#' @export
+
+gradients <- function(grads="sorted_gradient.rpt", parnames="xinit.rpt"){
+  
+  trim.leading  <- function(x) sub("^\\s+", "", x) 
+  
+  kk <- strsplit(readLines(parnames), split="[[:blank:]]+")
+  parnum <- as.numeric(unlist(lapply(kk, el, 1)))
+  parname<- unlist(lapply(kk, el, 2))
+  df1    <- data.frame(parnum=parnum, parname=parname)
+  
+  kk <- strsplit(trim.leading(readLines(grads)), split="[[:blank:]]+")
+  parnum  <- as.numeric(unlist(lapply(kk, el, 1)))
+  gradient<- as.numeric(unlist(lapply(kk, el, 2)))
+  df2     <- data.frame(parnum=parnum, gradient=gradient)
+  
+  df3 <- merge(df1, df2)
+  
+  return(df3[rev(order(df3$gradient)),])
+}
+
+
+
