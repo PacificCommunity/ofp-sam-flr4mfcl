@@ -157,7 +157,7 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar"),
      if(flagval(x, 1, 232)$value == 0)
        flagval(x, 1, 232) <- recPeriod(x, af199=flagval(x, 2, 199)$value, af200=flagval(x, 2, 200)$value)['pf232']
      if(flagval(x, 1, 233)$value == 0)
-       flagval(x, 1, 233) <- recPeriod(x, af199=flagval(x, 2, 200)$value, af200=flagval(x, 2, 200)$value)['pf233']
+       flagval(x, 1, 233) <- recPeriod(x, af199=flagval(x, 2, 199)$value, af200=flagval(x, 2, 200)$value)['pf233']
      
      
      proj.yrs <- dimnames(rel_rec(y))[[2]][!is.element(dimnames(rel_rec(y))[[2]], dimnames(rel_rec(x))[[2]])]
