@@ -507,7 +507,8 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972, version='new')
   av_f_a <- unlist(strsplit(par[grep("# Average fish mort per year by age class",par)+1], split="[[:blank:]]+"))
   
   mm <- as.numeric(unlist(strsplit(par[grep("# movement map",par)+1], split="[[:blank:]]+")))
-  if(any(mm[!is.na(mm)]>0) & vsn != 1053)
+  #if(any(mm[!is.na(mm)]>0) & vsn != 1053)
+  if(length(grep("# fm_level_devs", par))>0)
     slot(res, 'fm_level_devs') <- par[(grep("# fm_level_devs", par)+1):(grep("# movement map", par)-1)]
   
   slot(res, 'obj_fun')  <- as.numeric(splitter(par, "# Objective function value"))
@@ -531,7 +532,7 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972, version='new')
 }
 
 
-
+parfile <- "Q:/yft/2017/assessment/Model_Runs/Sensitivity_annualSRR_steepness0.65/12.par"
 
 
 
