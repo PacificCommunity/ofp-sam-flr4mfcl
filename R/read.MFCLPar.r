@@ -532,7 +532,7 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972, version='new')
 }
 
 
-parfile <- "Q:/yft/2017/assessment/Model_Runs/Sensitivity_annualSRR_steepness0.65/12.par"
+#parfile <- "Q:/yft/2017/assessment/Model_Runs/Sensitivity_annualSRR_steepness0.65/12.par"
 
 
 
