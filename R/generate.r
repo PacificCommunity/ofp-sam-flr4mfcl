@@ -132,9 +132,17 @@ setMethod("generate", signature(x="MFCLFrq", y="MFCLprojControl"),
             
             data_flags(x)[2,] <- range(x)['maxyear']+1  #as.numeric(max(avyrs(ctrl)))+1
             data_flags(x)[3,] <- as.numeric(qtrs[1])
+            
+            #original code
             #lf_range(x)['Datasets'] <- lf_range(x)['Datasets']+nrow(projdat2)
-            lf_range(x)['Datasets'] <- nrow(freq(x)[is.element(freq(x)$length, c(NA,lf_range(x)['LFFirst'])),]) +
-                                       nrow(freq(x)[is.element(freq(x)$weight, c(   lf_range(x)['WFFirst'])),])
+            
+            # modified for pseudo obs - but doesn't work for bet and yft
+            #lf_range(x)['Datasets'] <- nrow(freq(x)[is.element(freq(x)$length, c(NA,lf_range(x)['LFFirst'])),]) +
+            #                           nrow(freq(x)[is.element(freq(x)$weight, c(   lf_range(x)['WFFirst'])),])
+            
+            # potential solution - see if this breaks anything
+            lf_range(x)['Datasets'] <- lf_range(x)['Datasets'] + nrow(unique(projdat2[,1:4]))
+            
             slot(x,'range')['maxyear']     <- max(freq(x)$year)
             
             return(x)
