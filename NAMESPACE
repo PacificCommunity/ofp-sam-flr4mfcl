@@ -337,6 +337,7 @@ exportMethods(
   "ssb_obs<-",
   "steepness",
   "steepness<-",
+  "subset",
   "sv",
   "sv<-",
   "tag_fish_rep_flags",
