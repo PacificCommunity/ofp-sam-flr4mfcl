@@ -19,7 +19,7 @@
 #' @examples
 #' 
 
-#setGeneric('subset', function(x, ...) standardGeneric('subset')) 
+setGeneric('subset', function(x, ...) standardGeneric('subset')) 
 
 
 
