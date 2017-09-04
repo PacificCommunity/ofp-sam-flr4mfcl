@@ -1187,6 +1187,60 @@ setGeneric('eq_yield<-', function(object, ..., value) standardGeneric('eq_yield<
 setReplaceMethod('eq_yield', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['eq_yield'])),
                  function(object, value){slot(object, 'eq_yield') <- value; return(object)}) 
 
+#'MSY
+#'@export MSY
+setGeneric('MSY', function(object, ...) standardGeneric('MSY')) 
+setMethod('MSY', signature('MFCLRep'),function(object) return(slot(object, 'MSY'))) 
+#'MSY
+#'@export 
+setGeneric('MSY<-', function(object, ..., value) standardGeneric('MSY<-')) 
+setReplaceMethod('MSY', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['MSY'])),
+                 function(object, value){slot(object, 'MSY') <- value; return(object)}) 
+#'FMSY
+#'@export FMSY
+setGeneric('FMSY', function(object, ...) standardGeneric('FMSY')) 
+setMethod('FMSY', signature('MFCLRep'),function(object) return(slot(object, 'FMSY'))) 
+#'FMSY
+#'@export 
+setGeneric('FMSY<-', function(object, ..., value) standardGeneric('FMSY<-')) 
+setReplaceMethod('FMSY', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['FMSY'])),
+                 function(object, value){slot(object, 'FMSY') <- value; return(object)}) 
+#'BMSY
+#'@export BMSY
+setGeneric('BMSY', function(object, ...) standardGeneric('BMSY')) 
+setMethod('BMSY', signature('MFCLRep'),function(object) return(slot(object, 'BMSY'))) 
+#'BMSY
+#'@export 
+setGeneric('BMSY<-', function(object, ..., value) standardGeneric('BMSY<-')) 
+setReplaceMethod('BMSY', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['BMSY'])),
+                 function(object, value){slot(object, 'BMSY') <- value; return(object)}) 
+#'FFMSY
+#'@export FFMSY
+setGeneric('FFMSY', function(object, ...) standardGeneric('FFMSY')) 
+setMethod('FFMSY', signature('MFCLRep'),function(object) return(slot(object, 'FFMSY'))) 
+#'FFMSY
+#'@export 
+setGeneric('FFMSY<-', function(object, ..., value) standardGeneric('FFMSY<-')) 
+setReplaceMethod('FFMSY', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['FFMSY'])),
+                 function(object, value){slot(object, 'FFMSY') <- value; return(object)}) 
+#'BBMSY
+#'@export BBMSY
+setGeneric('BBMSY', function(object, ...) standardGeneric('BBMSY')) 
+setMethod('BBMSY', signature('MFCLRep'),function(object) return(slot(object, 'BBMSY'))) 
+#'BBMSY
+#'@export 
+setGeneric('BBMSY<-', function(object, ..., value) standardGeneric('BBMSY<-')) 
+setReplaceMethod('BBMSY', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['BBMSY'])),
+                 function(object, value){slot(object, 'BBMSY') <- value; return(object)}) 
+#'AggregateF
+#'@export AggregateF
+setGeneric('AggregateF', function(object, ...) standardGeneric('AggregateF')) 
+setMethod('AggregateF', signature('MFCLRep'),function(object) return(slot(object, 'AggregateF'))) 
+#'AggregateF
+#'@export 
+setGeneric('AggregateF<-', function(object, ..., value) standardGeneric('AggregateF<-')) 
+setReplaceMethod('AggregateF', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['AggregateF'])),
+                 function(object, value){slot(object, 'AggregateF') <- value; return(object)}) 
 
 #'dimensions
 #'@export dimensions

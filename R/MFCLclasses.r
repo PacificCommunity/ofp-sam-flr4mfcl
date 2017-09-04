@@ -662,7 +662,13 @@ setClass("MFCLRep",
            cpue_obs            ='FLQuant',
            cpue_pred           ='FLQuant',
            eq_biomass          ='FLQuant',
-           eq_yield            ='FLQuant'
+           eq_yield            ='FLQuant',
+           MSY                 ="numeric",
+           FMSY                ='numeric',
+           BMSY                ='numeric',
+           BBMSY               ='FLQuant',
+           FFMSY               ='FLQuant',
+           AggregateF          ='FLQuant'
          ),
          prototype=prototype(
            fishery_realizations=FLQuant(),
@@ -689,7 +695,13 @@ setClass("MFCLRep",
            cpue_obs            =FLQuant(),
            cpue_pred           =FLQuant(),
            eq_biomass          =FLQuant(),
-           eq_yield            =FLQuant()
+           eq_yield            =FLQuant(),
+           MSY                 =numeric(),
+           FMSY                =numeric(),
+           BMSY                =numeric(),
+           BBMSY               =FLQuant(),
+           FFMSY               =FLQuant(),
+           AggregateF          =FLQuant()
          ),
          validity=validMFCLRep
 )
