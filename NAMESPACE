@@ -239,6 +239,8 @@ exportMethods(
   "move_matrix<-",
   "move_weeks",
   "move_weeks<-",
+  "MSY",
+  "MSY<-",
   "n_fisheries",
   "n_fisheries<-",
   "n_mean_constraints",
