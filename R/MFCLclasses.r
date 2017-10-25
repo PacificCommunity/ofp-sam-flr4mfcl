@@ -668,6 +668,7 @@ setClass("MFCLRep",
            BMSY                ='numeric',
            BBMSY               ='FLQuant',
            FFMSY               ='FLQuant',
+           Fmult               ='numeric',
            AggregateF          ='FLQuant'
          ),
          prototype=prototype(
@@ -701,6 +702,7 @@ setClass("MFCLRep",
            BMSY                =numeric(),
            BBMSY               =FLQuant(),
            FFMSY               =FLQuant(),
+           Fmult               =numeric(),
            AggregateF          =FLQuant()
          ),
          validity=validMFCLRep

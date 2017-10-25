@@ -1232,6 +1232,15 @@ setMethod('BBMSY', signature('MFCLRep'),function(object) return(slot(object, 'BB
 setGeneric('BBMSY<-', function(object, ..., value) standardGeneric('BBMSY<-')) 
 setReplaceMethod('BBMSY', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['BBMSY'])),
                  function(object, value){slot(object, 'BBMSY') <- value; return(object)}) 
+#'Fmult
+#'@export Fmult
+setGeneric('Fmult', function(object, ...) standardGeneric('Fmult')) 
+setMethod('Fmult', signature('MFCLRep'),function(object) return(slot(object, 'Fmult'))) 
+#'FFMSY
+#'@export 
+setGeneric('Fmult<-', function(object, ..., value) standardGeneric('Fmult<-')) 
+setReplaceMethod('Fmult', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['Fmult'])),
+                 function(object, value){slot(object, 'Fmult') <- value; return(object)}) 
 #'AggregateF
 #'@export AggregateF
 setGeneric('AggregateF', function(object, ...) standardGeneric('AggregateF')) 

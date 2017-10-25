@@ -176,6 +176,8 @@ exportMethods(
   "FMSY<-",
   "FFMSY",
   "FFMSY<-",
+  "Fmult",
+  "Fmult<-",
   "fprojyr",
   "freq",
   "freq<-",
