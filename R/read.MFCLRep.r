@@ -155,7 +155,8 @@ read.MFCLRep <- function(repfile) {
   
   #popN
 
-  dat     <- pp[(grep("# Population Number by age", pp)+2) : (grep("# Population Number by age", pp)+(dimensions(res)['years']*dimensions(res)['regions'])+dimensions(res)['regions'])]
+  dat     <- pp[(grep("# Population Number by age", pp)+2) : (grep("# Population Number by age", pp)+(dimensions(res)['years']*dimensions(res)['regions'])+dimensions(res)['regions']+length(grep("Projected years",pp)))]
+  
   dat     <- dat[-grep("# Region", dat)] 
   if(length(grep("#   Projected years", dat))>0)
     dat     <- dat[-grep("#   Projected years", dat)]
