@@ -21,7 +21,7 @@
 read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
   
   trim.leading  <- function(x) sub("^\\s+", "", x)
-  trim.trailing <- function(x) sub("\\s+$", "", x) # not used - maybe delete
+  trim.trailing <- function(x) sub("\\s+$", "", x) 
   trim.hash     <- function(x) sub("#",     "", x) # not used - maybe delete
   
   splitter      <- function(ff, tt, ll=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)+ll]),split="[[:blank:]]+"))
@@ -30,8 +30,9 @@ read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
   
   if(is.null(parobj)){
     par <- readLines(parfile)
+    par <- trim.trailing(par)                                          # remove trailing whitespace
     par <- par[nchar(par)>=1]                                          # remove blank lines
-    par <- par[-seq(1,length(par))[grepl("# ", par) & nchar(par)<3]]   # remove single hashes with no text "# "
+#    par <- par[-seq(1,length(par))[grepl("# ", par) & nchar(par)<3]]   # remove single hashes with no text "# "
   }
   if(!is.null(parobj))
     par <- parobj
@@ -58,9 +59,11 @@ read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
   dims_cohort$cohort <- as.character(first.yr:(first.yr+(nyears-1)/nseasons))
   dims_cohort$season <- as.character(1:nseasons)
   
-  age_class_pars <- t(array(as.numeric(splitter(par, "# age-class related parameters", 1:5)), dim=c(nagecls, 5)))
+  #age_class_pars <- t(array(as.numeric(splitter(par, "# age-class related parameters", 1:5)), dim=c(nagecls, 5)))
+  age_class_pars <- t(array(as.numeric(splitter(par, "# age-class related parameters", 1:10)[-1]), dim=c(nagecls, 10)))
   
   slot(res, "m")                 <- as.numeric(par[grep("# natural mortality coefficient", par)+1])
+  #slot(res, "m")                 <- as.numeric(par[grep("# natural mortality coefficient", par)+2])
   slot(res, "m_devs_age")        <- FLQuant(age_class_pars[2,], dimnames=dims_age)
   slot(res, "log_m")             <- FLQuant(age_class_pars[5,], dimnames=dims_age)
   slot(res, "growth_devs_age")   <- FLQuant(age_class_pars[3,], dimnames=dims_age)  
@@ -274,7 +277,7 @@ read.MFCLRec <- function(parfile, parobj=NULL, first.yr=1972) {
   slot(res, "rel_ini_pop")       <- rel_ini #FLQuant(aperm(rel_ini, c(2,4,5,1,3,6)), dimnames=dims2)
   
   slot(res, "tot_pop")           <- as.numeric(par[grep("# total populations scaling parameter", par)+1])
-  slot(res, "tot_pop_implicit")  <- as.numeric(par[grep("# implicit total populations scaling parameter ", par)+1])
+  slot(res, "tot_pop_implicit")  <- as.numeric(par[grep("# implicit total populations scaling parameter", par)+1])
   
   
   slot(res, "range") <- c(min=min(as.numeric(dims$age)), max=max(as.numeric(dims$age)), plusgroup=NA,
@@ -302,7 +305,7 @@ read.MFCLRec <- function(parfile, parobj=NULL, first.yr=1972) {
 #'
 #' @export
 
-read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972, version='new') {
+read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972, version) {
 
   trim.leading  <- function(x) sub("^\\s+", "", x)
   splitter      <- function(ff, tt, ll=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[1]+ll]),split="[[:blank:]]+"))    
@@ -322,14 +325,15 @@ read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972, version='new') 
   nregions <- length(splitter(par,"# region parameters"))
   nagecls  <- as.numeric(par[grep("# The number of age classes", par)+1])  
   
-  dca <- par[(grep("# movement matrices", par)+2):grep("# age dependent movement coefficients",par)[1]]
+  dca <- trim.leading(par[(grep("# movement matrices", par)+2):grep("# age dependent movement coefficients",par)[1]])
   dca <- lapply(lapply(dca[-seq(nregions+1, length(dca), by=nregions+1)], strsplit, split="[[:blank:]]+"), unlist)
-  dca <- t(matrix(as.numeric(unlist(dca)), nrow=nregions+1)[-1,])
+  #dca <- t(matrix(as.numeric(unlist(dca)), nrow=nregions+1)[-1,])
+  dca <- t(matrix(as.numeric(unlist(dca)), nrow=nregions))
   dca <- aperm(array(dca, dim=c(nregions, nagecls, nseasons, nregions), 
                      dimnames=list(from=as.character(1:nregions), age=as.character(1:nagecls), period=as.character(1:nseasons), to=as.character(1:nregions))),
                c(1,4,2,3))
   
-  rrv <- aperm(array(as.numeric(splitter(par, "# regional recruitment variation ", 1:(nyears*nseasons))), 
+  rrv <- aperm(array(as.numeric(splitter(par, "# regional recruitment variation", 1:(nyears*nseasons))), 
                      dim=c(nregions, nseasons, nyears, 1, 1)), 
                c(4,3,5,2,1)) 
   
@@ -345,7 +349,7 @@ read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972, version='new') 
                                         nrow=nseasons, byrow=T)
   slot(res, 'diff_coffs_nl')  <- matrix(as.numeric(splitter(par, "# nonlinear movement coefficients",1:length(slot(res, 'move_map')))), 
                                         nrow=nseasons, byrow=T)
-  slot(res, 'diff_coffs_priors')  <- matrix(as.numeric(splitter(par,"# Movement coefficients priors ",1:length(slot(res, 'move_map')))), 
+  slot(res, 'diff_coffs_priors')  <- matrix(as.numeric(splitter(par,"# Movement coefficients priors",1:length(slot(res, 'move_map')))), 
                                         nrow=nseasons, byrow=T)
   slot(res, 'diff_coffs_age_priors') <- matrix(as.numeric(splitter(par, "# age dependent movement coefficients priors",1:length(slot(res, 'move_map')))), 
                                         nrow=nseasons, byrow=T)
@@ -354,10 +358,10 @@ read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972, version='new') 
   slot(res, 'region_rec_var') <- FLQuant(rrv, dimnames=list(age="all", year=as.character(seq(first.yr, first.yr+nyears-1)),unit="unique", 
                                                             season=as.character(1:nseasons),area=as.character(1:nregions)))
   
-  if(version=='new')
-    slot(res, 'region_pars') <- matrix(as.numeric(splitter(par, "# region parameters ",1:100)), ncol=nregions, byrow=T)
-  if(version=='old')
-    slot(res, 'region_pars') <- matrix(as.numeric(splitter(par, "# region parameters ",1:10)), ncol=nregions, byrow=T)
+  if(version==1051)
+    slot(res, 'region_pars') <- matrix(as.numeric(splitter(par, "# region parameters",1:100)), ncol=nregions, byrow=T)
+  if(version<=1050)
+    slot(res, 'region_pars') <- matrix(as.numeric(splitter(par, "# region parameters",1:10)), ncol=nregions, byrow=T)
   
   slot(res, 'range') <- c(min=0, max=nagecls/nseasons, plusgroup=NA, minyear=first.yr, maxyear=max(as.numeric(dimnames(region_rec_var(res))$year)))
   
@@ -385,12 +389,13 @@ read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972, version='new') 
 read.MFCLSel <- function(parfile, parobj=NULL, first.yr=1972) {
 
   trim.leading  <- function(x) sub("^\\s+", "", x)
+  trim.trailing <- function(x) sub("\\s+$", "", x) 
   splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+"))      
   
   res <- new("MFCLSel")
   
   if(is.null(parobj)){
-    par <- readLines(parfile)
+    par <- trim.leading(readLines(parfile))
     par <- par[nchar(par)>=1]                                          # remove blank lines
     par <- par[-seq(1,length(par))[grepl("# ", par) & nchar(par)<3]]   # remove single hashes with no text "# "
   }
@@ -427,7 +432,7 @@ read.MFCLSel <- function(parfile, parobj=NULL, first.yr=1972) {
   slot(res, 'av_q_coffs')  <- FLQuant(aperm(array(as.numeric(splitter(par,"# average catchability coefficients")),
                                                     dim=c(1,1,1,nfish,1)),c(2,3,4,1,5)), dimnames=dims3)
   
-  slot(res, 'ini_q_coffs')  <- FLQuant(aperm(array(as.numeric(splitter(par,"# initial trend in catchability coefficients ")),
+  slot(res, 'ini_q_coffs')  <- FLQuant(aperm(array(as.numeric(splitter(par,"# initial trend in catchability coefficients")),
                                                    dim=c(nfish, 1,1,1,1)),c(2,3,1,4,5)), dimnames=dims3)
   
   slot(res, 'q0_miss')      <- FLQuant(aperm(array(as.numeric(splitter(par,"# q0_miss")),
@@ -443,7 +448,7 @@ read.MFCLSel <- function(parfile, parobj=NULL, first.yr=1972) {
   slot(res, 'catch_dev_coffs')  <- cdc
   slot(res, 'catch_dev_coffs_flag') <- as.numeric(par[grep("# The grouped_catch_dev_coffs flag", par)+1])
   # the big ones
-  slot(res, 'sel_dev_coffs') <- matrix(as.numeric(splitter(par,"# selectivity deviation coefficients ",
+  slot(res, 'sel_dev_coffs') <- matrix(as.numeric(splitter(par,"# selectivity deviation coefficients",
                                             1:sum(unlist(lapply(qdc, length))))), ncol=nagecls, byrow=T)
   slot(res, 'sel_dev_coffs2')<- sdc
   
@@ -483,7 +488,7 @@ read.MFCLSel <- function(parfile, parobj=NULL, first.yr=1972) {
 #'
 #' @export
 
-read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972, version='new') {
+read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972, version) {
 
   trim.leading  <- function(x) sub("^\\s+", "", x)
   splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+"))    
@@ -491,24 +496,23 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972, version='new')
   res <- new("MFCLParBits")
 
   if(is.null(parobj)){
-    par <- readLines(parfile)
+    par <- trim.leading(readLines(parfile))
     par <- par[nchar(par)>=1]                                          # remove blank lines
     par <- par[-seq(1,length(par))[grepl("# ", par) & nchar(par)<3]]   # remove single hashes with no text "# "
   }
   if(!is.null(parobj))
     par <- parobj
   
-  vsn <- as.numeric(unlist(strsplit(trimws(par[2]), split="[[:blank:]]+")))[200]
-  
   taglik <- unlist(strsplit(par[grep("# Likelihood component for tags",          par)], split="[[:blank:]]+"))
   mn_l_p <- unlist(strsplit(par[grep("# Average fish mort per fishing incident", par)], split="[[:blank:]]+"))
   av_f_i <- unlist(strsplit(par[grep("# Average fish mort per fishing incident", par)], split="[[:blank:]]+"))
   av_f_y <- unlist(strsplit(par[grep("# Average fish mort per year is",          par)], split="[[:blank:]]+"))
-  av_f_a <- unlist(strsplit(par[grep("# Average fish mort per year by age class",par)+1], split="[[:blank:]]+"))
+  av_f_a <- unlist(strsplit(trim.leading(par[grep("# Average fish mort per year by age class",par)+1]), split="[[:blank:]]+"))
   
   mm <- as.numeric(unlist(strsplit(par[grep("# movement map",par)+1], split="[[:blank:]]+")))
-  #if(any(mm[!is.na(mm)]>0) & vsn != 1053)
-  if(length(grep("# fm_level_devs", par))>0)
+  vsn <- as.numeric(unlist(strsplit(trimws(par[2]), split="[[:blank:]]+")))[200]
+  if(any(mm[!is.na(mm)]>0) & vsn >= 1053)
+  #if(length(grep("# fm_level_devs", par))>0)
     slot(res, 'fm_level_devs') <- par[(grep("# fm_level_devs", par)+1):(grep("# movement map", par)-1)]
   
   slot(res, 'obj_fun')  <- as.numeric(splitter(par, "# Objective function value"))
@@ -520,10 +524,16 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972, version='new')
   slot(res, 'av_fish_mort_year') <- as.numeric(av_f_y[length(av_f_y)])
   slot(res, 'av_fish_mort_age')  <- as.numeric(av_f_a[-1])
   
-  if(version=='new'){
+  if(version>=1051){
     slot(res, 'logistic_normal_params') <- par[(grep("# The logistic normal parameters", par)+1):(grep("# The logistic normal parameters", par)+6)]
-    slot(res, 'lagrangian') <- par[(grep("# Lambdas for augmented Lagrangian", par)+1):(grep("# Reporting rate dev coffs", par)-1)]
+    
+    start <- grep("# Lambdas for augmented Lagrangian", par)+1
+    end   <- grep("# Reporting rate dev coffs", par)-1
+    slot(res, 'lagrangian') <- par[start:end]
+    
+    #slot(res, 'lagrangian') <- par[(grep("# Lambdas for augmented Lagrangian", par)+1):(grep("# Reporting rate dev coffs", par)-1)]
   }
+  
   
   if(length(grep("# Historical_flags", par))>0)
     slot(res, 'historic_flags') <- par[(grep("# Historical_flags", par)+1):length(par)]
@@ -555,9 +565,9 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972, version='new')
 #'
 #' @export
 
-read.MFCLPar <- function(parfile, first.yr=1972, version='new') {
+read.MFCLPar <- function(parfile, first.yr=1972) {
   
-  res <- new("MFCLPar")
+  trim.trailing <- function(x) sub("\\s+$", "", x) 
   
   slotcopy <- function(from, to){
     for(slotname in slotNames(from)){
@@ -565,17 +575,22 @@ read.MFCLPar <- function(parfile, first.yr=1972, version='new') {
     }
     return(to)
   }
-  par    <- readLines(parfile)
+  
+  res <- new("MFCLPar")
+  
+  par <- trim.trailing(readLines(parfile))
   par <- par[nchar(par)>=1]                                          # remove blank lines
   par <- par[-seq(1,length(par))[grepl("#", par) & nchar(par)<3]]   # remove single hashes with no text "# "  
+  
+  vsn <- as.numeric(unlist(strsplit(trimws(par[2]), split="[[:blank:]]+")))[200]
   
   res <- slotcopy(read.MFCLBiol(parfile,  par, first.yr), res)
   res <- slotcopy(read.MFCLFlags(parfile, par, first.yr), res)
   res <- slotcopy(read.MFCLTagRep(parfile,par, first.yr), res)
   res <- slotcopy(read.MFCLRec(parfile,   par, first.yr), res)
-  res <- slotcopy(read.MFCLRegion(parfile,par, first.yr, version=version), res)
+  res <- slotcopy(read.MFCLRegion(parfile,par, first.yr, version=vsn), res)
   res <- slotcopy(read.MFCLSel(parfile,   par, first.yr), res)
-  res <- slotcopy(read.MFCLParBits(parfile,par, version=version), res)
+  res <- slotcopy(read.MFCLParBits(parfile,par, version=vsn), res)
   
   slot(res, 'range') <- c(min=0, max=max(as.numeric(unlist(dimnames(fishery_sel(res))['age']))), 
                           plusgroup=NA, 
