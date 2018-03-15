@@ -559,8 +559,6 @@ validMFCLPar <- function(object){
    return(TRUE)
 }
 
-
-
 setClass("MFCLPar",
          representation(
            "MFCLBiol",
@@ -589,14 +587,41 @@ MFCLPar <- function() {return(new("MFCLPar"))}
 
 
 
-###### CLASSS MFCLTag
+###### CLASSS MFCLTagProj
+validMFCLTagProj <- function(object){
+  #Everything is fine
+  return(TRUE)
+}
+setClass("MFCLTagProj",
+         representation(
+           release_groups_proj = "numeric",
+           releases_proj       = 'data.frame',
+           range               = "numeric"
+         ),
+         prototype=prototype(
+           release_groups_proj = numeric(),
+           releases_proj       = data.frame(region=NULL, year=NULL, month=NULL, fishery=NULL, n=NULL),
+           range               = unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
+         ),
+         validity=validMFCLTagProj
+)
+setValidity("MFCLTagProj", validMFCLTagProj)
+remove(validMFCLTagProj)
+#'MFCLTagProj
+#'
+#'Basic constructor for MFCLTag class
+#'@export
+MFCLTagProj <- function() {return(new("MFCLTagProj"))}
 
+
+###### CLASSS MFCLTagProj
 validMFCLTag <- function(object){
   #Everything is fine
   return(TRUE)
 }
 setClass("MFCLTag",
          representation(
+           "MFCLTagProj",
            release_groups  = "numeric",
            release_lengths = "numeric",
            recoveries      = "numeric",
@@ -606,9 +631,11 @@ setClass("MFCLTag",
          ),
          prototype=prototype(
            release_groups  = numeric(),
+           release_groups_proj = numeric(),
            release_lengths  = numeric(),
            recoveries      = numeric(),
            releases        = data.frame(rel.group=NULL, region=NULL, year=NULL, month=NULL, program=NULL, length=NULL, lendist=NULL),
+           releases_proj   = data.frame(region=NULL, year=NULL, month=NULL, fishery=NULL, n=NULL),
            recaptures      = data.frame(rel.group=NULL, region=NULL, year=NULL, month=NULL, program=NULL, rel.length=NULL, recap.fishery=NULL, recap.year=NULL, recap.month=NULL, recap.number=NULL),
            range           = unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
            ),

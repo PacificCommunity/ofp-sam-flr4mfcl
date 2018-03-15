@@ -1411,6 +1411,37 @@ setReplaceMethod('dimensions', signature(object='MFCLRep', value=unname(getSlots
                  function(object, value){slot(object, 'dimensions') <- value; return(object)}) 
 
 #############################################################################################################
+# class  MFCLTagProj
+#'release_groups_proj
+#'@export release_groups_proj
+setGeneric('release_groups_proj', function(object, ...) standardGeneric('release_groups_proj')) 
+setMethod('release_groups_proj', signature('MFCLTagProj'),function(object) return(slot(object, 'release_groups_proj'))) 
+#'release_groups_proj
+#'@export 
+setGeneric('release_groups_proj<-', function(object, ..., value) standardGeneric('release_groups_proj<-')) 
+setReplaceMethod('release_groups_proj', signature(object='MFCLTagProj', value=unname(getSlots('MFCLTagProj')['release_groups_proj'])),
+                 function(object, value){slot(object, 'release_groups_proj') <- value; return(object)}) 
+
+#'releases_proj
+#'@export releases_proj
+setGeneric('releases_proj', function(object, ...) standardGeneric('releases_proj')) 
+setMethod('releases_proj', signature('MFCLTagProj'),function(object) return(slot(object, 'releases_proj'))) 
+#'releases_proj
+#'@export 
+setGeneric('releases_proj<-', function(object, ..., value) standardGeneric('releases_proj<-')) 
+setReplaceMethod('releases_proj', signature(object='MFCLTagProj', value=unname(getSlots('MFCLTagProj')['releases_proj'])),
+                 function(object, value){slot(object, 'releases_proj') <- value; return(object)}) 
+
+#'range
+#'@export range
+setMethod('range', signature(x='MFCLTagProj'),function(x) return(slot(x,'range'))) 
+#'range
+#'@export range<- 
+#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
+setReplaceMethod('range', signature(object='MFCLTagProj', value=unname(getSlots('MFCLTagProj')['range'])),
+                 function(object, value){slot(object, 'range') <- value; return(object)}) 
+
+#############################################################################################################
 # class  MFCLTag
 #'release_groups
 #'@export release_groups
@@ -1431,7 +1462,6 @@ setMethod('release_lengths', signature('MFCLTag'),function(object) return(slot(o
 setGeneric('release_lengths<-', function(object, ..., value) standardGeneric('release_lengths<-')) 
 setReplaceMethod('release_lengths', signature(object='MFCLTag', value=unname(getSlots('MFCLTag')['release_lengths'])),
                  function(object, value){slot(object, 'release_lengths') <- value; return(object)}) 
-
 
 #'recoveries
 #'@export recoveries
