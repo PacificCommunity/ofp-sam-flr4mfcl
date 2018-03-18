@@ -611,7 +611,18 @@ remove(validMFCLTagProj)
 #'
 #'Basic constructor for MFCLTag class
 #'@export
-MFCLTagProj <- function() {return(new("MFCLTagProj"))}
+MFCLTagProj <- function(ptd=NULL) {
+  res <- new("MFCLTagProj")
+  if(!is.null(ptd)){
+    releases_proj(res) <- ptd
+    release_groups_proj(res) <- nrow(ptd)
+    range(res)[c('min','max')] <- range(ptd$n)
+    range(res)[c('minyear','maxyear')] <- range(ptd$year)
+  }
+  return(res)}
+
+
+
 
 
 ###### CLASSS MFCLTagProj

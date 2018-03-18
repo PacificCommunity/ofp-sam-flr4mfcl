@@ -20,24 +20,32 @@ read.MFCLTag <- function(tagfile) {
   splitter      <- function(ff, tt, ll=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)+ll]),split="[[:blank:]]+"))
   
   tagdat <- c(readLines(tagfile), "#", "#---")
+  
+  long <- grep("#", tagdat)
+  short<- grep("# ",tagdat)
+  
+  tagdat <- tagdat[-long[!is.element(long, short)]]
+  
   res    <- MFCLTag()
   
   topdat              <- as.numeric(splitter(tagdat, "# RELEASE GROUPS"))
   release_groups(res) <- topdat[1]
   release_lengths(res)<- seq(topdat[2], topdat[2]+topdat[4]*(topdat[3]-1), by=topdat[4])
   
-  recoveries(res)     <- as.numeric(splitter(tagdat, "# TAG RECOVERIES", ll=2))
+  ll <- ifelse(splitter(tagdat, "# TAG RECOVERIES")[1]=="#", 2, 1)              # different format for assessment and pseudo tag files 
+  recoveries(res)     <- as.numeric(splitter(tagdat, "# TAG RECOVERIES", ll))
   
-  release.marker     <- grep("#---", tagdat)
-  recapture.marker   <- grep("# LENGTH RELEASE", tagdat)
+  #release.marker     <- grep("#---", tagdat)
+  release.marker     <- grep("RELEASE REGION", tagdat)
+  recapture.marker   <- grep("LENGTH RELEASE", tagdat)
   hash.marker        <- grep("#", tagdat)
   
   mm2 <- 1
   for(mm in 1:(length(release.marker)-1)){ 
     
-    program      <- rev(unlist(strsplit(tagdat[release.marker[mm]+1], split="[[:blank:]]+")))[1]
+    program      <- rev(unlist(strsplit(tagdat[release.marker[mm]], split="[[:blank:]]+")))[1]
     
-    topdat.event <- as.numeric(unlist(strsplit(trim.leading(tagdat[release.marker[mm]+2]), split="[[:blank:]]+")))
+    topdat.event <- as.numeric(unlist(strsplit(trim.leading(tagdat[release.marker[mm]+1]), split="[[:blank:]]+")))
     
     releases(res) <- rbind(releases(res), data.frame(rel.group  =mm,
                                                      region =topdat.event[1],
@@ -45,11 +53,12 @@ read.MFCLTag <- function(tagfile) {
                                                      month  =topdat.event[3],
                                                      program=program,
                                                      length =release_lengths(res), 
-                                                     lendist=as.numeric(unlist(strsplit(trim.leading(tagdat[release.marker[mm]+3]), 
+                                                     lendist=as.numeric(unlist(strsplit(trim.leading(tagdat[release.marker[mm]+2]), 
                                                                                         split="[[:blank:]]+")))))
     
     if(length(recapture.marker) >= mm2 & recapture.marker[mm2]<release.marker[mm+1]) {    
-      nrows   <- min(hash.marker[hash.marker>recapture.marker[mm2] & hash.marker<release.marker[mm+1]]) - recapture.marker[mm2] - 1
+      #nrows   <- min(hash.marker[hash.marker>recapture.marker[mm2] & hash.marker<release.marker[mm+1]]) - recapture.marker[mm2] - 1
+      nrows    <- release.marker[mm+1] - recapture.marker[mm2] -1
 
       tempdat <-t(array(as.numeric(unlist(strsplit(trim.leading(tagdat[recapture.marker[mm2]+1:nrows]), 
                                                  split="[[:blank:]]+"))), dim=c(5, nrows)))
