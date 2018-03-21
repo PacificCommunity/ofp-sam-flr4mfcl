@@ -19,7 +19,7 @@ read.MFCLTag <- function(tagfile) {
   trim.hash     <- function(x) sub("#",     "", x) # not used - maybe delete
   splitter      <- function(ff, tt, ll=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)+ll]),split="[[:blank:]]+"))
   
-  tagdat <- c(readLines(tagfile), "#", "#---")
+  tagdat <- c(readLines(tagfile), "#", "RELEASE REGION")
   
   long <- grep("#", tagdat)
   short<- grep("# ",tagdat)
@@ -41,7 +41,7 @@ read.MFCLTag <- function(tagfile) {
   hash.marker        <- grep("#", tagdat)
   
   mm2 <- 1
-  for(mm in 1:(length(release.marker))){ 
+  for(mm in 1:(length(release.marker)-1)){ 
     
     program      <- rev(unlist(strsplit(tagdat[release.marker[mm]], split="[[:blank:]]+")))[1]
     
