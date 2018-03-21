@@ -41,7 +41,7 @@ read.MFCLTag <- function(tagfile) {
   hash.marker        <- grep("#", tagdat)
   
   mm2 <- 1
-  for(mm in 1:(length(release.marker)-1)){ 
+  for(mm in 1:(length(release.marker))){ 
     
     program      <- rev(unlist(strsplit(tagdat[release.marker[mm]], split="[[:blank:]]+")))[1]
     
