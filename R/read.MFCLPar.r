@@ -2,25 +2,25 @@
 
 # unexported function to strip Dave's diagnostic stuff out of the par file.
 
-FournierYouUtterBastard <- function(fstring){
+stripDebugNumbers <- function(fstring){
   
-  #  trim.leading  <- function(x) sub("^\\s+", "", x)
+  trim.leading  <- function(x) sub("^\\s+", "", x)
   
-  #  vsn <- as.numeric(unlist(strsplit(trim.leading(fstring[2]), split='[[:blank:]]+')))[200]
-  #if(vsn >= 1055){
+  vsn <- as.numeric(unlist(strsplit(trim.leading(fstring[2]), split='[[:blank:]]+')))[200]
+  if(vsn >= 1055){
     
-  # marks <- 871:879  # who knows if this is all of them - I bet it's not.
-  
-  # for(mk in marks){
-  #   lines <- grep(mk, fstring)
-  #   lls <- NULL
-  #   for(ll in lines){
-  #     if(length(unlist(strsplit(trim.leading(fstring[ll]), split='[[:blank:]]+')))==1)
-  #         lls <- c(lls, ll)
-  #   }   
-  #   fstring <- fstring[-lls]
-  # }
-  #}
+    marks <- 871:879  # who knows if this is all of them - I bet it's not.
+    
+    for(mk in marks){
+      lines <- grep(mk, fstring)
+      lls <- NULL
+      for(ll in lines){
+        if(length(unlist(strsplit(trim.leading(fstring[ll]), split='[[:blank:]]+')))==1)
+          lls <- c(lls, ll)
+      }   
+      fstring <- fstring[-lls]
+    }
+  }
   return(fstring)
 }
 
@@ -58,7 +58,7 @@ read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
   res <- new("MFCLBiol")
   
   if(is.null(parobj)){
-    par <- FournierYouUtterBastard(readLines(parfile))
+    par <- readLines(parfile)
     par <- trim.trailing(par)                                          # remove trailing whitespace
     par <- par[nchar(par)>=1]                                          # remove blank lines
 #    par <- par[-seq(1,length(par))[grepl("# ", par) & nchar(par)<3]]   # remove single hashes with no text "# "
@@ -153,7 +153,7 @@ read.MFCLFlags <- function(parfile, parobj=NULL, first.yr=1972) {
   res    <- new("MFCLFlags")
   
   if(is.null(parobj)){
-    par <- trim.leading(FournierYouUtterBastard(readLines(parfile)))
+    par <- trim.leading(readLines(parfile))
     par <- par[nchar(par)>=1]                                          # remove blank lines
     par <- par[-seq(1,length(par))[grepl("# ", par) & nchar(par)<3]]   # remove single hashes with no text "# "
   }
@@ -216,7 +216,7 @@ read.MFCLTagRep <- function(parfile, parobj=NULL, first.yr=1972) {
   res <- new("MFCLTagRep")
   
   if(is.null(parobj)){
-    par <- FournierYouUtterBastard(readLines(parfile))
+    par <- readLines(parfile)
     par <- par[nchar(par)>=1]                                          # remove blank lines
     if(any(grepl("# ", par) & nchar(par)<3))
       par <- par[-seq(1,length(par))[grepl("# ", par) & nchar(par)<3]]   # remove single hashes with no text "# "
@@ -273,7 +273,7 @@ read.MFCLRec <- function(parfile, parobj=NULL, first.yr=1972) {
   res <- new("MFCLRec")
   
   if(is.null(parobj)){
-    par <- FournierYouUtterBastard(readLines(parfile))
+    par <- readLines(parfile)
     par <- par[nchar(par)>=1]                                          # remove blank lines
     par <- par[-seq(1,length(par))[grepl("#", par) & nchar(par)<3]]   # remove single hashes with no text "# "
   }
@@ -342,7 +342,7 @@ read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972, version) {
   res <- new("MFCLRegion")
   
   if(is.null(parobj)){
-    par <- FournierYouUtterBastard(readLines(parfile))
+    par <- readLines(parfile)
     par <- par[nchar(par)>=1]                                          # remove blank lines
     par <- par[-seq(1,length(par))[grepl("# ", par) & nchar(par)<3]]   # remove single hashes with no text "# "
   }
@@ -424,7 +424,7 @@ read.MFCLSel <- function(parfile, parobj=NULL, first.yr=1972) {
   res <- new("MFCLSel")
   
   if(is.null(parobj)){
-    par <- trim.leading(FournierYouUtterBastard(readLines(parfile)))
+    par <- trim.leading(readLines(parfile))
     par <- par[nchar(par)>=1]                                          # remove blank lines
     par <- par[-seq(1,length(par))[grepl("# ", par) & nchar(par)<3]]   # remove single hashes with no text "# "
   }
@@ -525,7 +525,7 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972, version) {
   res <- new("MFCLParBits")
 
   if(is.null(parobj)){
-    par <- trim.leading(FournierYouUtterBastard(readLines(parfile)))
+    par <- trim.leading(readLines(parfile))
     par <- par[nchar(par)>=1]                                          # remove blank lines
     par <- par[-seq(1,length(par))[grepl("# ", par) & nchar(par)<3]]   # remove single hashes with no text "# "
   }
@@ -604,7 +604,7 @@ read.MFCLPar <- function(parfile, first.yr=1972) {
   
   res <- new("MFCLPar")
   
-  par <- trim.trailing(FournierYouUtterBastard(readLines(parfile)))
+  par <- trim.trailing(readLines(parfile))
   par <- par[nchar(par)>=1]                                          # remove blank lines
   par <- par[-seq(1,length(par))[grepl("#", par) & nchar(par)<3]]   # remove single hashes with no text "# "  
   
