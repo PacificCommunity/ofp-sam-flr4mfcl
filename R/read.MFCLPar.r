@@ -4,21 +4,23 @@
 
 FournierYouUtterBastard <- function(fstring){
   
-  vsn <- as.numeric(unlist(strsplit(trim.leading(fstring[2]), split='[[:blank:]]+')))[200]
-  if(vsn >= 1055){
-    
-    marks <- 871:879  # who knows if this is all of them - I bet it's not.
+  #  trim.leading  <- function(x) sub("^\\s+", "", x)
   
-    for(mk in marks){
-      lines <- grep(mk, fstring)
-      lls <- NULL
-      for(ll in lines){
-        if(length(unlist(strsplit(trim.leading(fstring[ll]), split='[[:blank:]]+')))==1)
-            lls <- c(lls, ll)
-      }   
-      fstring <- fstring[-lls]
-    }
-  }
+  #  vsn <- as.numeric(unlist(strsplit(trim.leading(fstring[2]), split='[[:blank:]]+')))[200]
+  #if(vsn >= 1055){
+    
+  # marks <- 871:879  # who knows if this is all of them - I bet it's not.
+  
+  # for(mk in marks){
+  #   lines <- grep(mk, fstring)
+  #   lls <- NULL
+  #   for(ll in lines){
+  #     if(length(unlist(strsplit(trim.leading(fstring[ll]), split='[[:blank:]]+')))==1)
+  #         lls <- c(lls, ll)
+  #   }   
+  #   fstring <- fstring[-lls]
+  # }
+  #}
   return(fstring)
 }
 
@@ -385,10 +387,10 @@ read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972, version) {
   slot(res, 'region_rec_var') <- FLQuant(rrv, dimnames=list(age="all", year=as.character(seq(first.yr, first.yr+nyears-1)),unit="unique", 
                                                             season=as.character(1:nseasons),area=as.character(1:nregions)))
   
-  if(version==1051)
-    slot(res, 'region_pars') <- matrix(as.numeric(splitter(par, "# region parameters",1:100)), ncol=nregions, byrow=T)
   if(version<=1050)
     slot(res, 'region_pars') <- matrix(as.numeric(splitter(par, "# region parameters",1:10)), ncol=nregions, byrow=T)
+  if(version>1050)
+    slot(res, 'region_pars') <- matrix(as.numeric(splitter(par, "# region parameters",1:100)), ncol=nregions, byrow=T)
   
   slot(res, 'range') <- c(min=0, max=nagecls/nseasons, plusgroup=NA, minyear=first.yr, maxyear=max(as.numeric(dimnames(region_rec_var(res))$year)))
   
