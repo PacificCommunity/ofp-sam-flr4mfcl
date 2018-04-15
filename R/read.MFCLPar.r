@@ -541,7 +541,7 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972, version) {
   mm <- as.numeric(unlist(strsplit(par[grep("# movement map",par)+1], split="[[:blank:]]+")))
   vsn <- as.numeric(unlist(strsplit(trimws(par[2]), split="[[:blank:]]+")))[200]
   if(any(mm[!is.na(mm)]>0) & vsn >= 1053)
-  #if(length(grep("# fm_level_devs", par))>0)
+  #if(length(grep("# fm_level_devs", par))>0)  # YFT - no missing catch in yft.frq and therefore no fm_level_devs produced in par file - need to find better approach !!!
     slot(res, 'fm_level_devs') <- par[(grep("# fm_level_devs", par)+1):(grep("# movement map", par)-1)]
   
   slot(res, 'obj_fun')  <- as.numeric(splitter(par, "# Objective function value"))
