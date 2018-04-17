@@ -45,6 +45,7 @@ export(
   "read.MFCLCatch",
   "read.MFCLLenFit",
   "read.MFCLProjectedNatAge",
+  "read.temporary_tag_report",
   "recPeriod",
   "setMFCLversion",
   "setSimYrs",
