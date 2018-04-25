@@ -77,6 +77,7 @@ exportClasses(
   'MFCLLenFit'
 )
 exportMethods(
+  "aal",
   "adultBiomass",
   "adultBiomass<-",
   "adultBiomass_nofish",
@@ -206,7 +207,6 @@ exportMethods(
   "l_frq",
   "l_frq<-",
   "laa",
-  "laa<-",
   "lagrangian",
   "lagrangian<-",
   "len_bias_pars",

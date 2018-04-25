@@ -32,6 +32,21 @@ setMethod("laa", signature(object="MFCLPar"),
           })
 
 
+setGeneric('aal', function(object, ...) standardGeneric('aal')) 
+
+#' @rdname par-methods
+#' @aliases aal
+
+setMethod("aal", signature(object="MFCLPar"), 
+          function(object, lengths=seq(0,108,by=2)){
+            L1  <- growth(object)['Lmin','est']
+            LA  <- growth(object)['Lmax','est']
+            K   <- growth(object)['k',   'est']
+            ages<- 1:dimensions(object)['agecls']
+            
+            return(suppressWarnings((log(-(((lengths-L1)/(LA-L1))*(1-exp(-K*(max(ages)-1)))-1))/-K)+1))
+          })
+
 #' waa
 #'
 #' Calculates weight at age from Von Bertalanffy parameters and length weight params in the par file
