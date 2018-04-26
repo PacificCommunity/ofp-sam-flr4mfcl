@@ -39,6 +39,7 @@ setGeneric('aal', function(object, ...) standardGeneric('aal'))
 
 setMethod("aal", signature(object="MFCLPar"), 
           function(object, lengths=seq(0,108,by=2)){
+            
             L1  <- growth(object)['Lmin','est']
             LA  <- growth(object)['Lmax','est']
             K   <- growth(object)['k',   'est']
@@ -95,21 +96,21 @@ setMethod("waa", signature(object="MFCLPar"),
 #'
 
 
-setGeneric('SPR0', function(par, rep, ...) standardGeneric('SPR0')) 
+setGeneric('SPR0', function(par, ...) standardGeneric('SPR0')) 
 
 #' @rdname par-methods
 #' @aliases SPR0
 
-setMethod("SPR0", signature(par="MFCLPar", rep="MFCLRep"), 
-          function(par, rep, ...){
+setMethod("SPR0", signature(par="MFCLPar"), 
+          function(par, ...){
             
             age <- 1:dimensions(par)['agecls']
             wgt <- waa(par)
-            m   <- c(aperm(m_at_age(rep), c(4,1,2,3,5,6)))
+            m   <- m(par)*exp(c(aperm(m_devs_age(par), c(4,1,2,3,5,6))))
             mat <- c(aperm(mat(par), c(4,1,2,3,5,6)))
             
 
-            spr0           <- c(1,exp(-cumsum(m)))[-41]*mat*wgt
+            spr0           <- c(1,exp(-cumsum(m)))[-1]*mat*wgt
             spr0[max(age)] <- spr0[max(age)]*(1/(1-exp(-m[max(age)])))  # add the plus group
             spr0           <- sum(spr0)
             

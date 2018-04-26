@@ -61,7 +61,7 @@ read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
     par <- readLines(parfile)
     par <- trim.trailing(par)                                          # remove trailing whitespace
     par <- par[nchar(par)>=1]                                          # remove blank lines
-#    par <- par[-seq(1,length(par))[grepl("# ", par) & nchar(par)<3]]   # remove single hashes with no text "# "
+    par <- par[-seq(1,length(par))[grepl("#", par) & nchar(par)<3]]   # remove single hashes with no text "# "
   }
   if(!is.null(parobj))
     par <- parobj
@@ -89,14 +89,15 @@ read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
   dims_cohort$season <- as.character(1:nseasons)
   
   #age_class_pars <- t(array(as.numeric(splitter(par, "# age-class related parameters", 1:5)), dim=c(nagecls, 5)))
-  age_class_pars <- t(array(as.numeric(splitter(par, "# age-class related parameters", 1:10)[-1]), dim=c(nagecls, 10)))
+  #age_class_pars <- t(array(as.numeric(splitter(par, "# age-class related parameters", 1:10)[-1]), dim=c(nagecls, 10)))
+  age_class_pars <- t(array(as.numeric(splitter(par, "# age-class related parameters", 1:10)), dim=c(nagecls, 10)))
   
   slot(res, "m")                 <- as.numeric(par[grep("# natural mortality coefficient", par)+1])
   #slot(res, "m")                 <- as.numeric(par[grep("# natural mortality coefficient", par)+2])
-  slot(res, "m_devs_age")        <- FLQuant(age_class_pars[2,], dimnames=dims_age)
-  slot(res, "log_m")             <- FLQuant(age_class_pars[5,], dimnames=dims_age)
-  slot(res, "growth_devs_age")   <- FLQuant(age_class_pars[3,], dimnames=dims_age)  
-  slot(res, "growth_curve_devs") <- FLQuant(age_class_pars[4,], dimnames=dims_age)  
+  slot(res, "m_devs_age")        <- FLQuant(c(t(matrix(age_class_pars[2,], nrow=nseasons))), dimnames=dims_age)
+  slot(res, "log_m")             <- FLQuant(c(t(matrix(age_class_pars[5,], nrow=nseasons))), dimnames=dims_age)
+  slot(res, "growth_devs_age")   <- FLQuant(c(t(matrix(age_class_pars[3,], nrow=nseasons))), dimnames=dims_age)  
+  slot(res, "growth_curve_devs") <- FLQuant(c(t(matrix(age_class_pars[4,], nrow=nseasons))), dimnames=dims_age)  
   
   slot(res, "mat")      <- FLQuant(aperm(array(as.numeric(splitter(par, "# percent maturity")),
                                                dim=c(nseasons,nagecls/nseasons,1,1,1)),c(2,3,4,1,5)), dimnames=dims_age)
