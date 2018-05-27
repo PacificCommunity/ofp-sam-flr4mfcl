@@ -15,6 +15,14 @@
 
 
 
+setMethod("n_fisheries", signature(object="MFCLPar"),
+          function(object, ...){
+            nfish <- unique(flags(par)[flags(par)$flagtype <0 & flags(par)$flagtype>-1000,'flagtype'])
+            return(length(nfish))
+          })
+
+
+
 
 #' @rdname par-methods
 #' @aliases laa
