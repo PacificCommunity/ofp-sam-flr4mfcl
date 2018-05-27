@@ -161,6 +161,8 @@ setMethod("generate", signature(x="MFCLFrq", y="MFCLprojControl"),
 setMethod("generate", signature(x="MFCLPar", y="MFCLPar"), 
           function(x, y, ...){
      
+    stop("generate(MFCLPar, MFCLPar) has been replaced by generate(MFCLPar, MFCLPar, MFCLFrq)")        
+            
      # set stochastic recruitment flags
      if(flagval(x, 1, 232)$value == 0)
        flagval(x, 1, 232) <- recPeriod(x, af199=flagval(x, 2, 199)$value, af200=flagval(x, 2, 200)$value)['pf232']
