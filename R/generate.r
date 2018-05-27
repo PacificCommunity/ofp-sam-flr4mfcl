@@ -62,7 +62,7 @@ generate.ESS<- function(x, ctrl, projdat2, sc_df){
 #' generate(MFCLFrq(), MFCLprojControl())
 #' generate(MFCLPar(), MFCLPar())
 
-setGeneric('generate', function(x, y, ...) standardGeneric('generate')) 
+setGeneric('generate', function(x, y, z, ...) standardGeneric('generate')) 
 
 
 
@@ -209,3 +209,85 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar"),
 
 
 
+
+setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLFrq"), 
+          function(x, y, z, ...){
+            
+            # set stochastic recruitment flags
+            if(flagval(x, 1, 232)$value == 0)
+              flagval(x, 1, 232) <- recPeriod(x, af199=flagval(x, 2, 199)$value, af200=flagval(x, 2, 200)$value)['pf232']
+            if(flagval(x, 1, 233)$value == 0)
+              flagval(x, 1, 233) <- recPeriod(x, af199=flagval(x, 2, 199)$value, af200=flagval(x, 2, 200)$value)['pf233']
+            
+            proj.yrs <- dimnames(rel_rec(y))[[2]][!is.element(dimnames(rel_rec(y))[[2]], dimnames(rel_rec(x))[[2]])]
+            
+            # zero filled objects that you can just copy across   
+            rep_rate_dev_coffs(x) <- rep_rate_dev_coffs(y)
+            fm_level_devs(x)      <- fm_level_devs(y)
+            
+            q_dev_coffs(x)        <- q_dev_coffs(y)
+            sel_dev_coffs(x)      <- sel_dev_coffs(y)
+            sel_dev_coffs2(x)     <- sel_dev_coffs2(y)
+            growth_devs_cohort(x) <- growth_devs_cohort(y)
+            unused(x)             <- unused(y)
+            lagrangian(x)         <- lagrangian(y)
+            
+            # check that "other lambdas ..." are not specified for par files < 1053
+            if(flagval(x, 1, 200)$value<1053 & length(grep("# Other lambdas", lagrangian(x)))>0)
+              lagrangian(x) <- lagrangian(x)[1:(grep("Other lambdas", lagrangian(x))-1)]
+            
+            # non-zero filled objects that you need to append zeroes to 
+            eff_dev_coff_incs     <- unlist(lapply(effort_dev_coffs(y),length)) - unlist(lapply(effort_dev_coffs(x),length))
+            effort_dev_coffs(x)   <- lapply(1:dimensions(x)["fisheries"], function(g) c(effort_dev_coffs(x)[[g]], rep(0, eff_dev_coff_incs[g])))
+            
+            # gets really messy because you may have zero catch obs in some cases and fishery groupings to worry about.
+#            catch_dev_coffs(x)    <- lapply(1:length(catch_dev_coffs(x)), 
+#                                            function(g) c(catch_dev_coffs(x)[[g]], rep(0, length(proj.yrs)*dimensions(x)['seasons'])))
+            nfish <- n_fisheries(z)
+            cdc_groups <- flagval(x, -1:-nfish, 29)$value  #value of fish flag 29
+            
+            cdc_proj   <- table(freq(z)[freq(z)$year>range(x)['maxyear'] & is.element(freq(z)$length,c(NA,lf_range(z)['LFFirst'])),c('year','month', 'fishery')])
+            cdc_inc    <- lapply(unique(cdc_groups), function(g) rep(0, sum(apply(cdc_proj[,,which(cdc_groups==g)], c(1,2), sum)>0)))
+
+            catch_dev_coffs(x)    <- lapply(1:length(catch_dev_coffs(x)), function(g) c(catch_dev_coffs(x)[[g]], cdc_inc[[g]]))
+            
+            region_rec_var(x)     <- window(region_rec_var(x), start=range(x)['minyear'], end=range(y)['maxyear'])
+            region_rec_var(x)[is.na(region_rec_var(x))] <- 0
+            
+            rel_rec(x) <- window(rel_rec(x), start=range(x)['minyear'], end=range(y)['maxyear'])
+            rel_rec(x)[,proj.yrs] <- rel_rec(y)[,proj.yrs] 
+            
+            dimensions(x)         <- dimensions(y)
+            range(x)              <- range(y)
+            
+            return(x)
+            
+          })
+
+
+
+###### Yukio's code - I think we're getting the same results. But keeping for further testing
+#require(tidyr)
+#require(magrittr)
+
+
+#ncgrp<-length(catch_dev_coffs(par))
+#ffl29<-flagval(par,-(1:n_fisheries(par)),29)$value  # Obtain fish flags(29) determining the grouping of catchbility
+
+
+#if(sum(ffl29)>0){  ## If no grouping of catchability is applied, similar but probably simpler correction may be needed
+#  freq(projfrq) %>% unite(col="ymwf",year,month,week,fishery,remove=T)->test0
+#  test1<-unique(test0$ymwf)
+#  test1 %>% strsplit(.,split="_")->test2
+#  test2 %>% sapply(.,"as.numeric",simplify=T) %>% t() %>% as.data.frame() %>%
+#    unite("ymw",V1,V2,V3,remove=T)->test3
+#  nElemByGrp<-vector(mode="numeric",length=length(unique(ffl29)))
+#  for(grp in sort(unique(ffl29))){
+#    nElemByGrp[grp]<-which(ffl29==grp) %>% '%in%'(test3$V4, .) %>% test3[.,] %>% '['(.,"ymw") %>%unique() %>% nrow()
+#    nElemFuture<- nElemByGrp[grp]-length(catch_dev_coffs(par)[[grp]])-1 # 
+#    catch_dev_coffs(projpar)[[grp]]<-c(catch_dev_coffs(par)[[grp]],rep(0,nElemFuture))
+#  }
+  
+  
+
+  
