@@ -246,12 +246,14 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLFrq"),
 #            catch_dev_coffs(x)    <- lapply(1:length(catch_dev_coffs(x)), 
 #                                            function(g) c(catch_dev_coffs(x)[[g]], rep(0, length(proj.yrs)*dimensions(x)['seasons'])))
             nfish <- n_fisheries(z)
-            cdc_groups <- flagval(x, -1:-nfish, 29)$value  #value of fish flag 29
             
             cdc_proj   <- table(freq(z)[freq(z)$year>range(x)['maxyear'] & is.element(freq(z)$length,c(NA,lf_range(z)['LFFirst'])),c('year','month', 'fishery')])
+            cdc_groups <- flagval(x, -1:-nfish, 29)$value[as.numeric(dimnames(cdc_proj)$fishery)]  #value of fish flag 29 for those fisheries represented in cdc_proj
+            
             cdc_inc    <- lapply(unique(cdc_groups), function(g) rep(0, sum(apply(cdc_proj[,,which(cdc_groups==g)], c(1,2), sum)>0)))
-
-            catch_dev_coffs(x)    <- lapply(1:length(catch_dev_coffs(x)), function(g) c(catch_dev_coffs(x)[[g]], cdc_inc[[g]]))
+            names(cdc_inc) <- as.character(unique(cdc_groups))
+            
+            catch_dev_coffs(x)    <- lapply(unique(cdc_groups), function(g) c(catch_dev_coffs(x)[[g]], cdc_inc[[as.character(g)]]))
             
             region_rec_var(x)     <- window(region_rec_var(x), start=range(x)['minyear'], end=range(y)['maxyear'])
             region_rec_var(x)[is.na(region_rec_var(x))] <- 0
