@@ -242,18 +242,40 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLFrq"),
             eff_dev_coff_incs     <- unlist(lapply(effort_dev_coffs(y),length)) - unlist(lapply(effort_dev_coffs(x),length))
             effort_dev_coffs(x)   <- lapply(1:dimensions(x)["fisheries"], function(g) c(effort_dev_coffs(x)[[g]], rep(0, eff_dev_coff_incs[g])))
             
-            # gets really messy because you may have zero catch obs in some cases and fishery groupings to worry about.
+            # catch_dev_coffs - gets really messy because you may have zero catch obs in some cases and fishery groupings to worry about.
 #            catch_dev_coffs(x)    <- lapply(1:length(catch_dev_coffs(x)), 
 #                                            function(g) c(catch_dev_coffs(x)[[g]], rep(0, length(proj.yrs)*dimensions(x)['seasons'])))
-            nfish <- n_fisheries(z)
             
-            cdc_proj   <- table(freq(z)[freq(z)$year>range(x)['maxyear'] & is.element(freq(z)$length,c(NA,lf_range(z)['LFFirst'])),c('year','month', 'fishery')])
-            cdc_groups <- flagval(x, -1:-nfish, 29)$value[as.numeric(dimnames(cdc_proj)$fishery)]  #value of fish flag 29 for those fisheries represented in cdc_proj
+            ## YUKIO's CODE - hacked by RDS to remove dependencies on tidyr and magrittr
+            ncgrp<-length(catch_dev_coffs(x))
+            ffl29<-flagval(x,-(1:n_fisheries(x)),29)$value  # Obtain fish flags(29) determining the grouping of catchbility
             
-            cdc_inc    <- lapply(unique(cdc_groups), function(g) rep(0, sum(apply(cdc_proj[,,which(cdc_groups==g)], c(1,2), sum)>0)))
-            names(cdc_inc) <- as.character(unique(cdc_groups))
+            test1 <- unique(with(freq(z), paste(year,month,fishery, sep="_")))
+            test2 <- as.data.frame(t(sapply(strsplit(test1, split="_"), "as.numeric",simplify = T)))
+            test3 <- data.frame(V1=paste(test2$V1, test2$V2, sep="_"), V2=test2$V3)
             
-            catch_dev_coffs(x)    <- lapply(unique(cdc_groups), function(g) c(catch_dev_coffs(x)[[g]], cdc_inc[[as.character(g)]]))
+            nElemByGrp<-vector(mode="numeric",length=length(unique(ffl29)))
+            
+            for(grp in sort(unique(ffl29))){
+              nElemByGrp[grp] <- length(unique(test3[test3$V2 %in% which(ffl29==grp),'V1']))
+              nElemFuture<- nElemByGrp[grp]-length(catch_dev_coffs(x)[[grp]])-1 #
+              catch_dev_coffs(x)[[grp]]<-c(catch_dev_coffs(x)[[grp]],rep(0,nElemFuture))
+            }
+          
+            
+            ### RDS CODE - NOT WORKING
+            #nfish <- n_fisheries(z)
+            # 3 dimensional table of whch fisheries projected 
+            #cdc_proj   <- table(freq(z)[freq(z)$year>range(x)['maxyear'] & is.element(freq(z)$length,c(NA,lf_range(z)['LFFirst'])),c('year','month', 'fishery')])
+            
+            #cdc_groups <- flagval(x, -1:-nfish, 29)$value
+            # fishery groups for those fisheries present in the projection  
+            #cdc_groups_rep <- cdc_groups[as.numeric(dimnames(cdc_proj)$fishery)]  #value of fish flag 29 for those fisheries represented in cdc_proj
+            
+            #cdc_inc    <- lapply(unique(cdc_groups_rep), function(g) rep(0, sum(apply(cdc_proj[,,which(cdc_groups_rep==g)], c(1,2), sum)>0)))
+            #names(cdc_inc) <- as.character(unique(cdc_groups))
+            
+            #catch_dev_coffs(x)    <- lapply(unique(cdc_groups), function(g) c(catch_dev_coffs(x)[[g]], cdc_inc[[as.character(g)]]))
             
             region_rec_var(x)     <- window(region_rec_var(x), start=range(x)['minyear'], end=range(y)['maxyear'])
             region_rec_var(x)[is.na(region_rec_var(x))] <- 0
