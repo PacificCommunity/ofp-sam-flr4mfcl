@@ -149,10 +149,10 @@ write.par <- function(x, file, append=F, ...){
   
   cat("\n \n# age-class related parameters (age_pars)   \n#  \n",   file=file, append=T) 
   temp <- array(0, dim=c(10, dimensions(x)['agecls']))
-  temp[2,] <- as.vector(aperm(m_devs_age(x),        c(1,4,2,3,5,6)))
-  temp[3,] <- as.vector(aperm(growth_devs_age(x),   c(1,4,2,3,5,6)))
-  temp[4,] <- as.vector(aperm(growth_curve_devs(x), c(1,4,2,3,5,6)))
-  temp[5,] <- as.vector(aperm(log_m(x),             c(1,4,2,3,5,6)))
+  temp[2,] <- as.vector(aperm(m_devs_age(x),        c(4,1,2,3,5,6)))
+  temp[3,] <- as.vector(aperm(growth_devs_age(x),   c(4,1,2,3,5,6)))
+  temp[4,] <- as.vector(aperm(growth_curve_devs(x), c(4,1,2,3,5,6)))
+  temp[5,] <- as.vector(aperm(log_m(x),             c(4,1,2,3,5,6)))
   write.table(temp, col.names=F, row.names=F, file=file, append=T)
   
   cat("\n \n# region parameters      \n",   file=file, append=T) 
