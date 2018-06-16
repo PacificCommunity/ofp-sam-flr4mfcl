@@ -21,13 +21,13 @@
 
 
 
-setGeneric('SBSBF0', function(rep.obj, year, sbf0.years, ...) standardGeneric('SBSBF0')) 
+setGeneric('SBSBF0', function(rep.obj, ...) standardGeneric('SBSBF0')) 
 
 #' @rdname rep-methods
 #' @aliases SBSBF0
 
-setMethod("SBSBF0", signature(rep.obj="MFCLRep", year="numeric", sbf0.years="numeric"), 
-          function(rep.obj, year, sbf0.years=2002:2011, ...){
+setMethod("SBSBF0", signature(rep.obj="MFCLRep"), #, year="numeric", sbf0.years="numeric"), 
+          function(rep.obj, year=range(rep.obj)['maxyear'], sbf0.years=range(rep.obj)['maxyear']-10:1, ...){
             
             if(!all(dim(adultBiomass(rep.obj))==dim(adultBiomass_nofish(rep.obj))))
               stop("Dimensions of adultBiomass and adultBiomass_nofish do not match")
