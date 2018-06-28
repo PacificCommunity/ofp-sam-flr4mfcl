@@ -281,6 +281,8 @@ read.MFCLRec <- function(parfile, parobj=NULL, first.yr=1972) {
   if(!is.null(parobj))
     par <- parobj
   
+  vsn <- as.numeric(unlist(strsplit(trimws(par[2]), split="[[:blank:]]+")))[200]
+  
   nseasons <- length(splitter(par, "# season_flags"))
   nyears   <- length(splitter(par, "# Cohort specific growth deviations"))
   nregions <- length(splitter(par,"# region parameters"))
@@ -308,7 +310,9 @@ read.MFCLRec <- function(parfile, parobj=NULL, first.yr=1972) {
   
   slot(res, "tot_pop")           <- as.numeric(par[grep("# total populations scaling parameter", par)+1])
   slot(res, "tot_pop_implicit")  <- as.numeric(par[grep("# implicit total populations scaling parameter", par)+1])
-  slot(res, "orth_coffs")        <- as.numeric(par[grep("# new orthogonal coefficients", par)+1])
+  
+  if(vsn>=1055)
+    slot(res, "orth_coffs")        <- as.numeric(par[grep("# new orthogonal coefficients", par)+1])
   
   slot(res, "range") <- c(min=min(as.numeric(dims$age)), max=max(as.numeric(dims$age)), plusgroup=NA,
                           minyear=min(as.numeric(dims$year)), maxyear=max(as.numeric(dims$year)))
@@ -335,7 +339,7 @@ read.MFCLRec <- function(parfile, parobj=NULL, first.yr=1972) {
 #'
 #' @export
 
-read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972, version) {
+read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972) {
 
   trim.leading  <- function(x) sub("^\\s+", "", x)
   splitter      <- function(ff, tt, ll=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[1]+ll]),split="[[:blank:]]+"))    
@@ -349,6 +353,8 @@ read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972, version) {
   }
   if(!is.null(parobj))
     par <- parobj
+  
+  vsn <- as.numeric(unlist(strsplit(trimws(par[2]), split="[[:blank:]]+")))[200]
   
   nseasons <- length(splitter(par, "# season_flags"))
   nyears   <- length(splitter(par, "# Cohort specific growth deviations"))/nseasons
@@ -388,9 +394,9 @@ read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972, version) {
   slot(res, 'region_rec_var') <- FLQuant(rrv, dimnames=list(age="all", year=as.character(seq(first.yr, first.yr+nyears-1)),unit="unique", 
                                                             season=as.character(1:nseasons),area=as.character(1:nregions)))
   
-  if(version<=1050)
+  if(vsn<=1050)
     slot(res, 'region_pars') <- matrix(as.numeric(splitter(par, "# region parameters",1:10)), ncol=nregions, byrow=T)
-  if(version>1050)
+  if(vsn>1050)
     slot(res, 'region_pars') <- matrix(as.numeric(splitter(par, "# region parameters",1:100)), ncol=nregions, byrow=T)
   
   slot(res, 'range') <- c(min=0, max=nagecls/nseasons, plusgroup=NA, minyear=first.yr, maxyear=max(as.numeric(dimnames(region_rec_var(res))$year)))
@@ -518,7 +524,7 @@ read.MFCLSel <- function(parfile, parobj=NULL, first.yr=1972) {
 #'
 #' @export
 
-read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972, version) {
+read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972) {
 
   trim.leading  <- function(x) sub("^\\s+", "", x)
   splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+"))    
@@ -532,6 +538,8 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972, version) {
   }
   if(!is.null(parobj))
     par <- parobj
+  
+  vsn <- as.numeric(unlist(strsplit(trimws(par[2]), split="[[:blank:]]+")))[200]
   
   taglik <- unlist(strsplit(par[grep("# Likelihood component for tags",          par)], split="[[:blank:]]+"))
   mn_l_p <- unlist(strsplit(par[grep("# Average fish mort per fishing incident", par)], split="[[:blank:]]+"))
@@ -554,7 +562,7 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972, version) {
   slot(res, 'av_fish_mort_year') <- as.numeric(av_f_y[length(av_f_y)])
   slot(res, 'av_fish_mort_age')  <- as.numeric(av_f_a[-1])
   
-  if(version>=1051){
+  if(vsn>=1051){
     slot(res, 'logistic_normal_params') <- par[(grep("# The logistic normal parameters", par)+1):(grep("# The logistic normal parameters", par)+6)]
     
     start <- grep("# Lambdas for augmented Lagrangian", par)+1
@@ -615,9 +623,9 @@ read.MFCLPar <- function(parfile, first.yr=1972) {
   res <- slotcopy(read.MFCLFlags(parfile, par, first.yr), res)
   res <- slotcopy(read.MFCLTagRep(parfile,par, first.yr), res)
   res <- slotcopy(read.MFCLRec(parfile,   par, first.yr), res)
-  res <- slotcopy(read.MFCLRegion(parfile,par, first.yr, version=vsn), res)
+  res <- slotcopy(read.MFCLRegion(parfile,par, first.yr), res)
   res <- slotcopy(read.MFCLSel(parfile,   par, first.yr), res)
-  res <- slotcopy(read.MFCLParBits(parfile,par, version=vsn), res)
+  res <- slotcopy(read.MFCLParBits(parfile,par,first.yr), res)
   
   slot(res, 'range') <- c(min=0, max=max(as.numeric(unlist(dimnames(fishery_sel(res))['age']))), 
                           plusgroup=NA, 
