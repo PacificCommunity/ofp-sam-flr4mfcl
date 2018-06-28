@@ -495,6 +495,15 @@ setMethod('rel_ini_pop', signature('MFCLRec'),function(object) return(slot(objec
 setGeneric('rel_ini_pop<-', function(object, ..., value) standardGeneric('rel_ini_pop<-')) 
 setReplaceMethod('rel_ini_pop', signature(object='MFCLRec', value=unname(getSlots('MFCLRec')['rel_ini_pop'])),
                                 function(object, value){slot(object, 'rel_ini_pop') <- value; return(object)}) 
+#'orth_coffs
+#'@export orth_coffs
+setGeneric('orth_coffs', function(object, ...) standardGeneric('orth_coffs')) 
+setMethod('orth_coffs', signature('MFCLRec'),function(object) return(slot(object, 'orth_coffs'))) 
+#'orth_coffs
+#'@export 
+setGeneric('orth_coffs<-', function(object, ..., value) standardGeneric('orth_coffs<-')) 
+setReplaceMethod('orth_coffs', signature(object='MFCLRec', value=unname(getSlots('MFCLRec')['orth_coffs'])),
+                 function(object, value){slot(object, 'orth_coffs') <- value; return(object)}) 
 #'range
 #'@export range
 setMethod('range', signature(x='MFCLRec'),function(x) return(slot(x,'range'))) 

@@ -308,7 +308,7 @@ read.MFCLRec <- function(parfile, parobj=NULL, first.yr=1972) {
   
   slot(res, "tot_pop")           <- as.numeric(par[grep("# total populations scaling parameter", par)+1])
   slot(res, "tot_pop_implicit")  <- as.numeric(par[grep("# implicit total populations scaling parameter", par)+1])
-  
+  slot(res, "orth_coffs")        <- as.numeric(par[grep("# new orthogonal coefficients", par)+1])
   
   slot(res, "range") <- c(min=min(as.numeric(dims$age)), max=max(as.numeric(dims$age)), plusgroup=NA,
                           minyear=min(as.numeric(dims$year)), maxyear=max(as.numeric(dims$year)))

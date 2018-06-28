@@ -266,6 +266,8 @@ exportMethods(
   "nyears<-",
   "obj_fun",
   "obj_fun<-",
+  "orth_coffs",
+  "orth_coffs<-",
   "plot",
   "popN",
   "popN<-",

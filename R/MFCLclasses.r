@@ -308,6 +308,7 @@ setClass("MFCLRec",
            tot_pop             ="numeric",
            tot_pop_implicit    ="numeric",
            rel_ini_pop         ="array",
+           orth_coffs          ="numeric",
            range               ="numeric"
          ),
          prototype=prototype(
@@ -317,6 +318,7 @@ setClass("MFCLRec",
            tot_pop             =numeric(),
            tot_pop_implicit    = numeric(),
            rel_ini_pop         =array(),
+           orth_coffs          =numeric(),
            range               =unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
          ),
          validity=validMFCLRec

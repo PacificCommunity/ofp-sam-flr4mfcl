@@ -48,7 +48,7 @@ setMethod("SBSBF0", signature(rep.obj="MFCLRep"), #, year="numeric", sbf0.years=
 setGeneric('SBF0', function(rep.obj, sbf0.years, ...) standardGeneric('SBF0')) 
 
 #' @rdname rep-methods
-#' @aliases SBSBF0
+#' @aliases SBF0
 
 setMethod("SBF0", signature(rep.obj="MFCLRep", sbf0.years="numeric"), 
           function(rep.obj, sbf0.years=2002:2011, ...){

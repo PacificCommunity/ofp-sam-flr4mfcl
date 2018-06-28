@@ -197,6 +197,8 @@ write.par <- function(x, file, append=F, ...){
   cat("\n \n# Variance parameters \n",   file=file, append=T)
   write.table(growth_var_pars(x),  col.names=F, row.names=F, file=file, append=T)
   
+  cat(paste("\n# new orthogonal coefficients     \n", orth_coffs(x)),  file=file, append=T)   
+  
   cat(paste("\n# The number of mean constraints     \n", n_mean_constraints(x)),  file=file, append=T)   
   
   cat("\n# The diffusion coefficients  \n",   file=file, append=T) 
