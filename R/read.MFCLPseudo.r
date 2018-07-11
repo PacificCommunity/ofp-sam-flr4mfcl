@@ -33,6 +33,8 @@ read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing",
     stop("projfrq must be an object of class MFCLFrq")
   if(!(class(ctrl)=="MFCLprojControl"))
     stop("projfrq must be an object of class MFCLprojControl")  
+  if(length(fprojyr(ctrl))==0)
+    warning("fprojyr(ctrl)==0, object may be incomplete")
   
   # CATCH AND EFFORT 
   if(!missing(catch)&!missing(effort)){
@@ -81,8 +83,10 @@ read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing",
     }
   }
  
-  slot(res, "catcheff") <- tempdat
-  slot(res, "l_frq")    <- pobs.df
+  slot(res, "catcheff") <- tempdat[order(tempdat$iter, tempdat$fishery, tempdat$year, tempdat$month, tempdat$week),]
+  slot(res, "l_frq")    <- pobs.df[order(pobs.df$itn,  pobs.df$fishery, pobs.df$year, pobs.df$month, pobs.df$week),]
+  
+  slot(res, "catcheff")[slot(res, "catcheff")$iter>0,]$freq <- slot(res, "l_frq")$freq
   
   slot(res, "range")[c("minyear","maxyear")] <- range(tempdat$year)
   slot(res, "range")[c("min","max")]         <- range(pobs.df$length)

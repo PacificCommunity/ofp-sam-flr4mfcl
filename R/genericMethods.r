@@ -57,3 +57,63 @@ setMethod('lw_params', signature(object='MFCLPar'), function(object) return(slot
 setReplaceMethod('lw_params', signature(object='MFCLPar'), function(object, value){slot(object, 'season_growth_pars')[27:28] <- value; return(x)})
 
 
+
+
+
+
+# iter {{{
+setMethod("iter", signature(obj="MFCLPseudo"),
+          function(obj, iter) {
+            
+            if(iter > max(slot(obj, "catcheff")$iter))
+              stop("max iter exceeded")
+            
+            slot(obj, "catcheff") <- slot(obj, "catcheff")[slot(obj, "catcheff")$iter==iter,]
+            
+            for(ss in c("l_frq", "w_frq")){
+              if(nrow(slot(obj, ss))>0)
+                slot(obj, ss) <- slot(obj, ss)[slot(obj, ss)$itn==iter ,]
+            }
+            return(obj)
+          }
+) # }}}
+
+
+setMethod("+", signature(e1="MFCLFrq", e2="MFCLPseudo"),
+          function(e1, e2) {
+            
+            freq(e1) <- rbind(freq(e1), catcheff(e2)[,1:10])
+            
+            lf_range(e1)['Datasets'] <- nrow(freq(e1)[is.element(freq(e1)$length, c(lf_range(e1)['LFFirst'],NA)),])
+            #data_flags(e1)[,2] <- 0  
+            #data_flags(e1)[,3] <- 0
+            
+            return(e1)
+          }
+) # }}}
+
+setMethod("+", signature(e1="MFCLTag", e2="MFCLTag"),
+          function(e1, e2) {
+            
+            mrg.hist       <- max(releases(e1)$rel.group)
+            releases(e2)$rel.group   <- releases(e2)$rel.group   + mrg.hist
+            recaptures(e2)$rel.group <- recaptures(e2)$rel.group + mrg.hist
+            
+            releases(e1)   <- rbind(releases(e1), releases(e2))
+            recaptures(e1) <- rbind(recaptures(e1), recaptures(e2))
+            
+            release_groups(e1) <- max(releases(e1)$rel.group)
+            recoveries(e1)     <- c(recoveries(e1), recoveries(e2))
+            releases(e1)       <- rbind(releases(e1), releases(e2))
+            
+            range(e1)['maxyear'] <- range(e2)['maxyear']
+            
+            return(e1)
+          }
+) # }}}
+
+
+
+
+
+
