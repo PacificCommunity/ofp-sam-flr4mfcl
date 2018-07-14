@@ -621,7 +621,7 @@ MFCLTagProj <- function(ptd=NULL, reprate=NULL) {
     releases_proj(res) <- ptd
     release_groups_proj(res) <- nrow(ptd)
     if(!is.null(reprate))
-      slot(res, 'reprate') <- reprate
+      slot(res, 'rep_rate_proj') <- reprate
     range(res)[c('min','max')] <- range(ptd$n)
     range(res)[c('minyear','maxyear')] <- range(ptd$year)
   }
