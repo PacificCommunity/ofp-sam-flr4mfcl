@@ -98,9 +98,9 @@ setMethod("generate", signature(x="MFCLFrq", y="MFCLprojControl"),
             avdata$catch[avdata$catch == -1] <- NA
             avdata$effort[avdata$effort == -1] <- NA
             
-            flts     <- as.numeric(colnames(tapply(avdata$catch,  list(avdata$month, avdata$fishery), sum)))
-            avcatch  <- sweep(tapply(avdata$catch,  list(avdata$month, avdata$fishery), mean), 2, sc_df$scaler[flts], "*")
-            aveffort <- sweep(tapply(avdata$effort, list(avdata$month, avdata$fishery), mean), 2, sc_df$scaler[flts], "*")
+            flts     <- as.numeric(colnames(tapply(avdata$catch,  list(avdata$month, avdata$fishery), sum, na.rm=T)))
+            avcatch  <- sweep(tapply(avdata$catch,  list(avdata$month, avdata$fishery), mean, na.rm=T), 2, sc_df$scaler[flts], "*")
+            aveffort <- sweep(tapply(avdata$effort, list(avdata$month, avdata$fishery), mean, na.rm=T), 2, sc_df$scaler[flts], "*")
             
             projdat  <- data.frame(year    = rep(proj.yrs, each=(length(flts)*length(qtrs))),
                                    month   = qtrs,

@@ -23,7 +23,7 @@
 #' write(MFCLFrqStats())
 
 
-check.mfcl.cfg <- function(dir, spp){
+check.mfcl.cfg <- function(dir=".", spp){
   
   if(!file.exists(paste(dir, 'mfcl.cfg', sep="/")) & is.null(spp))
     stop("mfcl.cfg file unavailable: spp arg in mfcl call is not defined!")
@@ -36,7 +36,8 @@ check.mfcl.cfg <- function(dir, spp){
                   YFT = paste("90000000", "\n", "320000000", "\n", "150000000", sep=""),
                   ALB = paste("36000000", "\n", "450000000", "\n", "200000000", sep=""),
                   BSH = paste("36000000", "\n", "450000000", "\n", "200000000", sep=""))
-    cat(cfg, file="mfcl.cfg")
+    
+    cat(cfg, file=paste(dir,"mfcl.cfg",sep="/"))
   }
   
 }
