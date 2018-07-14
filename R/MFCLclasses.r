@@ -598,11 +598,13 @@ setClass("MFCLTagProj",
          representation(
            release_groups_proj = "numeric",
            releases_proj       = 'data.frame',
+           rep_rate_proj       = "array",
            range               = "numeric"
          ),
          prototype=prototype(
            release_groups_proj = numeric(),
            releases_proj       = data.frame(region=NULL, year=NULL, month=NULL, fishery=NULL, n=NULL),
+           rep_rate_proj       = array(),
            range               = unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
          ),
          validity=validMFCLTagProj
@@ -613,11 +615,13 @@ remove(validMFCLTagProj)
 #'
 #'Basic constructor for MFCLTag class
 #'@export
-MFCLTagProj <- function(ptd=NULL) {
+MFCLTagProj <- function(ptd=NULL, reprate=NULL) {
   res <- new("MFCLTagProj")
   if(!is.null(ptd)){
     releases_proj(res) <- ptd
     release_groups_proj(res) <- nrow(ptd)
+    if(!is.null(reprate))
+      slot(res, 'reprate') <- reprate
     range(res)[c('min','max')] <- range(ptd$n)
     range(res)[c('minyear','maxyear')] <- range(ptd$year)
   }

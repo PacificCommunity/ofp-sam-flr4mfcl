@@ -323,6 +323,8 @@ exportMethods(
   "releases_proj<-",
   "rep_rate_dev_coffs",
   "rep_rate_dev_coffs<-",
+  "rep_rate_proj",
+  "rep_rate_proj<-",
   "richards",
   "richards<-",
   "SBF0",

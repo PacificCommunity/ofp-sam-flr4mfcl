@@ -1430,7 +1430,6 @@ setMethod('release_groups_proj', signature('MFCLTagProj'),function(object) retur
 setGeneric('release_groups_proj<-', function(object, ..., value) standardGeneric('release_groups_proj<-')) 
 setReplaceMethod('release_groups_proj', signature(object='MFCLTagProj', value=unname(getSlots('MFCLTagProj')['release_groups_proj'])),
                  function(object, value){slot(object, 'release_groups_proj') <- value; return(object)}) 
-
 #'releases_proj
 #'@export releases_proj
 setGeneric('releases_proj', function(object, ...) standardGeneric('releases_proj')) 
@@ -1440,7 +1439,15 @@ setMethod('releases_proj', signature('MFCLTagProj'),function(object) return(slot
 setGeneric('releases_proj<-', function(object, ..., value) standardGeneric('releases_proj<-')) 
 setReplaceMethod('releases_proj', signature(object='MFCLTagProj', value=unname(getSlots('MFCLTagProj')['releases_proj'])),
                  function(object, value){slot(object, 'releases_proj') <- value; return(object)}) 
-
+#'rep_rate_proj
+#'@export rep_rate_proj
+setGeneric('rep_rate_proj', function(object, ...) standardGeneric('rep_rate_proj')) 
+setMethod('rep_rate_proj', signature('MFCLTagProj'),function(object) return(slot(object, 'rep_rate_proj'))) 
+#'rep_rate_proj
+#'@export 
+setGeneric('rep_rate_proj<-', function(object, ..., value) standardGeneric('rep_rate_proj<-')) 
+setReplaceMethod('rep_rate_proj', signature(object='MFCLTagProj', value=unname(getSlots('MFCLTagProj')['rep_rate_proj'])),
+                 function(object, value){slot(object, 'rep_rate_proj') <- value; return(object)}) 
 #'range
 #'@export range
 setMethod('range', signature(x='MFCLTagProj'),function(x) return(slot(x,'range'))) 
