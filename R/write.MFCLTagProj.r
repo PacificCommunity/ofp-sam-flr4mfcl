@@ -25,8 +25,8 @@ write.tagproj <- function(x, file, append=F, ...){
     write.table(releases_proj(x)[rel,],  sep="\t ", col.names=F, row.names = F, file=file, append=T)
   }
   
-  cat(paste("#\n#\n# Reporting rates for each event: rows = fisheries; cols = tag events"), file=file, append=T)
-  write.table(rep_rate_proj(x))
+  cat(paste("#\n#\n# Reporting rates for each event: rows = fisheries; cols = tag events \n"), file=file, append=T)
+  write.table(rep_rate_proj(x), col.names = F, row.names = F, file=file, append=T)
   
 }  
     
