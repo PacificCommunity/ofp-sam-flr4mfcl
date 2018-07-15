@@ -57,8 +57,8 @@ read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing",
                      row.names=NULL)
     tempdat <- tempdat[order(tempdat$iter, tempdat$fishery, tempdat$year, tempdat$month),]
   
-    tempdat$catch[tempdat$iter>0] <- cdat[2,]
-    tempdat$effort[tempdat$iter>0]<- edat
+    tempdat$catch[tempdat$iter>0] <- rep(cdat[2,], each=length(unique(tempdat$length)))
+    tempdat$effort[tempdat$iter>0]<- rep(edat,     each=length(unique(tempdat$length)))
   }
   # LENGTH COMPOSITIONS
   if(!missing(lw_sim)){
