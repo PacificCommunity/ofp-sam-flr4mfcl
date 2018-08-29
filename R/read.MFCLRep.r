@@ -138,7 +138,7 @@ read.MFCLRep <- function(repfile) {
     }
   
     srr(res)  <- FLPar(suppressWarnings(as.numeric(splitter(pp, "# Beverton-Holt")))[!is.na(suppressWarnings(as.numeric(splitter(pp, "# Beverton-Holt"))))],
-                       params=c('a','b', 'steepness'))
+                       params=c('a','b', 'steepness', 'sigma'))
   }
   
   # Vulnerable Biomass - assumes annual time step
