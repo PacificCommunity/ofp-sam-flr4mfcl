@@ -118,7 +118,7 @@ setMethod("SPR0", signature(par="MFCLPar"),
             mat <- c(aperm(mat(par), c(4,1,2,3,5,6)))
             
 
-            spr0           <- c(1,exp(-cumsum(m)))[-1]*mat*wgt
+            spr0           <- c(1,exp(-cumsum(m)))[-max(age)]*mat*wgt
             spr0[max(age)] <- spr0[max(age)]*(1/(1-exp(-m[max(age)])))  # add the plus group
             spr0           <- sum(spr0)
             
