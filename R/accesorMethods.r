@@ -1063,7 +1063,17 @@ setMethod('totalBiomass', signature('MFCLRep'),function(object) return(slot(obje
 #'@export 
 setGeneric('totalBiomass<-', function(object, ..., value) standardGeneric('totalBiomass<-')) 
 setReplaceMethod('totalBiomass', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['totalBiomass'])),
-                                function(object, value){slot(object, 'totalBiomass') <- value; return(object)}) 
+                                                function(object, value){slot(object, 'totalBiomass') <- value; return(object)}) 
+#'totalBiomass_nofish
+#'@export totalBiomass_nofish
+setGeneric('totalBiomass_nofish', function(object, ...) standardGeneric('totalBiomass_nofish')) 
+setMethod('totalBiomass_nofish', signature('MFCLRep'),function(object) return(slot(object, 'totalBiomass_nofish'))) 
+#'totalBiomass_nofish
+#'@export 
+setGeneric('totalBiomass_nofish<-', function(object, ..., value) standardGeneric('totalBiomass_nofish<-')) 
+setReplaceMethod('totalBiomass_nofish', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['totalBiomass_nofish'])),
+                 function(object, value){slot(object, 'totalBiomass_nofish') <- value; return(object)}) 
+
 #'adultBiomass
 #'@export adultBiomass
 setGeneric('adultBiomass', function(object, ...) standardGeneric('adultBiomass')) 

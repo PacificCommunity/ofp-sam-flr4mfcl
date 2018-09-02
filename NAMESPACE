@@ -383,6 +383,8 @@ exportMethods(
   "tot_pop_implicit<-",
   "totalBiomass",
   "totalBiomass<-",
+  "totalBiomass_nofish",
+  "totalBiomass_nofish<-",
   "total_catch",
   "total_catch<-",
   "unused",

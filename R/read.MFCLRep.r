@@ -99,6 +99,12 @@ read.MFCLRep <- function(repfile) {
   totalBiomass(res) <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Total biomass", 1:dimensions(res)['years'])), 
                                            dim=c(dimensions(res)["regions"], dimensions(res)['seasons'], dimensions(res)['years']/dimensions(res)["seasons"],1,1)), 
                                      c(4,3,5,2,1)), dimnames=dnms2)
+  # Total biomass in absence of fishing
+  totalBiomass_nofish(res) <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Total biomass in absence of fishing", 1:dimensions(res)['years'])), 
+                                           dim=c(dimensions(res)["regions"], dimensions(res)['seasons'], dimensions(res)['years']/dimensions(res)["seasons"],1,1)), 
+                                     c(4,3,5,2,1)), dimnames=dnms2)
+  
+  
   # adult biomass  
   adultBiomass(res) <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Adult biomass", 1:dimensions(res)['years'])), 
                                      dim=c(dimensions(res)["regions"], dimensions(res)['seasons'], dimensions(res)['years']/dimensions(res)["seasons"],1,1)), 
