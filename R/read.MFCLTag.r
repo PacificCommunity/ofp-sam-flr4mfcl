@@ -59,21 +59,22 @@ read.MFCLTag <- function(tagfile) {
     if(length(recapture.marker) >= mm2 & recapture.marker[mm2]<release.marker[mm+1]) {    
       #nrows   <- min(hash.marker[hash.marker>recapture.marker[mm2] & hash.marker<release.marker[mm+1]]) - recapture.marker[mm2] - 1
       nrows    <- release.marker[mm+1] - recapture.marker[mm2] -1
-
-      tempdat <-t(array(as.numeric(unlist(strsplit(trim.leading(tagdat[recapture.marker[mm2]+1:nrows]), 
-                                                 split="[[:blank:]]+"))), dim=c(5, nrows)))
+      if(nrows>0){
+        tempdat <-t(array(as.numeric(unlist(strsplit(trim.leading(tagdat[recapture.marker[mm2]+1:nrows]), 
+                                                     split="[[:blank:]]+"))), dim=c(5, nrows)))
       
-      recaptures(res)<- rbind(recaptures(res), data.frame(rel.group    =mm,
-                                                          region       =topdat.event[1],
-                                                          year         =topdat.event[2],
-                                                          month        =topdat.event[3],
-                                                          program      =program,
-                                                          rel.length   =tempdat[,1],
-                                                          recap.fishery=tempdat[,2],
-                                                          recap.year   =tempdat[,3],
-                                                          recap.month  =tempdat[,4],
-                                                          recap.number =tempdat[,5]))    
-    mm2 <- mm2 + 1
+        recaptures(res)<- rbind(recaptures(res), data.frame(rel.group    =mm,
+                                                            region       =topdat.event[1],
+                                                            year         =topdat.event[2],
+                                                            month        =topdat.event[3],
+                                                            program      =program,
+                                                            rel.length   =tempdat[,1],
+                                                            recap.fishery=tempdat[,2],
+                                                            recap.year   =tempdat[,3],
+                                                            recap.month  =tempdat[,4],
+                                                            recap.number =tempdat[,5]))    
+      }  
+      mm2 <- mm2 + 1
     }
   }
   range(res) <- c(min=min(release_lengths(res)), max=max(release_lengths(res)), plusgroup=NA, 

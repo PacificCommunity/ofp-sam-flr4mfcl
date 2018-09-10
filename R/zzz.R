@@ -7,7 +7,8 @@
   builddate <- gsub(';.*$', '', pkgdesc$Packaged)
   if(length(builddate) == 0)
     builddate <- date()
-  packageStartupMessage(paste("FLR4MFCL (Version ", pkgdesc$Version, ", packaged: ", builddate, "): Pissing with the big dogs", sep = ""))
+#  packageStartupMessage(paste("FLR4MFCL (Version ", pkgdesc$Version, ", packaged: ", builddate, "): Pissing with the big dogs", sep = ""))
+  packageStartupMessage(paste("FLR4MFCL ", pkgdesc$Version, "(",builddate,")"," -- "," 'Pissing with the big dogs'", sep = ""))  
 }
 
 # ac
