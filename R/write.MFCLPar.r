@@ -179,6 +179,9 @@ write.par <- function(x, file, append=F, ...){
   cat("# The logistic normal parameters \n", file=file, append=T)
   cat(unlist(lapply(logistic_normal_params(x), paste, "\n")), file=file, append=T)
   
+  cat("\n# maturity at length   \n", file=file, append=T)
+  cat(slot(x, "mat_at_length"), file=file, append=T)
+  
   cat("\n# The von Bertalanffy parameters  \n",   file=file, append=T) 
   write.table(growth(x),  col.names=F, row.names=F, file=file, append=T)
   

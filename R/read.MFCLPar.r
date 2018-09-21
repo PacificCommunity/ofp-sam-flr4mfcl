@@ -101,7 +101,9 @@ read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
   
   slot(res, "mat")      <- FLQuant(aperm(array(as.numeric(splitter(par, "# percent maturity")),
                                                dim=c(nseasons,nagecls/nseasons,1,1,1)),c(2,3,4,1,5)), dimnames=dims_age)
-
+  if(length(grep("# maturity at length",par))>0)
+    slot(res, 'mat_at_length') <- as.numeric(splitter(par, "# maturity at length"))
+    
   slot(res, "growth")   <- t(array(as.numeric(splitter(par, "# The von Bertalanffy parameters", 1:3)),
                                    dim=c(3,3), dimnames=list(c("est","min","max"),c("Lmin","Lmax","k"))))
                                        

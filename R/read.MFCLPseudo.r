@@ -16,7 +16,7 @@
 
 # kk <- read.MFCLPseudo(catch="catch_sim", effort="effort_sim", lw_sim="test_lw_sim", projfrq=projfrq, ctrl=projCtrl)
 
-read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing", projfrq="missing", ctrl="missing") {
+read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing", projfrq="missing", ctrl="missing", historical=TRUE) {
   
   trim.leading  <- function(x) sub("^\\s+", "", x) 
   splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+")) 
@@ -50,20 +50,35 @@ read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing",
     eseed <- as.numeric(unlist(lapply(strsplit(ee[grep("# seed", ee)], split="[[:blank:]]+"), el, 3)))
   
     # create data frame for obs and pseudo data 
-    len   <- nrow(freq(projfrq)[freq(projfrq)$year>=fprojyr(ctrl),])
-  
-    tempdat <- cbind(freq(projfrq)[freq(projfrq)$year>=fprojyr(ctrl),], 
-                     iter=rep(0:nsims(ctrl), each=len), catch.seed=rep(c(NA,cseed), each=len), effort.seed=rep(c(NA,eseed), each=len), 
-                     row.names=NULL)
-    tempdat <- tempdat[order(tempdat$iter, tempdat$fishery, tempdat$year, tempdat$month),]
-  
-    tempdat$catch[tempdat$iter>0] <- rep(cdat[2,], each=length(unique(tempdat$length)))
-    tempdat$effort[tempdat$iter>0]<- rep(edat,     each=length(unique(tempdat$length)))
+    
+    if(!historical){
+      len     <- nrow(freq(projfrq)[freq(projfrq)$year>=fprojyr(ctrl),])
+      tempdat <- cbind(freq(projfrq)[freq(projfrq)$year>=fprojyr(ctrl),], 
+                       iter=rep(0:nsims(ctrl), each=len), catch.seed=rep(c(NA,cseed), each=len), effort.seed=rep(c(NA,eseed), each=len), 
+                       row.names=NULL)
+      tempdat <- tempdat[order(tempdat$iter, tempdat$fishery, tempdat$year, tempdat$month),]
+      
+      tempdat$catch[tempdat$iter>0] <- rep(cdat[2,], each=length(unique(tempdat$length)))
+      tempdat$effort[tempdat$iter>0]<- rep(edat,     each=length(unique(tempdat$length)))
+      }
+    
+    if(historical){
+      len     <- nrow(freq(projfrq)[is.element(freq(projfrq)$length, c(NA,2)),])
+      tempdat <- cbind(freq(projfrq)[is.element(freq(projfrq)$length, c(NA,2)),], 
+                       iter=rep(0:nsims(ctrl), each=len), catch.seed=rep(c(NA,cseed), each=len), effort.seed=rep(c(NA,eseed), each=len), 
+                       row.names=NULL)
+      tempdat <- tempdat[order(tempdat$iter, tempdat$fishery, tempdat$year, tempdat$month),]
+      
+      tempdat$catch[tempdat$iter>0] <- cdat[2,]
+      tempdat$effort[tempdat$iter>0]<- edat
+    }
+    
+    
   }
   # LENGTH COMPOSITIONS
   if(!missing(lw_sim)){
     ## read in the pseudo length frequencies
-    pobs <- readLines("test_lw_sim")
+    pobs <- readLines(lw_sim)
     markers <- lapply(1:nsims(ctrl), function(x){grep(paste('# projection',x), pobs)})
   
     lfirst <- lf_range(projfrq)['LFFirst']; lwidth <- lf_range(projfrq)['LFWidth']; nlbins <- lf_range(projfrq)['LFIntervals']
@@ -79,14 +94,28 @@ read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing",
                                            month  =rep(realzid[seq(2, length=length(tempdat2)/3, by=4)], each=lf_range(projfrq)['LFIntervals']),
                                            week   =rep(realzid[seq(3, length=length(tempdat2)/3, by=4)], each=lf_range(projfrq)['LFIntervals']),
                                            fishery=rep(realzid[seq(4, length=length(tempdat2)/3, by=4)], each=lf_range(projfrq)['LFIntervals']),
-                                           length =ll, weight=NA, freq= llfreq, itn=ss))
+                                           length =ll, weight=NA, freq= llfreq, iter=ss))
     }
   }
  
   slot(res, "catcheff") <- tempdat[order(tempdat$iter, tempdat$fishery, tempdat$year, tempdat$month, tempdat$week),]
-  slot(res, "l_frq")    <- pobs.df[order(pobs.df$itn,  pobs.df$fishery, pobs.df$year, pobs.df$month, pobs.df$week),]
+  slot(res, "l_frq")    <- pobs.df[order(pobs.df$iter,  pobs.df$fishery, pobs.df$year, pobs.df$month, pobs.df$week),]
   
-  slot(res, "catcheff")[slot(res, "catcheff")$iter>0,]$freq <- slot(res, "l_frq")$freq
+  if(!historical)
+    slot(res, "catcheff")[slot(res, "catcheff")$iter>0,]$freq <- slot(res, "l_frq")$freq
+  
+  if(historical){
+    kk <- merge(slot(res, 'catcheff')[,c(1,2,3,4,5,6,7,11,12,13)], slot(res, 'l_frq'))
+    
+    tt2 <- unique(apply(tempdat[tempdat$iter>0,c('year','month','week','fishery','iter')], 1, paste, collapse='_'))
+    kk2 <- unique(apply(kk[,c('year','month','week','fishery','iter')], 1, paste, collapse='_'))
+    
+    kk <- rbind(kk, tempdat[!is.element(tt2, kk2),names(kk)])
+    kk <- kk[order(kk$iter, kk$fishery, kk$year, kk$month, kk$week, kk$length),]
+    kk <- kk[kk$iter>0,]
+    kk <- kk[,c('year','month','week','fishery','catch','effort','penalty','length','weight','freq','iter','catch.seed','effort.seed')]
+    slot(res, 'catcheff') <- kk
+  }
   
   slot(res, "range")[c("minyear","maxyear")] <- range(tempdat$year)
   slot(res, "range")[c("min","max")]         <- range(pobs.df$length)

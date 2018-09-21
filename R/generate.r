@@ -211,7 +211,6 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar"),
 
 
 
-
 setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLFrq"), 
           function(x, y, z, ...){
             
@@ -221,7 +220,8 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLFrq"),
             if(flagval(x, 1, 233)$value == 0)
               flagval(x, 1, 233) <- recPeriod(x, af199=flagval(x, 2, 199)$value, af200=flagval(x, 2, 200)$value)['pf233']
             
-            proj.yrs <- dimnames(rel_rec(y))[[2]][!is.element(dimnames(rel_rec(y))[[2]], dimnames(rel_rec(x))[[2]])]
+            #proj.yrs <- dimnames(rel_rec(y))[[2]][!is.element(dimnames(rel_rec(y))[[2]], dimnames(rel_rec(x))[[2]])]
+            proj.yrs <- seq(range(x)['maxyear']+1, range(x)['maxyear']+(dimensions(y)[2]-dimensions(x)[2])/dimensions(x)[3])
             
             # zero filled objects that you can just copy across   
             rep_rate_dev_coffs(x) <- rep_rate_dev_coffs(y)
@@ -281,7 +281,7 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLFrq"),
             region_rec_var(x)[is.na(region_rec_var(x))] <- 0
             
             rel_rec(x) <- window(rel_rec(x), start=range(x)['minyear'], end=range(y)['maxyear'])
-            rel_rec(x)[,proj.yrs] <- rel_rec(y)[,proj.yrs] 
+            rel_rec(x)[,as.character(proj.yrs)] <- rel_rec(y)[,as.character(proj.yrs)] 
             
             dimensions(x)         <- dimensions(y)
             range(x)              <- range(y)

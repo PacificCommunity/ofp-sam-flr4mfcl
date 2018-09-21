@@ -235,7 +235,16 @@ setMethod('mat', signature('MFCLBiol'),function(object) return(slot(object, 'mat
 #'@export 
 #setGeneric('mat<-', function(object, ..., value) standardGeneric('mat<-')) 
 setReplaceMethod('mat', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['mat'])),
-                                function(object, value){slot(object, 'mat') <- value; return(object)}) 
+                                function(object, value){slot(object, 'mat') <- value; return(object)})
+#'mat_at_length
+#'@export mat_at_length
+setGeneric('mat_at_length', function(object, ...) standardGeneric('mat_at_length')) 
+setMethod('mat_at_length', signature('MFCLBiol'),function(object) return(slot(object, 'mat_at_length'))) 
+#'mat_at_length
+#'@export 
+setGeneric('mat_at_length<-', function(object, ..., value) standardGeneric('mat_at_length<-')) 
+setReplaceMethod('mat_at_length', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['mat_at_length'])),
+                 function(object, value){slot(object, 'mat_at_length') <- value; return(object)}) 
 #'growth
 #'@export growth
 setGeneric('growth', function(object, ...) standardGeneric('growth')) 

@@ -231,6 +231,8 @@ exportMethods(
   "m_devs_age<-",
   "mat",
   "mat<-",
+  "mat_at_length",
+  "mat_at_length<-",
   "max_grad",
   "max_grad<-",
   "mean_laa",
