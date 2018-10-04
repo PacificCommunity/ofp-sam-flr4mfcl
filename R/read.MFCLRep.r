@@ -1,3 +1,6 @@
+#FLR4MFCL - R4MFCL built with FLR classes
+#Copyright (C) 2018  Rob Scott
+
 #' read.MFCLRep
 #'
 #' Reads information from the .rep file and creates an MFCLRep object

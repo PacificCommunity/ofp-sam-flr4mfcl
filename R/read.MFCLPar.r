@@ -1,4 +1,5 @@
-
+#FLR4MFCL - R4MFCL built with FLR classes
+#Copyright (C) 2018  Rob Scott
 
 # unexported function to strip Dave's diagnostic stuff out of the par file.
 

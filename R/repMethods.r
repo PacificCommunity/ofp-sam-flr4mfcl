@@ -1,3 +1,6 @@
+#FLR4MFCL - R4MFCL built with FLR classes
+#Copyright (C) 2018  Rob Scott
+
 #' SBF0
 #'
 #' Calculates SB/SBF0 from a .rep object for a given year range. 

@@ -1,3 +1,6 @@
+#FLR4MFCL - R4MFCL built with FLR classes
+#Copyright (C) 2018  Rob Scott
+
 
 # x    <- read.MFCLPar("C://temp//bet_2014_assessment//Model_runs//2014s//Run143//10.par", first.yr=1952)
 # file <- "C://temp//par_crap" 

@@ -1,4 +1,5 @@
-
+#FLR4MFCL - R4MFCL built with FLR classes
+#Copyright (C) 2018  Rob Scott
 
 
 read.temporary_tag_report <- function(temp_tag_report="temporary_tag_report", year1=1972){

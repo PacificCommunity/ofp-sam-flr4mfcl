@@ -1,4 +1,5 @@
-
+#FLR4MFCL - R4MFCL built with FLR classes
+#Copyright (C) 2018  Rob Scott
 
 
 read.MFCLProjectedNatAge <- function(filename="projected_numbers_at_age", quarterly=T, fyear=1972){

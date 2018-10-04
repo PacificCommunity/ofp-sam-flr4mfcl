@@ -1,3 +1,5 @@
+#FLR4MFCL - R4MFCL built with FLR classes
+#Copyright (C) 2018  Rob Scott
 
 ##########################################################################
 #

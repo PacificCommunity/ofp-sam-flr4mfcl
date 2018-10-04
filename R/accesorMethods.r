@@ -1,3 +1,6 @@
+#FLR4MFCL - R4MFCL built with FLR classes
+#Copyright (C) 2018  Rob Scott
+
 # Automatically generated Generic Methods - and then updated by hand
 # Generated from 'createGenericMethods' 
 # Generated on  Tue Feb  2 11:46:03 2016 

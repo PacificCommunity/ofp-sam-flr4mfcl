@@ -1,3 +1,6 @@
+#FLR4MFCL - R4MFCL built with FLR classes
+#Copyright (C) 2018  Rob Scott
+
 #' read.MFCLIni
 #'
 #' Reads information from the ini file and creates an MFCLIni object

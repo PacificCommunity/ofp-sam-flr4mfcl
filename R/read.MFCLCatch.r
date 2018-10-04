@@ -1,3 +1,6 @@
+#FLR4MFCL - R4MFCL built with FLR classes
+#Copyright (C) 2018  Rob Scott
+
 #' read.MFCLCatch
 #'
 #' Reads information from the catch.rep file and creates an MFCLCatch object
