@@ -30,7 +30,7 @@ setGeneric('SBSBF0', function(rep.obj, ...) standardGeneric('SBSBF0'))
 #' @aliases SBSBF0
 
 setMethod("SBSBF0", signature(rep.obj="MFCLRep"), #, year="numeric", sbf0.years="numeric"), 
-          function(rep.obj, year=range(rep.obj)['maxyear'], sbf0.years=range(rep.obj)['maxyear']-10:1, ...){
+          function(rep.obj, year=c(range(rep.obj)['maxyear']), sbf0.years=c(range(rep.obj)['maxyear']-10:1), rolling=FALSE, ...){
             
             if(!all(dim(adultBiomass(rep.obj))==dim(adultBiomass_nofish(rep.obj))))
               stop("Dimensions of adultBiomass and adultBiomass_nofish do not match")
@@ -38,30 +38,45 @@ setMethod("SBSBF0", signature(rep.obj="MFCLRep"), #, year="numeric", sbf0.years=
                any(year<range(rep.obj)['minyear'])|any(sbf0.years<range(rep.obj)['minyear']))
               stop("Year ranges incompatible with MFCLRep object")
             
-            ab     <- apply(trim(adultBiomass(rep.obj), year=year), c(2,4), mean)
-            abnf   <- apply(trim(adultBiomass_nofish(rep.obj), year=sbf0.years), 4, mean)
+            #ab     <- apply(trim(adultBiomass(rep.obj), year=year), c(2,4), mean)
+            #abnf   <- apply(trim(adultBiomass_nofish(rep.obj), year=sbf0.years), 4, mean)
+            #sbsbf0 <- apply(sweep(ab, c(2,4), abnf, '/'),2,mean)
             
-            sbsbf0 <- suppressWarnings(apply(sweep(ab, c(2,4), abnf, '/'),2,mean))
+            abnf    <- SBF0(rep.obj, year=year, sbf0.years=sbf0.years, rolling=rolling)
+            
+            if(!rolling)
+              sbsbf0  <- areaSums(seasonMeans(trim(adultBiomass(rep.obj), year=year)))/abnf
+            
+            if(rolling)
+              sbsbf0 <- trim(adultBiomass(rep.obj), year=min(as.numeric(dimnames(abnf)$year)):max(as.numeric(dimnames(abnf)$year)))/abnf
             
             return(sbsbf0)
           })
 
 
 
-setGeneric('SBF0', function(rep.obj, sbf0.years, ...) standardGeneric('SBF0')) 
+setGeneric('SBF0', function(rep.obj, ...) standardGeneric('SBF0')) 
 
 #' @rdname rep-methods
 #' @aliases SBF0
 
-setMethod("SBF0", signature(rep.obj="MFCLRep", sbf0.years="numeric"), 
-          function(rep.obj, sbf0.years=2002:2011, ...){
+setMethod("SBF0", signature(rep.obj="MFCLRep"), 
+          function(rep.obj, sbf0.years=c(range(rep.obj)['maxyear']-10:1), rolling=FALSE, ...){
             
             if(!all(dim(adultBiomass(rep.obj))==dim(adultBiomass_nofish(rep.obj))))
               stop("Dimensions of adultBiomass and adultBiomass_nofish do not match")
             
-            abnf   <- apply(apply(trim(adultBiomass_nofish(rep.obj), year=sbf0.years), c(2,4), sum), 4, mean)
+            abnf   <- yearMeans(areaSums(seasonMeans(trim(adultBiomass_nofish(rep.obj), year=sbf0.years))))
             
-            return(mean(abnf))
+            if(rolling){
+              abnf <- lapply((range(rep.obj)['minyear']+length(sbf0.years)):range(rep.obj)['maxyear'], 
+                             function(x){yearMeans(trim(adultBiomass_nofish(rep.obj), year=(x-10:1)))})
+              abnf <- FLQuant(aperm(array(unlist(abnf), c(1,1,4,5,47)), c(1,5,2,3,4)), 
+                              dimnames=dimnames(trim(adultBiomass_nofish(rep.obj),
+                                                     year=(range(rep.obj)['minyear']+length(sbf0.years)):range(rep.obj)['maxyear'])))
+            }
+            
+            return(abnf)
           })
 
 
