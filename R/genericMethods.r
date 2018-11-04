@@ -80,14 +80,36 @@ setMethod("iter", signature(obj="MFCLPseudo"),
 ) # }}}
 
 
+setMethod("+", signature(e1="MFCLFrq", e2="MFCLFrq"),
+          function(e1, e2) {
+            
+            if(frq_version(e1) != frq_version(e2))
+              stop("Error : different frq versions")
+            if(n_regions(e1) != n_regions(e2) | n_fisheries(e1) != n_fisheries(e2))
+              warning("Objects may not be compatible")
+            if(any(is.element(apply(freq(e1)[,1:4],1,paste, collapse="_"), apply(freq(e2)[,1:4],1,paste, collapse="_"))))
+              warning("Looks like you are duplicating fishery realisations!")
+            
+            freq(e1) <- rbind(freq(e1), freq(e2))
+            
+            lf_range(e1)['Datasets'] <- nrow(freq(e1)[is.element(freq(e1)$length, c(lf_range(e1)['LFFirst'],NA)),])
+            range(e1)[c('minyear','maxyear')] <- range(freq(e1)$year)
+            n_tag_groups(e1) <- n_tag_groups(e1) + n_tag_groups(e2)
+            return(e1)
+          }
+) # }}}
+
 setMethod("+", signature(e1="MFCLFrq", e2="MFCLPseudo"),
           function(e1, e2) {
             
-            freq(e1) <- rbind(freq(e1), catcheff(e2)[,1:10])
+            if(any(range(e1)[c("minyear","maxyear")] != range(e2)[c("minyear","maxyear")]))
+              freq(e1) <- rbind(freq(e1), catcheff(e2)[,1:10])
+            
+            if(all(range(e1)[c("minyear","maxyear")] == range(e2)[c("minyear","maxyear")]))
+              freq(e1) <- catcheff(e2)[,1:10]
             
             lf_range(e1)['Datasets'] <- nrow(freq(e1)[is.element(freq(e1)$length, c(lf_range(e1)['LFFirst'],NA)),])
-            #data_flags(e1)[,2] <- 0  
-            #data_flags(e1)[,3] <- 0
+            range(e1)[c('minyear','maxyear')] <- range(freq(e1)$year)
             
             return(e1)
           }
