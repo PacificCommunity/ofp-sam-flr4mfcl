@@ -74,7 +74,7 @@ setMethod("generate", signature(x="MFCLFrq", y="MFCLprojControl"),
          function(x, y, ...){
             
             ctrl     <- y
-            proj.yrs <- seq(range(x)['maxyear']+1, range(x)['maxyear']+nyears(ctrl))
+            proj.yrs <- seq(fprojyr(ctrl), range(x)['maxyear']+nyears(ctrl))  #seq(range(x)['maxyear']+1, range(x)['maxyear']+nyears(ctrl))
             qtrs     <- sort(unique(freq(x)$month))
             
             week   <- rev(freq(x)$week)[1]
@@ -131,7 +131,7 @@ setMethod("generate", signature(x="MFCLFrq", y="MFCLprojControl"),
 
             freq(x) <- rbind(freq(x), projdat2)
             
-            data_flags(x)[2,] <- range(x)['maxyear']+1  #as.numeric(max(avyrs(ctrl)))+1
+            data_flags(x)[2,] <- fprojyr(ctrl)  #range(x)['maxyear']+1  #as.numeric(max(avyrs(ctrl)))+1
             data_flags(x)[3,] <- as.numeric(qtrs[1])
             
             #original code
