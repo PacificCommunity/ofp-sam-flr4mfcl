@@ -113,6 +113,22 @@ setMethod("window", signature(x="MFCLTag"),
           })
 
 
-
+setMethod("window", signature(x="MFCLPseudo"), 
+          function(x, start=range(x)['minyear'], end=range(x)['maxyear'], extend=FALSE, ...){
+            
+            
+            if(start < range(x)['minyear'] | end > range(x)['maxyear'])
+              stop("Error: This method does not yet allow the extension of MFCL objects beyond their current year range")
+            
+            catcheff(x) <- catcheff(x)[catcheff(x)$year %in% start:end,] 
+            l_frq(x)    <- l_frq(x)[l_frq(x)$year %in% start:end,]
+            w_frq(x)    <- w_frq(x)[w_frq(x)$year %in% start:end,]
+            
+            range(x)['minyear'] <- start
+            range(x)['maxyear'] <- end
+            
+            return(x)
+            
+          })
 
 
