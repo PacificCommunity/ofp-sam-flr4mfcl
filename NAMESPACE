@@ -301,6 +301,7 @@ exportMethods(
   "recaptures<-",
   "recoveries",
   "recoveries<-",
+  "reduce",
   "region_fish",
   "region_fish<-",
   "region_pars",
