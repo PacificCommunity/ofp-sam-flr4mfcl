@@ -73,7 +73,7 @@ setMethod("iter", signature(obj="MFCLPseudo"),
             
             for(ss in c("l_frq", "w_frq")){
               if(nrow(slot(obj, ss))>0)
-                slot(obj, ss) <- slot(obj, ss)[slot(obj, ss)$itn==iter ,]
+                slot(obj, ss) <- slot(obj, ss)[slot(obj, ss)$iter==iter ,]
             }
             return(obj)
           }

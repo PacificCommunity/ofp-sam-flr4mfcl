@@ -40,18 +40,16 @@ setMethod("update", signature(object="MFCLFrq"), function(object, years, fisheri
 })
 
 
-
-
 setMethod("update", signature(object="MFCLIni"), function(object, tag.rel.grps, ...){
   
-#  if(!is(tag.obj)=="MFCLTag")
-#    stop("Error: tag.obj must be a valid MFCLTag object")
+  #  if(!is(tag.obj)=="MFCLTag")
+  #    stop("Error: tag.obj must be a valid MFCLTag object")
   
-#  if(dim(tag_fish_rep_rate(object))[1] < release_groups(tag.obj))
-#    stop("Error: Tag release groups in MFCLTag object greater than MFCLIni object")
+  #  if(dim(tag_fish_rep_rate(object))[1] < release_groups(tag.obj))
+  #    stop("Error: Tag release groups in MFCLTag object greater than MFCLIni object")
   
-#  trg   <- release_groups(tag.obj) 
-#  last <- dim(tag_fish_rep_rate(object))[1] 
+  #  trg   <- release_groups(tag.obj) 
+  #  last <- dim(tag_fish_rep_rate(object))[1] 
   if(length(tag.rel.grps)>0){
     tag_fish_rep_rate(object)  <- tag_fish_rep_rate(object)[-tag.rel.grps, ]
     tag_fish_rep_grp(object)   <- tag_fish_rep_grp(object)[-tag.rel.grps, ]
@@ -62,5 +60,18 @@ setMethod("update", signature(object="MFCLIni"), function(object, tag.rel.grps, 
   return(object)
   
 })
+
+
+# old update ini method
+#setMethod("update", signature(object="MFCLIni"), function(object, tag.rel.grps, ...){
+#  if(length(tag.rel.grps)>0){
+#    tag_fish_rep_rate(object)  <- tag_fish_rep_rate(object)[-tag.rel.grps, ]
+#    tag_fish_rep_grp(object)   <- tag_fish_rep_grp(object)[-tag.rel.grps, ]
+#    tag_fish_rep_flags(object) <- tag_fish_rep_flags(object)[-tag.rel.grps, ]
+#    tag_fish_rep_target(object)<- tag_fish_rep_target(object)[-tag.rel.grps, ]
+#    tag_fish_rep_pen(object)   <- tag_fish_rep_pen(object)[-tag.rel.grps, ]
+#  }
+#  return(object)
+#})
 
 
