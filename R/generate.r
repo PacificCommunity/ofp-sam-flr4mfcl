@@ -70,6 +70,28 @@ setGeneric('generate', function(x, y, z, ...) standardGeneric('generate'))
 #' @rdname generate-methods
 #' @aliases generate
 
+
+
+#setMethod("generate", signature(x="MFCLIni", y="MFCLTag"), 
+#          function(x, y, ...){
+            
+#            dd <- dim(tag_fish_rep_rate(x))
+            
+#            tag_fish_rep_rate(x) <- 
+            
+
+#            slot(x,'range')['maxyear']       <- max(freq(x)$year)
+#            slog(x, 'dimensions')['taggrps'] <- dim(tag_fish_rep_rate(x))[1]
+            
+#            return(x)
+#          })
+
+
+
+
+
+
+
 setMethod("generate", signature(x="MFCLFrq", y="MFCLprojControl"), 
          function(x, y, ...){
             
