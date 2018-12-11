@@ -57,6 +57,13 @@ setReplaceMethod('steepness', signature(x='MFCLPar'), function(x, value){slot(x,
 setMethod('lw_params', signature(object='MFCLPar'), function(object) return(slot(object, 'season_growth_pars')[27:28]))
 setReplaceMethod('lw_params', signature(object='MFCLPar'), function(object, value){slot(object, 'season_growth_pars')[27:28] <- value; return(x)})
 
+#'@export realisations
+setGeneric('realisations', function(object,...) standardGeneric('realisations'))
+setMethod('realisations', signature(object='MFCLFrq'), 
+          function(object){ 
+            return(slot(object, 'freq')[is.element(slot(object, 'freq')$length, c(NA, slot(object, 'lf_range')['LFFirst'])) &
+                                        is.element(slot(object, 'freq')$weight, c(NA, slot(object, 'lf_range')['WFFirst'])),])})
+
 
 
 
