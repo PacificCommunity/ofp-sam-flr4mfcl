@@ -35,7 +35,8 @@ write.par <- function(x, file, append=F, ...){
   if(!all(is.na(flags(x)[is.element(flags(x)$flagtype, -10000:-(10000+dimensions(x)["taggrps"]-1)),'value']))){
     cat("# tag flags\n",                       file=file, append=T)  
     write.table(t(matrix(flags(x)[is.element(flags(x)$flagtype, -10000:-(10000+dimensions(x)["taggrps"]-1)),'value'], 
-                         ncol=dimensions(x)['taggrps'])), row.names=F, col.names=F, file=file, append=T)
+                         ncol=10)), #dimensions(x)['taggrps'])), 
+                         row.names=F, col.names=F, file=file, append=T)
   
     cat("# tag fish rep\n",  file=file, append=T)  
     write.table(tag_fish_rep_rate(x), row.names=F, col.names=F, file=file, append=T)
@@ -49,7 +50,8 @@ write.par <- function(x, file, append=F, ...){
     cat("# tag_fish_rep target\n", file=file, append=T)  
     write.table(tag_fish_rep_target(x), row.names=F, col.names=F, file=file, append=T)
   
-    cat("\n# tag_fish_rep penalty\n", file=file, append=T); write.table(tag_fish_rep_pen(x), row.names=F, col.names=F, file=file, append=T)  
+    cat("\n# tag_fish_rep penalty\n", file=file, append=T) 
+    write.table(tag_fish_rep_pen(x), row.names=F, col.names=F, file=file, append=T)  
   }
   cat("\n# region control flags \n",file=file, append=T); #write.table(control_flags(x), row.names=F, col.names=F, file=file, append=T)  
   write.table(t(array(flagval(x, -100000:-100009,1:dimensions(x)["regions"])$value, dim=c(dimensions(x)["regions"], 10))), 
