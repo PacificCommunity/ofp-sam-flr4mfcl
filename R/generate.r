@@ -205,6 +205,11 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar"),
      unused(x)             <- unused(y)
      lagrangian(x)         <- lagrangian(y)
      
+     if(any(dim(tag_fish_rep_rate(x)) != dim(tag_fish_rep_rate(y)))){
+       ll <- list("tag_fish_rep_rate", "tag_fish_rep_flags", "tag_fish_rep_grp", "tag_fish_rep_pen", "tag_fish_rep_target")
+       lapply(ll, function(nn){slot(x, nn) <- slot(y, nn)})
+     }
+     
      # check that "other lambdas ..." are not specified for par files < 1053
      if(flagval(x, 1, 200)$value<1053 & length(grep("# Other lambdas", lagrangian(x)))>0)
        lagrangian(x) <- lagrangian(x)[1:(grep("Other lambdas", lagrangian(x))-1)]
@@ -257,13 +262,21 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLFrq"),
             unused(x)             <- unused(y)
             lagrangian(x)         <- lagrangian(y)
             
+            if(any(dim(tag_fish_rep_rate(x)) != dim(tag_fish_rep_rate(y)))){
+              flags(x) <- rbind(flags(x), flags(y)[!is.element(flags(y)$flagtype, flags(x)$flagtype),])
+              
+              for(ss in list("tag_fish_rep_rate", "tag_fish_rep_flags", "tag_fish_rep_grp", "tag_fish_rep_pen", "tag_fish_rep_target"))
+                slot(x, ss) <- slot(y, ss)
+            }
+            
             # check that "other lambdas ..." are not specified for par files < 1053
             if(flagval(x, 1, 200)$value<1053 & length(grep("# Other lambdas", lagrangian(x)))>0)
               lagrangian(x) <- lagrangian(x)[1:(grep("Other lambdas", lagrangian(x))-1)]
             
             # non-zero filled objects that you need to append zeroes to 
             eff_dev_coff_incs     <- unlist(lapply(effort_dev_coffs(y),length)) - unlist(lapply(effort_dev_coffs(x),length))
-            effort_dev_coffs(x)   <- lapply(1:dimensions(x)["fisheries"], function(g) c(effort_dev_coffs(x)[[g]], rep(0, eff_dev_coff_incs[g])))
+            eff_dev_coff_vals     <- unlist(lapply(effort_dev_coffs(x), mean))
+            effort_dev_coffs(x)   <- lapply(1:dimensions(x)["fisheries"], function(g) c(effort_dev_coffs(x)[[g]], rep(eff_dev_coff_vals[g], eff_dev_coff_incs[g])))
             
             # catch_dev_coffs - gets really messy because you may have zero catch obs in some cases and fishery groupings to worry about.
 #            catch_dev_coffs(x)    <- lapply(1:length(catch_dev_coffs(x)), 
@@ -284,24 +297,15 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLFrq"),
               nElemFuture<- nElemByGrp[grp]-length(catch_dev_coffs(x)[[grp]])-1 #
               catch_dev_coffs(x)[[grp]]<-c(catch_dev_coffs(x)[[grp]],rep(0,nElemFuture))
             }
-          
             
-            ### RDS CODE - NOT WORKING
-            #nfish <- n_fisheries(z)
-            # 3 dimensional table of whch fisheries projected 
-            #cdc_proj   <- table(freq(z)[freq(z)$year>range(x)['maxyear'] & is.element(freq(z)$length,c(NA,lf_range(z)['LFFirst'])),c('year','month', 'fishery')])
-            
-            #cdc_groups <- flagval(x, -1:-nfish, 29)$value
-            # fishery groups for those fisheries present in the projection  
-            #cdc_groups_rep <- cdc_groups[as.numeric(dimnames(cdc_proj)$fishery)]  #value of fish flag 29 for those fisheries represented in cdc_proj
-            
-            #cdc_inc    <- lapply(unique(cdc_groups_rep), function(g) rep(0, sum(apply(cdc_proj[,,which(cdc_groups_rep==g)], c(1,2), sum)>0)))
-            #names(cdc_inc) <- as.character(unique(cdc_groups))
-            
-            #catch_dev_coffs(x)    <- lapply(unique(cdc_groups), function(g) c(catch_dev_coffs(x)[[g]], cdc_inc[[as.character(g)]]))
-            
+            # region_rec_var
             region_rec_var(x)     <- window(region_rec_var(x), start=range(x)['minyear'], end=range(y)['maxyear'])
             region_rec_var(x)[is.na(region_rec_var(x))] <- 0
+            
+            # set the rec vars to the average of the historical time series
+            # I don't think this makes a difference for projections as these values are not used for projections 
+            # but they may make a difference for re-estimating an extended model
+            region_rec_var(x)[,as.character(range(x)['maxyear']:(range(y)['maxyear']-1))] <- apply(region_rec_var(x)[,as.character(range(x)['minyear']:(range(x)['maxyear']-1))], c(1,3,4,5,6), mean)
             
             rel_rec(x) <- window(rel_rec(x), start=range(x)['minyear'], end=range(y)['maxyear'])
             rel_rec(x)[,as.character(proj.yrs)] <- rel_rec(y)[,as.character(proj.yrs)] 
