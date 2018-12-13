@@ -2,6 +2,38 @@
 #Copyright (C) 2018  Rob Scott
 
 
+
+
+
+#' @rdname FLQuant
+#' @aliases FLQuant,MFCLFrq-method
+#' @examples
+#'
+
+setMethod("FLQuant", signature(object="MFCLFrq"),
+          function(object, data='catch', ...) {
+            
+            quant <- switch(data, "catch" = "all",
+                                  "effort"= "all",
+                                  "length"= "length",
+                                  "weight"= "weight")
+              
+            if(data=='catch' | data=='effort'){
+              dd <- cbind(quant, realisations(object)[,c('year','fishery','month')], 'unique', 1, realisations(object)[,data])
+              colnames(dd) <- colnames(as.data.frame(FLQuant()))
+              return(as.FLQuant(dd))
+            }
+            
+            if(data=="length" | data=='weight'){
+              dd <- cbind(freq(object)[,c(quant,'year','fishery','month')], 'unique', 1, freq(object)[,'freq'])
+              colnames(dd) <- c(quant, colnames(as.data.frame(FLQuant()))[-1])
+              return(as.FLQuant(dd))
+            }
+          }
+) # }}}
+
+
+
 #' qts
 #'
 #' Returns a quarterly time series from a seasonally structured FLQuant.
