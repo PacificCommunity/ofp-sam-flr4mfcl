@@ -1645,21 +1645,5 @@ setMethod('w_frq', signature('MFCLPseudo'), function(object) return(slot(object,
 setGeneric('w_frq<-', function(object, ..., value) standardGeneric('w_frq<-'))
 setReplaceMethod('w_frq', signature(object='MFCLPseudo', value=unname(getSlots('MFCLPseudo')['w_frq'])), 
                  function(object, value){slot(object, 'w_frq') <- value; return(object)})
-#'freq
-#'@export freq
-setMethod('freq', signature('MFCLPseudo'), function(object) return(slot(object, 'freq')))
-#'freq
-#'@export
-setReplaceMethod('freq', signature(object='MFCLPseudo', value=unname(getSlots('MFCLPseudo')['freq'])), 
-                 function(object, value){slot(object, 'freq') <- value; return(object)})
-#'range
-#'@export range
-setMethod('range', signature(x='MFCLPseudo'),function(x) return(slot(x,'range'))) 
-#'range
-#'@export range<- 
-#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
-setReplaceMethod('range', signature(object='MFCLPseudo', value=unname(getSlots('MFCLPseudo')['range'])),
-                 function(object, value){slot(object, 'range') <- value; return(object)}) 
-
 
 
