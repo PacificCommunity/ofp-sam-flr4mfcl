@@ -6,12 +6,12 @@
 
 
 #' @rdname FLQuant
-#' @aliases FLQuant,MFCLFrq-method
+#' @aliases FLQuant,MFCLenFreq-method
 #' @examples
 #'
 
-setMethod("FLQuant", signature(object="MFCLFrq"),
-          function(object, data='catch', ...) {
+setMethod("FLQuant", signature(object="MFCLLenFreq"),
+          function(object,  data='catch', ...) {
             
             quant <- switch(data, "catch" = "all",
                                   "effort"= "all",
