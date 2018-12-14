@@ -59,13 +59,29 @@ setReplaceMethod('lw_params', signature(object='MFCLPar'), function(object, valu
 
 #'@export realisations
 setGeneric('realisations', function(object,...) standardGeneric('realisations'))
-setMethod('realisations', signature(object='MFCLFrq'), 
+setMethod('realisations', signature(object='MFCLLenFreq'), 
           function(object){ 
             return(slot(object, 'freq')[is.element(slot(object, 'freq')$length, c(NA, slot(object, 'lf_range')['LFFirst'])) &
                                         is.element(slot(object, 'freq')$weight, c(NA, slot(object, 'lf_range')['WFFirst'])),])})
 
 
+#'@export as.MFCLLenFreq
+setGeneric('as.MFCLLenFreq', function(object,...) standardGeneric('as.MFCLLenFreq'))
+setMethod('as.MFCLLenFreq', signature(object='MFCLFrq'), 
+          function(object){ 
+            res <- MFCLLenFreq()
+            ss <- names(getSlots(class(res)))
+            for(sn in ss)
+              slot(res, sn) <- slot(object, sn)
+            return(res)})
 
+setMethod('as.MFCLLenFreq', signature(object='MFCLPseudo'), 
+          function(object){ 
+            res <- MFCLLenFreq()
+            ss <- names(getSlots(class(res)))
+            for(sn in ss)
+              slot(res, sn) <- slot(object, sn)
+            return(res)})
 
 
 
@@ -82,10 +98,28 @@ setMethod("iter", signature(obj="MFCLPseudo"),
               if(nrow(slot(obj, ss))>0)
                 slot(obj, ss) <- slot(obj, ss)[slot(obj, ss)$iter==iter ,]
             }
+            
+            slot(obj, 'freq') <- slot(obj,'freq')[,c('year','month','week','fishery',paste0('catch_',iter), paste0('effort_',iter),'penalty','length','weight',paste0('freq_',iter))]
+            colnames(slot(obj, 'freq')) <- c('year','month','week','fishery','catch','effort','penalty','length','weight','freq')
             return(obj)
           }
 ) # }}}
 
+
+setMethod("+", signature(e1="MFCLLenFreq", e2="MFCLLenFreq"),
+          function(e1, e2) {
+            
+            if(any(is.element(apply(freq(e1)[,1:4],1,paste, collapse="_"), apply(freq(e2)[,1:4],1,paste, collapse="_"))))
+              warning("Looks like you are duplicating fishery realisations!")
+            
+            freq(e1) <- rbind(freq(e1), freq(e2))
+            
+            lf_range(e1)['Datasets'] <- nrow(realisations(freq(e1)))
+            range(e1)[c('minyear','maxyear')] <- range(freq(e1)$year)
+            
+            return(e1)
+          }
+) # }}}
 
 setMethod("+", signature(e1="MFCLFrq", e2="MFCLFrq"),
           function(e1, e2) {
@@ -94,13 +128,12 @@ setMethod("+", signature(e1="MFCLFrq", e2="MFCLFrq"),
               stop("Error : different frq versions")
             if(n_regions(e1) != n_regions(e2) | n_fisheries(e1) != n_fisheries(e2))
               warning("Objects may not be compatible")
-            if(any(is.element(apply(freq(e1)[,1:4],1,paste, collapse="_"), apply(freq(e2)[,1:4],1,paste, collapse="_"))))
-              warning("Looks like you are duplicating fishery realisations!")
             
-            freq(e1) <- rbind(freq(e1), freq(e2))
+            lenfreq_e1 <- as.MFCLLenFreq(e1) + as.MFCLLenFreq(e2)
             
-            lf_range(e1)['Datasets'] <- nrow(freq(e1)[is.element(freq(e1)$length, c(lf_range(e1)['LFFirst'],NA)),])
-            range(e1)[c('minyear','maxyear')] <- range(freq(e1)$year)
+            freq(e1)     <- freq(lenfreq_e1)
+            lf_range(e1) <- lf_range(lenfreq_e1)
+            
             n_tag_groups(e1) <- n_tag_groups(e1) + n_tag_groups(e2)
             return(e1)
           }
