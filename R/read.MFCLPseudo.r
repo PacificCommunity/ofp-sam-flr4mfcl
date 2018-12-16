@@ -3,7 +3,8 @@
 
 #' read.MFCLPseudo
 #'
-#' Reads information from the pseudo generation files and creates an MFCLPseudo object
+#' Reads information from the pseudo generation files and creates an MFCLPseudo object.
+#' This method is a complicated mess and really needs to be simplified.
 #'
 #' @param catch:  A character string giving the name and path of the catch.sim file to be read 
 #' @param effort: A character string giving the name and path of the effort.sim file to be read 
@@ -106,9 +107,15 @@ read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing",
   slot(res, "catcheff") <- tempdat[order(tempdat$iter, tempdat$fishery, tempdat$year, tempdat$month, tempdat$week),]
   slot(res, "l_frq")    <- pobs.df[order(pobs.df$iter,  pobs.df$fishery, pobs.df$year, pobs.df$month, pobs.df$week, pobs.df$length),]
 
-  if(!historical) # not sure this is right !!
+  if(!historical) { # think this is OK !!
     slot(res, "catcheff")[slot(res, "catcheff")$iter>0,]$freq <- slot(res, "l_frq")$freq  
-  
+    slot(res, 'freq') <- slot(res, 'catcheff')[slot(res, "catcheff")$iter==0,c(1:4,7:9)]
+    for(ii in 0:nsims(ctrl)){
+      tmpdat <-  slot(res,'catcheff')[slot(res,'catcheff')$iter==ii, c("catch",'effort','freq')]
+      colnames(tmpdat) <- paste(c('catch','effort','freq'), '_', ii, sep="")
+      slot(res,'freq') <- cbind(slot(res,'freq'), tmpdat)           
+    }
+  }
   
   if(historical){
   # catch and effort vectors in projfrq format - ie you can just paste these into the catch and effort columns of the freq(projfrq)
@@ -137,22 +144,6 @@ read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing",
   slot(res, "freq") <- cbind(freq(projfrq)[,1:4], ce_itns, freq(projfrq)[,c("penalty","length","weight")], lf_itns)         
   }
 
-  # test-plot
-  #xyplot(freq_1~length|as.character(year), groups=month, data=freq(res)[freq(res)$fishery==1,], type="l", scale=list(relation="free"))
-  
-#  if(historical){
-#    kk <- merge(slot(res, 'catcheff')[,c(1,2,3,4,5,6,7,11,12,13)], slot(res, 'l_frq'), sort=F)
-#    
-#    tt2 <- unique(apply(tempdat[tempdat$iter>0,c('year','month','week','fishery','iter')], 1, paste, collapse='_'))
-#    kk2 <- unique(apply(kk[,c('year','month','week','fishery','iter')], 1, paste, collapse='_'))
-#    
-#    kk <- rbind(kk, tempdat[!is.element(tt2, kk2),names(kk)])
-#    kk <- kk[order(kk$iter, kk$fishery, kk$year, kk$month, kk$week, kk$length),]
-#    kk <- kk[kk$iter>0,]
-#    kk <- kk[,c('year','month','week','fishery','catch','effort','penalty','length','weight','freq','iter','catch.seed','effort.seed')]
-#    slot(res, 'catcheff') <- kk
-#  }
-  
   slot(res, "range")[c("minyear","maxyear")] <- range(tempdat$year)
   slot(res, "range")[c("min","max")]         <- range(pobs.df$length)
   

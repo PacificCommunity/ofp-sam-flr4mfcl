@@ -1,3 +1,5 @@
+import("methods")
+import("FLCore")
 export(
   "availableMFCLversions",
   "check.mfcl.cfg",
@@ -89,6 +91,7 @@ exportMethods(
   "age_pars<-",
   "AggregateF",
   "AggregateF<-",
+  "as.MFCLLenFreq",
   "av_fish_mort_age",
   "av_fish_mort_age<-",
   "av_fish_mort_inst",
