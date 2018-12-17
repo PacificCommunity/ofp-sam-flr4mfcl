@@ -64,8 +64,8 @@ setMethod('realisations', signature(object='MFCLLenFreq'),
           function(object){ 
 #            return(slot(object, 'freq')[is.element(slot(object, 'freq')$length, c(NA, slot(object, 'lf_range')['LFFirst'])) &
 #                                        is.element(slot(object, 'freq')$weight, c(NA, slot(object, 'lf_range')['WFFirst'])),])
-  length_realisations <- is.element(slot(object,'freq')$length, c(NA, lf_range(projfrq)['LFFirst']))
-  weight_realisations <- is.element(slot(object,'freq')$weight, c(NA, lf_range(projfrq)['WFFirst']))
+  length_realisations <- is.element(slot(object,'freq')$length, c(NA, lf_range(object)['LFFirst']))
+  weight_realisations <- is.element(slot(object,'freq')$weight, c(NA, lf_range(object)['WFFirst']))
   lw_realisations <- length_realisations & weight_realisations
   # But some of these lw_realisations may be in the same timestep / fishery
   # So we need to drag out the unique timestep / fishery combinations only
