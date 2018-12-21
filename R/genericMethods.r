@@ -57,12 +57,25 @@ setReplaceMethod('steepness', signature(x='MFCLPar'), function(x, value){slot(x,
 setMethod('lw_params', signature(object='MFCLPar'), function(object) return(slot(object, 'season_growth_pars')[27:28]))
 setReplaceMethod('lw_params', signature(object='MFCLPar'), function(object, value){slot(object, 'season_growth_pars')[27:28] <- value; return(x)})
 
+# Get the unique fishing realisations
 #'@export realisations
 setGeneric('realisations', function(object,...) standardGeneric('realisations'))
 setMethod('realisations', signature(object='MFCLLenFreq'), 
           function(object){ 
-            return(slot(object, 'freq')[is.element(slot(object, 'freq')$length, c(NA, slot(object, 'lf_range')['LFFirst'])) &
-                                        is.element(slot(object, 'freq')$weight, c(NA, slot(object, 'lf_range')['WFFirst'])),])})
+#            return(slot(object, 'freq')[is.element(slot(object, 'freq')$length, c(NA, slot(object, 'lf_range')['LFFirst'])) &
+#                                        is.element(slot(object, 'freq')$weight, c(NA, slot(object, 'lf_range')['WFFirst'])),])
+  length_realisations <- is.element(slot(object,'freq')$length, c(NA, lf_range(object)['LFFirst']))
+  weight_realisations <- is.element(slot(object,'freq')$weight, c(NA, lf_range(object)['WFFirst']))
+  lw_realisations <- length_realisations & weight_realisations
+  # But some of these lw_realisations may be in the same timestep / fishery
+  # So we need to drag out the unique timestep / fishery combinations only
+  freq2 <- slot(object,'freq')[lw_realisations,]
+  realisations <- unique(freq2[,c("year","month","week","fishery")])
+  # Drop penalty, length, weight and freq column
+  drop_cols <- c("penalty", "length", "weight", "freq")
+  realisations <- freq2[rownames(realisations),!(colnames(freq2) %in% drop_cols)]
+  return(realisations)
+})
 
 
 #'@export as.MFCLLenFreq

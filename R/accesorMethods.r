@@ -7,1642 +7,1587 @@
 
 ############################################################################################################# 
 # class  MFCLBase 
-#'dimensions
-#'@export dimensions
+#' Accessor methods
+#'
+#' A metric butt-tonne of accessor methods.
+#'
+#' Accessors for extracting and writing data from / to an MFCLxxx object.
+#' They are usually named after the slot names of the object class.
+#'
+#' @param object An object of type 'MFCLxxx', e.g. 'MFCLFrq'
+#' @param x An object of type 'MFCLxxx', e.g. 'MFCLFrq'
+#' @param value Replacement value for the replacement methods
+#' @param ... Other arguments
+#' @rdname accessor-methods
+#' @aliases accessors
 setGeneric('dimensions', function(object, ...) standardGeneric('dimensions')) 
-setMethod('dimensions', signature('MFCLBase'),function(object) return(slot(object, 'dimensions'))) 
-#'dimensions
-#'@export 
+#' @rdname accessor-methods
+setMethod('dimensions', signature(object='MFCLBase'),function(object) return(slot(object, 'dimensions'))) 
+#' @rdname accessor-methods
 setGeneric('dimensions<-', function(object, ..., value) standardGeneric('dimensions<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('dimensions', signature(object='MFCLBase', value=unname(getSlots('MFCLBase')['dimensions'])),
                                 function(object, value){slot(object, 'dimensions') <- value; return(object)}) 
-#'range
-#'@export range
+
+#' @rdname accessor-methods
 setMethod('range', signature(x='MFCLBase'),function(x) return(slot(x,'range'))) 
-#'range
-#'@export range<- 
-setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
-setReplaceMethod('range', signature(object='MFCLBase', value=unname(getSlots('MFCLBase')['range'])),
-                                function(object, value){slot(object, 'range') <- value; return(object)}) 
+
+# In FLCore
+#setGeneric("range<-", function(x, i, value) standardGeneric("range<-"))
+#' @rdname accessor-methods
+#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
+
+#' @rdname accessor-methods
+setReplaceMethod('range', signature(x='MFCLBase', i="missing", value=unname(getSlots('MFCLBase')['range'])),
+                                function(x, value){slot(x, 'range') <- value; return(x)}) 
 
 #############################################################################################################
 # class  MFCLFrqStats 
-#'n_regions
-#'@export n_regions
+#' @rdname accessor-methods
 setGeneric('n_regions', function(object, ...) standardGeneric('n_regions')) 
-setMethod('n_regions', signature('MFCLFrqStats'),function(object) return(slot(object, 'n_regions'))) 
-#'n_regions
-#'@export 
+#' @rdname accessor-methods
+setMethod('n_regions', signature(object='MFCLFrqStats'),function(object) return(slot(object, 'n_regions'))) 
+#' @rdname accessor-methods
 setGeneric('n_regions<-', function(object, ..., value) standardGeneric('n_regions<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('n_regions', signature(object='MFCLFrqStats', value=unname(getSlots('MFCLFrqStats')['n_regions'])),
                                 function(object, value){slot(object, 'n_regions') <- value; return(object)}) 
-#'n_fisheries
-#'@export n_fisheries
+
+#' @rdname accessor-methods
 setGeneric('n_fisheries', function(object, ...) standardGeneric('n_fisheries')) 
-setMethod('n_fisheries', signature('MFCLFrqStats'),function(object) return(slot(object, 'n_fisheries'))) 
-#'n_fisheries
-#'@export 
+#' @rdname accessor-methods
+setMethod('n_fisheries', signature(object='MFCLFrqStats'),function(object) return(slot(object, 'n_fisheries'))) 
+#' @rdname accessor-methods
 setGeneric('n_fisheries<-', function(object, ..., value) standardGeneric('n_fisheries<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('n_fisheries', signature(object='MFCLFrqStats', value=unname(getSlots('MFCLFrqStats')['n_fisheries'])),
                                 function(object, value){slot(object, 'n_fisheries') <- value; return(object)}) 
-#'n_tag_groups
-#'@export n_tag_groups
+
+#' @rdname accessor-methods
 setGeneric('n_tag_groups', function(object, ...) standardGeneric('n_tag_groups')) 
-setMethod('n_tag_groups', signature('MFCLFrqStats'),function(object) return(slot(object, 'n_tag_groups'))) 
-#'n_tag_groups
-#'@export 
+#' @rdname accessor-methods
+setMethod('n_tag_groups', signature(object='MFCLFrqStats'),function(object) return(slot(object, 'n_tag_groups'))) 
+#' @rdname accessor-methods
 setGeneric('n_tag_groups<-', function(object, ..., value) standardGeneric('n_tag_groups<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('n_tag_groups', signature(object='MFCLFrqStats', value=unname(getSlots('MFCLFrqStats')['n_tag_groups'])),
                                 function(object, value){slot(object, 'n_tag_groups') <- value; return(object)}) 
-#'n_recs_yr
-#'@export n_recs_yr
+
+#' @rdname accessor-methods
 setGeneric('n_recs_yr', function(object, ...) standardGeneric('n_recs_yr')) 
-setMethod('n_recs_yr', signature('MFCLFrqStats'),function(object) return(slot(object, 'n_recs_yr'))) 
-#'n_recs_yr
-#'@export 
+#' @rdname accessor-methods
+setMethod('n_recs_yr', signature(object='MFCLFrqStats'),function(object) return(slot(object, 'n_recs_yr'))) 
+#' @rdname accessor-methods
 setGeneric('n_recs_yr<-', function(object, ..., value) standardGeneric('n_recs_yr<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('n_recs_yr', signature(object='MFCLFrqStats', value=unname(getSlots('MFCLFrqStats')['n_recs_yr'])),
                                 function(object, value){slot(object, 'n_recs_yr') <- value; return(object)}) 
-#'rec_month
-#'@export rec_month
+
+#' @rdname accessor-methods
 setGeneric('rec_month', function(object, ...) standardGeneric('rec_month')) 
-setMethod('rec_month', signature('MFCLFrqStats'),function(object) return(slot(object, 'rec_month'))) 
-#'rec_month
-#'@export 
+#' @rdname accessor-methods
+setMethod('rec_month', signature(object='MFCLFrqStats'),function(object) return(slot(object, 'rec_month'))) 
+#' @rdname accessor-methods
 setGeneric('rec_month<-', function(object, ..., value) standardGeneric('rec_month<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('rec_month', signature(object='MFCLFrqStats', value=unname(getSlots('MFCLFrqStats')['rec_month'])),
                                 function(object, value){slot(object, 'rec_month') <- value; return(object)}) 
-#'generic_diffusion
-#'@export generic_diffusion
+#' @rdname accessor-methods
 setGeneric('generic_diffusion', function(object, ...) standardGeneric('generic_diffusion')) 
-setMethod('generic_diffusion', signature('MFCLFrqStats'),function(object) return(slot(object, 'generic_diffusion'))) 
-#'generic_diffusion
-#'@export 
+#' @rdname accessor-methods
+setMethod('generic_diffusion', signature(object='MFCLFrqStats'),function(object) return(slot(object, 'generic_diffusion'))) 
+#' @rdname accessor-methods
 setGeneric('generic_diffusion<-', function(object, ..., value) standardGeneric('generic_diffusion<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('generic_diffusion', signature(object='MFCLFrqStats', value=unname(getSlots('MFCLFrqStats')['generic_diffusion'])),
                                 function(object, value){slot(object, 'generic_diffusion') <- value; return(object)}) 
-#'frq_age_len
-#'@export frq_age_len
+#' @rdname accessor-methods
 setGeneric('frq_age_len', function(object, ...) standardGeneric('frq_age_len')) 
-setMethod('frq_age_len', signature('MFCLFrqStats'),function(object) return(slot(object, 'frq_age_len'))) 
-#'frq_age_len
-#'@export 
+#' @rdname accessor-methods
+setMethod('frq_age_len', signature(object='MFCLFrqStats'),function(object) return(slot(object, 'frq_age_len'))) 
+#' @rdname accessor-methods
 setGeneric('frq_age_len<-', function(object, ..., value) standardGeneric('frq_age_len<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('frq_age_len', signature(object='MFCLFrqStats', value=unname(getSlots('MFCLFrqStats')['frq_age_len'])),
                                 function(object, value){slot(object, 'frq_age_len') <- value; return(object)}) 
-#'frq_version
-#'@export frq_version
+#' @rdname accessor-methods
 setGeneric('frq_version', function(object, ...) standardGeneric('frq_version')) 
-setMethod('frq_version', signature('MFCLFrqStats'),function(object) return(slot(object, 'frq_version'))) 
-#'frq_version
-#'@export 
+#' @rdname accessor-methods
+setMethod('frq_version', signature(object='MFCLFrqStats'),function(object) return(slot(object, 'frq_version'))) 
+#' @rdname accessor-methods
 setGeneric('frq_version<-', function(object, ..., value) standardGeneric('frq_version<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('frq_version', signature(object='MFCLFrqStats', value=unname(getSlots('MFCLFrqStats')['frq_version'])),
                                 function(object, value){slot(object, 'frq_version') <- value; return(object)}) 
-#'region_size
-#'@export region_size
+#' @rdname accessor-methods
 setGeneric('region_size', function(object, ...) standardGeneric('region_size')) 
-setMethod('region_size', signature('MFCLFrqStats'),function(object) return(slot(object, 'region_size'))) 
-#'region_size
-#'@export 
+#' @rdname accessor-methods
+setMethod('region_size', signature(object='MFCLFrqStats'),function(object) return(slot(object, 'region_size'))) 
+#' @rdname accessor-methods
 setGeneric('region_size<-', function(object, ..., value) standardGeneric('region_size<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('region_size', signature(object='MFCLFrqStats', value=unname(getSlots('MFCLFrqStats')['region_size'])),
                                 function(object, value){slot(object, 'region_size') <- value; return(object)}) 
-#'region_fish
-#'@export region_fish
+
+#' @rdname accessor-methods
 setGeneric('region_fish', function(object, ...) standardGeneric('region_fish')) 
-setMethod('region_fish', signature('MFCLFrqStats'),function(object) return(slot(object, 'region_fish'))) 
-#'region_fish
-#'@export 
+#' @rdname accessor-methods
+setMethod('region_fish', signature(object='MFCLFrqStats'),function(object) return(slot(object, 'region_fish'))) 
+#' @rdname accessor-methods
 setGeneric('region_fish<-', function(object, ..., value) standardGeneric('region_fish<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('region_fish', signature(object='MFCLFrqStats', value=unname(getSlots('MFCLFrqStats')['region_fish'])),
                                 function(object, value){slot(object, 'region_fish') <- value; return(object)}) 
-#'move_matrix
-#'@export move_matrix
+#' @rdname accessor-methods
 setGeneric('move_matrix', function(object, ...) standardGeneric('move_matrix')) 
-setMethod('move_matrix', signature('MFCLFrqStats'),function(object) return(slot(object, 'move_matrix'))) 
-#'move_matrix
-#'@export 
+#' @rdname accessor-methods
+setMethod('move_matrix', signature(object='MFCLFrqStats'),function(object) return(slot(object, 'move_matrix'))) 
+#' @rdname accessor-methods
 setGeneric('move_matrix<-', function(object, ..., value) standardGeneric('move_matrix<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('move_matrix', signature(object='MFCLFrqStats', value=unname(getSlots('MFCLFrqStats')['move_matrix'])),
                                 function(object, value){slot(object, 'move_matrix') <- value; return(object)}) 
-#'data_flags
-#'@export data_flags
+#' @rdname accessor-methods
 setGeneric('data_flags', function(object, ...) standardGeneric('data_flags')) 
-setMethod('data_flags', signature('MFCLFrqStats'),function(object) return(slot(object, 'data_flags'))) 
-#'data_flags
-#'@export 
+#' @rdname accessor-methods
+setMethod('data_flags', signature(object='MFCLFrqStats'),function(object) return(slot(object, 'data_flags'))) 
+#' @rdname accessor-methods
 setGeneric('data_flags<-', function(object, ..., value) standardGeneric('data_flags<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('data_flags', signature(object='MFCLFrqStats', value=unname(getSlots('MFCLFrqStats')['data_flags'])),
                                 function(object, value){slot(object, 'data_flags') <- value; return(object)}) 
-#'season_flags
-#'@export season_flags
+#' @rdname accessor-methods
 setGeneric('season_flags', function(object, ...) standardGeneric('season_flags')) 
-setMethod('season_flags', signature('MFCLFrqStats'),function(object) return(slot(object, 'season_flags'))) 
-#'season_flags
-#'@export 
+#' @rdname accessor-methods
+setMethod('season_flags', signature(object='MFCLFrqStats'),function(object) return(slot(object, 'season_flags'))) 
+#' @rdname accessor-methods
 setGeneric('season_flags<-', function(object, ..., value) standardGeneric('season_flags<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('season_flags', signature(object='MFCLFrqStats', value=unname(getSlots('MFCLFrqStats')['season_flags'])),
                                 function(object, value){slot(object, 'season_flags') <- value; return(object)}) 
-#'n_move_yr
-#'@export n_move_yr
+#' @rdname accessor-methods
 setGeneric('n_move_yr', function(object, ...) standardGeneric('n_move_yr')) 
-setMethod('n_move_yr', signature('MFCLFrqStats'),function(object) return(slot(object, 'n_move_yr'))) 
-#'n_move_yr
-#'@export 
+#' @rdname accessor-methods
+setMethod('n_move_yr', signature(object='MFCLFrqStats'),function(object) return(slot(object, 'n_move_yr'))) 
+#' @rdname accessor-methods
 setGeneric('n_move_yr<-', function(object, ..., value) standardGeneric('n_move_yr<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('n_move_yr', signature(object='MFCLFrqStats', value=unname(getSlots('MFCLFrqStats')['n_move_yr'])),
                                 function(object, value){slot(object, 'n_move_yr') <- value; return(object)}) 
-#'move_weeks
-#'@export move_weeks
+#' @rdname accessor-methods
 setGeneric('move_weeks', function(object, ...) standardGeneric('move_weeks')) 
-setMethod('move_weeks', signature('MFCLFrqStats'),function(object) return(slot(object, 'move_weeks'))) 
-#'move_weeks
-#'@export 
+#' @rdname accessor-methods
+setMethod('move_weeks', signature(object='MFCLFrqStats'),function(object) return(slot(object, 'move_weeks'))) 
+#' @rdname accessor-methods
 setGeneric('move_weeks<-', function(object, ..., value) standardGeneric('move_weeks<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('move_weeks', signature(object='MFCLFrqStats', value=unname(getSlots('MFCLFrqStats')['move_weeks'])),
                                 function(object, value){slot(object, 'move_weeks') <- value; return(object)}) 
-#'range
-#'@export range
+
+#' @rdname accessor-methods
 setMethod('range', signature(x='MFCLFrqStats'),function(x) return(slot(x,'range'))) 
-#'range
-#'@export range<- 
-#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
-setReplaceMethod('range', signature(object='MFCLFrqStats', value=unname(getSlots('MFCLFrqStats')['range'])),
-                                function(object, value){slot(object, 'range') <- value; return(object)}) 
+#' @rdname accessor-methods
+setReplaceMethod('range', signature(x='MFCLFrqStats', i="missing", value=unname(getSlots('MFCLFrqStats')['range'])),
+                                function(x, value){slot(x, 'range') <- value; return(x)}) 
 
 #############################################################################################################
 # class  MFCLLenFreq 
-#'lf_range
-#'@export lf_range
+#' @rdname accessor-methods
 setGeneric('lf_range', function(object, ...) standardGeneric('lf_range')) 
-setMethod('lf_range', signature('MFCLLenFreq'),function(object) return(slot(object, 'lf_range'))) 
-#'lf_range
-#'@export 
+#' @rdname accessor-methods
+setMethod('lf_range', signature(object='MFCLLenFreq'),function(object) return(slot(object, 'lf_range'))) 
+#' @rdname accessor-methods
 setGeneric('lf_range<-', function(object, ..., value) standardGeneric('lf_range<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('lf_range', signature(object='MFCLLenFreq', value=unname(getSlots('MFCLLenFreq')['lf_range'])),
                                 function(object, value){slot(object, 'lf_range') <- value; return(object)}) 
-#'age_nage
-#'@export age_nage
+#' @rdname accessor-methods
 setGeneric('age_nage', function(object, ...) standardGeneric('age_nage')) 
-setMethod('age_nage', signature('MFCLLenFreq'),function(object) return(slot(object, 'age_nage'))) 
-#'age_nage
-#'@export 
+#' @rdname accessor-methods
+setMethod('age_nage', signature(object='MFCLLenFreq'),function(object) return(slot(object, 'age_nage'))) 
+#' @rdname accessor-methods
 setGeneric('age_nage<-', function(object, ..., value) standardGeneric('age_nage<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('age_nage', signature(object='MFCLLenFreq', value=unname(getSlots('MFCLLenFreq')['age_nage'])),
                                 function(object, value){slot(object, 'age_nage') <- value; return(object)}) 
-#'freq
-#'@export freq
+#' @rdname accessor-methods
 setGeneric('freq', function(object, ...) standardGeneric('freq')) 
-setMethod('freq', signature('MFCLLenFreq'),function(object) return(slot(object, 'freq'))) 
-#'freq
-#'@export 
+#' @rdname accessor-methods
+setMethod('freq', signature(object='MFCLLenFreq'),function(object) return(slot(object, 'freq'))) 
+#' @rdname accessor-methods
 setGeneric('freq<-', function(object, ..., value) standardGeneric('freq<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('freq', signature(object='MFCLLenFreq', value=unname(getSlots('MFCLLenFreq')['freq'])),
                                 function(object, value){slot(object, 'freq') <- value; return(object)}) 
 
 #############################################################################################################
 # class  MFCLBiol 
-#'m
-#'@export m
-#setGeneric('m', function(object, ...) standardGeneric('m')) 
-setMethod('m', signature('MFCLBiol'),function(object) return(slot(object, 'm'))) 
-#'m
-#'@export 
-#setGeneric('m<-', function(object, ..., value) standardGeneric('m<-')) 
+#' @rdname accessor-methods
+setMethod('m', signature(object='MFCLBiol'),function(object) return(slot(object, 'm'))) 
+#' @rdname accessor-methods
 setReplaceMethod('m', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['m'])),
                                 function(object, value){slot(object, 'm') <- value; return(object)}) 
-#'m_devs_age
-#'@export m_devs_age
+#' @rdname accessor-methods
 setGeneric('m_devs_age', function(object, ...) standardGeneric('m_devs_age')) 
-setMethod('m_devs_age', signature('MFCLBiol'),function(object) return(slot(object, 'm_devs_age'))) 
-#'m_devs_age
-#'@export 
+#' @rdname accessor-methods
+setMethod('m_devs_age', signature(object='MFCLBiol'),function(object) return(slot(object, 'm_devs_age'))) 
+#' @rdname accessor-methods
 setGeneric('m_devs_age<-', function(object, ..., value) standardGeneric('m_devs_age<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('m_devs_age', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['m_devs_age'])),
                                 function(object, value){slot(object, 'm_devs_age') <- value; return(object)}) 
-#'log_m
-#'@export log_m
+#' @rdname accessor-methods
 setGeneric('log_m', function(object, ...) standardGeneric('log_m')) 
-setMethod('log_m', signature('MFCLBiol'),function(object) return(slot(object, 'log_m'))) 
-#'log_m
-#'@export 
+#' @rdname accessor-methods
+setMethod('log_m', signature(object='MFCLBiol'),function(object) return(slot(object, 'log_m'))) 
+#' @rdname accessor-methods
 setGeneric('log_m<-', function(object, ..., value) standardGeneric('log_m<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('log_m', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['log_m'])),
                                 function(object, value){slot(object, 'log_m') <- value; return(object)}) 
-#'mat
-#'@export mat
-#setGeneric('mat', function(object, ...) standardGeneric('mat')) 
-setMethod('mat', signature('MFCLBiol'),function(object) return(slot(object, 'mat'))) 
-#'mat
-#'@export 
-#setGeneric('mat<-', function(object, ..., value) standardGeneric('mat<-')) 
+#' @rdname accessor-methods
+setMethod('mat', signature(object='MFCLBiol'),function(object) return(slot(object, 'mat'))) 
+#' @rdname accessor-methods
 setReplaceMethod('mat', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['mat'])),
                                 function(object, value){slot(object, 'mat') <- value; return(object)})
-#'mat_at_length
-#'@export mat_at_length
+#' @rdname accessor-methods
 setGeneric('mat_at_length', function(object, ...) standardGeneric('mat_at_length')) 
-setMethod('mat_at_length', signature('MFCLBiol'),function(object) return(slot(object, 'mat_at_length'))) 
-#'mat_at_length
-#'@export 
+#' @rdname accessor-methods
+setMethod('mat_at_length', signature(object='MFCLBiol'),function(object) return(slot(object, 'mat_at_length'))) 
+#' @rdname accessor-methods
 setGeneric('mat_at_length<-', function(object, ..., value) standardGeneric('mat_at_length<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('mat_at_length', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['mat_at_length'])),
                  function(object, value){slot(object, 'mat_at_length') <- value; return(object)}) 
-#'growth
-#'@export growth
+#' @rdname accessor-methods
 setGeneric('growth', function(object, ...) standardGeneric('growth')) 
-setMethod('growth', signature('MFCLBiol'),function(object) return(slot(object, 'growth'))) 
-#'growth
-#'@export 
+#' @rdname accessor-methods
+setMethod('growth', signature(object='MFCLBiol'),function(object) return(slot(object, 'growth'))) 
+#' @rdname accessor-methods
 setGeneric('growth<-', function(object, ..., value) standardGeneric('growth<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('growth', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['growth'])),
                                 function(object, value){slot(object, 'growth') <- value; return(object)}) 
-#'richards
-#'@export richards
+#' @rdname accessor-methods
 setGeneric('richards', function(object, ...) standardGeneric('richards')) 
-setMethod('richards', signature('MFCLBiol'),function(object) return(slot(object, 'richards'))) 
-#'richards
-#'@export 
+#' @rdname accessor-methods
+setMethod('richards', signature(object='MFCLBiol'),function(object) return(slot(object, 'richards'))) 
+#' @rdname accessor-methods
 setGeneric('richards<-', function(object, ..., value) standardGeneric('richards<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('richards', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['richards'])),
                                 function(object, value){slot(object, 'richards') <- value; return(object)}) 
-#'growth_var_pars
-#'@export growth_var_pars
+#' @rdname accessor-methods
 setGeneric('growth_var_pars', function(object, ...) standardGeneric('growth_var_pars')) 
-setMethod('growth_var_pars', signature('MFCLBiol'),function(object) return(slot(object, 'growth_var_pars'))) 
-#'growth_var_pars
-#'@export 
+#' @rdname accessor-methods
+setMethod('growth_var_pars', signature(object='MFCLBiol'),function(object) return(slot(object, 'growth_var_pars'))) 
+#' @rdname accessor-methods
 setGeneric('growth_var_pars<-', function(object, ..., value) standardGeneric('growth_var_pars<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('growth_var_pars', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['growth_var_pars'])),
                                 function(object, value){slot(object, 'growth_var_pars') <- value; return(object)}) 
-#'n_mean_constraints
-#'@export n_mean_constraints
+#' @rdname accessor-methods
 setGeneric('n_mean_constraints', function(object, ...) standardGeneric('n_mean_constraints')) 
-setMethod('n_mean_constraints', signature('MFCLBiol'),function(object) return(slot(object, 'n_mean_constraints'))) 
-#'n_mean_constraints
-#'@export 
+#' @rdname accessor-methods
+setMethod('n_mean_constraints', signature(object='MFCLBiol'),function(object) return(slot(object, 'n_mean_constraints'))) 
+#' @rdname accessor-methods
 setGeneric('n_mean_constraints<-', function(object, ..., value) standardGeneric('n_mean_constraints<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('n_mean_constraints', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['n_mean_constraints'])),
                                 function(object, value){slot(object, 'n_mean_constraints') <- value; return(object)}) 
-#'growth_devs_age
-#'@export growth_devs_age
+#' @rdname accessor-methods
 setGeneric('growth_devs_age', function(object, ...) standardGeneric('growth_devs_age')) 
-setMethod('growth_devs_age', signature('MFCLBiol'),function(object) return(slot(object, 'growth_devs_age'))) 
-#'growth_devs_age
-#'@export 
+#' @rdname accessor-methods
+setMethod('growth_devs_age', signature(object='MFCLBiol'),function(object) return(slot(object, 'growth_devs_age'))) 
+#' @rdname accessor-methods
 setGeneric('growth_devs_age<-', function(object, ..., value) standardGeneric('growth_devs_age<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('growth_devs_age', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['growth_devs_age'])),
                                 function(object, value){slot(object, 'growth_devs_age') <- value; return(object)}) 
-#'growth_curve_devs
-#'@export growth_curve_devs
+#' @rdname accessor-methods
 setGeneric('growth_curve_devs', function(object, ...) standardGeneric('growth_curve_devs')) 
-setMethod('growth_curve_devs', signature('MFCLBiol'),function(object) return(slot(object, 'growth_curve_devs'))) 
-#'growth_curve_devs
-#'@export 
+#' @rdname accessor-methods
+setMethod('growth_curve_devs', signature(object='MFCLBiol'),function(object) return(slot(object, 'growth_curve_devs'))) 
+#' @rdname accessor-methods
 setGeneric('growth_curve_devs<-', function(object, ..., value) standardGeneric('growth_curve_devs<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('growth_curve_devs', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['growth_curve_devs'])),
                                 function(object, value){slot(object, 'growth_curve_devs') <- value; return(object)}) 
-#'growth_devs_cohort
-#'@export growth_devs_cohort
+#' @rdname accessor-methods
 setGeneric('growth_devs_cohort', function(object, ...) standardGeneric('growth_devs_cohort')) 
-setMethod('growth_devs_cohort', signature('MFCLBiol'),function(object) return(slot(object, 'growth_devs_cohort'))) 
-#'growth_devs_cohort
-#'@export 
+#' @rdname accessor-methods
+setMethod('growth_devs_cohort', signature(object='MFCLBiol'),function(object) return(slot(object, 'growth_devs_cohort'))) 
+#' @rdname accessor-methods
 setGeneric('growth_devs_cohort<-', function(object, ..., value) standardGeneric('growth_devs_cohort<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('growth_devs_cohort', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['growth_devs_cohort'])),
                                 function(object, value){slot(object, 'growth_devs_cohort') <- value; return(object)}) 
-#'season_growth_pars
-#'@export season_growth_pars
+#' @rdname accessor-methods
 setGeneric('season_growth_pars', function(object, ...) standardGeneric('season_growth_pars')) 
-setMethod('season_growth_pars', signature('MFCLBiol'),function(object) return(slot(object, 'season_growth_pars'))) 
-#'season_growth_pars
-#'@export 
+#' @rdname accessor-methods
+setMethod('season_growth_pars', signature(object='MFCLBiol'),function(object) return(slot(object, 'season_growth_pars'))) 
+#' @rdname accessor-methods
 setGeneric('season_growth_pars<-', function(object, ..., value) standardGeneric('season_growth_pars<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('season_growth_pars', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['season_growth_pars'])),
                                 function(object, value){slot(object, 'season_growth_pars') <- value; return(object)}) 
-#'len_bias_pars
-#'@export len_bias_pars
+#' @rdname accessor-methods
 setGeneric('len_bias_pars', function(object, ...) standardGeneric('len_bias_pars')) 
-setMethod('len_bias_pars', signature('MFCLBiol'),function(object) return(slot(object, 'len_bias_pars'))) 
-#'len_bias_pars
-#'@export 
+#' @rdname accessor-methods
+setMethod('len_bias_pars', signature(object='MFCLBiol'),function(object) return(slot(object, 'len_bias_pars'))) 
+#' @rdname accessor-methods
 setGeneric('len_bias_pars<-', function(object, ..., value) standardGeneric('len_bias_pars<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('len_bias_pars', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['len_bias_pars'])),
                                 function(object, value){slot(object, 'len_bias_pars') <- value; return(object)}) 
-#'common_len_bias_pars
-#'@export common_len_bias_pars
+#' @rdname accessor-methods
 setGeneric('common_len_bias_pars', function(object, ...) standardGeneric('common_len_bias_pars')) 
-setMethod('common_len_bias_pars', signature('MFCLBiol'),function(object) return(slot(object, 'common_len_bias_pars'))) 
-#'common_len_bias_pars
-#'@export 
+#' @rdname accessor-methods
+setMethod('common_len_bias_pars', signature(object='MFCLBiol'),function(object) return(slot(object, 'common_len_bias_pars'))) 
+#' @rdname accessor-methods
 setGeneric('common_len_bias_pars<-', function(object, ..., value) standardGeneric('common_len_bias_pars<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('common_len_bias_pars', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['common_len_bias_pars'])),
                                 function(object, value){slot(object, 'common_len_bias_pars') <- value; return(object)}) 
-#'common_len_bias_coffs
-#'@export common_len_bias_coffs
+#' @rdname accessor-methods
 setGeneric('common_len_bias_coffs', function(object, ...) standardGeneric('common_len_bias_coffs')) 
-setMethod('common_len_bias_coffs', signature('MFCLBiol'),function(object) return(slot(object, 'common_len_bias_coffs'))) 
-#'common_len_bias_coffs
-#'@export 
+#' @rdname accessor-methods
+setMethod('common_len_bias_coffs', signature(object='MFCLBiol'),function(object) return(slot(object, 'common_len_bias_coffs'))) 
+#' @rdname accessor-methods
 setGeneric('common_len_bias_coffs<-', function(object, ..., value) standardGeneric('common_len_bias_coffs<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('common_len_bias_coffs', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['common_len_bias_coffs'])),
                                 function(object, value){slot(object, 'common_len_bias_coffs') <- value; return(object)}) 
-#'dimensions
-#'@export dimensions
-#setGeneric('dimensions', function(object, ...) standardGeneric('dimensions')) 
-setMethod('dimensions', signature('MFCLBiol'),function(object) return(slot(object, 'dimensions'))) 
-#'dimensions
-#'@export 
-#setGeneric('dimensions<-', function(object, ..., value) standardGeneric('dimensions<-')) 
+
+#' @rdname accessor-methods
+setMethod('dimensions', signature(object='MFCLBiol'),function(object) return(slot(object, 'dimensions'))) 
+#' @rdname accessor-methods
 setReplaceMethod('dimensions', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['dimensions'])),
                                 function(object, value){slot(object, 'dimensions') <- value; return(object)}) 
-#'range
-#'@export range
+#' @rdname accessor-methods
 setMethod('range', signature(x='MFCLBiol'),function(x) return(slot(x,'range'))) 
-#'range
-#'@export range<- 
-#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
-setReplaceMethod('range', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['range'])),
-                                function(object, value){slot(object, 'range') <- value; return(object)}) 
+#' @rdname accessor-methods
+setReplaceMethod('range', signature(x='MFCLBiol', i="missing", value=unname(getSlots('MFCLBiol')['range'])),
+                                function(x, value){slot(x, 'range') <- value; return(x)}) 
 
 #############################################################################################################
 # class  MFCLFlags 
-#'flags
-#'@export flags
+#' @rdname accessor-methods
 setGeneric('flags', function(object, ...) standardGeneric('flags')) 
-setMethod('flags', signature('MFCLFlags'),function(object) return(slot(object, 'flags'))) 
-#'flags
-#'@export 
+#' @rdname accessor-methods
+setMethod('flags', signature(object='MFCLFlags'),function(object) return(slot(object, 'flags'))) 
+#' @rdname accessor-methods
 setGeneric('flags<-', function(object, ..., value) standardGeneric('flags<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('flags', signature(object='MFCLFlags', value=unname(getSlots('MFCLFlags')['flags'])),
                                 function(object, value){slot(object, 'flags') <- value; return(object)}) 
-#'unused
-#'@export unused
+#' @rdname accessor-methods
 setGeneric('unused', function(object, ...) standardGeneric('unused')) 
-setMethod('unused', signature('MFCLFlags'),function(object) return(slot(object, 'unused'))) 
-#'unused
-#'@export 
+#' @rdname accessor-methods
+setMethod('unused', signature(object='MFCLFlags'),function(object) return(slot(object, 'unused'))) 
+#' @rdname accessor-methods
 setGeneric('unused<-', function(object, ..., value) standardGeneric('unused<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('unused', signature(object='MFCLFlags', value=unname(getSlots('MFCLFlags')['unused'])),
                                 function(object, value){slot(object, 'unused') <- value; return(object)}) 
 
 #############################################################################################################
 # class  MFCLTagRep 
-#'tag_fish_rep_rate
-#'@export tag_fish_rep_rate
+#' @rdname accessor-methods
 setGeneric('tag_fish_rep_rate', function(object, ...) standardGeneric('tag_fish_rep_rate')) 
-setMethod('tag_fish_rep_rate', signature('MFCLTagRep'),function(object) return(slot(object, 'tag_fish_rep_rate'))) 
-#'tag_fish_rep_rate
-#'@export 
+#' @rdname accessor-methods
+setMethod('tag_fish_rep_rate', signature(object='MFCLTagRep'),function(object) return(slot(object, 'tag_fish_rep_rate'))) 
+#' @rdname accessor-methods
 setGeneric('tag_fish_rep_rate<-', function(object, ..., value) standardGeneric('tag_fish_rep_rate<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('tag_fish_rep_rate', signature(object='MFCLTagRep', value=unname(getSlots('MFCLTagRep')['tag_fish_rep_rate'])),
                                 function(object, value){slot(object, 'tag_fish_rep_rate') <- value; return(object)}) 
-#'tag_fish_rep_grp
-#'@export tag_fish_rep_grp
+#' @rdname accessor-methods
 setGeneric('tag_fish_rep_grp', function(object, ...) standardGeneric('tag_fish_rep_grp')) 
-setMethod('tag_fish_rep_grp', signature('MFCLTagRep'),function(object) return(slot(object, 'tag_fish_rep_grp'))) 
-#'tag_fish_rep_grp
-#'@export 
+#' @rdname accessor-methods
+setMethod('tag_fish_rep_grp', signature(object='MFCLTagRep'),function(object) return(slot(object, 'tag_fish_rep_grp'))) 
+#' @rdname accessor-methods
 setGeneric('tag_fish_rep_grp<-', function(object, ..., value) standardGeneric('tag_fish_rep_grp<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('tag_fish_rep_grp', signature(object='MFCLTagRep', value=unname(getSlots('MFCLTagRep')['tag_fish_rep_grp'])),
                                 function(object, value){slot(object, 'tag_fish_rep_grp') <- value; return(object)}) 
-#'tag_fish_rep_flags
-#'@export tag_fish_rep_flags
+#' @rdname accessor-methods
 setGeneric('tag_fish_rep_flags', function(object, ...) standardGeneric('tag_fish_rep_flags')) 
-setMethod('tag_fish_rep_flags', signature('MFCLTagRep'),function(object) return(slot(object, 'tag_fish_rep_flags'))) 
-#'tag_fish_rep_flags
-#'@export 
+#' @rdname accessor-methods
+setMethod('tag_fish_rep_flags', signature(object='MFCLTagRep'),function(object) return(slot(object, 'tag_fish_rep_flags'))) 
+#' @rdname accessor-methods
 setGeneric('tag_fish_rep_flags<-', function(object, ..., value) standardGeneric('tag_fish_rep_flags<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('tag_fish_rep_flags', signature(object='MFCLTagRep', value=unname(getSlots('MFCLTagRep')['tag_fish_rep_flags'])),
                                 function(object, value){slot(object, 'tag_fish_rep_flags') <- value; return(object)}) 
-#'tag_fish_rep_target
-#'@export tag_fish_rep_target
+#' @rdname accessor-methods
 setGeneric('tag_fish_rep_target', function(object, ...) standardGeneric('tag_fish_rep_target')) 
-setMethod('tag_fish_rep_target', signature('MFCLTagRep'),function(object) return(slot(object, 'tag_fish_rep_target'))) 
-#'tag_fish_rep_target
-#'@export 
+#' @rdname accessor-methods
+setMethod('tag_fish_rep_target', signature(object='MFCLTagRep'),function(object) return(slot(object, 'tag_fish_rep_target'))) 
+#' @rdname accessor-methods
 setGeneric('tag_fish_rep_target<-', function(object, ..., value) standardGeneric('tag_fish_rep_target<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('tag_fish_rep_target', signature(object='MFCLTagRep', value=unname(getSlots('MFCLTagRep')['tag_fish_rep_target'])),
                                 function(object, value){slot(object, 'tag_fish_rep_target') <- value; return(object)}) 
-#'tag_fish_rep_pen
-#'@export tag_fish_rep_pen
+#' @rdname accessor-methods
 setGeneric('tag_fish_rep_pen', function(object, ...) standardGeneric('tag_fish_rep_pen')) 
-setMethod('tag_fish_rep_pen', signature('MFCLTagRep'),function(object) return(slot(object, 'tag_fish_rep_pen'))) 
-#'tag_fish_rep_pen
-#'@export 
+#' @rdname accessor-methods
+setMethod('tag_fish_rep_pen', signature(object='MFCLTagRep'),function(object) return(slot(object, 'tag_fish_rep_pen'))) 
+#' @rdname accessor-methods
 setGeneric('tag_fish_rep_pen<-', function(object, ..., value) standardGeneric('tag_fish_rep_pen<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('tag_fish_rep_pen', signature(object='MFCLTagRep', value=unname(getSlots('MFCLTagRep')['tag_fish_rep_pen'])),
                                 function(object, value){slot(object, 'tag_fish_rep_pen') <- value; return(object)}) 
-#'rep_rate_dev_coffs
-#'@export rep_rate_dev_coffs
+#' @rdname accessor-methods
 setGeneric('rep_rate_dev_coffs', function(object, ...) standardGeneric('rep_rate_dev_coffs')) 
-setMethod('rep_rate_dev_coffs', signature('MFCLTagRep'),function(object) return(slot(object, 'rep_rate_dev_coffs'))) 
-#'rep_rate_dev_coffs
-#'@export 
+#' @rdname accessor-methods
+setMethod('rep_rate_dev_coffs', signature(object='MFCLTagRep'),function(object) return(slot(object, 'rep_rate_dev_coffs'))) 
+#' @rdname accessor-methods
 setGeneric('rep_rate_dev_coffs<-', function(object, ..., value) standardGeneric('rep_rate_dev_coffs<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('rep_rate_dev_coffs', signature(object='MFCLTagRep', value=unname(getSlots('MFCLTagRep')['rep_rate_dev_coffs'])),
                                 function(object, value){slot(object, 'rep_rate_dev_coffs') <- value; return(object)}) 
-#'range
-#'@export range
+#' @rdname accessor-methods
 setMethod('range', signature(x='MFCLTagRep'),function(x) return(slot(x,'range'))) 
-#'range
-#'@export range<- 
-#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
-setReplaceMethod('range', signature(object='MFCLTagRep', value=unname(getSlots('MFCLTagRep')['range'])),
-                                                 function(object, value){slot(object, 'range') <- value; return(object)}) 
+#' @rdname accessor-methods
+setReplaceMethod('range', signature(x='MFCLTagRep', i="missing", value=unname(getSlots('MFCLTagRep')['range'])),
+                                                 function(x, value){slot(x, 'range') <- value; return(x)}) 
 
 #############################################################################################################
 # class  MFCLRec 
-#'rec_init_pop_diff
-#'@export rec_init_pop_diff
+#' @rdname accessor-methods
 setGeneric('rec_init_pop_diff', function(object, ...) standardGeneric('rec_init_pop_diff')) 
-setMethod('rec_init_pop_diff', signature('MFCLRec'),function(object) return(slot(object, 'rec_init_pop_diff'))) 
-#'rec_init_pop_diff
-#'@export 
+#' @rdname accessor-methods
+setMethod('rec_init_pop_diff', signature(object='MFCLRec'),function(object) return(slot(object, 'rec_init_pop_diff'))) 
+#' @rdname accessor-methods
 setGeneric('rec_init_pop_diff<-', function(object, ..., value) standardGeneric('rec_init_pop_diff<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('rec_init_pop_diff', signature(object='MFCLRec', value=unname(getSlots('MFCLRec')['rec_init_pop_diff'])),
                                 function(object, value){slot(object, 'rec_init_pop_diff') <- value; return(object)}) 
-#'rec_times
-#'@export rec_times
+#' @rdname accessor-methods
 setGeneric('rec_times', function(object, ...) standardGeneric('rec_times')) 
-setMethod('rec_times', signature('MFCLRec'),function(object) return(slot(object, 'rec_times'))) 
-#'rec_times
-#'@export 
+#' @rdname accessor-methods
+setMethod('rec_times', signature(object='MFCLRec'),function(object) return(slot(object, 'rec_times'))) 
+#' @rdname accessor-methods
 setGeneric('rec_times<-', function(object, ..., value) standardGeneric('rec_times<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('rec_times', signature(object='MFCLRec', value=unname(getSlots('MFCLRec')['rec_times'])),
                                 function(object, value){slot(object, 'rec_times') <- value; return(object)}) 
-#'rel_rec
-#'@export rel_rec
+#' @rdname accessor-methods
 setGeneric('rel_rec', function(object, ...) standardGeneric('rel_rec')) 
-setMethod('rel_rec', signature('MFCLRec'),function(object) return(slot(object, 'rel_rec'))) 
-#'rel_rec
-#'@export 
+#' @rdname accessor-methods
+setMethod('rel_rec', signature(object='MFCLRec'),function(object) return(slot(object, 'rel_rec'))) 
+#' @rdname accessor-methods
 setGeneric('rel_rec<-', function(object, ..., value) standardGeneric('rel_rec<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('rel_rec', signature(object='MFCLRec', value=unname(getSlots('MFCLRec')['rel_rec'])),
                                 function(object, value){slot(object, 'rel_rec') <- value; return(object)}) 
-#'tot_pop
-#'@export tot_pop
+#' @rdname accessor-methods
 setGeneric('tot_pop', function(object, ...) standardGeneric('tot_pop')) 
-setMethod('tot_pop', signature('MFCLRec'),function(object) return(slot(object, 'tot_pop'))) 
-#'tot_pop
-#'@export 
+#' @rdname accessor-methods
+setMethod('tot_pop', signature(object='MFCLRec'),function(object) return(slot(object, 'tot_pop'))) 
+#' @rdname accessor-methods
 setGeneric('tot_pop<-', function(object, ..., value) standardGeneric('tot_pop<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('tot_pop', signature(object='MFCLRec', value=unname(getSlots('MFCLRec')['tot_pop'])),
                                 function(object, value){slot(object, 'tot_pop') <- value; return(object)}) 
-#'tot_pop_implicit
-#'@export tot_pop_implicit
+#' @rdname accessor-methods
 setGeneric('tot_pop_implicit', function(object, ...) standardGeneric('tot_pop_implicit')) 
-setMethod('tot_pop_implicit', signature('MFCLRec'),function(object) return(slot(object, 'tot_pop_implicit'))) 
-#'tot_pop_implicit
-#'@export 
+#' @rdname accessor-methods
+setMethod('tot_pop_implicit', signature(object='MFCLRec'),function(object) return(slot(object, 'tot_pop_implicit'))) 
+#' @rdname accessor-methods
 setGeneric('tot_pop_implicit<-', function(object, ..., value) standardGeneric('tot_pop_implicit<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('tot_pop_implicit', signature(object='MFCLRec', value=unname(getSlots('MFCLRec')['tot_pop_implicit'])),
                                 function(object, value){slot(object, 'tot_pop_implicit') <- value; return(object)}) 
-#'rel_ini_pop
-#'@export rel_ini_pop
+#' @rdname accessor-methods
 setGeneric('rel_ini_pop', function(object, ...) standardGeneric('rel_ini_pop')) 
-setMethod('rel_ini_pop', signature('MFCLRec'),function(object) return(slot(object, 'rel_ini_pop'))) 
-#'rel_ini_pop
-#'@export 
+#' @rdname accessor-methods
+setMethod('rel_ini_pop', signature(object='MFCLRec'),function(object) return(slot(object, 'rel_ini_pop'))) 
+#' @rdname accessor-methods
 setGeneric('rel_ini_pop<-', function(object, ..., value) standardGeneric('rel_ini_pop<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('rel_ini_pop', signature(object='MFCLRec', value=unname(getSlots('MFCLRec')['rel_ini_pop'])),
                                 function(object, value){slot(object, 'rel_ini_pop') <- value; return(object)}) 
-#'orth_coffs
-#'@export orth_coffs
+#' @rdname accessor-methods
 setGeneric('orth_coffs', function(object, ...) standardGeneric('orth_coffs')) 
-setMethod('orth_coffs', signature('MFCLRec'),function(object) return(slot(object, 'orth_coffs'))) 
-#'orth_coffs
-#'@export 
+#' @rdname accessor-methods
+setMethod('orth_coffs', signature(object='MFCLRec'),function(object) return(slot(object, 'orth_coffs'))) 
+#' @rdname accessor-methods
 setGeneric('orth_coffs<-', function(object, ..., value) standardGeneric('orth_coffs<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('orth_coffs', signature(object='MFCLRec', value=unname(getSlots('MFCLRec')['orth_coffs'])),
                  function(object, value){slot(object, 'orth_coffs') <- value; return(object)}) 
-#'range
-#'@export range
+
+#' @rdname accessor-methods
 setMethod('range', signature(x='MFCLRec'),function(x) return(slot(x,'range'))) 
-#'range
-#'@export range<- 
-#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
-setReplaceMethod('range', signature(object='MFCLRec', value=unname(getSlots('MFCLRec')['range'])),
-                                function(object, value){slot(object, 'range') <- value; return(object)}) 
+#' @rdname accessor-methods
+setReplaceMethod('range', signature(x='MFCLRec', i="missing", value=unname(getSlots('MFCLRec')['range'])),
+                                function(x, value){slot(x, 'range') <- value; return(x)}) 
 
 #############################################################################################################
 # class  MFCLRegion 
-#'control_flags
-#'@export control_flags
+#' @rdname accessor-methods
 setGeneric('control_flags', function(object, ...) standardGeneric('control_flags')) 
-setMethod('control_flags', signature('MFCLRegion'),function(object) return(slot(object, 'control_flags'))) 
-#'control_flags
-#'@export 
+#' @rdname accessor-methods
+setMethod('control_flags', signature(object='MFCLRegion'),function(object) return(slot(object, 'control_flags'))) 
+#' @rdname accessor-methods
 setGeneric('control_flags<-', function(object, ..., value) standardGeneric('control_flags<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('control_flags', signature(object='MFCLRegion', value=unname(getSlots('MFCLRegion')['control_flags'])),
                                 function(object, value){slot(object, 'control_flags') <- value; return(object)}) 
-#'move_map
-#'@export move_map
+#' @rdname accessor-methods
 setGeneric('move_map', function(object, ...) standardGeneric('move_map')) 
-setMethod('move_map', signature('MFCLRegion'),function(object) return(slot(object, 'move_map'))) 
-#'move_map
-#'@export 
+#' @rdname accessor-methods
+setMethod('move_map', signature(object='MFCLRegion'),function(object) return(slot(object, 'move_map'))) 
+#' @rdname accessor-methods
 setGeneric('move_map<-', function(object, ..., value) standardGeneric('move_map<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('move_map', signature(object='MFCLRegion', value=unname(getSlots('MFCLRegion')['move_map'])),
                                 function(object, value){slot(object, 'move_map') <- value; return(object)}) 
-#'diff_coffs
-#'@export diff_coffs
+#' @rdname accessor-methods
 setGeneric('diff_coffs', function(object, ...) standardGeneric('diff_coffs')) 
-setMethod('diff_coffs', signature('MFCLRegion'),function(object) return(slot(object, 'diff_coffs'))) 
-#'diff_coffs
-#'@export 
+#' @rdname accessor-methods
+setMethod('diff_coffs', signature(object='MFCLRegion'),function(object) return(slot(object, 'diff_coffs'))) 
+#' @rdname accessor-methods
 setGeneric('diff_coffs<-', function(object, ..., value) standardGeneric('diff_coffs<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('diff_coffs', signature(object='MFCLRegion', value=unname(getSlots('MFCLRegion')['diff_coffs'])),
                                 function(object, value){slot(object, 'diff_coffs') <- value; return(object)}) 
-#'diff_coffs_mat
-#'@export diff_coffs_mat
+#' @rdname accessor-methods
 setGeneric('diff_coffs_mat', function(object, ...) standardGeneric('diff_coffs_mat')) 
-setMethod('diff_coffs_mat', signature('MFCLRegion'),function(object) return(slot(object, 'diff_coffs_mat'))) 
-#'diff_coffs_mat
-#'@export 
+#' @rdname accessor-methods
+setMethod('diff_coffs_mat', signature(object='MFCLRegion'),function(object) return(slot(object, 'diff_coffs_mat'))) 
+#' @rdname accessor-methods
 setGeneric('diff_coffs_mat<-', function(object, ..., value) standardGeneric('diff_coffs_mat<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('diff_coffs_mat', signature(object='MFCLRegion', value=unname(getSlots('MFCLRegion')['diff_coffs_mat'])),
                                 function(object, value){slot(object, 'diff_coffs_mat') <- value; return(object)}) 
-#'diff_coffs_age_ssn
-#'@export diff_coffs_age_ssn
+#' @rdname accessor-methods
 setGeneric('diff_coffs_age_ssn', function(object, ...) standardGeneric('diff_coffs_age_ssn')) 
-setMethod('diff_coffs_age_ssn', signature('MFCLRegion'),function(object) return(slot(object, 'diff_coffs_age_ssn'))) 
-#'diff_coffs_age_ssn
-#'@export 
+#' @rdname accessor-methods
+setMethod('diff_coffs_age_ssn', signature(object='MFCLRegion'),function(object) return(slot(object, 'diff_coffs_age_ssn'))) 
+#' @rdname accessor-methods
 setGeneric('diff_coffs_age_ssn<-', function(object, ..., value) standardGeneric('diff_coffs_age_ssn<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('diff_coffs_age_ssn', signature(object='MFCLRegion', value=unname(getSlots('MFCLRegion')['diff_coffs_age_ssn'])),
                                 function(object, value){slot(object, 'diff_coffs_age_ssn') <- value; return(object)}) 
-#'diff_coffs_age_period
-#'@export diff_coffs_age_period
+#' @rdname accessor-methods
 setGeneric('diff_coffs_age_period', function(object, ...) standardGeneric('diff_coffs_age_period')) 
-setMethod('diff_coffs_age_period', signature('MFCLRegion'),function(object) return(slot(object, 'diff_coffs_age_period'))) 
-#'diff_coffs_age_period
-#'@export 
+#' @rdname accessor-methods
+setMethod('diff_coffs_age_period', signature(object='MFCLRegion'),function(object) return(slot(object, 'diff_coffs_age_period'))) 
+#' @rdname accessor-methods
 setGeneric('diff_coffs_age_period<-', function(object, ..., value) standardGeneric('diff_coffs_age_period<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('diff_coffs_age_period', signature(object='MFCLRegion', value=unname(getSlots('MFCLRegion')['diff_coffs_age_period'])),
                                 function(object, value){slot(object, 'diff_coffs_age_period') <- value; return(object)}) 
-#'diff_coffs_age
-#'@export diff_coffs_age
+#' @rdname accessor-methods
 setGeneric('diff_coffs_age', function(object, ...) standardGeneric('diff_coffs_age')) 
-setMethod('diff_coffs_age', signature('MFCLRegion'),function(object) return(slot(object, 'diff_coffs_age'))) 
-#'diff_coffs_age
-#'@export 
+#' @rdname accessor-methods
+setMethod('diff_coffs_age', signature(object='MFCLRegion'),function(object) return(slot(object, 'diff_coffs_age'))) 
+#' @rdname accessor-methods
 setGeneric('diff_coffs_age<-', function(object, ..., value) standardGeneric('diff_coffs_age<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('diff_coffs_age', signature(object='MFCLRegion', value=unname(getSlots('MFCLRegion')['diff_coffs_age'])),
                                 function(object, value){slot(object, 'diff_coffs_age') <- value; return(object)}) 
-#'diff_coffs_nl
-#'@export diff_coffs_nl
+#' @rdname accessor-methods
 setGeneric('diff_coffs_nl', function(object, ...) standardGeneric('diff_coffs_nl')) 
-setMethod('diff_coffs_nl', signature('MFCLRegion'),function(object) return(slot(object, 'diff_coffs_nl'))) 
-#'diff_coffs_nl
-#'@export 
+#' @rdname accessor-methods
+setMethod('diff_coffs_nl', signature(object='MFCLRegion'),function(object) return(slot(object, 'diff_coffs_nl'))) 
+#' @rdname accessor-methods
 setGeneric('diff_coffs_nl<-', function(object, ..., value) standardGeneric('diff_coffs_nl<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('diff_coffs_nl', signature(object='MFCLRegion', value=unname(getSlots('MFCLRegion')['diff_coffs_nl'])),
                                 function(object, value){slot(object, 'diff_coffs_nl') <- value; return(object)}) 
-#'diff_coffs_priors
-#'@export diff_coffs_priors
+#' @rdname accessor-methods
 setGeneric('diff_coffs_priors', function(object, ...) standardGeneric('diff_coffs_priors')) 
-setMethod('diff_coffs_priors', signature('MFCLRegion'),function(object) return(slot(object, 'diff_coffs_priors'))) 
-#'diff_coffs_priors
-#'@export 
+#' @rdname accessor-methods
+setMethod('diff_coffs_priors', signature(object='MFCLRegion'),function(object) return(slot(object, 'diff_coffs_priors'))) 
+#' @rdname accessor-methods
 setGeneric('diff_coffs_priors<-', function(object, ..., value) standardGeneric('diff_coffs_priors<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('diff_coffs_priors', signature(object='MFCLRegion', value=unname(getSlots('MFCLRegion')['diff_coffs_priors'])),
                                 function(object, value){slot(object, 'diff_coffs_priors') <- value; return(object)}) 
-#'diff_coffs_age_priors
-#'@export diff_coffs_age_priors
+#' @rdname accessor-methods
 setGeneric('diff_coffs_age_priors', function(object, ...) standardGeneric('diff_coffs_age_priors')) 
-setMethod('diff_coffs_age_priors', signature('MFCLRegion'),function(object) return(slot(object, 'diff_coffs_age_priors'))) 
-#'diff_coffs_age_priors
-#'@export 
+#' @rdname accessor-methods
+setMethod('diff_coffs_age_priors', signature(object='MFCLRegion'),function(object) return(slot(object, 'diff_coffs_age_priors'))) 
+#' @rdname accessor-methods
 setGeneric('diff_coffs_age_priors<-', function(object, ..., value) standardGeneric('diff_coffs_age_priors<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('diff_coffs_age_priors', signature(object='MFCLRegion', value=unname(getSlots('MFCLRegion')['diff_coffs_age_priors'])),
                                 function(object, value){slot(object, 'diff_coffs_age_priors') <- value; return(object)}) 
-#'diff_coffs_nl_priors
-#'@export diff_coffs_nl_priors
+#' @rdname accessor-methods
 setGeneric('diff_coffs_nl_priors', function(object, ...) standardGeneric('diff_coffs_nl_priors')) 
-setMethod('diff_coffs_nl_priors', signature('MFCLRegion'),function(object) return(slot(object, 'diff_coffs_nl_priors'))) 
-#'diff_coffs_nl_priors
-#'@export 
+#' @rdname accessor-methods
+setMethod('diff_coffs_nl_priors', signature(object='MFCLRegion'),function(object) return(slot(object, 'diff_coffs_nl_priors'))) 
+#' @rdname accessor-methods
 setGeneric('diff_coffs_nl_priors<-', function(object, ..., value) standardGeneric('diff_coffs_nl_priors<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('diff_coffs_nl_priors', signature(object='MFCLRegion', value=unname(getSlots('MFCLRegion')['diff_coffs_nl_priors'])),
                                 function(object, value){slot(object, 'diff_coffs_nl_priors') <- value; return(object)}) 
-#'region_rec_var
-#'@export region_rec_var
+#' @rdname accessor-methods
 setGeneric('region_rec_var', function(object, ...) standardGeneric('region_rec_var')) 
-setMethod('region_rec_var', signature('MFCLRegion'),function(object) return(slot(object, 'region_rec_var'))) 
-#'region_rec_var
-#'@export 
+#' @rdname accessor-methods
+setMethod('region_rec_var', signature(object='MFCLRegion'),function(object) return(slot(object, 'region_rec_var'))) 
+#' @rdname accessor-methods
 setGeneric('region_rec_var<-', function(object, ..., value) standardGeneric('region_rec_var<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('region_rec_var', signature(object='MFCLRegion', value=unname(getSlots('MFCLRegion')['region_rec_var'])),
                                 function(object, value){slot(object, 'region_rec_var') <- value; return(object)}) 
-#'region_pars
-#'@export region_pars
+#' @rdname accessor-methods
 setGeneric('region_pars', function(object, ...) standardGeneric('region_pars')) 
-setMethod('region_pars', signature('MFCLRegion'),function(object) return(slot(object, 'region_pars'))) 
-#'region_pars
-#'@export 
+#' @rdname accessor-methods
+setMethod('region_pars', signature(object='MFCLRegion'),function(object) return(slot(object, 'region_pars'))) 
+#' @rdname accessor-methods
 setGeneric('region_pars<-', function(object, ..., value) standardGeneric('region_pars<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('region_pars', signature(object='MFCLRegion', value=unname(getSlots('MFCLRegion')['region_pars'])),
                                 function(object, value){slot(object, 'region_pars') <- value; return(object)}) 
-#'range
-#'@export range
+#' @rdname accessor-methods
 setMethod('range', signature(x='MFCLRegion'),function(x) return(slot(x,'range'))) 
-#'range
-#'@export range<- 
-#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
-setReplaceMethod('range', signature(object='MFCLRegion', value=unname(getSlots('MFCLRegion')['range'])),
-                                function(object, value){slot(object, 'range') <- value; return(object)}) 
+#' @rdname accessor-methods
+setReplaceMethod('range', signature(x='MFCLRegion', i="missing", value=unname(getSlots('MFCLRegion')['range'])),
+                                function(x, value){slot(x, 'range') <- value; return(x)}) 
 
 #############################################################################################################
 # class  MFCLSel 
-#'availability_coffs
-#'@export availability_coffs
+#' @rdname accessor-methods
 setGeneric('availability_coffs', function(object, ...) standardGeneric('availability_coffs')) 
-setMethod('availability_coffs', signature('MFCLSel'),function(object) return(slot(object, 'availability_coffs'))) 
-#'availability_coffs
-#'@export 
+#' @rdname accessor-methods
+setMethod('availability_coffs', signature(object='MFCLSel'),function(object) return(slot(object, 'availability_coffs'))) 
+#' @rdname accessor-methods
 setGeneric('availability_coffs<-', function(object, ..., value) standardGeneric('availability_coffs<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('availability_coffs', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['availability_coffs'])),
                                 function(object, value){slot(object, 'availability_coffs') <- value; return(object)}) 
-#'fishery_sel
-#'@export fishery_sel
+#' @rdname accessor-methods
 setGeneric('fishery_sel', function(object, ...) standardGeneric('fishery_sel')) 
-setMethod('fishery_sel', signature('MFCLSel'),function(object) return(slot(object, 'fishery_sel'))) 
-#'fishery_sel
-#'@export 
+#' @rdname accessor-methods
+setMethod('fishery_sel', signature(object='MFCLSel'),function(object) return(slot(object, 'fishery_sel'))) 
+#' @rdname accessor-methods
 setGeneric('fishery_sel<-', function(object, ..., value) standardGeneric('fishery_sel<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('fishery_sel', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['fishery_sel'])),
                                 function(object, value){slot(object, 'fishery_sel') <- value; return(object)}) 
-#'fishery_sel_age_comp
-#'@export fishery_sel_age_comp
+#' @rdname accessor-methods
 setGeneric('fishery_sel_age_comp', function(object, ...) standardGeneric('fishery_sel_age_comp')) 
-setMethod('fishery_sel_age_comp', signature('MFCLSel'),function(object) return(slot(object, 'fishery_sel_age_comp'))) 
-#'fishery_sel_age_comp
-#'@export 
+#' @rdname accessor-methods
+setMethod('fishery_sel_age_comp', signature(object='MFCLSel'),function(object) return(slot(object, 'fishery_sel_age_comp'))) 
+#' @rdname accessor-methods
 setGeneric('fishery_sel_age_comp<-', function(object, ..., value) standardGeneric('fishery_sel_age_comp<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('fishery_sel_age_comp', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['fishery_sel_age_comp'])),
                                 function(object, value){slot(object, 'fishery_sel_age_comp') <- value; return(object)}) 
-#'av_q_coffs
-#'@export av_q_coffs
+#' @rdname accessor-methods
 setGeneric('av_q_coffs', function(object, ...) standardGeneric('av_q_coffs')) 
-setMethod('av_q_coffs', signature('MFCLSel'),function(object) return(slot(object, 'av_q_coffs'))) 
-#'av_q_coffs
-#'@export 
+#' @rdname accessor-methods
+setMethod('av_q_coffs', signature(object='MFCLSel'),function(object) return(slot(object, 'av_q_coffs'))) 
+#' @rdname accessor-methods
 setGeneric('av_q_coffs<-', function(object, ..., value) standardGeneric('av_q_coffs<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('av_q_coffs', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['av_q_coffs'])),
                                 function(object, value){slot(object, 'av_q_coffs') <- value; return(object)}) 
-#'ini_q_coffs
-#'@export ini_q_coffs
+#' @rdname accessor-methods
 setGeneric('ini_q_coffs', function(object, ...) standardGeneric('ini_q_coffs')) 
-setMethod('ini_q_coffs', signature('MFCLSel'),function(object) return(slot(object, 'ini_q_coffs'))) 
-#'ini_q_coffs
-#'@export 
+#' @rdname accessor-methods
+setMethod('ini_q_coffs', signature(object='MFCLSel'),function(object) return(slot(object, 'ini_q_coffs'))) 
+#' @rdname accessor-methods
 setGeneric('ini_q_coffs<-', function(object, ..., value) standardGeneric('ini_q_coffs<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('ini_q_coffs', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['ini_q_coffs'])),
                                 function(object, value){slot(object, 'ini_q_coffs') <- value; return(object)}) 
-#'q0_miss
-#'@export q0_miss
+#' @rdname accessor-methods
 setGeneric('q0_miss', function(object, ...) standardGeneric('q0_miss')) 
-setMethod('q0_miss', signature('MFCLSel'),function(object) return(slot(object, 'q0_miss'))) 
-#'q0_miss
-#'@export 
+#' @rdname accessor-methods
+setMethod('q0_miss', signature(object='MFCLSel'),function(object) return(slot(object, 'q0_miss'))) 
+#' @rdname accessor-methods
 setGeneric('q0_miss<-', function(object, ..., value) standardGeneric('q0_miss<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('q0_miss', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['q0_miss'])),
                                 function(object, value){slot(object, 'q0_miss') <- value; return(object)}) 
-#'q_dev_coffs
-#'@export q_dev_coffs
+#' @rdname accessor-methods
 setGeneric('q_dev_coffs', function(object, ...) standardGeneric('q_dev_coffs')) 
-setMethod('q_dev_coffs', signature('MFCLSel'),function(object) return(slot(object, 'q_dev_coffs'))) 
-#'q_dev_coffs
-#'@export 
+#' @rdname accessor-methods
+setMethod('q_dev_coffs', signature(object='MFCLSel'),function(object) return(slot(object, 'q_dev_coffs'))) 
+#' @rdname accessor-methods
 setGeneric('q_dev_coffs<-', function(object, ..., value) standardGeneric('q_dev_coffs<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('q_dev_coffs', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['q_dev_coffs'])),
                                 function(object, value){slot(object, 'q_dev_coffs') <- value; return(object)}) 
-#'effort_dev_coffs
-#'@export effort_dev_coffs
+#' @rdname accessor-methods
 setGeneric('effort_dev_coffs', function(object, ...) standardGeneric('effort_dev_coffs')) 
-setMethod('effort_dev_coffs', signature('MFCLSel'),function(object) return(slot(object, 'effort_dev_coffs'))) 
-#'effort_dev_coffs
-#'@export 
+#' @rdname accessor-methods
+setMethod('effort_dev_coffs', signature(object='MFCLSel'),function(object) return(slot(object, 'effort_dev_coffs'))) 
+#' @rdname accessor-methods
 setGeneric('effort_dev_coffs<-', function(object, ..., value) standardGeneric('effort_dev_coffs<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('effort_dev_coffs', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['effort_dev_coffs'])),
                                 function(object, value){slot(object, 'effort_dev_coffs') <- value; return(object)}) 
-#'catch_dev_coffs
-#'@export catch_dev_coffs
+#' @rdname accessor-methods
 setGeneric('catch_dev_coffs', function(object, ...) standardGeneric('catch_dev_coffs')) 
-setMethod('catch_dev_coffs', signature('MFCLSel'),function(object) return(slot(object, 'catch_dev_coffs'))) 
-#'catch_dev_coffs
-#'@export 
+#' @rdname accessor-methods
+setMethod('catch_dev_coffs', signature(object='MFCLSel'),function(object) return(slot(object, 'catch_dev_coffs'))) 
+#' @rdname accessor-methods
 setGeneric('catch_dev_coffs<-', function(object, ..., value) standardGeneric('catch_dev_coffs<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('catch_dev_coffs', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['catch_dev_coffs'])),
                                 function(object, value){slot(object, 'catch_dev_coffs') <- value; return(object)}) 
-#'catch_dev_coffs_flag
-#'@export catch_dev_coffs_flag
+#' @rdname accessor-methods
 setGeneric('catch_dev_coffs_flag', function(object, ...) standardGeneric('catch_dev_coffs_flag')) 
-setMethod('catch_dev_coffs_flag', signature('MFCLSel'),function(object) return(slot(object, 'catch_dev_coffs_flag'))) 
-#'catch_dev_coffs_flag
-#'@export 
+#' @rdname accessor-methods
+setMethod('catch_dev_coffs_flag', signature(object='MFCLSel'),function(object) return(slot(object, 'catch_dev_coffs_flag'))) 
+#' @rdname accessor-methods
 setGeneric('catch_dev_coffs_flag<-', function(object, ..., value) standardGeneric('catch_dev_coffs_flag<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('catch_dev_coffs_flag', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['catch_dev_coffs_flag'])),
                                 function(object, value){slot(object, 'catch_dev_coffs_flag') <- value; return(object)}) 
-#'sel_dev_corr
-#'@export sel_dev_corr
+#' @rdname accessor-methods
 setGeneric('sel_dev_corr', function(object, ...) standardGeneric('sel_dev_corr')) 
-setMethod('sel_dev_corr', signature('MFCLSel'),function(object) return(slot(object, 'sel_dev_corr'))) 
-#'sel_dev_corr
-#'@export 
+#' @rdname accessor-methods
+setMethod('sel_dev_corr', signature(object='MFCLSel'),function(object) return(slot(object, 'sel_dev_corr'))) 
+#' @rdname accessor-methods
 setGeneric('sel_dev_corr<-', function(object, ..., value) standardGeneric('sel_dev_corr<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('sel_dev_corr', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['sel_dev_corr'])),
                                 function(object, value){slot(object, 'sel_dev_corr') <- value; return(object)}) 
-#'sel_dev_coffs
-#'@export sel_dev_coffs
+#' @rdname accessor-methods
 setGeneric('sel_dev_coffs', function(object, ...) standardGeneric('sel_dev_coffs')) 
-setMethod('sel_dev_coffs', signature('MFCLSel'),function(object) return(slot(object, 'sel_dev_coffs'))) 
-#'sel_dev_coffs
-#'@export 
+#' @rdname accessor-methods
+setMethod('sel_dev_coffs', signature(object='MFCLSel'),function(object) return(slot(object, 'sel_dev_coffs'))) 
+#' @rdname accessor-methods
 setGeneric('sel_dev_coffs<-', function(object, ..., value) standardGeneric('sel_dev_coffs<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('sel_dev_coffs', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['sel_dev_coffs'])),
                                 function(object, value){slot(object, 'sel_dev_coffs') <- value; return(object)}) 
-#'sel_dev_coffs2
-#'@export sel_dev_coffs2
+#' @rdname accessor-methods
 setGeneric('sel_dev_coffs2', function(object, ...) standardGeneric('sel_dev_coffs2')) 
-setMethod('sel_dev_coffs2', signature('MFCLSel'),function(object) return(slot(object, 'sel_dev_coffs2'))) 
-#'sel_dev_coffs2
-#'@export 
+#' @rdname accessor-methods
+setMethod('sel_dev_coffs2', signature(object='MFCLSel'),function(object) return(slot(object, 'sel_dev_coffs2'))) 
+#' @rdname accessor-methods
 setGeneric('sel_dev_coffs2<-', function(object, ..., value) standardGeneric('sel_dev_coffs2<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('sel_dev_coffs2', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['sel_dev_coffs2'])),
                                 function(object, value){slot(object, 'sel_dev_coffs2') <- value; return(object)}) 
-#'season_q_pars
-#'@export season_q_pars
+#' @rdname accessor-methods
 setGeneric('season_q_pars', function(object, ...) standardGeneric('season_q_pars')) 
-setMethod('season_q_pars', signature('MFCLSel'),function(object) return(slot(object, 'season_q_pars'))) 
-#'season_q_pars
-#'@export 
+#' @rdname accessor-methods
+setMethod('season_q_pars', signature(object='MFCLSel'),function(object) return(slot(object, 'season_q_pars'))) 
+#' @rdname accessor-methods
 setGeneric('season_q_pars<-', function(object, ..., value) standardGeneric('season_q_pars<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('season_q_pars', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['season_q_pars'])),
                                 function(object, value){slot(object, 'season_q_pars') <- value; return(object)}) 
-#'fish_params
-#'@export fish_params
+#' @rdname accessor-methods
 setGeneric('fish_params', function(object, ...) standardGeneric('fish_params')) 
-setMethod('fish_params', signature('MFCLSel'),function(object) return(slot(object, 'fish_params'))) 
-#'fish_params
-#'@export 
+#' @rdname accessor-methods
+setMethod('fish_params', signature(object='MFCLSel'),function(object) return(slot(object, 'fish_params'))) 
+#' @rdname accessor-methods
 setGeneric('fish_params<-', function(object, ..., value) standardGeneric('fish_params<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('fish_params', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['fish_params'])),
                                 function(object, value){slot(object, 'fish_params') <- value; return(object)}) 
-#'spp_params
-#'@export spp_params
+#' @rdname accessor-methods
 setGeneric('spp_params', function(object, ...) standardGeneric('spp_params')) 
-setMethod('spp_params', signature('MFCLSel'),function(object) return(slot(object, 'spp_params'))) 
-#'fish_params
-#'@export 
+#' @rdname accessor-methods
+setMethod('spp_params', signature(object='MFCLSel'),function(object) return(slot(object, 'spp_params'))) 
+#' @rdname accessor-methods
 setGeneric('spp_params<-', function(object, ..., value) standardGeneric('spp_params<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('spp_params', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['spp_params'])),
                  function(object, value){slot(object, 'spp_params') <- value; return(object)}) 
-#'range
-#'@export range
+#' @rdname accessor-methods
 setMethod('range', signature(x='MFCLSel'),function(x) return(slot(x,'range'))) 
-#'range
-#'@export range<- 
-#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
-setReplaceMethod('range', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['range'])),
-                                function(object, value){slot(object, 'range') <- value; return(object)}) 
+#' @rdname accessor-methods
+setReplaceMethod('range', signature(x='MFCLSel', i="missing", value=unname(getSlots('MFCLSel')['range'])),
+                                function(x, value){slot(x, 'range') <- value; return(x)}) 
 
 #############################################################################################################
 # class  MFCLParBits 
-#'fm_level_devs
-#'@export fm_level_devs
+#' @rdname accessor-methods
 setGeneric('fm_level_devs', function(object, ...) standardGeneric('fm_level_devs')) 
-setMethod('fm_level_devs', signature('MFCLParBits'),function(object) return(slot(object, 'fm_level_devs'))) 
-#'fm_level_devs
-#'@export 
+#' @rdname accessor-methods
+setMethod('fm_level_devs', signature(object='MFCLParBits'),function(object) return(slot(object, 'fm_level_devs'))) 
+#' @rdname accessor-methods
 setGeneric('fm_level_devs<-', function(object, ..., value) standardGeneric('fm_level_devs<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('fm_level_devs', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['fm_level_devs'])),
                                 function(object, value){slot(object, 'fm_level_devs') <- value; return(object)}) 
-#'obj_fun
-#'@export obj_fun
+#' @rdname accessor-methods
 setGeneric('obj_fun', function(object, ...) standardGeneric('obj_fun')) 
-setMethod('obj_fun', signature('MFCLParBits'),function(object) return(slot(object, 'obj_fun'))) 
-#'obj_fun
-#'@export 
+#' @rdname accessor-methods
+setMethod('obj_fun', signature(object='MFCLParBits'),function(object) return(slot(object, 'obj_fun'))) 
+#' @rdname accessor-methods
 setGeneric('obj_fun<-', function(object, ..., value) standardGeneric('obj_fun<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('obj_fun', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['obj_fun'])),
                                 function(object, value){slot(object, 'obj_fun') <- value; return(object)}) 
-#'n_pars
-#'@export n_pars
+#' @rdname accessor-methods
 setGeneric('n_pars', function(object, ...) standardGeneric('n_pars')) 
-setMethod('n_pars', signature('MFCLParBits'),function(object) return(slot(object, 'n_pars'))) 
-#'n_pars
-#'@export 
+#' @rdname accessor-methods
+setMethod('n_pars', signature(object='MFCLParBits'),function(object) return(slot(object, 'n_pars'))) 
+#' @rdname accessor-methods
 setGeneric('n_pars<-', function(object, ..., value) standardGeneric('n_pars<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('n_pars', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['n_pars'])),
                                 function(object, value){slot(object, 'n_pars') <- value; return(object)}) 
-#'tag_lik
-#'@export tag_lik
+#' @rdname accessor-methods
 setGeneric('tag_lik', function(object, ...) standardGeneric('tag_lik')) 
-setMethod('tag_lik', signature('MFCLParBits'),function(object) return(slot(object, 'tag_lik'))) 
-#'tag_lik
-#'@export 
+#' @rdname accessor-methods
+setMethod('tag_lik', signature(object='MFCLParBits'),function(object) return(slot(object, 'tag_lik'))) 
+#' @rdname accessor-methods
 setGeneric('tag_lik<-', function(object, ..., value) standardGeneric('tag_lik<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('tag_lik', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['tag_lik'])),
                                 function(object, value){slot(object, 'tag_lik') <- value; return(object)}) 
-#'mn_len_pen
-#'@export mn_len_pen
+#' @rdname accessor-methods
 setGeneric('mn_len_pen', function(object, ...) standardGeneric('mn_len_pen')) 
-setMethod('mn_len_pen', signature('MFCLParBits'),function(object) return(slot(object, 'mn_len_pen'))) 
-#'mn_len_pen
-#'@export 
+#' @rdname accessor-methods
+setMethod('mn_len_pen', signature(object='MFCLParBits'),function(object) return(slot(object, 'mn_len_pen'))) 
+#' @rdname accessor-methods
 setGeneric('mn_len_pen<-', function(object, ..., value) standardGeneric('mn_len_pen<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('mn_len_pen', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['mn_len_pen'])),
                                 function(object, value){slot(object, 'mn_len_pen') <- value; return(object)}) 
-#'max_grad
-#'@export max_grad
+#' @rdname accessor-methods
 setGeneric('max_grad', function(object, ...) standardGeneric('max_grad')) 
-setMethod('max_grad', signature('MFCLParBits'),function(object) return(slot(object, 'max_grad'))) 
-#'max_grad
-#'@export 
+#' @rdname accessor-methods
+setMethod('max_grad', signature(object='MFCLParBits'),function(object) return(slot(object, 'max_grad'))) 
+#' @rdname accessor-methods
 setGeneric('max_grad<-', function(object, ..., value) standardGeneric('max_grad<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('max_grad', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['max_grad'])),
                                 function(object, value){slot(object, 'max_grad') <- value; return(object)}) 
-#'av_fish_mort_inst
-#'@export av_fish_mort_inst
+#' @rdname accessor-methods
 setGeneric('av_fish_mort_inst', function(object, ...) standardGeneric('av_fish_mort_inst')) 
-setMethod('av_fish_mort_inst', signature('MFCLParBits'),function(object) return(slot(object, 'av_fish_mort_inst'))) 
-#'av_fish_mort_inst
-#'@export 
+#' @rdname accessor-methods
+setMethod('av_fish_mort_inst', signature(object='MFCLParBits'),function(object) return(slot(object, 'av_fish_mort_inst'))) 
+#' @rdname accessor-methods
 setGeneric('av_fish_mort_inst<-', function(object, ..., value) standardGeneric('av_fish_mort_inst<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('av_fish_mort_inst', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['av_fish_mort_inst'])),
                                 function(object, value){slot(object, 'av_fish_mort_inst') <- value; return(object)}) 
-#'av_fish_mort_year
-#'@export av_fish_mort_year
+#' @rdname accessor-methods
 setGeneric('av_fish_mort_year', function(object, ...) standardGeneric('av_fish_mort_year')) 
-setMethod('av_fish_mort_year', signature('MFCLParBits'),function(object) return(slot(object, 'av_fish_mort_year'))) 
-#'av_fish_mort_year
-#'@export 
+#' @rdname accessor-methods
+setMethod('av_fish_mort_year', signature(object='MFCLParBits'),function(object) return(slot(object, 'av_fish_mort_year'))) 
+#' @rdname accessor-methods
 setGeneric('av_fish_mort_year<-', function(object, ..., value) standardGeneric('av_fish_mort_year<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('av_fish_mort_year', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['av_fish_mort_year'])),
                                 function(object, value){slot(object, 'av_fish_mort_year') <- value; return(object)}) 
-#'av_fish_mort_age
-#'@export av_fish_mort_age
+#' @rdname accessor-methods
 setGeneric('av_fish_mort_age', function(object, ...) standardGeneric('av_fish_mort_age')) 
-setMethod('av_fish_mort_age', signature('MFCLParBits'),function(object) return(slot(object, 'av_fish_mort_age'))) 
-#'av_fish_mort_age
-#'@export 
+#' @rdname accessor-methods
+setMethod('av_fish_mort_age', signature(object='MFCLParBits'),function(object) return(slot(object, 'av_fish_mort_age'))) 
+#' @rdname accessor-methods
 setGeneric('av_fish_mort_age<-', function(object, ..., value) standardGeneric('av_fish_mort_age<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('av_fish_mort_age', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['av_fish_mort_age'])),
                                 function(object, value){slot(object, 'av_fish_mort_age') <- value; return(object)}) 
-#'logistic_normal_params
-#'@export logistic_normal_params
+#' @rdname accessor-methods
 setGeneric('logistic_normal_params', function(object, ...) standardGeneric('logistic_normal_params')) 
-setMethod('logistic_normal_params', signature('MFCLParBits'),function(object) return(slot(object, 'logistic_normal_params'))) 
-#'logistic_normal_params
-#'@export 
+#' @rdname accessor-methods
+setMethod('logistic_normal_params', signature(object='MFCLParBits'),function(object) return(slot(object, 'logistic_normal_params'))) 
+#' @rdname accessor-methods
 setGeneric('logistic_normal_params<-', function(object, ..., value) standardGeneric('logistic_normal_params<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('logistic_normal_params', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['logistic_normal_params'])),
                                 function(object, value){slot(object, 'logistic_normal_params') <- value; return(object)}) 
-#'lagrangian
-#'@export lagrangian
+#' @rdname accessor-methods
 setGeneric('lagrangian', function(object, ...) standardGeneric('lagrangian')) 
-setMethod('lagrangian', signature('MFCLParBits'),function(object) return(slot(object, 'lagrangian'))) 
-#'lagrangian
-#'@export 
+#' @rdname accessor-methods
+setMethod('lagrangian', signature(object='MFCLParBits'),function(object) return(slot(object, 'lagrangian'))) 
+#' @rdname accessor-methods
 setGeneric('lagrangian<-', function(object, ..., value) standardGeneric('lagrangian<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('lagrangian', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['lagrangian'])),
                                 function(object, value){slot(object, 'lagrangian') <- value; return(object)}) 
-#'range
-#'@export range
+#' @rdname accessor-methods
 setMethod('range', signature(x='MFCLParBits'),function(x) return(slot(x,'range'))) 
-#'range
-#'@export range<- 
-#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
-setReplaceMethod('range', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['range'])),
-                                function(object, value){slot(object, 'range') <- value; return(object)}) 
+#' @rdname accessor-methods
+setReplaceMethod('range', signature(x='MFCLParBits', i="missing", value=unname(getSlots('MFCLParBits')['range'])),
+                                function(x, value){slot(x, 'range') <- value; return(x)}) 
 
 #############################################################################################################
 # class  MFCLIniBits 
-#'age_pars
-#'@export age_pars
+#' @rdname accessor-methods
 setGeneric('age_pars', function(object, ...) standardGeneric('age_pars')) 
-setMethod('age_pars', signature('MFCLIniBits'),function(object) return(slot(object, 'age_pars'))) 
-#'age_pars
-#'@export 
+#' @rdname accessor-methods
+setMethod('age_pars', signature(object='MFCLIniBits'),function(object) return(slot(object, 'age_pars'))) 
+#' @rdname accessor-methods
 setGeneric('age_pars<-', function(object, ..., value) standardGeneric('age_pars<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('age_pars', signature(object='MFCLIniBits', value=unname(getSlots('MFCLIniBits')['age_pars'])),
                                 function(object, value){slot(object, 'age_pars') <- value; return(object)}) 
-#'rec_dist
-#'@export rec_dist
+#' @rdname accessor-methods
 setGeneric('rec_dist', function(object, ...) standardGeneric('rec_dist')) 
-setMethod('rec_dist', signature('MFCLIniBits'),function(object) return(slot(object, 'rec_dist'))) 
-#'rec_dist
-#'@export 
+#' @rdname accessor-methods
+setMethod('rec_dist', signature(object='MFCLIniBits'),function(object) return(slot(object, 'rec_dist'))) 
+#' @rdname accessor-methods
 setGeneric('rec_dist<-', function(object, ..., value) standardGeneric('rec_dist<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('rec_dist', signature(object='MFCLIniBits', value=unname(getSlots('MFCLIniBits')['rec_dist'])),
                                 function(object, value){slot(object, 'rec_dist') <- value; return(object)}) 
-#'lw_params
-#'@export lw_params
+#' @rdname accessor-methods
 setGeneric('lw_params', function(object, ...) standardGeneric('lw_params')) 
-setMethod('lw_params', signature('MFCLIniBits'),function(object) return(slot(object, 'lw_params'))) 
-#'lw_params
-#'@export 
+#' @rdname accessor-methods
+setMethod('lw_params', signature(object='MFCLIniBits'),function(object) return(slot(object, 'lw_params'))) 
+#' @rdname accessor-methods
 setGeneric('lw_params<-', function(object, ..., value) standardGeneric('lw_params<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('lw_params', signature(object='MFCLIniBits', value=unname(getSlots('MFCLIniBits')['lw_params'])),
                                 function(object, value){slot(object, 'lw_params') <- value; return(object)}) 
-#'sv
-#'@export sv
-setGeneric('sv', function(object, ...) standardGeneric('sv')) 
-setMethod('sv', signature('MFCLIniBits'),function(object) return(slot(object, 'sv'))) 
-#'sv
-#'@export 
+# From FLCore: setGeneric("sv", function(x, model, ...) 
+#' @rdname accessor-methods
+setMethod('sv', signature(x='MFCLIniBits', model="missing"),function(x) return(slot(x, 'sv'))) 
+#' @rdname accessor-methods
 setGeneric('sv<-', function(object, ..., value) standardGeneric('sv<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('sv', signature(object='MFCLIniBits', value=unname(getSlots('MFCLIniBits')['sv'])),
                                 function(object, value){slot(object, 'sv') <- value; return(object)}) 
-#'sd_length_at_age
-#'@export sd_length_at_age
+#' @rdname accessor-methods
 setGeneric('sd_length_at_age', function(object, ...) standardGeneric('sd_length_at_age')) 
-setMethod('sd_length_at_age', signature('MFCLIniBits'),function(object) return(slot(object, 'sd_length_at_age'))) 
-#'sd_length_at_age
-#'@export 
+#' @rdname accessor-methods
+setMethod('sd_length_at_age', signature(object='MFCLIniBits'),function(object) return(slot(object, 'sd_length_at_age'))) 
+#' @rdname accessor-methods
 setGeneric('sd_length_at_age<-', function(object, ..., value) standardGeneric('sd_length_at_age<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('sd_length_at_age', signature(object='MFCLIniBits', value=unname(getSlots('MFCLIniBits')['sd_length_at_age'])),
                                 function(object, value){slot(object, 'sd_length_at_age') <- value; return(object)}) 
-#'sd_length_dep
-#'@export sd_length_dep
+#' @rdname accessor-methods
 setGeneric('sd_length_dep', function(object, ...) standardGeneric('sd_length_dep')) 
-setMethod('sd_length_dep', signature('MFCLIniBits'),function(object) return(slot(object, 'sd_length_dep'))) 
-#'sd_length_dep
-#'@export 
+#' @rdname accessor-methods
+setMethod('sd_length_dep', signature(object='MFCLIniBits'),function(object) return(slot(object, 'sd_length_dep'))) 
+#' @rdname accessor-methods
 setGeneric('sd_length_dep<-', function(object, ..., value) standardGeneric('sd_length_dep<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('sd_length_dep', signature(object='MFCLIniBits', value=unname(getSlots('MFCLIniBits')['sd_length_dep'])),
                                 function(object, value){slot(object, 'sd_length_dep') <- value; return(object)}) 
 
 #############################################################################################################
 # class  MFCLRep 
-#'fishery_realizations
-#'@export fishery_realizations
+#' @rdname accessor-methods
 setGeneric('fishery_realizations', function(object, ...) standardGeneric('fishery_realizations')) 
-setMethod('fishery_realizations', signature('MFCLRep'),function(object) return(slot(object, 'fishery_realizations'))) 
-#'fishery_realizations
-#'@export 
+#' @rdname accessor-methods
+setMethod('fishery_realizations', signature(object='MFCLRep'),function(object) return(slot(object, 'fishery_realizations'))) 
+#' @rdname accessor-methods
 setGeneric('fishery_realizations<-', function(object, ..., value) standardGeneric('fishery_realizations<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('fishery_realizations', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['fishery_realizations'])),
                                 function(object, value){slot(object, 'fishery_realizations') <- value; return(object)}) 
-#'mean_laa
-#'@export mean_laa
+#' @rdname accessor-methods
 setGeneric('mean_laa', function(object, ...) standardGeneric('mean_laa')) 
-setMethod('mean_laa', signature('MFCLRep'),function(object) return(slot(object, 'mean_laa'))) 
-#'mean_laa
-#'@export 
+#' @rdname accessor-methods
+setMethod('mean_laa', signature(object='MFCLRep'),function(object) return(slot(object, 'mean_laa'))) 
+#' @rdname accessor-methods
 setGeneric('mean_laa<-', function(object, ..., value) standardGeneric('mean_laa<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('mean_laa', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['mean_laa'])),
                                 function(object, value){slot(object, 'mean_laa') <- value; return(object)}) 
-#'sd_laa
-#'@export sd_laa
+#' @rdname accessor-methods
 setGeneric('sd_laa', function(object, ...) standardGeneric('sd_laa')) 
-setMethod('sd_laa', signature('MFCLRep'),function(object) return(slot(object, 'sd_laa'))) 
-#'sd_laa
-#'@export 
+#' @rdname accessor-methods
+setMethod('sd_laa', signature(object='MFCLRep'),function(object) return(slot(object, 'sd_laa'))) 
+#' @rdname accessor-methods
 setGeneric('sd_laa<-', function(object, ..., value) standardGeneric('sd_laa<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('sd_laa', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['sd_laa'])),
                                 function(object, value){slot(object, 'sd_laa') <- value; return(object)}) 
-#'m_at_age
-#'@export m_at_age
+#' @rdname accessor-methods
 setGeneric('m_at_age', function(object, ...) standardGeneric('m_at_age')) 
-setMethod('m_at_age', signature('MFCLRep'),function(object) return(slot(object, 'm_at_age'))) 
-#'m_at_age
-#'@export 
+#' @rdname accessor-methods
+setMethod('m_at_age', signature(object='MFCLRep'),function(object) return(slot(object, 'm_at_age'))) 
+#' @rdname accessor-methods
 setGeneric('m_at_age<-', function(object, ..., value) standardGeneric('m_at_age<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('m_at_age', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['m_at_age'])),
                                 function(object, value){slot(object, 'm_at_age') <- value; return(object)}) 
-#'sel
-#'@export sel
+#' @rdname accessor-methods
 setGeneric('sel', function(object, ...) standardGeneric('sel')) 
-setMethod('sel', signature('MFCLRep'),function(object) return(slot(object, 'sel'))) 
-#'sel
-#'@export 
+#' @rdname accessor-methods
+setMethod('sel', signature(object='MFCLRep'),function(object) return(slot(object, 'sel'))) 
+#' @rdname accessor-methods
 setGeneric('sel<-', function(object, ..., value) standardGeneric('sel<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('sel', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['sel'])),
                                 function(object, value){slot(object, 'sel') <- value; return(object)}) 
-#'q_fishery
-#'@export q_fishery
+#' @rdname accessor-methods
 setGeneric('q_fishery', function(object, ...) standardGeneric('q_fishery')) 
-setMethod('q_fishery', signature('MFCLRep'),function(object) return(slot(object, 'q_fishery'))) 
-#'q_fishery
-#'@export 
+#' @rdname accessor-methods
+setMethod('q_fishery', signature(object='MFCLRep'),function(object) return(slot(object, 'q_fishery'))) 
+#' @rdname accessor-methods
 setGeneric('q_fishery<-', function(object, ..., value) standardGeneric('q_fishery<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('q_fishery', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['q_fishery'])),
                                 function(object, value){slot(object, 'q_fishery') <- value; return(object)}) 
-#'q_effdev
-#'@export q_effdev
+#' @rdname accessor-methods
 setGeneric('q_effdev', function(object, ...) standardGeneric('q_effdev')) 
-setMethod('q_effdev', signature('MFCLRep'),function(object) return(slot(object, 'q_effdev'))) 
-#'q_effdev
-#'@export 
+#' @rdname accessor-methods
+setMethod('q_effdev', signature(object='MFCLRep'),function(object) return(slot(object, 'q_effdev'))) 
+#' @rdname accessor-methods
 setGeneric('q_effdev<-', function(object, ..., value) standardGeneric('q_effdev<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('q_effdev', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['q_effdev'])),
                                 function(object, value){slot(object, 'q_effdev') <- value; return(object)}) 
-#'fm
-#'@export fm
+#' @rdname accessor-methods
 setGeneric('fm', function(object, ...) standardGeneric('fm')) 
-setMethod('fm', signature('MFCLRep'),function(object) return(slot(object, 'fm'))) 
-#'fm
-#'@export 
+#' @rdname accessor-methods
+setMethod('fm', signature(object='MFCLRep'),function(object) return(slot(object, 'fm'))) 
+#' @rdname accessor-methods
 setGeneric('fm<-', function(object, ..., value) standardGeneric('fm<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('fm', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['fm'])),
                                 function(object, value){slot(object, 'fm') <- value; return(object)}) 
-#'popN
-#'@export popN
+#' @rdname accessor-methods
 setGeneric('popN', function(object, ...) standardGeneric('popN')) 
-setMethod('popN', signature('MFCLRep'),function(object) return(slot(object, 'popN'))) 
-#'popN
-#'@export 
+#' @rdname accessor-methods
+setMethod('popN', signature(object='MFCLRep'),function(object) return(slot(object, 'popN'))) 
+#' @rdname accessor-methods
 setGeneric('popN<-', function(object, ..., value) standardGeneric('popN<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('popN', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['popN'])),
                                 function(object, value){slot(object, 'popN') <- value; return(object)}) 
-#'rec_region
-#'@export rec_region
+#' @rdname accessor-methods
 setGeneric('rec_region', function(object, ...) standardGeneric('rec_region')) 
-setMethod('rec_region', signature('MFCLRep'),function(object) return(slot(object, 'rec_region'))) 
-#'rec_region
-#'@export 
+#' @rdname accessor-methods
+setMethod('rec_region', signature(object='MFCLRep'),function(object) return(slot(object, 'rec_region'))) 
+#' @rdname accessor-methods
 setGeneric('rec_region<-', function(object, ..., value) standardGeneric('rec_region<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('rec_region', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['rec_region'])),
                                 function(object, value){slot(object, 'rec_region') <- value; return(object)}) 
-#'totalBiomass
-#'@export totalBiomass
+#' @rdname accessor-methods
 setGeneric('totalBiomass', function(object, ...) standardGeneric('totalBiomass')) 
-setMethod('totalBiomass', signature('MFCLRep'),function(object) return(slot(object, 'totalBiomass'))) 
-#'totalBiomass
-#'@export 
+#' @rdname accessor-methods
+setMethod('totalBiomass', signature(object='MFCLRep'),function(object) return(slot(object, 'totalBiomass'))) 
+#' @rdname accessor-methods
 setGeneric('totalBiomass<-', function(object, ..., value) standardGeneric('totalBiomass<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('totalBiomass', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['totalBiomass'])),
                                                 function(object, value){slot(object, 'totalBiomass') <- value; return(object)}) 
-#'totalBiomass_nofish
-#'@export totalBiomass_nofish
+#' @rdname accessor-methods
 setGeneric('totalBiomass_nofish', function(object, ...) standardGeneric('totalBiomass_nofish')) 
-setMethod('totalBiomass_nofish', signature('MFCLRep'),function(object) return(slot(object, 'totalBiomass_nofish'))) 
-#'totalBiomass_nofish
-#'@export 
+#' @rdname accessor-methods
+setMethod('totalBiomass_nofish', signature(object='MFCLRep'),function(object) return(slot(object, 'totalBiomass_nofish'))) 
+#' @rdname accessor-methods
 setGeneric('totalBiomass_nofish<-', function(object, ..., value) standardGeneric('totalBiomass_nofish<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('totalBiomass_nofish', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['totalBiomass_nofish'])),
                  function(object, value){slot(object, 'totalBiomass_nofish') <- value; return(object)}) 
 
-#'adultBiomass
-#'@export adultBiomass
+#' @rdname accessor-methods
 setGeneric('adultBiomass', function(object, ...) standardGeneric('adultBiomass')) 
-setMethod('adultBiomass', signature('MFCLRep'),function(object) return(slot(object, 'adultBiomass'))) 
-#'adultBiomass
-#'@export 
+#' @rdname accessor-methods
+setMethod('adultBiomass', signature(object='MFCLRep'),function(object) return(slot(object, 'adultBiomass'))) 
+#' @rdname accessor-methods
 setGeneric('adultBiomass<-', function(object, ..., value) standardGeneric('adultBiomass<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('adultBiomass', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['adultBiomass'])),
                                 function(object, value){slot(object, 'adultBiomass') <- value; return(object)}) 
-#'adultBiomass_nofish
-#'@export adultBiomass_nofish
+#' @rdname accessor-methods
 setGeneric('adultBiomass_nofish', function(object, ...) standardGeneric('adultBiomass_nofish')) 
-setMethod('adultBiomass_nofish', signature('MFCLRep'),function(object) return(slot(object, 'adultBiomass_nofish'))) 
-#'adultBiomass_nofish
-#'@export 
+#' @rdname accessor-methods
+setMethod('adultBiomass_nofish', signature(object='MFCLRep'),function(object) return(slot(object, 'adultBiomass_nofish'))) 
+#' @rdname accessor-methods
 setGeneric('adultBiomass_nofish<-', function(object, ..., value) standardGeneric('adultBiomass_nofish<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('adultBiomass_nofish', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['adultBiomass_nofish'])),
                                 function(object, value){slot(object, 'adultBiomass_nofish') <- value; return(object)}) 
-#'vulnBiomass
-#'@export vulnBiomass
+#' @rdname accessor-methods
 setGeneric('vulnBiomass', function(object, ...) standardGeneric('vulnBiomass')) 
-setMethod('vulnBiomass', signature('MFCLRep'),function(object) return(slot(object, 'vulnBiomass'))) 
-#'vulnBiomass
-#'@export 
+#' @rdname accessor-methods
+setMethod('vulnBiomass', signature(object='MFCLRep'),function(object) return(slot(object, 'vulnBiomass'))) 
+#' @rdname accessor-methods
 setGeneric('vulnBiomass<-', function(object, ..., value) standardGeneric('vulnBiomass<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('vulnBiomass', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['vulnBiomass'])),
                                 function(object, value){slot(object, 'vulnBiomass') <- value; return(object)}) 
-#'srr
-#'@export srr
+#' @rdname accessor-methods
 setGeneric('srr', function(object, ...) standardGeneric('srr')) 
-setMethod('srr', signature('MFCLRep'),function(object) return(slot(object, 'srr'))) 
-#'srr
-#'@export 
+#' @rdname accessor-methods
+setMethod('srr', signature(object='MFCLRep'),function(object) return(slot(object, 'srr'))) 
+#' @rdname accessor-methods
 setGeneric('srr<-', function(object, ..., value) standardGeneric('srr<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('srr', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['srr'])),
                                 function(object, value){slot(object, 'srr') <- value; return(object)}) 
-#'ssb
-#'@export ssb
-#setGeneric('ssb', function(object, ...) standardGeneric('ssb')) 
-setMethod('ssb', signature('MFCLRep'),function(object) return(slot(object, 'ssb'))) 
-#'ssb
-#'@export 
-#setGeneric('ssb<-', function(object, ..., value) standardGeneric('ssb<-')) 
+#' @rdname accessor-methods
+setMethod('ssb', signature(object='MFCLRep'),function(object) return(slot(object, 'ssb'))) 
+#' @rdname accessor-methods
 setReplaceMethod('ssb', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['ssb'])),
                                 function(object, value){slot(object, 'ssb') <- value; return(object)}) 
-#'ssb_obs
-#'@export ssb_obs
+#' @rdname accessor-methods
 setGeneric('ssb_obs', function(object, ...) standardGeneric('ssb_obs')) 
-setMethod('ssb_obs', signature('MFCLRep'),function(object) return(slot(object, 'ssb_obs'))) 
-#'ssb_obs
-#'@export 
+#' @rdname accessor-methods
+setMethod('ssb_obs', signature(object='MFCLRep'),function(object) return(slot(object, 'ssb_obs'))) 
+#' @rdname accessor-methods
 setGeneric('ssb_obs<-', function(object, ..., value) standardGeneric('ssb_obs<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('ssb_obs', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['ssb_obs'])),
                                 function(object, value){slot(object, 'ssb_obs') <- value; return(object)}) 
-#'rec
-#'@export rec
-#setGeneric('rec', function(object, ...) standardGeneric('rec')) 
-setMethod('rec', signature('MFCLRep'),function(object) return(slot(object, 'rec'))) 
-#'rec
-#'@export 
-#setGeneric('rec<-', function(object, ..., value) standardGeneric('rec<-')) 
+#' @rdname accessor-methods
+setMethod('rec', signature(object='MFCLRep'),function(object) return(slot(object, 'rec'))) 
+#' @rdname accessor-methods
 setReplaceMethod('rec', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['rec'])),
                                 function(object, value){slot(object, 'rec') <- value; return(object)}) 
-#'rec_obs
-#'@export rec_obs
+#' @rdname accessor-methods
 setGeneric('rec_obs', function(object, ...) standardGeneric('rec_obs')) 
-setMethod('rec_obs', signature('MFCLRep'),function(object) return(slot(object, 'rec_obs'))) 
-#'rec_obs
-#'@export 
+#' @rdname accessor-methods
+setMethod('rec_obs', signature(object='MFCLRep'),function(object) return(slot(object, 'rec_obs'))) 
+#' @rdname accessor-methods
 setGeneric('rec_obs<-', function(object, ..., value) standardGeneric('rec_obs<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('rec_obs', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['rec_obs'])),
                                 function(object, value){slot(object, 'rec_obs') <- value; return(object)}) 
 
-#'catch_obs
-#'@export catch_obs
+#' @rdname accessor-methods
 setGeneric('catch_obs', function(object, ...) standardGeneric('catch_obs')) 
-setMethod('catch_obs', signature('MFCLRep'),function(object) return(slot(object, 'catch_obs'))) 
-#'catch_obs
-#'@export 
+#' @rdname accessor-methods
+setMethod('catch_obs', signature(object='MFCLRep'),function(object) return(slot(object, 'catch_obs'))) 
+#' @rdname accessor-methods
 setGeneric('catch_obs<-', function(object, ..., value) standardGeneric('catch_obs<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('catch_obs', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['catch_obs'])),
                  function(object, value){slot(object, 'catch_obs') <- value; return(object)}) 
 
-#'catch_pred
-#'@export catch_pred
+#' @rdname accessor-methods
 setGeneric('catch_pred', function(object, ...) standardGeneric('catch_pred')) 
-setMethod('catch_pred', signature('MFCLRep'),function(object) return(slot(object, 'catch_pred'))) 
-#'catch_pred
-#'@export 
+#' @rdname accessor-methods
+setMethod('catch_pred', signature(object='MFCLRep'),function(object) return(slot(object, 'catch_pred'))) 
+#' @rdname accessor-methods
 setGeneric('catch_pred<-', function(object, ..., value) standardGeneric('catch_pred<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('catch_pred', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['catch_pred'])),
                  function(object, value){slot(object, 'catch_pred') <- value; return(object)}) 
 
-#'cpue_obs
-#'@export cpue_obs
+#' @rdname accessor-methods
 setGeneric('cpue_obs', function(object, ...) standardGeneric('cpue_obs')) 
-setMethod('cpue_obs', signature('MFCLRep'),function(object) return(slot(object, 'cpue_obs'))) 
-#'cpue_obs
-#'@export 
+#' @rdname accessor-methods
+setMethod('cpue_obs', signature(object='MFCLRep'),function(object) return(slot(object, 'cpue_obs'))) 
+#' @rdname accessor-methods
 setGeneric('cpue_obs<-', function(object, ..., value) standardGeneric('cpue_obs<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('cpue_obs', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['cpue_obs'])),
                  function(object, value){slot(object, 'cpue_obs') <- value; return(object)}) 
 
-#'cpue_pred
-#'@export cpue_pred
+#' @rdname accessor-methods
 setGeneric('cpue_pred', function(object, ...) standardGeneric('cpue_pred')) 
-setMethod('cpue_pred', signature('MFCLRep'),function(object) return(slot(object, 'cpue_pred'))) 
-#'cpue_pred
-#'@export 
+#' @rdname accessor-methods
+setMethod('cpue_pred', signature(object='MFCLRep'),function(object) return(slot(object, 'cpue_pred'))) 
+#' @rdname accessor-methods
 setGeneric('cpue_pred<-', function(object, ..., value) standardGeneric('cpue_pred<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('cpue_pred', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['cpue_pred'])),
                  function(object, value){slot(object, 'cpue_pred') <- value; return(object)}) 
 
-#'eq_biomass
-#'@export eq_biomass
+#' @rdname accessor-methods
 setGeneric('eq_biomass', function(object, ...) standardGeneric('eq_biomass')) 
-setMethod('eq_biomass', signature('MFCLRep'),function(object) return(slot(object, 'eq_biomass'))) 
-#'eq_biomass
-#'@export 
+#' @rdname accessor-methods
+setMethod('eq_biomass', signature(object='MFCLRep'),function(object) return(slot(object, 'eq_biomass'))) 
+#' @rdname accessor-methods
 setGeneric('eq_biomass<-', function(object, ..., value) standardGeneric('eq_biomass<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('eq_biomass', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['eq_biomass'])),
                  function(object, value){slot(object, 'eq_biomass') <- value; return(object)}) 
-#'eq_yield
-#'@export eq_yield
+#' @rdname accessor-methods
 setGeneric('eq_yield', function(object, ...) standardGeneric('eq_yield')) 
-setMethod('eq_yield', signature('MFCLRep'),function(object) return(slot(object, 'eq_yield'))) 
-#'eq_yield
-#'@export 
+#' @rdname accessor-methods
+setMethod('eq_yield', signature(object='MFCLRep'),function(object) return(slot(object, 'eq_yield'))) 
+#' @rdname accessor-methods
 setGeneric('eq_yield<-', function(object, ..., value) standardGeneric('eq_yield<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('eq_yield', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['eq_yield'])),
                  function(object, value){slot(object, 'eq_yield') <- value; return(object)}) 
 
-#'MSY
-#'@export MSY
+#' @rdname accessor-methods
 setGeneric('MSY', function(object, ...) standardGeneric('MSY')) 
-setMethod('MSY', signature('MFCLRep'),function(object) return(slot(object, 'MSY'))) 
-#'MSY
-#'@export 
+#' @rdname accessor-methods
+setMethod('MSY', signature(object='MFCLRep'),function(object) return(slot(object, 'MSY'))) 
+#' @rdname accessor-methods
 setGeneric('MSY<-', function(object, ..., value) standardGeneric('MSY<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('MSY', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['MSY'])),
                  function(object, value){slot(object, 'MSY') <- value; return(object)}) 
-#'FMSY
-#'@export FMSY
+#' @rdname accessor-methods
 setGeneric('FMSY', function(object, ...) standardGeneric('FMSY')) 
-setMethod('FMSY', signature('MFCLRep'),function(object) return(slot(object, 'FMSY'))) 
-#'FMSY
-#'@export 
+#' @rdname accessor-methods
+setMethod('FMSY', signature(object='MFCLRep'),function(object) return(slot(object, 'FMSY'))) 
+#' @rdname accessor-methods
 setGeneric('FMSY<-', function(object, ..., value) standardGeneric('FMSY<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('FMSY', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['FMSY'])),
                  function(object, value){slot(object, 'FMSY') <- value; return(object)}) 
-#'BMSY
-#'@export BMSY
+#' @rdname accessor-methods
 setGeneric('BMSY', function(object, ...) standardGeneric('BMSY')) 
-setMethod('BMSY', signature('MFCLRep'),function(object) return(slot(object, 'BMSY'))) 
-#'BMSY
-#'@export 
+#' @rdname accessor-methods
+setMethod('BMSY', signature(object='MFCLRep'),function(object) return(slot(object, 'BMSY'))) 
+#' @rdname accessor-methods
 setGeneric('BMSY<-', function(object, ..., value) standardGeneric('BMSY<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('BMSY', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['BMSY'])),
                  function(object, value){slot(object, 'BMSY') <- value; return(object)}) 
-#'FFMSY
-#'@export FFMSY
+#' @rdname accessor-methods
 setGeneric('FFMSY', function(object, ...) standardGeneric('FFMSY')) 
-setMethod('FFMSY', signature('MFCLRep'),function(object) return(slot(object, 'FFMSY'))) 
-#'FFMSY
-#'@export 
+#' @rdname accessor-methods
+setMethod('FFMSY', signature(object='MFCLRep'),function(object) return(slot(object, 'FFMSY'))) 
+#' @rdname accessor-methods
 setGeneric('FFMSY<-', function(object, ..., value) standardGeneric('FFMSY<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('FFMSY', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['FFMSY'])),
                  function(object, value){slot(object, 'FFMSY') <- value; return(object)}) 
-#'BBMSY
-#'@export BBMSY
+#' @rdname accessor-methods
 setGeneric('BBMSY', function(object, ...) standardGeneric('BBMSY')) 
-setMethod('BBMSY', signature('MFCLRep'),function(object) return(slot(object, 'BBMSY'))) 
-#'BBMSY
-#'@export 
+#' @rdname accessor-methods
+setMethod('BBMSY', signature(object='MFCLRep'),function(object) return(slot(object, 'BBMSY'))) 
+#' @rdname accessor-methods
 setGeneric('BBMSY<-', function(object, ..., value) standardGeneric('BBMSY<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('BBMSY', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['BBMSY'])),
                  function(object, value){slot(object, 'BBMSY') <- value; return(object)}) 
-#'Fmult
-#'@export Fmult
+#' @rdname accessor-methods
 setGeneric('Fmult', function(object, ...) standardGeneric('Fmult')) 
-setMethod('Fmult', signature('MFCLRep'),function(object) return(slot(object, 'Fmult'))) 
-#'FFMSY
-#'@export 
+#' @rdname accessor-methods
+setMethod('Fmult', signature(object='MFCLRep'),function(object) return(slot(object, 'Fmult'))) 
+#' @rdname accessor-methods
 setGeneric('Fmult<-', function(object, ..., value) standardGeneric('Fmult<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('Fmult', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['Fmult'])),
                  function(object, value){slot(object, 'Fmult') <- value; return(object)}) 
-#'AggregateF
-#'@export AggregateF
+#' @rdname accessor-methods
 setGeneric('AggregateF', function(object, ...) standardGeneric('AggregateF')) 
-setMethod('AggregateF', signature('MFCLRep'),function(object) return(slot(object, 'AggregateF'))) 
-#'AggregateF
-#'@export 
+#' @rdname accessor-methods
+setMethod('AggregateF', signature(object='MFCLRep'),function(object) return(slot(object, 'AggregateF'))) 
+#' @rdname accessor-methods
 setGeneric('AggregateF<-', function(object, ..., value) standardGeneric('AggregateF<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('AggregateF', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['AggregateF'])),
                  function(object, value){slot(object, 'AggregateF') <- value; return(object)}) 
 
-#'dimensions
-#'@export dimensions
-#setGeneric('dimensions', function(object, ...) standardGeneric('dimensions')) 
-setMethod('dimensions', signature('MFCLRep'),function(object) return(slot(object, 'dimensions'))) 
-#'dimensions
-#'@export 
-#setGeneric('dimensions<-', function(object, ..., value) standardGeneric('dimensions<-')) 
+#' @rdname accessor-methods
+setMethod('dimensions', signature(object='MFCLRep'),function(object) return(slot(object, 'dimensions'))) 
+#' @rdname accessor-methods
 setReplaceMethod('dimensions', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['dimensions'])),
                                 function(object, value){slot(object, 'dimensions') <- value; return(object)}) 
-#'range
-#'@export range
+#' @rdname accessor-methods
 setMethod('range', signature(x='MFCLRep'),function(x) return(slot(x,'range'))) 
-#'range
-#'@export range<- 
-#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
-setReplaceMethod('range', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['range'])),
-                                function(object, value){slot(object, 'range') <- value; return(object)}) 
+#' @rdname accessor-methods
+setReplaceMethod('range', signature(x='MFCLRep', i="missing", value=unname(getSlots('MFCLRep')['range'])),
+                                function(x, value){slot(x, 'range') <- value; return(x)}) 
 
 #############################################################################################################
 # class  MFCLprojControl 
-#'nyears
-#'@export nyears
+#' @rdname accessor-methods
 setGeneric('nyears', function(object, ...) standardGeneric('nyears')) 
-setMethod('nyears', signature('MFCLprojControl'),function(object) return(slot(object, 'nyears'))) 
-#'nyears
-#'@export 
+#' @rdname accessor-methods
+setMethod('nyears', signature(object='MFCLprojControl'),function(object) return(slot(object, 'nyears'))) 
+#' @rdname accessor-methods
 setGeneric('nyears<-', function(object, ..., value) standardGeneric('nyears<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('nyears', signature(object='MFCLprojControl', value=unname(getSlots('MFCLprojControl')['nyears'])),
                                 function(object, value){slot(object, 'nyears') <- value; return(object)}) 
-#'nsims
-#'@export nsims
+#' @rdname accessor-methods
 setGeneric('nsims', function(object, ...) standardGeneric('nsims')) 
-setMethod('nsims', signature('MFCLprojControl'),function(object) return(slot(object, 'nsims'))) 
-#'nsims
-#'@export 
+#' @rdname accessor-methods
+setMethod('nsims', signature(object='MFCLprojControl'),function(object) return(slot(object, 'nsims'))) 
+#' @rdname accessor-methods
 setGeneric('nsims<-', function(object, ..., value) standardGeneric('nsims<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('nsims', signature(object='MFCLprojControl', value=unname(getSlots('MFCLprojControl')['nsims'])),
                                 function(object, value){slot(object, 'nsims') <- value; return(object)}) 
-#'avyrs
-#'@export avyrs
+#' @rdname accessor-methods
 setGeneric('avyrs', function(object, ...) standardGeneric('avyrs')) 
-setMethod('avyrs', signature('MFCLprojControl'),function(object) return(slot(object, 'avyrs'))) 
-#'avyrs
-#'@export 
+#' @rdname accessor-methods
+setMethod('avyrs', signature(object='MFCLprojControl'),function(object) return(slot(object, 'avyrs'))) 
+#' @rdname accessor-methods
 setGeneric('avyrs<-', function(object, ..., value) standardGeneric('avyrs<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('avyrs', signature(object='MFCLprojControl', value=unname(getSlots('MFCLprojControl')['avyrs'])),
                                 function(object, value){slot(object, 'avyrs') <- value; return(object)}) 
-#'fprojyr
-#'@export fprojyr
+#' @rdname accessor-methods
 setGeneric('fprojyr', function(object, ...) standardGeneric('fprojyr')) 
-setMethod('fprojyr', signature('MFCLprojControl'),function(object) return(slot(object, 'fprojyr'))) 
-#'fprojyr
-#'@export 
+#' @rdname accessor-methods
+setMethod('fprojyr', signature(object='MFCLprojControl'),function(object) return(slot(object, 'fprojyr'))) 
+#' @rdname accessor-methods
 setGeneric('fprojyr<-', function(object, ..., value) standardGeneric('fprojyr<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('fprojyr', signature(object='MFCLprojControl', value=unname(getSlots('MFCLprojControl')['fprojyr'])),
                  function(object, value){slot(object, 'fprojyr') <- value; return(object)}) 
-#'controls
-#'@export controls
+#' @rdname accessor-methods
 setGeneric('controls', function(object, ...) standardGeneric('controls')) 
-setMethod('controls', signature('MFCLprojControl'),function(object) return(slot(object, 'controls'))) 
-#'controls
-#'@export 
+#' @rdname accessor-methods
+setMethod('controls', signature(object='MFCLprojControl'),function(object) return(slot(object, 'controls'))) 
+#' @rdname accessor-methods
 setGeneric('controls<-', function(object, ..., value) standardGeneric('controls<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('controls', signature(object='MFCLprojControl', value=unname(getSlots('MFCLprojControl')['controls'])),
                  function(object, value){slot(object, 'controls') <- value; return(object)}) 
-#'caeff
-#'@export caeff
+#' @rdname accessor-methods
 setGeneric('caeff', function(object, ...) standardGeneric('caeff')) 
-setMethod('caeff', signature('MFCLprojControl'),function(object) return(slot(object, 'controls')$caeff)) 
-#'caeff
-#'@export 
+#' @rdname accessor-methods
+setMethod('caeff', signature(object='MFCLprojControl'),function(object) return(slot(object, 'controls')$caeff)) 
+#' @rdname accessor-methods
 setGeneric('caeff<-', function(object, ..., value) standardGeneric('caeff<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('caeff', signature(object='MFCLprojControl', value="numeric"), #unname(getSlots('MFCLprojControl')['controls'])),
                                 function(object, value){slot(object, 'controls')$caeff <- value; return(object)}) 
-#'scaler
-#'@export scaler
+#' @rdname accessor-methods
 setGeneric('scaler', function(object, ...) standardGeneric('scaler')) 
-setMethod('scaler', signature('MFCLprojControl'),function(object) return(slot(object, 'controls')$scaler)) 
-#'scaler
-#'@export 
+#' @rdname accessor-methods
+setMethod('scaler', signature(object='MFCLprojControl'),function(object) return(slot(object, 'controls')$scaler)) 
+#' @rdname accessor-methods
 setGeneric('scaler<-', function(object, ..., value) standardGeneric('scaler<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('scaler', signature(object='MFCLprojControl', value="numeric"), #unname(getSlots('MFCLprojControl')['scaler'])),
                                 function(object, value){slot(object, 'controls')$scaler <- value; return(object)}) 
 
-#'ess
-#'@export ess
+#' @rdname accessor-methods
 setGeneric('ess', function(object, ...) standardGeneric('ess')) 
-setMethod('ess', signature('MFCLprojControl'),function(object) return(slot(object, 'controls')$ess)) 
-#'ess
-#'@export 
+#' @rdname accessor-methods
+setMethod('ess', signature(object='MFCLprojControl'),function(object) return(slot(object, 'controls')$ess)) 
+#' @rdname accessor-methods
 setGeneric('ess<-', function(object, ..., value) standardGeneric('ess<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('ess', signature(object='MFCLprojControl', value="numeric"), #unname(getSlots('MFCLprojControl')['scaler'])),
                  function(object, value){slot(object, 'controls')$ess <- value; return(object)}) 
 
 
 #############################################################################################################
 # class  MFCLFrq
-#'range
-#'@export range
+#' @rdname accessor-methods
 setMethod('range', signature(x='MFCLFrq'),function(x) return(slot(x,'range'))) 
-#'range
-#'@export range<- 
-#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
-setReplaceMethod('range', signature(object='MFCLFrq', value=unname(getSlots('MFCLFrq')['range'])),
-                 function(object, value){slot(object, 'range') <- value; return(object)}) 
+#' @rdname accessor-methods
+setReplaceMethod('range', signature(x='MFCLFrq', i="missing", value=unname(getSlots('MFCLFrq')['range'])),
+                 function(x, value){slot(x, 'range') <- value; return(x)}) 
 
 #############################################################################################################
 # class  MFCLPar
-#'range
-#'@export range
+#' @rdname accessor-methods
 setMethod('range', signature(x='MFCLPar'),function(x) return(slot(x,'range'))) 
-#'range
-#'@export range<- 
-#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
-setReplaceMethod('range', signature(object='MFCLPar', value=unname(getSlots('MFCLPar')['range'])),
-                 function(object, value){slot(object, 'range') <- value; return(object)}) 
+#' @rdname accessor-methods
+setReplaceMethod('range', signature(x='MFCLPar', i="missing", value=unname(getSlots('MFCLPar')['range'])),
+                 function(x, value){slot(x, 'range') <- value; return(x)}) 
 
-#'dimensions
-#'@export dimensions
-#setGeneric('dimensions', function(object, ...) standardGeneric('dimensions')) 
-setMethod('dimensions', signature('MFCLPar'),function(object) return(slot(object, 'dimensions'))) 
-#'dimensions
-#'@export 
-#setGeneric('dimensions<-', function(object, ..., value) standardGeneric('dimensions<-')) 
+#' @rdname accessor-methods
+setMethod('dimensions', signature(object='MFCLPar'),function(object) return(slot(object, 'dimensions'))) 
+#' @rdname accessor-methods
 setReplaceMethod('dimensions', signature(object='MFCLPar', value=unname(getSlots('MFCLPar')['dimensions'])),
                  function(object, value){slot(object, 'dimensions') <- value; return(object)}) 
 
 #############################################################################################################
 # class  MFCLIni
-#'range
-#'@export range
+#' @rdname accessor-methods
 setMethod('range', signature(x='MFCLIni'),function(x) return(slot(x,'range'))) 
-#'range
-#'@export range<- 
-#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
-setReplaceMethod('range', signature(object='MFCLIni', value=unname(getSlots('MFCLIni')['range'])),
-                 function(object, value){slot(object, 'range') <- value; return(object)}) 
+#' @rdname accessor-methods
+setReplaceMethod('range', signature(x='MFCLIni', i="missing", value=unname(getSlots('MFCLIni')['range'])),
+                 function(x, value){slot(x, 'range') <- value; return(x)}) 
 
 #############################################################################################################
 # class  MFCLRep
-#'range
-#'@export range
+#' @rdname accessor-methods
 setMethod('range', signature(x='MFCLRep'),function(x) return(slot(x,'range'))) 
-#'range
-#'@export range<- 
-#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
-setReplaceMethod('range', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['range'])),
-                 function(object, value){slot(object, 'range') <- value; return(object)}) 
+#' @rdname accessor-methods
+setReplaceMethod('range', signature(x='MFCLRep', i="missing", value=unname(getSlots('MFCLRep')['range'])),
+                 function(x, value){slot(x, 'range') <- value; return(x)}) 
 
-#'dimensions
-#'@export dimensions
-#setGeneric('dimensions', function(object, ...) standardGeneric('dimensions')) 
-setMethod('dimensions', signature('MFCLRep'),function(object) return(slot(object, 'dimensions'))) 
-#'dimensions
-#'@export 
-#setGeneric('dimensions<-', function(object, ..., value) standardGeneric('dimensions<-')) 
+#' @rdname accessor-methods
+setMethod('dimensions', signature(object='MFCLRep'),function(object) return(slot(object, 'dimensions'))) 
+#' @rdname accessor-methods
 setReplaceMethod('dimensions', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['dimensions'])),
                  function(object, value){slot(object, 'dimensions') <- value; return(object)}) 
 
 #############################################################################################################
 # class  MFCLTagProj
-#'release_groups_proj
-#'@export release_groups_proj
+#' @rdname accessor-methods
 setGeneric('release_groups_proj', function(object, ...) standardGeneric('release_groups_proj')) 
-setMethod('release_groups_proj', signature('MFCLTagProj'),function(object) return(slot(object, 'release_groups_proj'))) 
-#'release_groups_proj
-#'@export 
+#' @rdname accessor-methods
+setMethod('release_groups_proj', signature(object='MFCLTagProj'),function(object) return(slot(object, 'release_groups_proj'))) 
+#' @rdname accessor-methods
 setGeneric('release_groups_proj<-', function(object, ..., value) standardGeneric('release_groups_proj<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('release_groups_proj', signature(object='MFCLTagProj', value=unname(getSlots('MFCLTagProj')['release_groups_proj'])),
                  function(object, value){slot(object, 'release_groups_proj') <- value; return(object)}) 
-#'releases_proj
-#'@export releases_proj
+#' @rdname accessor-methods
 setGeneric('releases_proj', function(object, ...) standardGeneric('releases_proj')) 
-setMethod('releases_proj', signature('MFCLTagProj'),function(object) return(slot(object, 'releases_proj'))) 
-#'releases_proj
-#'@export 
+#' @rdname accessor-methods
+setMethod('releases_proj', signature(object='MFCLTagProj'),function(object) return(slot(object, 'releases_proj'))) 
+#' @rdname accessor-methods
 setGeneric('releases_proj<-', function(object, ..., value) standardGeneric('releases_proj<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('releases_proj', signature(object='MFCLTagProj', value=unname(getSlots('MFCLTagProj')['releases_proj'])),
                  function(object, value){slot(object, 'releases_proj') <- value; return(object)}) 
-#'rep_rate_proj
-#'@export rep_rate_proj
+#' @rdname accessor-methods
 setGeneric('rep_rate_proj', function(object, ...) standardGeneric('rep_rate_proj')) 
-setMethod('rep_rate_proj', signature('MFCLTagProj'),function(object) return(slot(object, 'rep_rate_proj'))) 
-#'rep_rate_proj
-#'@export 
+#' @rdname accessor-methods
+setMethod('rep_rate_proj', signature(object='MFCLTagProj'),function(object) return(slot(object, 'rep_rate_proj'))) 
+#' @rdname accessor-methods
 setGeneric('rep_rate_proj<-', function(object, ..., value) standardGeneric('rep_rate_proj<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('rep_rate_proj', signature(object='MFCLTagProj', value=unname(getSlots('MFCLTagProj')['rep_rate_proj'])),
                  function(object, value){slot(object, 'rep_rate_proj') <- value; return(object)}) 
-#'range
-#'@export range
+#' @rdname accessor-methods
 setMethod('range', signature(x='MFCLTagProj'),function(x) return(slot(x,'range'))) 
-#'range
-#'@export range<- 
-#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
-setReplaceMethod('range', signature(object='MFCLTagProj', value=unname(getSlots('MFCLTagProj')['range'])),
-                 function(object, value){slot(object, 'range') <- value; return(object)}) 
+#' @rdname accessor-methods
+setReplaceMethod('range', signature(x='MFCLTagProj', i="missing", value=unname(getSlots('MFCLTagProj')['range'])),
+                 function(x, value){slot(x, 'range') <- value; return(x)}) 
 
 #############################################################################################################
 # class  MFCLTag
-#'release_groups
-#'@export release_groups
+#' @rdname accessor-methods
 setGeneric('release_groups', function(object, ...) standardGeneric('release_groups')) 
-setMethod('release_groups', signature('MFCLTag'),function(object) return(slot(object, 'release_groups'))) 
-#'release_groups
-#'@export 
+#' @rdname accessor-methods
+setMethod('release_groups', signature(object='MFCLTag'),function(object) return(slot(object, 'release_groups'))) 
+#' @rdname accessor-methods
 setGeneric('release_groups<-', function(object, ..., value) standardGeneric('release_groups<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('release_groups', signature(object='MFCLTag', value=unname(getSlots('MFCLTag')['release_groups'])),
                  function(object, value){slot(object, 'release_groups') <- value; return(object)}) 
 
-#'release_lengths
-#'@export release_lengths
+#' @rdname accessor-methods
 setGeneric('release_lengths', function(object, ...) standardGeneric('release_lengths')) 
-setMethod('release_lengths', signature('MFCLTag'),function(object) return(slot(object, 'release_lengths'))) 
-#'lengths
-#'@export 
+#' @rdname accessor-methods
+setMethod('release_lengths', signature(object='MFCLTag'),function(object) return(slot(object, 'release_lengths'))) 
+#' @rdname accessor-methods
 setGeneric('release_lengths<-', function(object, ..., value) standardGeneric('release_lengths<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('release_lengths', signature(object='MFCLTag', value=unname(getSlots('MFCLTag')['release_lengths'])),
                  function(object, value){slot(object, 'release_lengths') <- value; return(object)}) 
 
-#'recoveries
-#'@export recoveries
+#' @rdname accessor-methods
 setGeneric('recoveries', function(object, ...) standardGeneric('recoveries')) 
-setMethod('recoveries', signature('MFCLTag'),function(object) return(slot(object, 'recoveries'))) 
-#'recoveries
-#'@export 
+#' @rdname accessor-methods
+setMethod('recoveries', signature(object='MFCLTag'),function(object) return(slot(object, 'recoveries'))) 
+#' @rdname accessor-methods
 setGeneric('recoveries<-', function(object, ..., value) standardGeneric('recoveries<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('recoveries', signature(object='MFCLTag', value=unname(getSlots('MFCLTag')['recoveries'])),
                  function(object, value){slot(object, 'recoveries') <- value; return(object)}) 
 
-#'releases
-#'@export releases
+#' @rdname accessor-methods
 setGeneric('releases', function(object, ...) standardGeneric('releases')) 
-setMethod('releases', signature('MFCLTag'),function(object) return(slot(object, 'releases'))) 
-#'releases
-#'@export 
+#' @rdname accessor-methods
+setMethod('releases', signature(object='MFCLTag'),function(object) return(slot(object, 'releases'))) 
+#' @rdname accessor-methods
 setGeneric('releases<-', function(object, ..., value) standardGeneric('releases<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('releases', signature(object='MFCLTag', value=unname(getSlots('MFCLTag')['releases'])),
                  function(object, value){slot(object, 'releases') <- value; return(object)}) 
 
-#'recaptures
-#'@export recaptures
+#' @rdname accessor-methods
 setGeneric('recaptures', function(object, ...) standardGeneric('recaptures')) 
-setMethod('recaptures', signature('MFCLTag'),function(object) return(slot(object, 'recaptures'))) 
-#'recaptures
-#'@export 
+#' @rdname accessor-methods
+setMethod('recaptures', signature(object='MFCLTag'),function(object) return(slot(object, 'recaptures'))) 
+#' @rdname accessor-methods
 setGeneric('recaptures<-', function(object, ..., value) standardGeneric('recaptures<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('recaptures', signature(object='MFCLTag', value=unname(getSlots('MFCLTag')['recaptures'])),
                  function(object, value){slot(object, 'recaptures') <- value; return(object)}) 
 
-#'range
-#'@export range
+#' @rdname accessor-methods
 setMethod('range', signature(x='MFCLTag'),function(x) return(slot(x,'range'))) 
-#'range
-#'@export range<- 
-#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
-setReplaceMethod('range', signature(object='MFCLTag', value=unname(getSlots('MFCLTag')['range'])),
-                 function(object, value){slot(object, 'range') <- value; return(object)}) 
+#' @rdname accessor-methods
+setReplaceMethod('range', signature(x='MFCLTag', i="missing", value=unname(getSlots('MFCLTag')['range'])),
+                 function(x, value){slot(x, 'range') <- value; return(x)}) 
 
 
 #############################################################################################################
 # class  MFCLCatch
-#'total_catch
-#'@export total_catch
+#' @rdname accessor-methods
 setGeneric('total_catch', function(object, ...) standardGeneric('total_catch')) 
-setMethod('total_catch', signature('MFCLCatch'),function(object) return(slot(object, 'total_catch'))) 
-#'total_catch
-#'@export 
+#' @rdname accessor-methods
+setMethod('total_catch', signature(object='MFCLCatch'),function(object) return(slot(object, 'total_catch'))) 
+#' @rdname accessor-methods
 setGeneric('total_catch<-', function(object, ..., value) standardGeneric('total_catch<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('total_catch', signature(object='MFCLCatch', value=unname(getSlots('MFCLCatch')['total_catch'])),
                  function(object, value){slot(object, 'total_catch') <- value; return(object)}) 
 
-#'fishery_catch
-#'@export fishery_catch
+#' @rdname accessor-methods
 setGeneric('fishery_catch', function(object, ...) standardGeneric('fishery_catch')) 
-setMethod('fishery_catch', signature('MFCLCatch'),function(object) return(slot(object, 'fishery_catch'))) 
-#'fishery_catch
-#'@export 
+#' @rdname accessor-methods
+setMethod('fishery_catch', signature(object='MFCLCatch'),function(object) return(slot(object, 'fishery_catch'))) 
+#' @rdname accessor-methods
 setGeneric('fishery_catch<-', function(object, ..., value) standardGeneric('fishery_catch<-')) 
+#' @rdname accessor-methods
 setReplaceMethod('fishery_catch', signature(object='MFCLCatch', value=unname(getSlots('MFCLCatch')['fishery_catch'])),
                  function(object, value){slot(object, 'fishery_catch') <- value; return(object)}) 
 
-#'range
-#'@export range
+#' @rdname accessor-methods
 setMethod('range', signature(x='MFCLCatch'),function(x) return(slot(x,'range'))) 
-#'range
-#'@export range<- 
-#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
-setReplaceMethod('range', signature(object='MFCLCatch', value=unname(getSlots('MFCLCatch')['range'])),
-                 function(object, value){slot(object, 'range') <- value; return(object)}) 
+#' @rdname accessor-methods
+setReplaceMethod('range', signature(x='MFCLCatch', i="missing", value=unname(getSlots('MFCLCatch')['range'])),
+                 function(x, value){slot(x, 'range') <- value; return(x)}) 
 
 
 #############################################################################################################
 # class  MFCLLenFit
-#'laa
-#'@export laa
+#' @rdname accessor-methods
 setGeneric('laa', function(object, ...) standardGeneric('laa'))
-setMethod('laa', signature('MFCLLenFit'), function(object) return(slot(object, 'laa')))
-#'laa
-#'@export
+#' @rdname accessor-methods
+setMethod('laa', signature(object='MFCLLenFit'), function(object) return(slot(object, 'laa')))
+#' @rdname accessor-methods
 setGeneric('laa<-', function(object, ..., value) standardGeneric('laa<-'))
+#' @rdname accessor-methods
 setReplaceMethod('laa', signature(object='MFCLLenFit', value=unname(getSlots('MFCLLenFit')['laa'])), 
                  function(object, value){slot(object, 'laa') <- value; return(object)})
 
-#'lenfits
-#'@export lenfits
+#' @rdname accessor-methods
 setGeneric('lenfits', function(object, ...) standardGeneric('lenfits'))
-setMethod('lenfits', signature('MFCLLenFit'), function(object) return(slot(object, 'lenfits')))
-#'lenfits
-#'@export
+#' @rdname accessor-methods
+setMethod('lenfits', signature(object='MFCLLenFit'), function(object) return(slot(object, 'lenfits')))
+#' @rdname accessor-methods
 setGeneric('lenfits<-', function(object, ..., value) standardGeneric('lenfits<-'))
+#' @rdname accessor-methods
 setReplaceMethod('lenfits', signature(object='MFCLLenFit', value=unname(getSlots('MFCLLenFit')['lenfits'])), 
                  function(object, value){slot(object, 'lenfits') <- value; return(object)})
 
-#'lenagefits
-#'@export lenagefits
+#' @rdname accessor-methods
 setGeneric('lenagefits', function(object, ...) standardGeneric('lenagefits'))
-setMethod('lenagefits', signature('MFCLLenFit'), function(object) return(slot(object, 'lenagefits')))
-#'lenagefits
-#'@export
+#' @rdname accessor-methods
+setMethod('lenagefits', signature(object='MFCLLenFit'), function(object) return(slot(object, 'lenagefits')))
+#' @rdname accessor-methods
 setGeneric('lenagefits<-', function(object, ..., value) standardGeneric('lenagefits<-'))
+#' @rdname accessor-methods
 setReplaceMethod('lenagefits', signature(object='MFCLLenFit', value=unname(getSlots('MFCLLenFit')['lenagefits'])), 
                  function(object, value){slot(object, 'lenagefits') <- value; return(object)})
 
-#'range
-#'@export range
+#' @rdname accessor-methods
 setMethod('range', signature(x='MFCLLenFit'),function(x) return(slot(x,'range'))) 
-#'range
-#'@export range<- 
-#setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
-setReplaceMethod('range', signature(object='MFCLLenFit', value=unname(getSlots('MFCLLenFit')['range'])),
-                 function(object, value){slot(object, 'range') <- value; return(object)}) 
+#' @rdname accessor-methods
+setReplaceMethod('range', signature(x='MFCLLenFit', i="missing", value=unname(getSlots('MFCLLenFit')['range'])),
+                 function(x, value){slot(x, 'range') <- value; return(x)}) 
 
 
 
 #############################################################################################################
 # class  MFCLPseudo
-#'catcheff
-#'@export catcheff
+#' @rdname accessor-methods
 setGeneric('catcheff', function(object, ...) standardGeneric('catcheff'))
-setMethod('catcheff', signature('MFCLPseudo'), function(object) return(slot(object, 'catcheff')))
-#'catcheff
-#'@export
+#' @rdname accessor-methods
+setMethod('catcheff', signature(object='MFCLPseudo'), function(object) return(slot(object, 'catcheff')))
+#' @rdname accessor-methods
 setGeneric('catcheff<-', function(object, ..., value) standardGeneric('catcheff<-'))
+#' @rdname accessor-methods
 setReplaceMethod('catcheff', signature(object='MFCLPseudo', value=unname(getSlots('MFCLPseudo')['catcheff'])), 
                  function(object, value){slot(object, 'catcheff') <- value; return(object)})
-#'l_frq
-#'@export l_frq
+#' @rdname accessor-methods
 setGeneric('l_frq', function(object, ...) standardGeneric('l_frq'))
-setMethod('l_frq', signature('MFCLPseudo'), function(object) return(slot(object, 'l_frq')))
-#'l_frq
-#'@export
+#' @rdname accessor-methods
+setMethod('l_frq', signature(object='MFCLPseudo'), function(object) return(slot(object, 'l_frq')))
+#' @rdname accessor-methods
 setGeneric('l_frq<-', function(object, ..., value) standardGeneric('l_frq<-'))
+#' @rdname accessor-methods
 setReplaceMethod('l_frq', signature(object='MFCLPseudo', value=unname(getSlots('MFCLPseudo')['l_frq'])), 
                  function(object, value){slot(object, 'l_frq') <- value; return(object)})
-#'w_frq
-#'@export w_frq
+
+#' @rdname accessor-methods
 setGeneric('w_frq', function(object, ...) standardGeneric('w_frq'))
-setMethod('w_frq', signature('MFCLPseudo'), function(object) return(slot(object, 'w_frq')))
-#'w_frq
-#'@export
+#' @rdname accessor-methods
+setMethod('w_frq', signature(object='MFCLPseudo'), function(object, ...) return(slot(object, 'w_frq')))
+
+#' @rdname accessor-methods
 setGeneric('w_frq<-', function(object, ..., value) standardGeneric('w_frq<-'))
+#' @rdname accessor-methods
 setReplaceMethod('w_frq', signature(object='MFCLPseudo', value=unname(getSlots('MFCLPseudo')['w_frq'])), 
                  function(object, value){slot(object, 'w_frq') <- value; return(object)})
 
