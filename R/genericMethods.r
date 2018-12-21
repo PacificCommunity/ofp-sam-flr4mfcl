@@ -142,11 +142,11 @@ setMethod("+", signature(e1="MFCLFrq", e2="MFCLFrq"),
 setMethod("+", signature(e1="MFCLFrq", e2="MFCLPseudo"),
           function(e1, e2) {
             
-            if(any(range(e1)[c("minyear","maxyear")] != range(e2)[c("minyear","maxyear")]))
-              freq(e1) <- rbind(freq(e1), catcheff(e2)[,1:10])
+            if(any(range(e1)[c("minyear","maxyear")] != slot(e2, 'range')[c("minyear","maxyear")]))
+              freq(e1) <- rbind(freq(e1), freq(e2))                                                      #catcheff(e2)[,1:10])
             
-            if(all(range(e1)[c("minyear","maxyear")] == range(e2)[c("minyear","maxyear")]))
-              freq(e1) <- catcheff(e2)[,1:10]
+            if(all(range(e1)[c("minyear","maxyear")] == slot(e2, 'range')[c("minyear","maxyear")]))
+              freq(e1) <- freq(e2)                                                                       #catcheff(e2)[,1:10]
             
             lf_range(e1)['Datasets'] <- nrow(freq(e1)[is.element(freq(e1)$length, c(lf_range(e1)['LFFirst'],NA)),])
             range(e1)[c('minyear','maxyear')] <- range(freq(e1)$year)
