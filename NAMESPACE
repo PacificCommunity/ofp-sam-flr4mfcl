@@ -208,6 +208,7 @@ exportMethods(
   "growth_var_pars<-",
   "ini_q_coffs",
   "ini_q_coffs<-",
+  "iter",
   "l_frq",
   "l_frq<-",
   "laa",
