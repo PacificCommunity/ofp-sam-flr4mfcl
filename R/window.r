@@ -131,4 +131,21 @@ setMethod("window", signature(x="MFCLPseudo"),
             
           })
 
+setMethod("window", signature(x="MFCLTagProj"), 
+          function(x, start=range(x)['minyear'], end=range(x)['maxyear'], extend=FALSE, ...){
+            
+            if(start < range(x)['minyear'] | end > range(x)['maxyear'])
+              stop("Error: This method does not yet allow the extension of MFCL objects beyond their current year range")
+            
+            selector <- which(releases_proj(x)$year>start & releases_proj(x)$year<end)
+            
+            releases_proj(x) <- releases_proj(x)[selector ,]
+            rep_rate_proj(x) <- rep_rate_proj(x)[, selector]
+            release_groups_proj(x) <- nrow(releases_proj(x))
 
+            range(x)['minyear'] <- start
+            range(x)['maxyear'] <- end
+            
+            return(x)
+            
+          })
