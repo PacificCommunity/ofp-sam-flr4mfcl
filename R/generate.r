@@ -536,3 +536,35 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLFrq"),
     return(newx)
   }
 )
+
+
+#' @rdname generate
+setMethod("generate", signature(x="MFCLPar", y="MFCLFrq", z="MFCLTagProj"), 
+          function(x, y, z, ...){
+            # does 'generate' as above but puts values into the tag reporting rate stuff rather than zeoes
+            newx <- generate(x, y)
+            xdims <- dim(tag_fish_rep_rate(x))
+            
+            # fill the reporting rate priors with the reporting rate used for tag data generation (ie from the MFCLTagProj object)
+            tag_fish_rep_rate(newx) <- rbind(tag_fish_rep_rate(x), t(rep_rate_proj(z)))
+            
+            # use the same reporting rate groupings as for previous recaptures but increment for "simulated data" programme
+            tag_fish_rep_grp(newx)  <- rbind(tag_fish_rep_grp(x), matrix(max(tag_fish_rep_grp(par))+tag_fish_rep_grp(par)[1,], 
+                                                                         ncol=23, nrow=release_groups_proj(z), byrow=T))
+            
+            # for the rest - use the first row of the matrix as the basis for extending for simulated data
+            for(ss in list("tag_fish_rep_flags", "tag_fish_rep_pen", "tag_fish_rep_target"))
+              slot(newx, ss) <- rbind(slot(x, ss), matrix(slot(x, ss)[1,], ncol=xdims[2], nrow=release_groups_proj(z), byrow=T))
+            
+            return(newx)
+          }
+)
+
+
+
+
+
+
+
+
+
