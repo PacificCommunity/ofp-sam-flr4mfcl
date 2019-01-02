@@ -37,15 +37,16 @@ generate.ESS<- function(x, ctrl, projdat2, sc_df){
 #' The exact behaviour depends on the type of objects passed to 'generate()'.
 #' It is used to (hopefully) improve the workflow when manipulating MFCL objects in R, particularly when preparing objects for running projections.
 #'
-#' There are currently three 'generate()' methods:
+#' There are currently four 'generate()' methods:
 #' \itemize{
 #'   \item Generate an expanded \linkS4class{MFCLFrq} object from an existing \linkS4class{MFCLFrq} object and a \linkS4class{MFCLprojControl} object. 
 #'   \item Generate an expanded \linkS4class{MFCLPar} object from an existing \linkS4class{MFCLPar} object and a \linkS4class{MFCLFrq} object. This is typically used for taking a expanding an existing par and using a 00 par (generated using the MFCL executable).
-#'   \item Generate an expanded \linkS4class{MFCLPar} object from an existing \linkS4class{MFCLFrq} object. This can be a useful way of avoiding making a 00 par with MFCL executable, reading it in, and blowing it up. Tests for this method can be found in the inst/mfcl_tests folder of the package source.
+#'   \item Generate an expanded \linkS4class{MFCLPar} object from an existing \linkS4class{MFCLFrq} object. This can be a useful way of avoiding making a 00 par with MFCL executable, reading it in, and blowing it up. It can be used for standard projection analyses that do not include additional tag data. Tests for this method can be found in the inst/mfcl_tests folder of the package source.
+#'   \item Generate an expanded \linkS4class{MFCLPar} object from an existing \linkS4class{MFCLFrq} object and a \linkS4class{MFCLTagProj} object. This method is method can be used to set up par objects that include additional tag data.
 #' }
 #' @param x An \linkS4class{MFCLFrq} or \linkS4class{MFCLPar} object that will be expanded.
 #' @param y If \code{x} is an \linkS4class{MFCLFrq} then \code{y} is an \linkS4class{MFCLprojControl}. If \code{x} is \linkS4class{MFCLPar}, \code{y} is either an \linkS4class{MFCLPar} or \linkS4class{MFCLFrq}. 
-#' @param z If \code{x} and \code{y} are \linkS4class{MFCLPar}s then \code{z} is \linkS4class{MFCLFrq}. Otherwise it is ignored.
+#' @param z If \code{x} and \code{y} are \linkS4class{MFCLPar}s then \code{z} is \linkS4class{MFCLFrq}. Alternatively if \code{x} and \code{y} are \linkS4class{MFCLPar} and \linkS4class{MFCLFrq} respectively then \code{z} is \linkS4class{MFCLTagProj}. Otherwise it is ignored.
 #' @param ... Additional arguments (currently unused).
 #' @return An object of the same type as the \code{x} argument, expanded and hopefully useable for running projections.
 #' @export
@@ -546,15 +547,20 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLFrq", z="MFCLTagProj"),
             xdims <- dim(tag_fish_rep_rate(x))
             
             # fill the reporting rate priors with the reporting rate used for tag data generation (ie from the MFCLTagProj object)
-            tag_fish_rep_rate(newx) <- rbind(tag_fish_rep_rate(x), t(rep_rate_proj(z)))
+            # remember to keep the final row for the pooled tag settings
+            tag_fish_rep_rate(newx) <- rbind(tag_fish_rep_rate(x)[-xdims[1],], t(rep_rate_proj(z)), tag_fish_rep_rate(x)[xdims[1],])
             
             # use the same reporting rate groupings as for previous recaptures but increment for "simulated data" programme
-            tag_fish_rep_grp(newx)  <- rbind(tag_fish_rep_grp(x), matrix(max(tag_fish_rep_grp(par))+tag_fish_rep_grp(par)[1,], 
-                                                                         ncol=23, nrow=release_groups_proj(z), byrow=T))
+            tag_fish_rep_grp(newx)  <- rbind(tag_fish_rep_grp(x)[-xdims[1],], 
+                                             matrix(max(tag_fish_rep_grp(par))+tag_fish_rep_grp(par)[1,], 
+                                                    ncol=xdims[2], nrow=release_groups_proj(z), byrow=T),
+                                             tag_fish_rep_grp(x)[xdims[1],])
             
             # for the rest - use the first row of the matrix as the basis for extending for simulated data
             for(ss in list("tag_fish_rep_flags", "tag_fish_rep_pen", "tag_fish_rep_target"))
-              slot(newx, ss) <- rbind(slot(x, ss), matrix(slot(x, ss)[1,], ncol=xdims[2], nrow=release_groups_proj(z), byrow=T))
+              slot(newx, ss) <- rbind(slot(x, ss)[-xdims[1],], 
+                                      matrix(slot(x, ss)[1,], ncol=xdims[2], nrow=release_groups_proj(z), byrow=T),
+                                      slot(x, ss)[xdims[1],])
             
             return(newx)
           }
