@@ -57,6 +57,14 @@ setReplaceMethod('steepness', signature(x='MFCLPar'), function(x, value){slot(x,
 setMethod('lw_params', signature(object='MFCLPar'), function(object) return(slot(object, 'season_growth_pars')[27:28]))
 setReplaceMethod('lw_params', signature(object='MFCLPar'), function(object, value){slot(object, 'season_growth_pars')[27:28] <- value; return(x)})
 
+#'@export adultBiomass
+setMethod('adultBiomass', signature(object='FLQuant'), function(object, par){ 
+  ab <- quantSums(sweep(object, 1, c(qts(mat(par)))*waa(par), '*'))
+  return(ab)
+  }
+)
+
+
 # Get the unique fishing realisations
 #'@export realisations
 setGeneric('realisations', function(object,...) standardGeneric('realisations'))
