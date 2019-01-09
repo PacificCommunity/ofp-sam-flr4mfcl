@@ -232,7 +232,7 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLFrq"),
   function(x, y, ...){
     # Add a check that we are going to extend the Par, not shorten it (which would be weird...)
     newx <- x
-
+    
     # Handy stuff
     last_original_year <- range(x)["maxyear"]
     extra_years <- (last_original_year + 1):range(y)["maxyear"]
@@ -540,29 +540,46 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLFrq"),
 
 
 #' @rdname generate
-setMethod("generate", signature(x="MFCLPar", y="MFCLFrq", z="MFCLTagProj"), 
+setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLTagProj"), 
           function(x, y, z, ...){
+            #browser()
             # does 'generate' as above but puts values into the tag reporting rate stuff rather than zeoes
-            newx <- generate(x, y)
+            # x is the original par and y is the par generated from 00.par
             xdims <- dim(tag_fish_rep_rate(x))
+            ydims <- dim(tag_fish_rep_rate(y))
+            modrows <- (ydims[1]-(ydims[1]-xdims[1])):(ydims[1]-1)
             
             # fill the reporting rate priors with the reporting rate used for tag data generation (ie from the MFCLTagProj object)
             # remember to keep the final row for the pooled tag settings
-            tag_fish_rep_rate(newx) <- rbind(tag_fish_rep_rate(x)[-xdims[1],], t(rep_rate_proj(z)), tag_fish_rep_rate(x)[xdims[1],])
+            #tag_fish_rep_rate(y) <- rbind(tag_fish_rep_rate(x)[-xdims[1],], t(rep_rate_proj(z)), tag_fish_rep_rate(x)[xdims[1],])
+            
+            tag_fish_rep_rate(y)[1:(xdims[1]-1),] <- tag_fish_rep_rate(x)[1:(xdims[1]-1),]
+            tag_fish_rep_rate(y)[modrows,]        <- t(rep_rate_proj(z)) 
+            tag_fish_rep_rate(y)[ydims[1],]       <- tag_fish_rep_rate(x)[xdims[1],]
             
             # use the same reporting rate groupings as for previous recaptures but increment for "simulated data" programme
-            tag_fish_rep_grp(newx)  <- rbind(tag_fish_rep_grp(x)[-xdims[1],], 
-                                             matrix(max(tag_fish_rep_grp(par))+tag_fish_rep_grp(par)[1,], 
-                                                    ncol=xdims[2], nrow=release_groups_proj(z), byrow=T),
-                                             tag_fish_rep_grp(x)[xdims[1],])
+            #tag_fish_rep_grp(y)  <- rbind(tag_fish_rep_grp(x)[-xdims[1],], 
+            #                                 matrix(max(tag_fish_rep_grp(x))+tag_fish_rep_grp(x)[1,], 
+            #                                        ncol=xdims[2], nrow=release_groups_proj(z), byrow=T),
+            #                                 tag_fish_rep_grp(x)[xdims[1],])
+            tag_fish_rep_grp(y)[modrows,] <- matrix(max(tag_fish_rep_grp(x))+tag_fish_rep_grp(x)[1,], 
+                                                    ncol=xdims[2], nrow=release_groups_proj(z), byrow=T)
             
             # for the rest - use the first row of the matrix as the basis for extending for simulated data
             for(ss in list("tag_fish_rep_flags", "tag_fish_rep_pen", "tag_fish_rep_target"))
-              slot(newx, ss) <- rbind(slot(x, ss)[-xdims[1],], 
+              #slot(y, ss)[modrows,] <- matrix(slot(x, ss)[1,], ncol=xdims[2], nrow=release_groups_proj(z), byrow=T)
+              slot(y, ss) <- rbind(slot(x, ss)[-xdims[1],], 
                                       matrix(slot(x, ss)[1,], ncol=xdims[2], nrow=release_groups_proj(z), byrow=T),
                                       slot(x, ss)[xdims[1],])
             
-            return(newx)
+            # add new tag flags for the new tag release groups
+            max_tags_orig <- max(abs(flags(x)[is.element(flags(x)$flagtype, -10000:-99999),'flagtype']))
+            #flags(y)      <- rbind(flags(y), data.frame(flagtype=rep(-(max_tags_orig+1:(xdims[1]-(max_tags_orig-10000))),each=10), flag=1:10, value=c(1,rep(0,9))))
+            flags(y)[is.element(flags(y)$flagtype, -max_tags_orig:-99999) & flags(y)$flag==1, 'value'] <- 1
+            
+            #dimensions(y)['taggrps'] <- xdims[1]-1
+            
+            return(y)
           }
 )
 
