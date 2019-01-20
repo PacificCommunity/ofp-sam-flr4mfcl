@@ -54,12 +54,12 @@ setReplaceMethod('steepness', signature(x='MFCLIni'), function(x, value){slot(x,
 setReplaceMethod('steepness', signature(x='MFCLPar'), function(x, value){slot(x, 'season_growth_pars')[29] <- value; return(x)})
 
 #'@export lw_params
-setMethod('lw_params', signature(object='MFCLPar'), function(object) return(slot(object, 'season_growth_pars')[27:28]))
-setReplaceMethod('lw_params', signature(object='MFCLPar'), function(object, value){slot(object, 'season_growth_pars')[27:28] <- value; return(x)})
+setMethod('lw_params', signature(object='MFCLBiol'), function(object) return(slot(object, 'season_growth_pars')[27:28]))
+setReplaceMethod('lw_params', signature(object='MFCLBiol'), function(object, value){slot(object, 'season_growth_pars')[27:28] <- value; return(x)})
 
 #'@export adultBiomass
 setMethod('adultBiomass', signature(object='FLQuant'), function(object, par){ 
-  ab <- quantSums(sweep(object, 1, c(qts(mat(par)))*waa(par), '*'))
+  ab <- quantSums(sweep(object, 1, c(qts(mat(par)))*waa(par), '*'))/1000
   return(ab)
   }
 )
