@@ -14,6 +14,13 @@ write.simNumAge <- function(simNumAge, filename, ctrl, nregions, iter){
   
 }
 
+write.simyears <- function(simyears, filename, iter){
+  
+  simyears[1] <- paste("1", paste(unlist(strsplit(simyears[1], split=" "))[c(2,3)], collapse=" "))
+  simyears[2] <- simyears[iter+1]
+  
+  writeLines(simyears[1:2], filename)
+}
 
 
 setSimYrs <- function(sna, from.nyrs, to.nyrs, nqtrs=4, nitns=200, nareas=5){
@@ -25,3 +32,59 @@ setSimYrs <- function(sna, from.nyrs, to.nyrs, nqtrs=4, nitns=200, nareas=5){
   
   res <- c(sna[1:grep("recruitment", sna)], paste(" ", apply(srec, 1, paste, collapse=" ")))
 }
+
+
+# create a simyears object ready for writing to a file
+simyears <- function(projpar, projCtrl){
+  
+  nsims  <- flagval(projpar, 2, 20)$value
+  lyr    <- dimensions(projpar)["years"]/dimensions(projpar)["seasons"]
+  fyr    <- lyr - nyears(projCtrl) +1
+  
+  recyrs        <- ceiling((flagval(projpar, 1, 232)$value : flagval(projpar, 1, 233)$value)/dimensions(projpar)['seasons'])
+  recyrs_sample <- matrix(sample(recyrs, nyears(projCtrl)*nsims, replace = TRUE), nrow=nsims)
+  
+  return(list(header=c(nsims, fyr, lyr), matrix=recyrs_sample))
+}
+
+
+
+
+dummy_simulated_numbers_at_age <- function(){
+  
+  n <- popN(rep)[,'2015',,3]
+  z <- sweep(fm(rep)[,'2015',,3,], 1, c(aperm(m_at_age(rep), c(4,1,2,3,5,6))), "+")
+  
+  n[1,] %*% diff_coffs_age_period(par)[,,1,3] %*% c(exp(-z)[1,])
+
+  
+  age <- 3
+  year<- 44
+  ssn <- 1
+  
+  popN(rep)[age,year,1,ssn,,1] %*% diff_coffs_age_period(par)[,,age,ssn] * c(sweep(fm(rep)[age,year,1,ssn,,1], 1, aperm(m_at_age(rep), c(4,1,2,3,5,6))[age], "+"))
+  
+  c(popN(rep)[age+1,year,1,ssn+1,,1])
+  
+  aa <- aperm(popN(rep)[,44,1,,1,1], c(4,1,2,3,5,6))
+  
+  aa[2:4,2:16,,,,]/aa[1:3,1:15,,,,]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
