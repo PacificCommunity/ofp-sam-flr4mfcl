@@ -30,7 +30,7 @@ setMethod("n_fisheries", signature(object="MFCLPar"),
 #' @rdname par-methods
 #' @aliases laa
 
-setMethod("laa", signature(object="MFCLPar"), 
+setMethod("laa", signature(object="MFCLBiol"), 
           function(object, ...){
             
             L1  <- growth(object)['Lmin','est']
@@ -48,7 +48,7 @@ setGeneric('aal', function(object, ...) standardGeneric('aal'))
 #' @rdname par-methods
 #' @aliases aal
 
-setMethod("aal", signature(object="MFCLPar"), 
+setMethod("aal", signature(object="MFCLBiol"), 
           function(object, lengths=seq(0,108,by=2)){
             
             L1  <- growth(object)['Lmin','est']
@@ -80,7 +80,7 @@ setGeneric('waa', function(object, ...) standardGeneric('waa'))
 #' @rdname par-methods
 #' @aliases waa
 
-setMethod("waa", signature(object="MFCLPar"), 
+setMethod("waa", signature(object="MFCLBiol"), 
           function(object, ...){
             
             return(lw_params(object)[1]*laa(object)^lw_params(object)[2])
@@ -112,7 +112,7 @@ setGeneric('SPR0', function(par, ...) standardGeneric('SPR0'))
 #' @rdname par-methods
 #' @aliases SPR0
 
-setMethod("SPR0", signature(par="MFCLPar"), 
+setMethod("SPR0", signature(par="MFCLBiol"), 
           function(par, ...){
             
             age <- 1:dimensions(par)['agecls']
