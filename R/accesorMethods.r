@@ -1592,3 +1592,101 @@ setReplaceMethod('w_frq', signature(object='MFCLPseudo', value=unname(getSlots('
                  function(object, value){slot(object, 'w_frq') <- value; return(object)})
 
 
+#############################################################################################################
+# class  MFCLPseudoControl
+#' @rdname accessor-methods
+setGeneric('catch_sd', function(object, ...) standardGeneric('catch_sd'))
+#' @rdname accessor-methods
+setMethod('catch_sd', signature(object='MFCLPseudoControl'), function(object) return(slot(object, 'catch_sd')))
+#' @rdname accessor-methods
+setGeneric('catch_sd<-', function(object, ..., value) standardGeneric('catch_sd<-'))
+#' @rdname accessor-methods
+setReplaceMethod('catch_sd', signature(object='MFCLPseudoControl', value=unname(getSlots('MFCLPseudoControl')['catch_sd'])), 
+                 function(object, value){slot(object, 'catch_sd') <- value; return(object)})
+
+#' @rdname accessor-methods
+setGeneric('effort_sd', function(object, ...) standardGeneric('effort_sd'))
+#' @rdname accessor-methods
+setMethod('effort_sd', signature(object='MFCLPseudoControl'), function(object) return(slot(object, 'effort_sd')))
+#' @rdname accessor-methods
+setGeneric('effort_sd<-', function(object, ..., value) standardGeneric('effort_sd<-'))
+#' @rdname accessor-methods
+setReplaceMethod('effort_sd', signature(object='MFCLPseudoControl', value=unname(getSlots('MFCLPseudoControl')['effort_sd'])), 
+                 function(object, value){slot(object, 'effort_sd') <- value; return(object)})
+
+#' @rdname accessor-methods
+setGeneric('tag_controls', function(object, ...) standardGeneric('tag_controls'))
+#' @rdname accessor-methods
+setMethod('tag_controls', signature(object='MFCLPseudoControl'), function(object) return(slot(object, 'tag_controls')))
+#' @rdname accessor-methods
+setGeneric('tag_controls<-', function(object, ..., value) standardGeneric('tag_controls<-'))
+#' @rdname accessor-methods
+setReplaceMethod('tag_controls', signature(object='MFCLPseudoControl', value=unname(getSlots('MFCLPseudoControl')['tag_controls'])), 
+                 function(object, value){slot(object, 'tag_controls') <- value; return(object)})
+
+#' @rdname accessor-methods
+setGeneric('random_seeds', function(object, ...) standardGeneric('random_seeds'))
+#' @rdname accessor-methods
+setMethod('random_seeds', signature(object='MFCLPseudoControl'), function(object) return(slot(object, 'random_seeds')))
+#' @rdname accessor-methods
+setGeneric('random_seeds<-', function(object, ..., value) standardGeneric('random_seeds<-'))
+#' @rdname accessor-methods
+setReplaceMethod('random_seeds', signature(object='MFCLPseudoControl', value=unname(getSlots('MFCLPseudoControl')['random_seeds'])), 
+                 function(object, value){slot(object, 'random_seeds') <- value; return(object)})
+
+#' @rdname accessor-methods
+setMethod('tag_fish_rep_rate', signature(object='MFCLPseudoControl'), function(object) return(slot(object, 'tag_fish_rep_rate')))
+#' @rdname accessor-methods
+setReplaceMethod('tag_fish_rep_rate', signature(object='MFCLPseudoControl', value=unname(getSlots('MFCLPseudoControl')['tag_fish_rep_rate'])), 
+                 function(object, value){slot(object, 'tag_fish_rep_rate') <- value; return(object)})
+
+
+#############################################################################################################
+# class  MFCLEMControl
+#' @rdname accessor-methods
+setGeneric('doitall', function(object, ...) standardGeneric('doitall'))
+#' @rdname accessor-methods
+setMethod('doitall', signature(object='MFCLEMControl'), function(object) return(slot(object, 'doitall')))
+#' @rdname accessor-methods
+setGeneric('doitall<-', function(object, ..., value) standardGeneric('doitall<-'))
+#' @rdname accessor-methods
+setReplaceMethod('doitall', signature(object='MFCLEMControl', value=unname(getSlots('MFCLEMControl')['doitall'])), 
+                 function(object, value){slot(object, 'doitall') <- value; return(object)})
+
+#' @rdname accessor-methods
+setMethod('tag_fish_rep_rate', signature(object='MFCLEMControl'), function(object) return(slot(object, 'tag_fish_rep_rate')))
+#' @rdname accessor-methods
+setReplaceMethod('tag_fish_rep_rate', signature(object='MFCLEMControl', value=unname(getSlots('MFCLEMControl')['tag_fish_rep_rate'])), 
+                 function(object, value){slot(object, 'tag_fish_rep_rate') <- value; return(object)})
+
+
+
+#############################################################################################################
+# class  MFCLMSEControl
+#' @rdname accessor-methods
+setGeneric('hcr', function(object, ...) standardGeneric('hcr'))
+#' @rdname accessor-methods
+setMethod('hcr', signature(object='MFCLMSEControl'), function(object) return(slot(object, 'hcr')))
+#' @rdname accessor-methods
+setGeneric('hcr<-', function(object, ..., value) standardGeneric('hcr<-'))
+#' @rdname accessor-methods
+setReplaceMethod('hcr', signature(object='MFCLMSEControl', value=unname(getSlots('MFCLMSEControl')['hcr'])), 
+                 function(object, value){slot(object, 'hcr') <- value; return(object)})
+
+#' @rdname accessor-methods
+setGeneric('itn', function(object, ...) standardGeneric('itn'))
+#' @rdname accessor-methods
+setMethod('itn', signature(object='MFCLMSEControl'), function(object) return(slot(object, 'itn')))
+#' @rdname accessor-methods
+#' @rdname accessor-methods
+setGeneric('itn<-', function(object, ..., value) standardGeneric('itn<-'))
+setReplaceMethod('itn', signature(object='MFCLMSEControl', value=unname(getSlots('MFCLMSEControl')['itn'])), 
+                 function(object, value){slot(object, 'itn') <- value; return(object)})
+
+
+
+
+
+
+
+
