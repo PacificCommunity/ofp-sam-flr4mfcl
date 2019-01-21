@@ -40,6 +40,7 @@ export(
   "read.MFCLPar",
   "read.MFCLParBits",
   "read.MFCLPseudo",
+  "read.MFCLPseudoAlt",
   "read.MFCLRec",
   "read.MFCLRegion",
   "read.MFCLRep",
