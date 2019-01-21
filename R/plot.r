@@ -80,7 +80,19 @@ setMethod("plot", signature(x="MFCLLenFreq", y="MFCLprojControl"), function(x, y
 
 
 
-
+setMethod("plot", signature(x="MFCLRep", y="MFCLPar"), function(x, y, ...){
+  
+  rec_range <- range(y)['maxyear']-(recPeriod(y)[c(1,2)]/4)
+  rec_yrs   <- seq(rec_range[1], rec_range[2])+1
+  
+  ssbx <- seq(0, max(ssb(x))*1.5, length=150)
+  
+  plot(ssbx, (c(srr(x)['a'])*ssbx)/(c(srr(x)['b'])+ssbx), type="l", ylim=c(0, max(rec(x))*1.4), xlab='SSB', ylab="Recruitment (annual)")
+  points(ssb(x), rec(x), col="grey")
+  points(trim(ssb(x), year=rec_yrs), trim(rec(x),year=rec_yrs))
+  
+  
+})
 
 
 

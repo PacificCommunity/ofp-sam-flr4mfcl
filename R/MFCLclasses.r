@@ -932,11 +932,114 @@ MFCLPseudo <- function(catcheff =data.frame(year=NULL, month=NULL, fishery=NULL,
   }
 
 
+validMFCLPseudoControl <- function(object){
+  #Everything is fine
+  return(TRUE)
+}
+setClass("MFCLPseudoControl",
+         representation(
+           "MFCLprojControl",
+           catch_sd            ='numeric',
+           effort_sd           ='numeric',
+           tag_controls        ='data.frame',
+           tag_fish_rep_rate   ='numeric',
+           random_seeds        ='numeric'
+         ),
+         prototype=prototype(
+           catch_sd            =numeric(),
+           effort_sd           =numeric(),
+           tag_controls        =data.frame(region=NULL, year=NULL, month=NULL, fishery=NULL, n=NULL),
+           tag_fish_rep_rate   =numeric(),
+           random_seeds        =unlist(list(catch=16001, effort=17001, length=18001, weight=19001, tag=20001))
+         ),
+         validity=validMFCLPseudoControl
+)
+setValidity("MFCLPseudoControl", validMFCLPseudoControl)
+remove(validMFCLPseudoControl)
+#'MFCLPseudoControl
+#'
+#'Basic constructor for MFCLPseudo class
+#'@export
+MFCLPseudoControl <- function(catch_sd=20, effort_sd=20, tag_fish_rep_rate=0.9, catch_seed=16001, effort_seed=17001, length_seed=18001, weight_seed=19001, tag_seed=20001) {
+  
+  pc <- new("MFCLPseudoControl")
+  
+  slot(pc, 'catch_sd') <- catch_sd
+  slot(pc, 'effort_sd') <- effort_sd
+  slot(pc, 'tag_fish_rep_rate') <- tag_fish_rep_rate
+  slot(pc, 'random_seeds') <- unlist(list(catch=catch_seed, effort=effort_seed, length=length_seed, weight=weight_seed, tag=tag_seed))
+  
+  return(pc)
+}
+
+
+
+validMFCLEMControl <- function(object){
+  #Everything is fine
+  return(TRUE)
+}
+setClass("MFCLEMControl",
+         representation(
+           doitall             ='function',
+           tag_fish_rep_rate   ='numeric'
+         ),
+         prototype=prototype(
+           tag_fish_rep_rate   =numeric()
+         ),
+         validity=validMFCLEMControl
+)
+setValidity("MFCLEMControl", validMFCLEMControl)
+remove(validMFCLEMControl)
+#'MFCLEMControl
+#'
+#'Basic constructor for MFCLPseudo class
+#'@export
+MFCLEMControl <- function(doitall=function(){}, tag_fish_rep_rate=0.9) {
+  
+  emc <- new("MFCLEMControl")
+  
+  slot(emc, 'doitall') <- doitall
+  slot(emc, 'tag_fish_rep_rate') <- tag_fish_rep_rate
+  
+  return(emc)
+}
 
 
 
 
 
+validMFCLMSEControl <- function(object){
+  #Everything is fine
+  return(TRUE)
+}
+setClass("MFCLMSEControl",
+         representation(
+           "MFCLPseudoControl",
+           "MFCLEMControl",
+           hcr             ='function',
+           itn             ='numeric'
+         ),
+         prototype=prototype(
+           itn             =numeric()
+         ),
+         validity=validMFCLMSEControl
+)
+setValidity("MFCLMSEControl", validMFCLMSEControl)
+remove(validMFCLMSEControl)
+#'MFCLMSEControl
+#'
+#'Basic constructor for MFCLMSEControl class
+#'@export
+
+MFCLMSEControl <- function(hcr=function(){}, itn=1) {
+  
+  msec <- new("MFCLMSEControl")
+  
+  slot(msec, 'hcr') <- hcr
+  slot(msec, 'itn') <- itn
+  
+  return(msec)
+}
 
 
 
