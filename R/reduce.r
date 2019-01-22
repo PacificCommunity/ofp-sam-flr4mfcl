@@ -93,35 +93,81 @@ setMethod("reduce", signature(obj='MFCLTag'),
 })
 
 
-setMethod("reduce", signature(obj='MFCLIni'),
-          function(obj, tag, fisheries, regions, programs, ...){
+#setMethod("reduce", signature(obj='MFCLIni'),
+#          function(obj, tag, fisheries, regions, programs, ...){
   
-  ini2 <- obj
+#  ini2 <- obj
   
   # identify the release groups you have removed.
   #release.grps.in <- rel.map[,1]  #unique(releases(tag)[is.element(releases(tag)$region, c(2,3,5)),]$rel.group)
-  releases.new <- releases(tag)[is.element(releases(tag)$region, regions) & is.element(releases(tag)$program, programs),]
-  rel.map <- cbind(unique(releases.new$rel.group), 1:length(unique(releases.new$rel.group)))
-  release.grps.in  <- c(is.element(1:release_groups(tag), rel.map[,1]), TRUE)
+#  releases.new <- releases(tag)[is.element(releases(tag)$region, regions) & is.element(releases(tag)$program, programs),]
+#  rel.map <- cbind(unique(releases.new$rel.group), 1:length(unique(releases.new$rel.group)))
+#  release.grps.in  <- c(is.element(1:release_groups(tag), rel.map[,1]), TRUE)
   
   # chop out the tag reporting stuff for the release groups you have removed.
-  tag_fish_rep_rate(ini2)   <- tag_fish_rep_rate(obj)[release.grps.in,  fisheries]
-  tag_fish_rep_grp(ini2)    <- tag_fish_rep_grp(obj)[release.grps.in,   fisheries]
-  tag_fish_rep_flags(ini2)  <- tag_fish_rep_flags(obj)[release.grps.in, fisheries]
-  tag_fish_rep_target(ini2) <- tag_fish_rep_target(obj)[release.grps.in,fisheries]
-  tag_fish_rep_pen(ini2)    <- tag_fish_rep_pen(obj)[release.grps.in,   fisheries]
+#  tag_fish_rep_rate(ini2)   <- tag_fish_rep_rate(obj)[release.grps.in,  fisheries]
+#  tag_fish_rep_grp(ini2)    <- tag_fish_rep_grp(obj)[release.grps.in,   fisheries]
+#  tag_fish_rep_flags(ini2)  <- tag_fish_rep_flags(obj)[release.grps.in, fisheries]
+#  tag_fish_rep_target(ini2) <- tag_fish_rep_target(obj)[release.grps.in,fisheries]
+#  tag_fish_rep_pen(ini2)    <- tag_fish_rep_pen(obj)[release.grps.in,   fisheries]
+  
+  # re-order the tag rep group numbers to start from 1 and be continuous
+#  tag_fish_rep_grp(ini2) <- matrix(match(tag_fish_rep_grp(ini2), sort(unique(c(tag_fish_rep_grp(ini2))))), 
+#                                   nrow=nrow(tag_fish_rep_grp(ini2)))
+  
+#  move_map(ini2)   <- 0
+#  diff_coffs(ini2) <- matrix(0)
+#  rec_dist(ini2)   <- 1
+  
+#  return(ini2)
+#})
+
+setMethod("reduce", signature(obj='MFCLIni'),
+          function(obj, tagx, years=NULL, regions=NULL, programs=NULL, fsh.rgn.map=NULL){
+  
+  inix <- obj            
+  ini2 <- inix
+  map  <- cbind(fishery=1:ncol(tag_fish_rep_rate(inix)), region=fsh.rgn.map)
+  
+  releases.new <- releases(tagx)
+  # strip out the release groups you want to remove.
+  if(!is.null(regions))
+    releases.new <- releases.new[is.element(releases.new$region, regions), ] 
+  if(!is.null(programs))
+    releases.new <- releases.new[is.element(releases.new$program, programs) ,]
+  if(!is.null(years))
+    releases.new <- releases.new[is.element(releases.new$year, years), ]
+  
+  #rel.map <- cbind(unique(releases.new$rel.group), 1:length(unique(releases.new$rel.group)))
+  release.grps.in  <- c(is.element(1:release_groups(tagx), releases.new$rel.group), TRUE)
+  
+  sim.releases <- (dim(tag_fish_rep_grp(inix))[1]) - length(release.grps.in)
+  vv           <- NULL
+  if(sim.releases>0)
+    vv <- as.logical(rep(0, sim.releases))
+  
+  # chop out the tag reporting stuff for the release groups you have removed.
+  if(is.null(regions))
+    fisheries <- map[,'fishery']
+  if(!is.null(regions))
+    fisheries <- map[is.element(map$region, regions), 'fishery']
+  
+  tag_fish_rep_rate(ini2)   <- tag_fish_rep_rate(inix)[c(release.grps.in,vv),  fisheries]
+  tag_fish_rep_grp(ini2)    <- tag_fish_rep_grp(inix)[c(release.grps.in,vv),   fisheries]
+  tag_fish_rep_flags(ini2)  <- tag_fish_rep_flags(inix)[c(release.grps.in,vv), fisheries]
+  tag_fish_rep_target(ini2) <- tag_fish_rep_target(inix)[c(release.grps.in,vv),fisheries]
+  tag_fish_rep_pen(ini2)    <- tag_fish_rep_pen(inix)[c(release.grps.in,vv),   fisheries]
   
   # re-order the tag rep group numbers to start from 1 and be continuous
   tag_fish_rep_grp(ini2) <- matrix(match(tag_fish_rep_grp(ini2), sort(unique(c(tag_fish_rep_grp(ini2))))), 
                                    nrow=nrow(tag_fish_rep_grp(ini2)))
   
-  move_map(ini2)   <- 0
-  diff_coffs(ini2) <- matrix(0)
-  rec_dist(ini2)   <- 1
+  #move_map(ini2)   <- 0
+  #diff_coffs(ini2) <- matrix(0)
+  #rec_dist(ini2)   <- 1
   
   return(ini2)
-})
-
+          })
 
 
 
