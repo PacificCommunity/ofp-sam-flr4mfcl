@@ -35,8 +35,8 @@ read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing",
     stop("lw_sim file does not exist")
   if(!(class(projfrq)=="MFCLFrq"))
     stop("projfrq must be an object of class MFCLFrq")
-  if(!any(is(mseCtrl)=="MFCLprojControl"))
-    stop("projfrq must be an object of class MFCLprojControl")  
+  if(!inherits(ctrl, "MFCLprojControl"))
+    stop("ctrl must be an object of class MFCLprojControl")  
   if(length(fprojyr(ctrl))==0)
     warning("fprojyr(ctrl)==0, object may be incomplete")
   
@@ -166,8 +166,8 @@ read.MFCLPseudoAlt <- function(catch="missing", effort="missing", lw_sim="missin
     stop("lw_sim file does not exist")
   if(!(class(projfrq)=="MFCLFrq"))
     stop("projfrq must be an object of class MFCLFrq")
-  if(!(class(ctrl)=="MFCLprojControl"))
-    stop("projfrq must be an object of class MFCLprojControl")  
+  if(!inherits(ctrl, "MFCLprojControl"))
+    stop("ctrl must be an object of class MFCLprojControl")  
   if(length(fprojyr(ctrl))==0)
     warning("fprojyr(ctrl)==0, object may be incomplete")
 
