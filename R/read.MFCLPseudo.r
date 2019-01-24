@@ -35,7 +35,7 @@ read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing",
     stop("lw_sim file does not exist")
   if(!(class(projfrq)=="MFCLFrq"))
     stop("projfrq must be an object of class MFCLFrq")
-  if(!(class(ctrl)=="MFCLprojControl"))
+  if(!any(is(mseCtrl)=="MFCLprojControl"))
     stop("projfrq must be an object of class MFCLprojControl")  
   if(length(fprojyr(ctrl))==0)
     warning("fprojyr(ctrl)==0, object may be incomplete")
@@ -88,7 +88,7 @@ read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing",
     ll     <- seq(lfirst, lwidth*nlbins+lfirst-lwidth, by=lwidth)
   
     pobs.df <- data.frame()
-    for(ss in 1:nsims(projCtrl)){
+    for(ss in 1:nsims(ctrl)){
       tempdat2<- pobs[(markers[[ss]][1]+2):(markers[[ss]][2]-2)]
       # strip out the fishery realization data
       realzid <- as.numeric(c(unlist(strsplit(trim.leading(tempdat2[seq(1, length=length(tempdat2)/3, by=3)]), split="[[:blank:]]+"))))
