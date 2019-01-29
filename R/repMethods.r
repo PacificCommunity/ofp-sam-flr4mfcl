@@ -219,6 +219,7 @@ setMethod("SBSBF0Alt", signature(rep="MFCLRep",years="numeric", lag="missing", r
     sb <- seasonMeans(areaSums(adultBiomass(rep)))
     mean_sbf0 <- SBF0Alt(rep=rep, years=years,rolling=rolling)
     out <- sb/mean_sbf0
+    return(out)
   }
 )
 
@@ -235,5 +236,6 @@ setMethod("SBSBF0Alt", signature(rep="MFCLRep",years="numeric", lag="numeric", r
     final_year <- as.numeric(final_year[length(final_year)])
     year_range <- (final_year - lag - years + 1):(final_year - lag)
     out <- SBSBF0Alt(rep=rep, years=year_range, rolling=rolling)
+    return(out)
   }
 )
