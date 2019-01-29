@@ -3,16 +3,17 @@
 \docType{methods}
 \name{SBSBF0Alt}
 \alias{SBSBF0Alt}
-\alias{SBSBF0Alt,MFCLRep,numeric,missing,logical-method}
-\alias{SBSBF0Alt,MFCLRep,numeric,numeric,logical-method}
+\alias{SBSBF0Alt,MFCLRep,numeric,missing-method}
+\alias{SBSBF0Alt,MFCLRep,numeric,numeric-method}
 \title{SBSBF0Alt}
 \usage{
-SBSBF0Alt(rep, years, lag, rolling, ...)
+SBSBF0Alt(rep, years, lag, ...)
 
-\S4method{SBSBF0Alt}{MFCLRep,numeric,missing,logical}(rep, years, rolling)
+\S4method{SBSBF0Alt}{MFCLRep,numeric,missing}(rep, years, rolling = TRUE,
+  combine_areas = TRUE)
 
-\S4method{SBSBF0Alt}{MFCLRep,numeric,numeric,logical}(rep, years, lag,
-  rolling)
+\S4method{SBSBF0Alt}{MFCLRep,numeric,numeric}(rep, years, lag,
+  rolling = TRUE, combine_areas = TRUE)
 }
 \arguments{
 \item{rep}{An object of class MFCLRep.}
@@ -21,7 +22,9 @@ SBSBF0Alt(rep, years, lag, rolling, ...)
 
 \item{lag}{If \code{years} is a single numeric vector, the number of years between the final year in the rep file and final year over which to calculate the mean.}
 
-\item{rolling}{TRUE (a rolling mean, i.e. a moving average) or FALSE (the years over which to calculate the mean are fixed)}
+\item{rolling}{TRUE (a rolling mean, i.e. a moving average) or FALSE (the years over which to calculate the mean are fixed). Default is TRUE.}
+
+\item{combine_areas}{A logical argument. Should the areas (regions) be combined. Default is TRUE.}
 }
 \value{
 An FLQuant object with annual SB/SBF0 values.

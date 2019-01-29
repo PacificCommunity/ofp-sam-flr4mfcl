@@ -92,7 +92,8 @@ setMethod("SBF0", signature(rep.obj="MFCLRep"),
 #' @param rep    An object of class MFCLRep.
 #' @param years  Either a vector of years over which to calculate the mean over, or a single numeric vector giving the number of years over which to calculate the mean.
 #' @param lag    If \code{years} is a single numeric vector, the number of years between the final year in the rep file and final year over which to calculate the mean.
-#' @param rolling TRUE (a rolling mean, i.e. a moving average) or FALSE (the years over which to calculate the mean are fixed)
+#' @param rolling TRUE (a rolling mean, i.e. a moving average) or FALSE (the years over which to calculate the mean are fixed).  Default is TRUE.
+#' @param combine_areas A logical argument. Should the areas (regions) be combined. Default is TRUE.
 #'
 #' @return An FLQuant object with annual mean SBF0 values.
 #' 
@@ -114,7 +115,7 @@ setMethod("SBF0", signature(rep.obj="MFCLRep"),
 #' SBF0Alt(rep, years=5, lag=10, rolling=FALSE)
 #' }
 #'
-setGeneric('SBF0Alt', function(rep, years, lag, rolling, ...) standardGeneric('SBF0Alt')) 
+setGeneric('SBF0Alt',function(rep, years, lag, ...) standardGeneric('SBF0Alt')) 
 
 # No lag, and years is a year range
 # If rolling is FALSE, SBF0 is just the mean of sbf0 over the year range
@@ -123,10 +124,15 @@ setGeneric('SBF0Alt', function(rep, years, lag, rolling, ...) standardGeneric('S
 
 #' @rdname SBF0-methods
 #' @aliases SBF0Alt
-setMethod("SBF0Alt", signature(rep="MFCLRep",years="numeric", lag="missing", rolling="logical"),
-  function(rep, years, rolling ){
+setMethod("SBF0Alt", signature(rep="MFCLRep",years="numeric", lag="missing"),
+  function(rep, years, rolling=TRUE, combine_areas=TRUE ){
     # x is a vector of years - check they exist in sbf0
-    sbf0 <- seasonMeans(areaSums(adultBiomass_nofish(rep)))
+    if (combine_areas){
+      sbf0 <- seasonMeans(areaSums(adultBiomass_nofish(rep)))
+    }
+    if (!combine_areas){
+      sbf0 <- seasonMeans(adultBiomass_nofish(rep))
+    }
     if(!all(years %in% as.numeric(dimnames(sbf0)$year))){
       stop("years is a vector of years that must exist in the rep file\n")
     }
@@ -135,13 +141,13 @@ setMethod("SBF0Alt", signature(rep="MFCLRep",years="numeric", lag="missing", rol
     # Mean is fixed
     # Return an FLQuant with same values in all years
     if (!rolling){
-      out[] <- apply(sbf0[,as.character(years)], 6, mean)
+      out[] <- apply(sbf0[,as.character(years)], c(1,3,4,5,6), mean)
     }
     # Final year is set to mean of x years, and rolled back from there
     if (rolling){
       # Final year is relative to the mean of years
       # Final year  - 1 is relative to mean of years-1, etc
-      rolling_mean <- apply(sbf0, 6, function(x, n, sides){filter(c(x),rep(1/n,n), sides=sides)}, n=length(years), sides=1)
+      rolling_mean <- apply(sbf0, c(1,3,4,5,6), function(x, n, sides){filter(c(x),rep(1/n,n), sides=sides)}, n=length(years), sides=1)
       # final year of out becomes final year of years in rolling mean 
       rolling_mean[,as.numeric(dimnames(rolling_mean)$year) <= years[length(years)]]
       out_years <- dimnames(out)$year
@@ -159,8 +165,8 @@ setMethod("SBF0Alt", signature(rep="MFCLRep",years="numeric", lag="missing", rol
 
 #' @rdname SBF0-methods
 #' @aliases SBF0Alt
-setMethod("SBF0Alt", signature(rep="MFCLRep",years="numeric", lag="numeric", rolling="logical"),
-  function(rep, years, lag, rolling ){
+setMethod("SBF0Alt", signature(rep="MFCLRep",years="numeric", lag="numeric"),
+  function(rep, years, lag, rolling=TRUE, combine_areas=TRUE){
     if (length(years) > 1){
       stop("If supplying a lag, then years is nyears and must be of length 1\n")
     }
@@ -168,7 +174,7 @@ setMethod("SBF0Alt", signature(rep="MFCLRep",years="numeric", lag="numeric", rol
     final_year <- dimnames(adultBiomass_nofish(rep))$year
     final_year <- as.numeric(final_year[length(final_year)])
     year_range <- (final_year - lag - years + 1):(final_year - lag)
-    out <- SBF0Alt(rep=rep, years=year_range, rolling=rolling)
+    out <- SBF0Alt(rep=rep, years=year_range, rolling=rolling,combine_areas=combine_areas)
     return(out)
   }
 )
@@ -187,7 +193,8 @@ setMethod("SBF0Alt", signature(rep="MFCLRep",years="numeric", lag="numeric", rol
 #' @param rep    An object of class MFCLRep.
 #' @param years  Either a vector of years over which to calculate the mean over, or a single numeric vector giving the number of years over which to calculate the mean.
 #' @param lag    If \code{years} is a single numeric vector, the number of years between the final year in the rep file and final year over which to calculate the mean.
-#' @param rolling TRUE (a rolling mean, i.e. a moving average) or FALSE (the years over which to calculate the mean are fixed)
+#' @param rolling TRUE (a rolling mean, i.e. a moving average) or FALSE (the years over which to calculate the mean are fixed). Default is TRUE.
+#' @param combine_areas A logical argument. Should the areas (regions) be combined. Default is TRUE.
 #'
 #' @return An FLQuant object with annual SB/SBF0 values.
 #' 
@@ -209,15 +216,19 @@ setMethod("SBF0Alt", signature(rep="MFCLRep",years="numeric", lag="numeric", rol
 #' SBF0Alt(rep, years=5, lag=10, rolling=FALSE)
 #' }
 #'
-setGeneric('SBSBF0Alt', function(rep, years, lag, rolling, ...) standardGeneric('SBSBF0Alt')) 
+setGeneric('SBSBF0Alt', function(rep, years, lag, ...) standardGeneric('SBSBF0Alt')) 
 
 #' @rdname SBSBF0-methods
 #' @aliases SBSBF0Alt
-setMethod("SBSBF0Alt", signature(rep="MFCLRep",years="numeric", lag="missing", rolling="logical"),
-  function(rep, years, rolling ){
-    sbf0 <- seasonMeans(areaSums(adultBiomass_nofish(rep)))
-    sb <- seasonMeans(areaSums(adultBiomass(rep)))
-    mean_sbf0 <- SBF0Alt(rep=rep, years=years,rolling=rolling)
+setMethod("SBSBF0Alt", signature(rep="MFCLRep",years="numeric", lag="missing" ),
+  function(rep, years, rolling=TRUE, combine_areas=TRUE){
+    if(combine_areas){
+      sb <- seasonMeans(areaSums(adultBiomass(rep)))
+    }
+    if(!combine_areas){
+      sb <- seasonMeans(adultBiomass(rep))
+    }
+    mean_sbf0 <- SBF0Alt(rep=rep, years=years,rolling=rolling, combine_areas=combine_areas)
     out <- sb/mean_sbf0
     return(out)
   }
@@ -226,8 +237,8 @@ setMethod("SBSBF0Alt", signature(rep="MFCLRep",years="numeric", lag="missing", r
 
 #' @rdname SBSBF0-methods
 #' @aliases SBSBF0Alt
-setMethod("SBSBF0Alt", signature(rep="MFCLRep",years="numeric", lag="numeric", rolling="logical"),
-  function(rep, years, lag, rolling ){
+setMethod("SBSBF0Alt", signature(rep="MFCLRep",years="numeric", lag="numeric"),
+  function(rep, years, lag, rolling=TRUE, combine_areas=TRUE){
     if (length(years) > 1){
       stop("If supplying a lag, then years is nyears and must be of length 1\n")
     }
@@ -235,7 +246,7 @@ setMethod("SBSBF0Alt", signature(rep="MFCLRep",years="numeric", lag="numeric", r
     final_year <- dimnames(adultBiomass_nofish(rep))$year
     final_year <- as.numeric(final_year[length(final_year)])
     year_range <- (final_year - lag - years + 1):(final_year - lag)
-    out <- SBSBF0Alt(rep=rep, years=year_range, rolling=rolling)
+    out <- SBSBF0Alt(rep=rep, years=year_range, rolling=rolling, combine_areas=combine_areas)
     return(out)
   }
 )
