@@ -34,8 +34,8 @@ write.par <- function(x, file, append=F, ...){
                        ncol=dimensions(x)['fisheries'])), row.names=F, col.names=F, file=file, append=T)
   if(!all(is.na(flags(x)[is.element(flags(x)$flagtype, -10000:-(10000+dimensions(x)["taggrps"]-1)),'value']))){
     cat("# tag flags\n",                       file=file, append=T)  
-    write.table(t(matrix(flags(x)[is.element(flags(x)$flagtype, -10000:-(10000+dimensions(x)["taggrps"]-1)),'value'], 
-                         ncol=10)), #dimensions(x)['taggrps'])), 
+    write.table(matrix(flags(x)[is.element(flags(x)$flagtype, -10000:-(10000+dimensions(x)["taggrps"]-1)),'value'], 
+                         ncol=10, byrow=TRUE), #dimensions(x)['taggrps'])), 
                          row.names=F, col.names=F, file=file, append=T)
   
     cat("# tag fish rep\n",  file=file, append=T)  
