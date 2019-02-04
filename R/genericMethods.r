@@ -163,9 +163,11 @@ setMethod("+", signature(e1="MFCLFrq", e2="MFCLFrq"),
 setMethod("+", signature(e1="MFCLFrq", e2="MFCLPseudo"),
           function(e1, e2) {
             
+            # add future pseudo data to the original FRQ
             if(any(range(e1)[c("minyear","maxyear")] != slot(e2, 'range')[c("minyear","maxyear")]))
               freq(e1) <- rbind(freq(e1), freq(e2))                                                      #catcheff(e2)[,1:10])
             
+            # add historical pseudo data to the PROJFRQ
             if(all(range(e1)[c("minyear","maxyear")] == slot(e2, 'range')[c("minyear","maxyear")]))
               freq(e1) <- freq(e2)                                                                       #catcheff(e2)[,1:10]
             
