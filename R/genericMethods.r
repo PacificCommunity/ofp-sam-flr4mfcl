@@ -188,7 +188,8 @@ setMethod("+", signature(e1="MFCLTag", e2="MFCLTag"),
             
             release_groups(e1) <- max(releases(e1)$rel.group)
             recoveries(e1)     <- c(recoveries(e1), recoveries(e2))
-            releases(e1)       <- rbind(releases(e1), releases(e2))
+            # Remove the following line
+            #releases(e1)       <- rbind(releases(e1), releases(e2))
             
             range(e1)['maxyear'] <- range(e2)['maxyear']
             
