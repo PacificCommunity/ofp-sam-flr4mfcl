@@ -44,12 +44,13 @@ setMethod("window", signature(x="MFCLFrq"),
             freq(x) <- freq(x)[freq(x)$year %in% start:end,] 
             
             #calculate the new number of fishing incidents
-            noobs <- freq(x)[is.na(freq(x)$length)                  & is.na(freq(x)$weight), 1:7]
-            lobs  <- freq(x)[freq(x)$length==lf_range(x)['LFFirst'] & is.na(freq(x)$weight), 1:7]
-            wobs  <- freq(x)[is.na(freq(x)$length)                  & freq(x)$weight==lf_range(x)['WFFirst'], 1:7]
-            
-            lf_range(x)["Datasets"] <- sum(!duplicated(rbind(noobs, lobs, wobs)))-1       # why the -1 ??
-            
+            #noobs <- freq(x)[is.na(freq(x)$length)                  & is.na(freq(x)$weight), 1:7]
+            #lobs  <- freq(x)[freq(x)$length==lf_range(x)['LFFirst'] & is.na(freq(x)$weight), 1:7]
+            #wobs  <- freq(x)[is.na(freq(x)$length)                  & freq(x)$weight==lf_range(x)['WFFirst'], 1:7]
+            #
+            #lf_range(x)["Datasets"] <- sum(!duplicated(rbind(noobs, lobs, wobs)))-1       # why the -1 ??
+            lf_range(x)["Datasets"] <- nrow(realisations(x))
+
             range(x)['minyear'] <- start
             range(x)['maxyear'] <- end
             
