@@ -1674,6 +1674,24 @@ setReplaceMethod('hcr', signature(object='MFCLMSEControl', value=unname(getSlots
                  function(object, value){slot(object, 'hcr') <- value; return(object)})
 
 #' @rdname accessor-methods
+setGeneric('hcr_params', function(object, ...) standardGeneric('hcr_params'))
+#' @rdname accessor-methods
+setMethod('hcr_params', signature(object='MFCLMSEControl'), function(object) return(slot(object, 'hcr_params')))
+#' @rdname accessor-methods
+setGeneric('hcr_params<-', function(object, ..., value) standardGeneric('hcr_params<-'))
+#' @rdname accessor-methods
+setReplaceMethod('hcr_params', signature(object='MFCLMSEControl', value=unname(getSlots('MFCLMSEControl')['hcr_params'])), 
+                 function(object, value){slot(object, 'hcr_params') <- value; return(object)})
+
+# Evaluate the HCR
+# May need to pass in other parameters - such as when limiting maximum change in output
+setGeneric('eval_hcr', function(msectrl, sbsbf0) standardGeneric('eval_hcr'))
+setMethod('eval_hcr', signature(msectrl='MFCLMSEControl', sbsbf0='numeric'),
+  function(msectrl, sbsbf0){
+    return(do.call(hcr(msectrl), args=list(sbsbf0=sbsbf0, params=hcr_params(msectrl))))
+})
+
+#' @rdname accessor-methods
 setGeneric('itn', function(object, ...) standardGeneric('itn'))
 #' @rdname accessor-methods
 setMethod('itn', signature(object='MFCLMSEControl'), function(object) return(slot(object, 'itn')))
