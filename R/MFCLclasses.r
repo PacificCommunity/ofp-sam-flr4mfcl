@@ -1006,37 +1006,6 @@ MFCLEMControl <- function(doitall=function(){}, tag_fish_rep_rate=0.9,...) {
 
 
 
-#' hcr_threshold
-#'
-#' Typical HCR function with the parameters sbsbf0_min, sbsbf0_max, out_min, out_max passed as a vector.
-#' The default HCR for the MFCLMSEControl class.
-#'
-#' @param SBSBF0 Numeric vector of SBSBF0.
-#' @param params Numeric vector of HCR parameters. For this function the parameters should be named: sbsbf0_min, sbsbf0_max, out_min, out_max.
-#'
-#' @return Numberic vector of the HCR output
-hcr_threshold <- function(sbsbf0, params){
-  # The standard threshold type of HCR
-  if (!all(names(params) %in% c('sbsbf0_min', 'sbsbf0_max', 'out_min', 'out_max'))){
-    stop("HCR parameter names do not match those in the HCR function\n")
-  }
-  sbsbf0_min <- params['sbsbf0_min']
-  sbsbf0_max <- params['sbsbf0_max']
-  out_min <- params['out_min']
-  out_max <- params['out_max']
-  out <- unname(pmin(pmax(sbsbf0*((1-out_min)/(sbsbf0_max-sbsbf0_min))-((1-out_min)/(sbsbf0_max-sbsbf0_min)*sbsbf0_max-1), out_min), out_max))
-  return(out)
-}
-
-hcr_constant <- function(sbsbf0, params){
-  # A constant output HCR
-  if (length(params) > 1){
-    stop("Too many parameters in the HCR parameters. There should be only one\n")
-  }
-  return(rep(unname(params[1]), length(sbsbf0)))
-}
-
-
 validMFCLMSEControl <- function(object){
   #Everything is fine - is it?
   return(TRUE)

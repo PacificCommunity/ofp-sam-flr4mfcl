@@ -1685,10 +1685,12 @@ setReplaceMethod('hcr_params', signature(object='MFCLMSEControl', value=unname(g
 
 # Evaluate the HCR
 # May need to pass in other parameters - such as when limiting maximum change in output
-setGeneric('eval_hcr', function(msectrl, sbsbf0) standardGeneric('eval_hcr'))
+setGeneric('eval_hcr', function(msectrl, sbsbf0, ...) standardGeneric('eval_hcr'))
 setMethod('eval_hcr', signature(msectrl='MFCLMSEControl', sbsbf0='numeric'),
-  function(msectrl, sbsbf0){
-    return(do.call(hcr(msectrl), args=list(sbsbf0=sbsbf0, params=hcr_params(msectrl))))
+  function(msectrl, sbsbf0, ...){
+    extra_args <- list(...)
+    args = c(list(sbsbf0=sbsbf0, params=hcr_params(msectrl)), extra_args)
+    return(do.call(hcr(msectrl), args=args))
 })
 
 #' @rdname accessor-methods

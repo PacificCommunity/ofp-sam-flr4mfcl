@@ -59,7 +59,10 @@ export(
   "write.simNumAge",
   "write.simyears",
   # assessment plotting stuff
-  "contributions.plot"
+  "contributions.plot",
+  "hcr_threshold",
+  "hcr_constant",
+  "hcr_threshold_constrained"
 )
 exportClasses(
   "MFCLBase",
