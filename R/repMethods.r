@@ -147,7 +147,8 @@ setMethod("SBF0Alt", signature(rep="MFCLRep",years="numeric", lag="missing"),
     if (rolling){
       # Final year is relative to the mean of years
       # Final year  - 1 is relative to mean of years-1, etc
-      rolling_mean <- apply(sbf0, c(1,3,4,5,6), function(x, n, sides){filter(c(x),rep(1/n,n), sides=sides)}, n=length(years), sides=1)
+      # Have to add stats:: as Hadley's shit tramples over it
+      rolling_mean <- apply(sbf0, c(1,3,4,5,6), function(x, n, sides){stats::filter(c(x),rep(1/n,n), sides=sides)}, n=length(years), sides=1)
       # final year of out becomes final year of years in rolling mean 
       rolling_mean[,as.numeric(dimnames(rolling_mean)$year) <= years[length(years)]]
       out_years <- dimnames(out)$year

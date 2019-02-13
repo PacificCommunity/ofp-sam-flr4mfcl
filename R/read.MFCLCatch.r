@@ -35,9 +35,19 @@ read.MFCLCatch <- function(catchfile, dimensions, rnge) {
   
   dmns1 <- list(age="all", year=rnge["minyear"]:rnge["maxyear"], unit="unique", season=1:nsns, area="unique")
   dmns2 <- list(age="all", year=rnge["minyear"]:rnge["maxyear"], unit=1:nfish,  season=1:nsns, area="unique")
-  
-  slot(res, "total_catch")   <- FLQuant(aperm(array(scan(catchfile, skip=1, nlines=1),dim=c(nsns,nyrs,1,1,1)), c(3,2,4,1,5)),dimnames=dmns1)
-  slot(res, "fishery_catch") <- FLQuant(aperm(array(scan(catchfile, skip=3, nlines=nfish), dim=c(nsns,nyrs,nfish,1,1)), c(4,2,3,1,5)),dimnames=dmns2)
+
+  # Read in vectors and check dimensions
+  total_catch <- scan(catchfile, skip=1, nlines=1)
+  if(length(total_catch) != dimensions["years"]){
+    stop("Length of total_catch vector does not equal 'years' element of dimensions argument\n")
+  }
+  fishery_catch <- scan(catchfile, skip=3, nlines=nfish)
+  if(length(fishery_catch) != (dimensions["years"] * dimensions["fisheries"])){
+    stop("Length of fishery_catch vector does not equal product of 'years' and 'fisheries' elements of dimensions argument\n")
+  }
+
+  slot(res, "total_catch")   <- FLQuant(aperm(array(total_catch,dim=c(nsns,nyrs,1,1,1)), c(3,2,4,1,5)),dimnames=dmns1)
+  slot(res, "fishery_catch") <- FLQuant(aperm(array(fishery_catch, dim=c(nsns,nyrs,nfish,1,1)), c(4,2,3,1,5)),dimnames=dmns2)
   slot(res, "range")[] <- c(NA, NA, NA, rnge["minyear"], rnge["maxyear"])
   
   return(res)

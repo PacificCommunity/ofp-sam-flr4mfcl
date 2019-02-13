@@ -994,7 +994,7 @@ remove(validMFCLEMControl)
 #'
 #'Basic constructor for MFCLPseudo class
 #'@export
-MFCLEMControl <- function(doitall=function(){}, tag_fish_rep_rate=0.9) {
+MFCLEMControl <- function(doitall=function(){}, tag_fish_rep_rate=0.9,...) {
   
   emc <- new("MFCLEMControl")
   
@@ -1006,37 +1006,51 @@ MFCLEMControl <- function(doitall=function(){}, tag_fish_rep_rate=0.9) {
 
 
 
-
-
 validMFCLMSEControl <- function(object){
-  #Everything is fine
+  #Everything is fine - is it?
   return(TRUE)
 }
+
+#' An S4 class : Controls the MSE simulations
+#'
+#' @slot itn
+#' @slot hcr The name of the HCR function as a character string. This function must exist and have the arguments: sbsbf0 and params. The params argument is taken from the params slot when evaluated.
+#' @slot hcr_params A numeric vector of parameters for the HCR function.
+#' @slot ess_scalar
+#'
 setClass("MFCLMSEControl",
          representation(
            "MFCLPseudoControl",
            "MFCLEMControl",
-           hcr             ='function',
-           itn             ='numeric'
+           itn             = 'numeric',
+           hcr             = 'character',
+           hcr_params      = 'numeric',
+           ess_scalar      = 'numeric'
          ),
          prototype=prototype(
-           itn             =numeric()
+           itn             = numeric(),
+           hcr             = "hcr_threshold",
+           hcr_params      = c(sbsbf0_min = 0.2, sbsbf0_max = 0.5, out_min = 0.2, out_max = 1.0),
+           ess_scalar      = 1.0
          ),
          validity=validMFCLMSEControl
 )
 setValidity("MFCLMSEControl", validMFCLMSEControl)
 remove(validMFCLMSEControl)
-#'MFCLMSEControl
-#'
-#'Basic constructor for MFCLMSEControl class
-#'@export
 
-MFCLMSEControl <- function(hcr=function(){}, itn=1) {
+
+#' MFCLMSEControl
+#'
+#' Basic constructor for MFCLMSEControl class
+#' @export
+MFCLMSEControl <- function(hcr="hcr_threshold", hcr_params=c(sbsbf0_min = 0.2, sbsbf0_max = 0.5, out_min = 0.2, out_max = 1.0), itn=1, ess_scalar=1, ...) {
   
   msec <- new("MFCLMSEControl")
   
   slot(msec, 'hcr') <- hcr
+  slot(msec, 'hcr_params') <- hcr_params
   slot(msec, 'itn') <- itn
+  slot(msec, 'ess_scalar') <- ess_scalar
   
   return(msec)
 }
