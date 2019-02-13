@@ -186,7 +186,9 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLFrq"),
             # non-zero filled objects that you need to append zeroes to 
             eff_dev_coff_incs     <- unlist(lapply(effort_dev_coffs(y),length)) - unlist(lapply(effort_dev_coffs(x),length))
             eff_dev_coff_vals     <- unlist(lapply(effort_dev_coffs(x), mean))
-            effort_dev_coffs(x)   <- lapply(1:dimensions(x)["fisheries"], function(g) c(effort_dev_coffs(x)[[g]], rep(eff_dev_coff_vals[g], eff_dev_coff_incs[g])))
+
+            #effort_dev_coffs(x)   <- lapply(1:dimensions(x)["fisheries"], function(g) c(effort_dev_coffs(x)[[g]], rep(eff_dev_coff_vals[g], eff_dev_coff_incs[g])))
+            effort_dev_coffs(x)   <- lapply(1:dimensions(x)["fisheries"], function(g) c(effort_dev_coffs(x)[[g]], rep(0, eff_dev_coff_incs[g])))
             
             # catch_dev_coffs - gets really messy because you may have zero catch obs in some cases and fishery groupings to worry about.
 #            catch_dev_coffs(x)    <- lapply(1:length(catch_dev_coffs(x)), 
