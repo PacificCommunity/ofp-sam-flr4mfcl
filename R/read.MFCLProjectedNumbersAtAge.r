@@ -29,3 +29,35 @@ read.MFCLProjectedNatAge <- function(filename="projected_numbers_at_age", quarte
   
   return(projN)
 }
+
+
+#kk <- readLines('/home/rob/MSE/ofp-sam-skipjack_MSE/reports/PseudoData/MFCL_refits/stoch_proj__1/projected_spawning_biomass')
+#kk <- read.MFCLProjectedSpawningBiomass('/home/rob/MSE/ofp-sam-skipjack_MSE/reports/PseudoData/MFCL_refits/stoch_proj__1/projected_spawning_biomass')
+#filename <- '/home/rob/MSE/ofp-sam-skipjack_MSE/reports/PseudoData/MFCL_refits/stoch_proj__1/projected_spawning_biomass'
+
+read.MFCLProjectedSpawningBiomass <- function(filename="projected_spawning_biomass", quarterly=T, fyear=1972){
+
+  trim.leading  <- function(x) sub("^\\s+", "", x) 
+  splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+")) 
+  
+  ff   <- readLines(filename)
+  
+  comments <- grep("# ", ff)
+  fff      <- ff[-comments]
+  
+  n_sims    <- length(grep("# Simulation", ff))
+  n_regions <- length(unlist(strsplit(trim.leading(ff[3]), split="[[:blank:]]+")))
+  n_periods <- grep("# Simulation number 2", ff)[1] - grep("# Simulation number 1", ff)[1] - 2
+  
+  if(quarterly)
+    sns <- 1:4
+  
+  dimnames  <- list(age="all", year=fyear:(fyear+n_periods/max(sns)-1), 
+                    unit="unique", season=sns, area=1:n_regions, iter=1:n_sims)
+  
+  arr   <- array(unlist(strsplit(trim.leading(fff), split="[[:blank:]]+")), 
+                 dim=c(1, n_regions, max(sns), n_periods/max(sns), n_sims, 1))
+  
+  projB <- FLQuant(aperm(arr, c(1,4,6,3,2,5)), dimnames=dimnames)
+  
+}

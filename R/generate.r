@@ -71,7 +71,7 @@ setGeneric('generate', function(x, y, z, ...) standardGeneric('generate'))
 #' @rdname generate
 setMethod("generate", signature(x="MFCLFrq", y="MFCLprojControl"), 
          function(x, y, ...){
-            
+#browser()            
             ctrl     <- y
             proj.yrs <- seq(fprojyr(ctrl), range(x)['maxyear']+nyears(ctrl))  #seq(range(x)['maxyear']+1, range(x)['maxyear']+nyears(ctrl))
             qtrs     <- sort(unique(freq(x)$month))

@@ -138,7 +138,8 @@ setMethod("window", signature(x="MFCLTagProj"),
             if(start < range(x)['minyear'] | end > range(x)['maxyear'])
               stop("Error: This method does not yet allow the extension of MFCL objects beyond their current year range")
             
-            selector <- which(releases_proj(x)$year>=start & releases_proj(x)$year<=end)
+            #selector <- which(releases_proj(x)$year>=start & releases_proj(x)$year<=end)
+            selector <- which(releases_proj(x)$year>=start & releases_proj(x)$year<end)   # no releases in final year of object - see window tag
             
             releases_proj(x) <- releases_proj(x)[selector ,]
             rep_rate_proj(x) <- rep_rate_proj(x)[, selector]

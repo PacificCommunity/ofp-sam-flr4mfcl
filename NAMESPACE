@@ -52,6 +52,7 @@ export(
   "read.MFCLTagRep",
   "read.MFCLLenFit",
   "read.MFCLProjectedNatAge",
+  "read.MFCLProjectedSpawningBiomass",
   "read.temporary_tag_report",
   "recPeriod",
   "setMFCLversion",

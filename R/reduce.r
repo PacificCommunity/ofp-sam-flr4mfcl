@@ -138,6 +138,9 @@ setMethod("reduce", signature(obj='MFCLIni'),
   if(!is.null(years))
     releases.new <- releases.new[is.element(releases.new$year, years), ]
   
+  # remove release groups in final year of object - can't have releases in terminal yr - see window for tag objects
+  releases.new <- releases.new[!is.element(releases.new$year, max(years)),]
+  
   #rel.map <- cbind(unique(releases.new$rel.group), 1:length(unique(releases.new$rel.group)))
   release.grps.in  <- c(is.element(1:release_groups(tagx), releases.new$rel.group), TRUE)
   
