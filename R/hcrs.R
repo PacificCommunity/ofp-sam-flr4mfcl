@@ -19,7 +19,14 @@ hcr_threshold <- function(sbsbf0, params){
   sbsbf0_max <- params['sbsbf0_max']
   out_min <- params['out_min']
   out_max <- params['out_max']
-  out <- unname(pmin(pmax(sbsbf0*((1-out_min)/(sbsbf0_max-sbsbf0_min))-((1-out_min)/(sbsbf0_max-sbsbf0_min)*sbsbf0_max-1), out_min), out_max))
+  # Do in steps to prevent further cockups
+  # Get the slope
+  grad <- (out_max - out_min) / (sbsbf0_max - sbsbf0_min)
+  intercept <- out_min - (grad * sbsbf0_min)
+  out <- sbsbf0 * grad + intercept
+  # Apply limits
+  out <- unname(pmin(pmax(out_min, out), out_max))
+  #out <- unname(pmin(pmax(sbsbf0*((1-out_min)/(sbsbf0_max-sbsbf0_min))-((1-out_min)/(sbsbf0_max-sbsbf0_min)*sbsbf0_max-1), out_min), out_max))
   return(out)
 }
 
