@@ -1703,8 +1703,25 @@ setGeneric('itn<-', function(object, ..., value) standardGeneric('itn<-'))
 setReplaceMethod('itn', signature(object='MFCLMSEControl', value=unname(getSlots('MFCLMSEControl')['itn'])), 
                  function(object, value){slot(object, 'itn') <- value; return(object)})
 
+#' @rdname accessor-methods
+setGeneric('effort_creep', function(object, ...) standardGeneric('effort_creep'))
+#' @rdname accessor-methods
+setMethod('effort_creep', signature(object='MFCLMSEControl'), function(object) return(slot(object, 'effort_creep')))
+#' @rdname accessor-methods
+setGeneric('effort_creep<-', function(object, ..., value) standardGeneric('effort_creep<-'))
+#' @rdname accessor-methods
+setReplaceMethod('effort_creep', signature(object='MFCLMSEControl', value=unname(getSlots('MFCLMSEControl')['effort_creep'])), 
+                 function(object, value){slot(object, 'effort_creep') <- value; return(object)})
 
-
+#' @rdname accessor-methods
+setGeneric('effort_creep_fish', function(object, ...) standardGeneric('effort_creep_fish'))
+#' @rdname accessor-methods
+setMethod('effort_creep_fish', signature(object='MFCLMSEControl'), function(object) return(slot(object, 'effort_creep_fish')))
+#' @rdname accessor-methods
+setGeneric('effort_creep_fish<-', function(object, ..., value) standardGeneric('effort_creep_fish<-'))
+#' @rdname accessor-methods
+setReplaceMethod('effort_creep_fish', signature(object='MFCLMSEControl', value=unname(getSlots('MFCLMSEControl')['effort_creep_fish'])), 
+                 function(object, value){slot(object, 'effort_creep_fish') <- value; return(object)})
 
 
 

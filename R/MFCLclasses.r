@@ -1025,13 +1025,17 @@ setClass("MFCLMSEControl",
            itn             = 'numeric',
            hcr             = 'character',
            hcr_params      = 'numeric',
-           ess_scalar      = 'numeric'
+           ess_scalar      = 'numeric',
+           effort_creep    = 'numeric',
+           effort_creep_fish = 'numeric'
          ),
          prototype=prototype(
            itn             = numeric(),
            hcr             = "hcr_threshold",
            hcr_params      = c(sbsbf0_min = 0.2, sbsbf0_max = 0.5, out_min = 0.2, out_max = 1.0),
-           ess_scalar      = 1.0
+           ess_scalar      = 1.0,
+           effort_creep    = 0.0,
+           effort_creep_fish = numeric()
          ),
          validity=validMFCLMSEControl
 )
