@@ -75,9 +75,8 @@ read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing",
       tempdat$catch[tempdat$iter>0] <- cdat[2,]
       tempdat$effort[tempdat$iter>0]<- edat
     }
-    
-    
   }
+  
   # LENGTH COMPOSITIONS
   if(!missing(lw_sim)){
     ## read in the pseudo length frequencies
@@ -104,8 +103,9 @@ read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing",
   }
  
   slot(res, "catcheff") <- tempdat[order(tempdat$iter, tempdat$fishery, tempdat$year, tempdat$month, tempdat$week),]
-  slot(res, "l_frq")    <- pobs.df[order(pobs.df$iter,  pobs.df$fishery, pobs.df$year, pobs.df$month, pobs.df$week, pobs.df$length),]
+  slot(res, "l_frq")    <- pobs.df[order(pobs.df$iter,  pobs.df$fishery, pobs.df$year, pobs.df$month, pobs.df$week, pobs.df$length),]  
 
+  
   if(!historical) { # think this is OK !!
     slot(res, "catcheff")[slot(res, "catcheff")$iter>0,]$freq <- slot(res, "l_frq")$freq  
     slot(res, 'freq') <- slot(res, 'catcheff')[slot(res, "catcheff")$iter==0,c(1:4,7:9)]
