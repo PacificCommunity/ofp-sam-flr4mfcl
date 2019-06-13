@@ -200,7 +200,35 @@ setMethod("+", signature(e1="MFCLTag", e2="MFCLTag"),
 ) # }}}
 
 
+##----------------------------- 
+## Control objects
 
+setMethod("+", signature(e1="MFCLMSEControl", e2="MFCLprojControl"),
+          function(e1, e2) {
+      
+            for(ss in slotNames(e2))
+              slot(e1, ss) <- slot(e2, ss)
 
+            return(e1)
+          }
+) # }}}
 
+setMethod("+", signature(e1="MFCLMSEControl", e2="MFCLPseudoControl"),
+          function(e1, e2) {
+            
+            for(ss in slotNames(e2))
+              slot(e1, ss) <- slot(e2, ss)
+            
+            return(e1)
+          }
+) # }}}
 
+setMethod("+", signature(e1="MFCLMSEControl", e2="MFCLEMControl"),
+          function(e1, e2) {
+            
+            for(ss in slotNames(e2))
+              slot(e1, ss) <- slot(e2, ss)
+            
+            return(e1)
+          }
+) # }}}
