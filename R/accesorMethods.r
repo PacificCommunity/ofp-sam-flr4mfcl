@@ -555,6 +555,15 @@ setGeneric('diff_coffs<-', function(object, ..., value) standardGeneric('diff_co
 setReplaceMethod('diff_coffs', signature(object='MFCLRegion', value=unname(getSlots('MFCLRegion')['diff_coffs'])),
                                 function(object, value){slot(object, 'diff_coffs') <- value; return(object)}) 
 #' @rdname accessor-methods
+setGeneric('xdiff_coffs', function(object, ...) standardGeneric('xdiff_coffs')) 
+#' @rdname accessor-methods
+setMethod('xdiff_coffs', signature(object='MFCLRegion'),function(object) return(slot(object, 'xdiff_coffs'))) 
+#' @rdname accessor-methods
+setGeneric('xdiff_coffs<-', function(object, ..., value) standardGeneric('xdiff_coffs<-')) 
+#' @rdname accessor-methods
+setReplaceMethod('xdiff_coffs', signature(object='MFCLRegion', value=unname(getSlots('MFCLRegion')['xdiff_coffs'])),
+                 function(object, value){slot(object, 'xdiff_coffs') <- value; return(object)}) 
+#' @rdname accessor-methods
 setGeneric('diff_coffs_mat', function(object, ...) standardGeneric('diff_coffs_mat')) 
 #' @rdname accessor-methods
 setMethod('diff_coffs_mat', signature(object='MFCLRegion'),function(object) return(slot(object, 'diff_coffs_mat'))) 

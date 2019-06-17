@@ -442,7 +442,9 @@ exportMethods(
   "w_frq<-",
   "waa",
   "window",
-  "write"
+  "write",
+  "xdiff_coffs",
+  "xdiff_coffs<-"
 )
 
 

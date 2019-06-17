@@ -107,6 +107,10 @@ write.par <- function(x, file, append=F, ...){
   cat("\n# movement coefficients \n",   file=file, append=T) 
   write.table(diff_coffs(x), col.names=F, row.names=F, file=file, append=T)
   
+  if(version(x)>=1059){
+    cat("\n# xmovement coefficients \n",   file=file, append=T) 
+    write.table(xdiff_coffs(x), col.names=F, row.names=F, file=file, append=T)
+  }
   cat("# movement matrices \n",   file=file, append=T) 
 
   for(period in 1: dimensions(x)['seasons']){

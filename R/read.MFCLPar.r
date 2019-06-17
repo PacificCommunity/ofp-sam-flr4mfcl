@@ -380,7 +380,12 @@ read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972) {
   slot(res, 'control_flags') <- t(array(as.numeric(splitter(par, "# region control flags",1:10)), 
                                         dim=c(nregions,10)))
   slot(res, 'move_map')      <- as.numeric(splitter(par, "# movement map"))
+
   slot(res, 'diff_coffs')    <- matrix(as.numeric(splitter(par,"# movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons, byrow=T)  
+
+  if(vsn>=1059)
+    slot(res, 'xdiff_coffs')    <- matrix(as.numeric(splitter(par,"# xmovement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons, byrow=T)  
+  
   slot(res, 'diff_coffs_mat')<- matrix(as.numeric(splitter(par, "# The diffusion coefficients",1:nregions)), nrow=nregions, byrow=T)
   
   slot(res, 'diff_coffs_age_period') <- dca
