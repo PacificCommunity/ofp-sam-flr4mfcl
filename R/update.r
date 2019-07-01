@@ -32,11 +32,19 @@
 
 setMethod("update", signature(object="MFCLFrq"), function(object, years, fisheries, multiplier, quantity, ...){
             
-  freq(object)[is.element(freq(object)$year, years) & is.element(freq(object)$fishery, fisheries) & freq(object)[,quantity]!=-1, quantity] <- 
-      freq(object)[is.element(freq(object)$year, years) & is.element(freq(object)$fishery, fisheries) & freq(object)[,quantity]!=-1, quantity]*multiplier
+  if(length(multiplier)>1)
+    if(length(multiplier)!=length(fisheries))
+      warning("You have different length vectors for fisheries and scalers")
+  
+  if(length(multiplier)==1 & length(fisheries)>1)
+    multiplier <- rep(multiplier, length(fisheries))
+  
+  for(ff in fisheries){
+    freq(object)[is.element(freq(object)$year, years) & is.element(freq(object)$fishery, ff) & freq(object)[,quantity]!=-1, quantity] <- 
+      freq(object)[is.element(freq(object)$year, years) & is.element(freq(object)$fishery, ff) & freq(object)[,quantity]!=-1, quantity] * multiplier[which(fisheries==ff)]
+  }
   
   return(object)
-            
 })
 
 
