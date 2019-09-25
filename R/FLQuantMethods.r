@@ -23,7 +23,7 @@ setMethod("FLQuant", signature(object="MFCLLenFreq"),
               colnames(dd) <- colnames(as.data.frame(FLQuant()))
               return(as.FLQuant(dd))
             }
-            
+          
             if(data=="length" | data=='weight'){
               dd <- cbind(freq(object)[,c(quant,'year','fishery','month')], 'unique', 1, freq(object)[,'freq'])
               colnames(dd) <- c(quant, colnames(as.data.frame(FLQuant()))[-1])

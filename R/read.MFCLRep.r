@@ -178,13 +178,16 @@ read.MFCLRep <- function(repfile) {
   FMSY(res)<- as.numeric(pp[grep("# F at MSY", pp)+1])
   BMSY(res)<- as.numeric(pp[grep("# Adult biomass at MSY", pp)+1])
   
+  ABBMSY(res) <- as.numeric(pp[grep("# current Adult Biomass to Adult Biomass at MSY", pp)+1])
+  TBBMSY(res) <- as.numeric(pp[grep("# current Total Biomass to Total biomass at MSY", pp)+1])  
+  
   Fmult(res)<- as.numeric(pp[grep("# F multiplier at MSY", pp)+1])
   
-  FFMSY(res)<- FLQuant(aperm(array(as.numeric(splitter(pp, "# Aggregate F over F at MSY")), 
+  FFMSY_ts(res)<- FLQuant(aperm(array(as.numeric(splitter(pp, "# Aggregate F over F at MSY")), 
                                    dim=c(dimensions(res)['seasons'], dimensions(res)['years']/dimensions(res)['seasons'],1,1,1,1)), c(3,2,4,1,5,6)),
                        dimnames=list(age="all", year=as.character(range(res)['minyear']:range(res)["maxyear"])))
   
-  BBMSY(res)<- FLQuant(aperm(array(as.numeric(splitter(pp, "# Adult biomass over adult biomass at MSY")), 
+  ABBMSY_ts(res)<- FLQuant(aperm(array(as.numeric(splitter(pp, "# Adult biomass over adult biomass at MSY")), 
                                    dim=c(dimensions(res)['seasons'], dimensions(res)['years']/dimensions(res)['seasons'],1,1,1,1)), c(3,2,4,1,5,6)),
                        dimnames=list(age="all", year=as.character(range(res)['minyear']:range(res)["maxyear"])))
   

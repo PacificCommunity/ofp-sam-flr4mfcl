@@ -1236,24 +1236,48 @@ setGeneric('BMSY<-', function(object, ..., value) standardGeneric('BMSY<-'))
 #' @rdname accessor-methods
 setReplaceMethod('BMSY', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['BMSY'])),
                  function(object, value){slot(object, 'BMSY') <- value; return(object)}) 
+
 #' @rdname accessor-methods
-setGeneric('FFMSY', function(object, ...) standardGeneric('FFMSY')) 
+setGeneric('FFMSY_ts', function(object, ...) standardGeneric('FFMSY_ts')) 
 #' @rdname accessor-methods
-setMethod('FFMSY', signature(object='MFCLRep'),function(object) return(slot(object, 'FFMSY'))) 
+setMethod('FFMSY_ts', signature(object='MFCLRep'),function(object) return(slot(object, 'FFMSY_ts'))) 
 #' @rdname accessor-methods
-setGeneric('FFMSY<-', function(object, ..., value) standardGeneric('FFMSY<-')) 
+setGeneric('FFMSY_ts<-', function(object, ..., value) standardGeneric('FFMSY_ts<-')) 
 #' @rdname accessor-methods
-setReplaceMethod('FFMSY', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['FFMSY'])),
-                 function(object, value){slot(object, 'FFMSY') <- value; return(object)}) 
+setReplaceMethod('FFMSY_ts', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['FFMSY_ts'])),
+                 function(object, value){slot(object, 'FFMSY_ts') <- value; return(object)}) 
 #' @rdname accessor-methods
-setGeneric('BBMSY', function(object, ...) standardGeneric('BBMSY')) 
+setGeneric('ABBMSY_ts', function(object, ...) standardGeneric('ABBMSY_ts')) 
 #' @rdname accessor-methods
-setMethod('BBMSY', signature(object='MFCLRep'),function(object) return(slot(object, 'BBMSY'))) 
+setMethod('ABBMSY_ts', signature(object='MFCLRep'),function(object) return(slot(object, 'ABBMSY_ts'))) 
 #' @rdname accessor-methods
-setGeneric('BBMSY<-', function(object, ..., value) standardGeneric('BBMSY<-')) 
+setGeneric('ABBMSY_ts<-', function(object, ..., value) standardGeneric('ABBMSY_ts<-')) 
 #' @rdname accessor-methods
-setReplaceMethod('BBMSY', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['BBMSY'])),
-                 function(object, value){slot(object, 'BBMSY') <- value; return(object)}) 
+setReplaceMethod('ABBMSY_ts', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['ABBMSY_ts'])),
+                 function(object, value){slot(object, 'ABBMSY_ts') <- value; return(object)}) 
+
+#' @rdname accessor-methods
+setGeneric('ABBMSY', function(object, ...) standardGeneric('ABBMSY')) 
+#' @rdname accessor-methods
+setMethod('ABBMSY', signature(object='MFCLRep'),function(object) return(slot(object, 'ABBMSY'))) 
+#' @rdname accessor-methods
+setGeneric('ABBMSY<-', function(object, ..., value) standardGeneric('ABBMSY<-')) 
+#' @rdname accessor-methods
+setReplaceMethod('ABBMSY', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['ABBMSY'])),
+                 function(object, value){slot(object, 'ABBMSY') <- value; return(object)}) 
+
+#' @rdname accessor-methods
+setGeneric('TBBMSY', function(object, ...) standardGeneric('TBBMSY')) 
+#' @rdname accessor-methods
+setMethod('TBBMSY', signature(object='MFCLRep'),function(object) return(slot(object, 'TBBMSY'))) 
+#' @rdname accessor-methods
+setGeneric('TBBMSY<-', function(object, ..., value) standardGeneric('TBBMSY<-')) 
+#' @rdname accessor-methods
+setReplaceMethod('TBBMSY', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['TBBMSY'])),
+                 function(object, value){slot(object, 'TBBMSY') <- value; return(object)}) 
+
+
+
 #' @rdname accessor-methods
 setGeneric('Fmult', function(object, ...) standardGeneric('Fmult')) 
 #' @rdname accessor-methods
