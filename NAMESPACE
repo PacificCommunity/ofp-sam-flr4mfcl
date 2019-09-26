@@ -104,6 +104,7 @@ exportMethods(
   "age_pars<-",
   "AggregateF",
   "AggregateF<-",
+  "as.MFCLIni",
   "as.MFCLLenFreq",
   "av_fish_mort_age",
   "av_fish_mort_age<-",
