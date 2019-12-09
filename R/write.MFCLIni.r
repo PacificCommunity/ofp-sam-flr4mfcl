@@ -57,7 +57,7 @@ write.ini <- function(x, file, append=F, ...){
   cat("\n# K (per year)\n", file=file, append=T)
   cat(c(growth(x)[3,]), file=file, append=T)
   cat("\n# Length-weight parameters\n", file=file, append=T)
-  cat(c(lw_params(x)), file=file, append=T)
+  cat(c(slot(x, 'lw_params')), file=file, append=T)            ## different syntax because slot accessor for lw_params mysteriously fails.
   cat("\n# sv(29)\n", file=file, append=T)
   cat(c(sv(x)), file=file, append=T)
   cat("\n# Generic SD of length at age\n", file=file, append=T)

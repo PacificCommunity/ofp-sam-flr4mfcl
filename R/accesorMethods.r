@@ -941,7 +941,7 @@ setReplaceMethod('rec_dist', signature(object='MFCLIniBits', value=unname(getSlo
 #' @rdname accessor-methods
 setGeneric('lw_params', function(object, ...) standardGeneric('lw_params')) 
 #' @rdname accessor-methods
-setMethod('lw_params', signature(object='MFCLIniBits'),function(object) return(slot(object, 'lw_params'))) 
+setMethod('lw_params', signature(object='MFCLIni'),function(object) return(slot(object, 'lw_params'))) ## MFCLIni NOT MFCLIniBits !!
 #' @rdname accessor-methods
 setGeneric('lw_params<-', function(object, ..., value) standardGeneric('lw_params<-')) 
 #' @rdname accessor-methods

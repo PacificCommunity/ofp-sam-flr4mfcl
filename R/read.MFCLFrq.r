@@ -115,6 +115,11 @@ read.MFCLLenFreq <- function(frqfile){
   res  <- new("MFCLLenFreq")  
   frq  <- readLines(frqfile)  
   
+  # get the frq file version
+  tp <- frq[-grep("#", frq)]
+  tp <- tp[nchar(tp)>1]
+  version <- rev(as.numeric(unlist(strsplit(trim.leading(tp[1]), split="[[:blank:]]+"))))[1]
+  
   dat  <- as.numeric(unlist(strsplit(frq[grep("Datasets", frq)+1], split="[[:blank:]]+")))
   slot(res, "lf_range")[] <- dat[!is.na(dat)]
   
@@ -126,21 +131,26 @@ read.MFCLLenFreq <- function(frqfile){
   nWbins <- lf_range(res)['WFIntervals']; Wwidth <- lf_range(res)["WFWidth"]; Wfirst <- lf_range(res)["WFFirst"]
   
   line1 <- ifelse(all(is.na(slot(res, "age_nage"))), grep("Datasets", frq)+2, grep("age_nage", frq)+2)  # first line of frequency data
-  lffrq <- frq[line1:length(frq)]   # just the length frequency data 
+  #lffrq <- frq[line1:length(frq)]   # just the length frequency data 
+  lffrq <- trim.leading(frq[line1:length(frq)])   # just the length frequency data )
   
+  frq_size <- ifelse(version==6, 9, 8)
   nfields <- count.fields(frqfile, skip=line1-1)          # number of fields in each line of the frequency data
-  both    <- length(table(nfields))>2 & min(nfields) > 8  # check if you have both length and weight frequency data
+  #both    <- length(table(nfields))>2 & min(nfields) > 8  # check if you have both length and weight frequency data
+  both    <- length(table(nfields))>2 & min(nfields) >= frq_size  # version control that doesnt work at the moment
   
   frqlen <- frqwt <- NA
   if(nLbins>0) {frqlen <- seq(Lfirst, Lwidth*nLbins+Lfirst-Lwidth, by=Lwidth)}
   if(nWbins>0) {frqwt  <- seq(Wfirst, Wwidth*nWbins+Wfirst-Wwidth, by=Wwidth)}
   
+  #cnames        <- c("year", "month", "week", "fishery", "catch", "effort", "penalty")
   
   if(!both & quick.check(res, both)){ # If only one type of frequency data - length or weight 
     
     # no frequency data-frame bit
     df1 <- as.data.frame(matrix(as.numeric(unlist(strsplit(lffrq[nfields==8], split="[[:blank:]]+"))), ncol=8, byrow=T)[,-8])
     colnames(df1) <- c("year", "month", "week", "fishery", "catch", "effort", "penalty")
+    #colnames(df1) <- ifelse(version==6, cnames, cnames[-7])
     if(nrow(df1)>0)
       df1 <- cbind(df1, length=NA, weight=NA, freq=-1)
     
@@ -153,6 +163,7 @@ read.MFCLLenFreq <- function(frqfile){
     
     # no frequency data-frame bit
     df1 <- as.data.frame(matrix(as.numeric(unlist(strsplit(lffrq[nfields==min(nfields)], split="[[:blank:]]+"))), ncol=min(nfields), byrow=T)[,1:(min(nfields)-2)])
+    #colnames(df1) <- ifelse(version==6, cnames, cnames[-7])
     colnames(df1) <- c("year", "month", "week", "fishery", "catch", "effort", "penalty")
     df1 <- cbind(df1, length=NA, weight=NA, freq=-1)
     
@@ -223,3 +234,4 @@ read.MFCLFrq <- function(frqfile){
 
 
 #frqfile <- 'C://R4MFCL//test_data//skj_ref_case//skj.frq'
+
