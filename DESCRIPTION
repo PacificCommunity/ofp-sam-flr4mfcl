@@ -1,13 +1,13 @@
 Package: FLR4MFCL
 Title: R functions for taming MULTIFAN-CL
-Version: 1.1.5
+Version: 1.1.6
 Author: Robert Scott 
 Description: Everything you ever dreamed of. R4MFCL but with S4 classes and FLR compatability
 Depends: lattice, FLCore
 Imports: methods
 Maintainer: Robert Scott <robertsc@spc.int>
 License: GPL-3
-Date: 2016-11-14
+Date: 2020-01-27
 Suggests: mapdata
 LazyLoad: Yes
 LazyData: No
