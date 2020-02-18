@@ -451,10 +451,13 @@ read.MFCLSel <- function(parfile, parobj=NULL, first.yr=1972) {
   nregions <- length(splitter(par,"# region parameters"))
   nagecls  <- as.numeric(par[grep("# The number of age classes", par)+1])  
   nfish    <- length(splitter(par, "# q0_miss")) #grep("# tag flags", par) - grep("# fish flags", par)[1] -1
+  xfish    <- sum(matrix(as.numeric(splitter(par, "# fish flags", ll=1:nfish, inst=1)), ncol=nfish)[71,]) # sum ff71 to check for selectivity blocks
   nqgroups <- max(array(as.numeric(splitter(par, "# fish flags",1:nfish)),dim=c(100,nfish))[29,], na.rm=T) #max value of fishf lag 29
   
   dims1    <- list(age=as.character(seq(0,(nagecls/nseasons)-1)), year='all', unit='unique', season=c(as.character(1:nseasons)), area='all')
   dims2    <- list(age=as.character(seq(0,(nagecls/nseasons)-1)), year='all', unit=c(as.character(1:nfish)), season=c(as.character(1:nseasons)), area='all')
+  dims2a   <- dims2
+  dims2a$unit <- as.character(1:(nfish+xfish))
   dims3    <- list(age='all', year='all', unit=as.character(1:nfish), season="all", area="all")
 
   qdc      <- lapply(1:nfish, function(x) as.numeric(splitter(par, "# catchability deviation coefficients",x)))
@@ -468,8 +471,11 @@ read.MFCLSel <- function(parfile, parobj=NULL, first.yr=1972) {
     
   slot(res, 'availability_coffs') <- FLQuant(aperm(array(as.numeric(splitter(par,"# availability coffs")), 
                                                    dim=c(nseasons, nagecls/nseasons,1,1,1)),c(2,3,4,1,5)), dimnames=dims1)
-  slot(res, 'fishery_sel')        <- FLQuant(aperm(array(as.numeric(splitter(par,"# fishery selectivity",1:nfish)), 
-                                                   dim=c(nseasons, nagecls/nseasons,nfish,1,1)),c(2,4,3,1,5)), dimnames=dims2)
+#  slot(res, 'fishery_sel')        <- FLQuant(aperm(array(as.numeric(splitter(par,"# fishery selectivity",1:(nfish))), 
+#                                                   dim=c(nseasons, nagecls/nseasons,nfish,1,1)),c(2,4,3,1,5)), dimnames=dims2)
+# rds 19/02/20 - checks to see if selectivity blocks are specified (xfish) and reads in extra selection parameters  
+  slot(res, 'fishery_sel')        <- FLQuant(aperm(array(as.numeric(splitter(par,"# fishery selectivity",1:(nfish+xfish))), 
+                                                         dim=c(nseasons, nagecls/nseasons,nfish+xfish,1,1)),c(2,4,3,1,5)), dimnames=dims2a)
   slot(res, 'fishery_sel_age_comp')<-FLQuant(aperm(array(as.numeric(splitter(par,"# age-dependent component of fishery selectivity", 1:nfish)), 
                                                    dim=c(nseasons, nagecls/nseasons,nfish,1,1)),c(2,4,3,1,5)), dimnames=dims2)
   
