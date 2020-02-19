@@ -94,18 +94,24 @@ validMFCLLenFreq <- function(object){
 #'
 #' @slot lf_range Range information of the length frequencies
 #' @slot age_nage I don't know what this is but it's in the frq file
-#' @slot freq Data frame of length frequency information.
+#' @slot cateffpen Data frame of catch effort and penalty information.
+#' @slot lnfrq Data frame of length frequency information.
+#' @slot wtfrq Data frame of weight frequency information.
 #'
 setClass("MFCLLenFreq",
          representation(
            lf_range    ="numeric",
            age_nage    ="numeric",
-           freq        ="data.frame"
+           cateffpen    ="data.frame",
+           lnfrq        ="data.frame",
+           wtfrq        ="data.frame"
          ),
          prototype=prototype(
            lf_range     =unlist(list(Datasets=0,LFIntervals=NA,LFFirst=NA,LFWidth=NA,LFFactor=NA,WFIntervals=NA,WFFirst=NA,WFWidth=NA,WFFactor=NA)),
            age_nage     =unlist(list(age_nage=0,age_age1=NA)),
-           freq         =data.frame()
+           cateffpen     =data.frame(),
+           lnfrq         =data.frame(),
+           wtfrq         =data.frame()
          ),
          validity=validMFCLLenFreq
 )
@@ -172,8 +178,8 @@ setClass("MFCLBase",
 #'
 #'Basic constructor for MFCLBase class
 #'@export
-MFCLBase <- function() {return(new("MFCLBase"))}         
-         
+MFCLBase <- function() {return(new("MFCLBase"))}
+
 
 
 validMFCLBiol <- function(object){
@@ -808,7 +814,7 @@ MFCLprojControl <- function(nyears=as.numeric(NULL), nsims=as.numeric(NULL), avy
   slot(res, 'avyrs')  <- avyrs
   slot(res, 'fprojyr') <- fprojyr
   slot(res, 'controls')  <- controls
-  
+
   return(res)
 }
 #pp <- MFCLprojControl(nyears=3, nsims=200, avyrs='2012', caeff=1, scaler=1)
@@ -870,7 +876,7 @@ setClass("MFCLLenFit",
          prototype=prototype(
            laa                 =FLQuant(),
            lenfits             =data.frame(fishery=NULL, year=NULL, month=NULL, length=NULL, obs=NULL, pred=NULL),
-           lenagefits          =data.frame(fishery=NULL, year=NULL, month=NULL, length=NULL, age=NULL, pred=NULL), 
+           lenagefits          =data.frame(fishery=NULL, year=NULL, month=NULL, length=NULL, age=NULL, pred=NULL),
            range               =unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
          ),
          validity=validMFCLLenFit
@@ -931,7 +937,7 @@ MFCLPseudo <- function(catcheff =data.frame(year=NULL, month=NULL, fishery=NULL,
   slot(res, "l_frq") <- l_frq
   slot(res, "w_frq") <- w_frq
   slot(res, "range") <- unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
-  
+
   return(res)
   }
 
@@ -965,14 +971,14 @@ remove(validMFCLPseudoControl)
 #'Basic constructor for MFCLPseudo class
 #'@export
 MFCLPseudoControl <- function(catch_sd=20, effort_sd=20, tag_fish_rep_rate=0.9, catch_seed=16001, effort_seed=17001, length_seed=18001, weight_seed=19001, tag_seed=20001) {
-  
+
   pc <- new("MFCLPseudoControl")
-  
+
   slot(pc, 'catch_sd') <- catch_sd
   slot(pc, 'effort_sd') <- effort_sd
   slot(pc, 'tag_fish_rep_rate') <- tag_fish_rep_rate
   slot(pc, 'random_seeds') <- unlist(list(catch=catch_seed, effort=effort_seed, length=length_seed, weight=weight_seed, tag=tag_seed))
-  
+
   return(pc)
 }
 
@@ -999,12 +1005,12 @@ remove(validMFCLEMControl)
 #'Basic constructor for MFCLPseudo class
 #'@export
 MFCLEMControl <- function(doitall=function(){}, tag_fish_rep_rate=0.9,...) {
-  
+
   emc <- new("MFCLEMControl")
-  
+
   slot(emc, 'doitall') <- doitall
   slot(emc, 'tag_fish_rep_rate') <- tag_fish_rep_rate
-  
+
   return(emc)
 }
 
@@ -1052,14 +1058,14 @@ remove(validMFCLMSEControl)
 #' Basic constructor for MFCLMSEControl class
 #' @export
 MFCLMSEControl <- function(hcr="hcr_threshold", hcr_params=c(sbsbf0_min = 0.2, sbsbf0_max = 0.5, out_min = 0.2, out_max = 1.0), itn=1, ess_scalar=1, ...) {
-  
+
   msec <- new("MFCLMSEControl")
-  
+
   slot(msec, 'hcr') <- hcr
   slot(msec, 'hcr_params') <- hcr_params
   slot(msec, 'itn') <- itn
   slot(msec, 'ess_scalar') <- ess_scalar
-  
+
   return(msec)
 }
 
