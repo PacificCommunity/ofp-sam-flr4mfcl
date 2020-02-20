@@ -130,34 +130,37 @@ setMethod("iter", signature(obj="MFCLPseudo"),
 
 setMethod("+", signature(e1="MFCLLenFreq", e2="MFCLLenFreq"),
           function(e1, e2) {
-            stop("This got messed up by new Frq structure")
-            ## if(any(is.element(apply(freq(e1)[,1:4],1,paste, collapse="_"), apply(freq(e2)[,1:4],1,paste, collapse="_"))))
-            ##   warning("Looks like you are duplicating fishery realisations!")
+              if(any(is.element(apply(cateffpen(e1)[,1:4],1,paste, collapse="_"), apply(cateffpen(e2)[,1:4],1,paste, collapse="_"))))
+              stop("Looks like you are duplicating fishery realisations!")
 
-            ## freq(e1) <- rbind(freq(e1), freq(e2))
+              cateffpen(e1) <- rbind(cateffpen(e1), cateffpen(e2))
+              lnfrq(e1) <- rbind(lnfrq(e1), lnfrq(e2))
+              wtfrq(e1) <- rbind(wtfrq(e1), wtfrq(e2))
 
-            ## lf_range(e1)['Datasets'] <- nrow(realisations(freq(e1)))
-            ## range(e1)[c('minyear','maxyear')] <- range(freq(e1)$year)
 
-            ## return(e1)
+            lf_range(e1)['Datasets'] <- nrow(cateffpen(e1) #not really necessary
+            range(e1)[c('minyear','maxyear')] <- range(cateffpen(e1)$year)
+
+            return(e1)
           }
 ) # }}}
 
 setMethod("+", signature(e1="MFCLFrq", e2="MFCLFrq"),
           function(e1, e2) {
-            stop("This got messed up by new Frq structure")
-            ## if(frq_version(e1) != frq_version(e2))
-            ##   stop("Error : different frq versions")
-            ## if(n_regions(e1) != n_regions(e2) | n_fisheries(e1) != n_fisheries(e2))
-            ##   warning("Objects may not be compatible")
+            if(frq_version(e1) != frq_version(e2))
+              stop("Error : different frq versions")
+            if(n_regions(e1) != n_regions(e2) | n_fisheries(e1) != n_fisheries(e2))
+              warning("Objects may not be compatible")
 
-            ## lenfreq_e1 <- as.MFCLLenFreq(e1) + as.MFCLLenFreq(e2)
+            lenfreq_e1 <- as.MFCLLenFreq(e1) + as.MFCLLenFreq(e2)
 
-            ## freq(e1)     <- freq(lenfreq_e1)
-            ## lf_range(e1) <- lf_range(lenfreq_e1)
+            cateffpen(e1)     <- cateffpen(lenfreq_e1)
+            lnfrq(e1)     <- lnfrq(lenfreq_e1)
+            wtfrq(e1)     <- wtfrq(lenfreq_e1)
+            lf_range(e1) <- lf_range(lenfreq_e1)
 
-            ## n_tag_groups(e1) <- n_tag_groups(e1) + n_tag_groups(e2)
-            ## return(e1)
+            n_tag_groups(e1) <- n_tag_groups(e1) + n_tag_groups(e2)
+            return(e1)
           }
 ) # }}}
 

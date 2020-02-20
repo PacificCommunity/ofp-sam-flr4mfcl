@@ -916,7 +916,7 @@ setClass("MFCLPseudo",
          ),
          prototype=prototype(
            catcheff            =data.frame(year=NULL, month=NULL, fishery=NULL, iter=NULL, data=NULL),
-           l_frq               =data.frame(year=NULL, month=NULL, fishery=NULL, length=NULL, iter=NULL, freq=NULL),
+           l_frq               =data.frame(year=NULL, month=NULL, fishery=NULL, length=NULL, iter=NULL, freq=NULL), #This doesn't actually set the number of columns so don't need to worry about it
            w_frq               =data.frame(year=NULL, month=NULL, fishery=NULL, weight=NULL, iter=NULL, freq=NULL),
 #           freq                =data.frame(),
            range               =unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))

@@ -211,14 +211,14 @@ setGeneric('age_nage<-', function(object, ..., value) standardGeneric('age_nage<
 setReplaceMethod('age_nage', signature(object='MFCLLenFreq', value=unname(getSlots('MFCLLenFreq')['age_nage'])),
                                 function(object, value){slot(object, 'age_nage') <- value; return(object)})
 #' @rdname accessor-methods
-setGeneric('freq', function(object, ...) standardGeneric('freq'))
-#' @rdname accessor-methods
-setMethod('freq', signature(object='MFCLLenFreq'),function(object) return(slot(object, 'freq')))
-#' @rdname accessor-methods
-setGeneric('freq<-', function(object, ..., value) standardGeneric('freq<-'))
-#' @rdname accessor-methods
-setReplaceMethod('freq', signature(object='MFCLLenFreq', value=unname(getSlots('MFCLLenFreq')['freq'])),
-                                function(object, value){slot(object, 'freq') <- value; return(object)})
+## setGeneric('freq', function(object, ...) standardGeneric('freq'))
+## #' @rdname accessor-methods
+## setMethod('freq', signature(object='MFCLLenFreq'),function(object) return(slot(object, 'freq')))
+## #' @rdname accessor-methods
+## setGeneric('freq<-', function(object, ..., value) standardGeneric('freq<-'))
+## #' @rdname accessor-methods
+## setReplaceMethod('freq', signature(object='MFCLLenFreq', value=unname(getSlots('MFCLLenFreq')['freq'])),
+##                                 function(object, value){slot(object, 'freq') <- value; return(object)})
 #' @rdname accessor-methods
 setGeneric('cateffpen', function(object, ...) standardGeneric('cateffpen'))
 #' @rdname accessor-methods

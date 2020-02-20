@@ -3,32 +3,16 @@
 
 ## Unexported local functions
 
-generate.ESS<- function(x, ctrl, projdat2, sc_df){
-  
-  # projdat stuff for which no ESS is specified
-  projdat_noess <- projdat2[is.element(projdat2$fishery, sc_df$fishery[is.na(sc_df$ess)]),]
-  # projdat stuff with an ESS to be applied to length comps
-  projdat_ess_l <- projdat2[is.element(projdat2$fishery, sc_df$fishery[!is.na(sc_df$ess)]) & 
-                              is.element(projdat2$fishery, sc_df$fishery[sc_df$length]),]
-  # projdat stuff with an ESS to be applied to weight comps
-  projdat_ess_w <- projdat2[is.element(projdat2$fishery, sc_df$fishery[!is.na(sc_df$ess)]) & 
-                              is.element(projdat2$fishery, sc_df$fishery[sc_df$weight]),]
-  # add length and weight frequency data to the frq
-  lengths <- seq(lf_range(x)["LFFirst"], by=lf_range(x)["LFWidth"], length=lf_range(x)["LFIntervals"])
-  weights <- seq(lf_range(x)["WFFirst"], by=lf_range(x)["WFWidth"], length=lf_range(x)["WFIntervals"])
-  
-  projdat_ess_ll <- as.data.frame(lapply(projdat_ess_l, rep, each=length(lengths)))
-  projdat_ess_ww <- as.data.frame(lapply(projdat_ess_w, rep, each=length(weights)))
-  projdat_ess_ll$length <- lengths
-  projdat_ess_ww$weight <- weights
-  
-  projdat2      <- rbind(projdat_noess, projdat_ess_ll, projdat_ess_ww)
-  projdat2$freq <- 0
-  
-  for(ff in 1:n_fisheries(x))
-    projdat2[projdat2$length==lf_range(x)["LFFirst"] & projdat2$fishery==ff,'freq'] <- ess(ctrl)[ff]
-  
-  return(projdat2)
+generate.ESS<- function(x, ctrl, projdat2, sc_df,frqtype){
+
+
+  bins <- list(length=seq(lf_range(x)["LFFirst"], by=lf_range(x)["LFWidth"], length.out=lf_range(x)["LFIntervals"]),weight=seq(lf_range(x)["WFFirst"], by=lf_range(x)["WFWidth"], length.out=lf_range(x)["WFIntervals"]))
+
+  ## Create dataframe for length/weight frequency
+  outdf <- projdat2[projdat2$fishery%in%sc_df$fishery[sc_df[,frqtype]],1:4]
+  outdf <- cbind(outdf,sc_df$ess[outdf$fishery],lapply(bins[[frqtype]][-1],function(x) x=0))
+  names(outdf) <- c('year','month','week','fishery',bins[[frqtype]])
+  return(outdf)
 }
 
 #' 'generate()' method for FLR4MFCL
@@ -39,13 +23,13 @@ generate.ESS<- function(x, ctrl, projdat2, sc_df){
 #'
 #' There are currently four 'generate()' methods:
 #' \itemize{
-#'   \item Generate an expanded \linkS4class{MFCLFrq} object from an existing \linkS4class{MFCLFrq} object and a \linkS4class{MFCLprojControl} object. 
+#'   \item Generate an expanded \linkS4class{MFCLFrq} object from an existing \linkS4class{MFCLFrq} object and a \linkS4class{MFCLprojControl} object.
 #'   \item Generate an expanded \linkS4class{MFCLPar} object from an existing \linkS4class{MFCLPar} object and a \linkS4class{MFCLFrq} object. This is typically used for taking a expanding an existing par and using a 00 par (generated using the MFCL executable).
 #'   \item Generate an expanded \linkS4class{MFCLPar} object from an existing \linkS4class{MFCLFrq} object. This can be a useful way of avoiding making a 00 par with MFCL executable, reading it in, and blowing it up. It can be used for standard projection analyses that do not include additional tag data. Tests for this method can be found in the inst/mfcl_tests folder of the package source.
 #'   \item Generate an expanded \linkS4class{MFCLPar} object from an existing \linkS4class{MFCLFrq} object and a \linkS4class{MFCLTagProj} object. This method is method can be used to set up par objects that include additional tag data.
 #' }
 #' @param x An \linkS4class{MFCLFrq} or \linkS4class{MFCLPar} object that will be expanded.
-#' @param y If \code{x} is an \linkS4class{MFCLFrq} then \code{y} is an \linkS4class{MFCLprojControl}. If \code{x} is \linkS4class{MFCLPar}, \code{y} is either an \linkS4class{MFCLPar} or \linkS4class{MFCLFrq}. 
+#' @param y If \code{x} is an \linkS4class{MFCLFrq} then \code{y} is an \linkS4class{MFCLprojControl}. If \code{x} is \linkS4class{MFCLPar}, \code{y} is either an \linkS4class{MFCLPar} or \linkS4class{MFCLFrq}.
 #' @param z If \code{x} and \code{y} are \linkS4class{MFCLPar}s then \code{z} is \linkS4class{MFCLFrq}. Alternatively if \code{x} and \code{y} are \linkS4class{MFCLPar} and \linkS4class{MFCLFrq} respectively then \code{z} is \linkS4class{MFCLTagProj}. Otherwise it is ignored.
 #' @param ... Additional arguments (currently unused).
 #' @return An object of the same type as the \code{x} argument, expanded and hopefully useable for running projections.
@@ -66,197 +50,199 @@ generate.ESS<- function(x, ctrl, projdat2, sc_df){
 #' # Alternatively, expanding an MFCLPar without using the 00 par
 #' projpar <- generate(par, projfrq)
 #' }
-setGeneric('generate', function(x, y, z, ...) standardGeneric('generate')) 
+setGeneric('generate', function(x, y, z, ...) standardGeneric('generate'))
 
 #' @rdname generate
-setMethod("generate", signature(x="MFCLFrq", y="MFCLprojControl"), 
+setMethod("generate", signature(x="MFCLFrq", y="MFCLprojControl"),
          function(x, y, ...){
-#browser()            
+#browser()
             ctrl     <- y
             proj.yrs <- seq(fprojyr(ctrl), range(x)['maxyear']+nyears(ctrl))  #seq(range(x)['maxyear']+1, range(x)['maxyear']+nyears(ctrl))
-            qtrs     <- sort(unique(freq(x)$month))
-            
-            week   <- rev(freq(x)$week)[1]
-            if(!all(freq(x)$week==week))
+            qtrs     <- sort(unique(cateffpen(x)$month))
+
+            week   <- rev(cateffpen(x)$week)[1]
+            if(!all(cateffpen(x)$week==week))
               warning("Differences in week not accounted for in projection frq")
-            
+
             if(length(caeff(ctrl))>1 & length(caeff(ctrl))!=n_fisheries(x))
               stop("Error: caeff values do not match number of fisheries")
             if(length(scaler(ctrl))>1 & length(scaler(ctrl))!=n_fisheries(x))
               stop("Error: scaler values do not match number of fisheries")
-            
-            #sc_df <- data.frame(fishery=1:n_fisheries(x), caeff  = caeff(ctrl), scaler = scaler(ctrl))
-            sc_df <- data.frame(fishery=1:n_fisheries(x), caeff  = caeff(ctrl), scaler = scaler(ctrl), ess=ess(ctrl), 
-                                length=tapply(freq(x)$length, freq(x)$fishery, function(tt){any(!is.na(tt))}), 
-                                weight=tapply(freq(x)$weight, freq(x)$fishery, function(tt){any(!is.na(tt))}))
-            
-            avdata <- freq(x)[is.element(freq(x)$year, avyrs(ctrl)) & is.na(freq(x)$length) & is.na(freq(x)$weight) ,]
-            avdata <- rbind(avdata, freq(x)[is.element(freq(x)$year, avyrs(ctrl)) & freq(x)$length %in% lf_range(x)['LFFirst'] ,],
-                                    freq(x)[is.element(freq(x)$year, avyrs(ctrl)) & freq(x)$weight %in% lf_range(x)['WFFirst'] ,])
-            avdata <- avdata[!duplicated(avdata[,1:7]),] # remove duplicates that can occur if you have both length and wgt freq data
-            
+
+           sc_df <- data.frame(fishery=1:n_fisheries(x), caeff  = caeff(ctrl), scaler = scaler(ctrl), ess=ess(ctrl),
+                                length=1:n_fisheries(x)%in%unique(lnfrq(x)$fishery),
+                                weight=1:n_fisheries(x)%in%unique(wtfrq(x)$fishery))
+
+           avdata <- cateffpen(x)[is.element(cateffpen(x)$year, avyrs(ctrl)) ,]
+
             avdata$catch[avdata$catch == -1] <- NA
             avdata$effort[avdata$effort == -1] <- NA
-            
+
             flts     <- as.numeric(colnames(tapply(avdata$catch,  list(avdata$month, avdata$fishery), sum, na.rm=T)))
             avcatch  <- sweep(tapply(avdata$catch,  list(avdata$month, avdata$fishery), mean, na.rm=T), 2, sc_df$scaler[flts], "*")
             aveffort <- sweep(tapply(avdata$effort, list(avdata$month, avdata$fishery), mean, na.rm=T), 2, sc_df$scaler[flts], "*")
-            
+
             projdat  <- data.frame(year    = rep(proj.yrs, each=(length(flts)*length(qtrs))),
                                    month   = qtrs,
                                    week    = week,
                                    fishery = rep(rep(flts, each=length(qtrs)), nyears(ctrl)),
-                                   catch   = c(avcatch), 
+                                   catch   = c(avcatch),
                                    effort  = c(aveffort),
-                                   penalty = -1.0, length=NA, weight=NA, freq=-1)
-            
+                                   penalty = -1.0)#, length=NA, weight=NA, freq=-1)
+
             # remove records with missing values from projection years
             projdat2 <- rbind(projdat[is.element(projdat$fishery, sc_df[sc_df$caeff==1, 'fishery']) & !is.na(projdat$catch),],
                               projdat[is.element(projdat$fishery, sc_df[sc_df$caeff==2, 'fishery']) & !is.na(projdat$effort),])
-            
+
             # set the penalty to 1.0 for those fisheries with standardised CPUE -- maybe ?
-            std.fish <- seq(1:n_fisheries(x))[tapply(freq(x)$penalty, freq(x)$fishery, mean)>0]
+            std.fish <- seq(1:n_fisheries(x))[tapply(cateffpen(x)$penalty, cateffpen(x)$fishery, mean)>0]
             projdat2$penalty[is.element(projdat2$fishery, std.fish)] <- 1.0
-            
+
             # set catch/effort to -1 for fisheries projected on effort/catch
             projdat2[is.element(projdat2$fishery, sc_df[sc_df$caeff==1, 'fishery']),'effort'] <- -1
             projdat2[is.element(projdat2$fishery, sc_df[sc_df$caeff==2, 'fishery']),'catch'] <- -1
-            
+
             ## STOCHASTIC PROJECTIONS WITH ESS
             # if an ESS is specified - include length composition data and set first value to ESS
-            if(!all(is.na(ess(ctrl)))){
-              projdat2 <- generate.ESS(x, ctrl, projdat2, sc_df)
+           if(!all(is.na(ess(ctrl)))){
+             if(any(sc_df$length))      #any length comp to add
+               projlnfrq <- generate.ESS(x, ctrl, projdat2, sc_df,'length')
+             lnfrq(x) <- rbind(lnfrq(x),projlnfrq)
+             if (any(sc_df$weight))     #any weight comp to add
+               projwtfrq <- generate.ESS(x, ctrl, projdat2, sc_df,'weight')
+             wtfrq(x) <- rbind(wtfrq(x),projlnfrq)
             }
 
-            freq(x) <- rbind(freq(x), projdat2)
-            
+            cateffpen(x) <- rbind(cateffpen(x), projdat2)
+
             data_flags(x)[2,] <- fprojyr(ctrl)  #range(x)['maxyear']+1  #as.numeric(max(avyrs(ctrl)))+1
             data_flags(x)[3,] <- as.numeric(qtrs[1])
-            
+
             #original code
             #lf_range(x)['Datasets'] <- lf_range(x)['Datasets']+nrow(projdat2)
-            
+
             # modified for pseudo obs - but doesn't work for bet and yft
             #lf_range(x)['Datasets'] <- nrow(freq(x)[is.element(freq(x)$length, c(NA,lf_range(x)['LFFirst'])),]) +
             #                           nrow(freq(x)[is.element(freq(x)$weight, c(   lf_range(x)['WFFirst'])),])
-            
+
             # potential solution - see if this breaks anything
-            lf_range(x)['Datasets'] <- lf_range(x)['Datasets'] + nrow(unique(projdat2[,1:4]))
-            
-            slot(x,'range')['maxyear']     <- max(freq(x)$year)
-            
+           ## lf_range(x)['Datasets'] <- lf_range(x)['Datasets'] + nrow(unique(projdat2[,1:4]))
+           ## Shouldn't need this any more because the write function should automagically calculate and print the datasets number for you
+
+            slot(x,'range')['maxyear']     <- max(cateffpen(x)$year)
+
             return(x)
           })
 
 #' @rdname generate
-setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLFrq"), 
+setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLFrq"),
           function(x, y, z, ...){
-            
+
             # set stochastic recruitment flags
             if(flagval(x, 1, 232)$value == 0)
               flagval(x, 1, 232) <- recPeriod(x, af199=flagval(x, 2, 199)$value, af200=flagval(x, 2, 200)$value)['pf232']
             if(flagval(x, 1, 233)$value == 0)
               flagval(x, 1, 233) <- recPeriod(x, af199=flagval(x, 2, 199)$value, af200=flagval(x, 2, 200)$value)['pf233']
-            
+
             #proj.yrs <- dimnames(rel_rec(y))[[2]][!is.element(dimnames(rel_rec(y))[[2]], dimnames(rel_rec(x))[[2]])]
             proj.yrs <- seq(range(x)['maxyear']+1, range(x)['maxyear']+(dimensions(y)[2]-dimensions(x)[2])/dimensions(x)[3])
-            
-            # zero filled objects that you can just copy across   
+
+            # zero filled objects that you can just copy across
             rep_rate_dev_coffs(x) <- rep_rate_dev_coffs(y)
             fm_level_devs(x)      <- fm_level_devs(y)
-            
+
             q_dev_coffs(x)        <- q_dev_coffs(y)
             sel_dev_coffs(x)      <- sel_dev_coffs(y)
             sel_dev_coffs2(x)     <- sel_dev_coffs2(y)
             growth_devs_cohort(x) <- growth_devs_cohort(y)
             unused(x)             <- unused(y)
             lagrangian(x)         <- lagrangian(y)
-            
+
             if(any(dim(tag_fish_rep_rate(x)) != dim(tag_fish_rep_rate(y)))){
               flags(x) <- rbind(flags(x), flags(y)[!is.element(flags(y)$flagtype, flags(x)$flagtype),])
-              
+
               for(ss in list("tag_fish_rep_rate", "tag_fish_rep_flags", "tag_fish_rep_grp", "tag_fish_rep_pen", "tag_fish_rep_target"))
                 slot(x, ss) <- slot(y, ss)
             }
-            
+
             # check that "other lambdas ..." are not specified for par files < 1053
             if(flagval(x, 1, 200)$value<1053 & length(grep("# Other lambdas", lagrangian(x)))>0)
               lagrangian(x) <- lagrangian(x)[1:(grep("Other lambdas", lagrangian(x))-1)]
-            
-            # non-zero filled objects that you need to append zeroes to 
+
+            # non-zero filled objects that you need to append zeroes to
             eff_dev_coff_incs     <- unlist(lapply(effort_dev_coffs(y),length)) - unlist(lapply(effort_dev_coffs(x),length))
             eff_dev_coff_vals     <- unlist(lapply(effort_dev_coffs(x), mean))
 
             #effort_dev_coffs(x)   <- lapply(1:dimensions(x)["fisheries"], function(g) c(effort_dev_coffs(x)[[g]], rep(eff_dev_coff_vals[g], eff_dev_coff_incs[g])))
             effort_dev_coffs(x)   <- lapply(1:dimensions(x)["fisheries"], function(g) c(effort_dev_coffs(x)[[g]], rep(0, eff_dev_coff_incs[g])))
-            
+
             # catch_dev_coffs - gets really messy because you may have zero catch obs in some cases and fishery groupings to worry about.
-#            catch_dev_coffs(x)    <- lapply(1:length(catch_dev_coffs(x)), 
+#            catch_dev_coffs(x)    <- lapply(1:length(catch_dev_coffs(x)),
 #                                            function(g) c(catch_dev_coffs(x)[[g]], rep(0, length(proj.yrs)*dimensions(x)['seasons'])))
-            
+
             ## YUKIO's CODE - hacked by RDS to remove dependencies on tidyr and magrittr
             ncgrp<-length(catch_dev_coffs(x))
             ffl29<-flagval(x,-(1:n_fisheries(x)),29)$value  # Obtain fish flags(29) determining the grouping of catchbility
-            
-            test1 <- unique(with(freq(z), paste(year,month,fishery, sep="_")))
+
+            test1 <- unique(with(cateffpen(z), paste(year,month,fishery, sep="_")))
             test2 <- as.data.frame(t(sapply(strsplit(test1, split="_"), "as.numeric",simplify = T)))
             test3 <- data.frame(V1=paste(test2$V1, test2$V2, sep="_"), V2=test2$V3)
-            
+
             nElemByGrp<-vector(mode="numeric",length=length(unique(ffl29)))
-            
+
             for(grp in sort(unique(ffl29))){
               nElemByGrp[grp] <- length(unique(test3[test3$V2 %in% which(ffl29==grp),'V1']))
               nElemFuture<- nElemByGrp[grp]-length(catch_dev_coffs(x)[[grp]])-1 #
               catch_dev_coffs(x)[[grp]]<-c(catch_dev_coffs(x)[[grp]],rep(0,nElemFuture))
             }
-            
+
             # region_rec_var
             region_rec_var(x)     <- window(region_rec_var(x), start=range(x)['minyear'], end=range(y)['maxyear'])
             region_rec_var(x)[is.na(region_rec_var(x))] <- 0
-            
+
             # set the rec vars to the average of the historical time series
-            # I don't think this makes a difference for projections as these values are not used for projections 
+            # I don't think this makes a difference for projections as these values are not used for projections
             # but they may make a difference for re-estimating an extended model
             region_rec_var(x)[,as.character(range(x)['maxyear']:(range(y)['maxyear']-1))] <- apply(region_rec_var(x)[,as.character(range(x)['minyear']:(range(x)['maxyear']-1))], c(1,3,4,5,6), mean)
-            
+
             rel_rec(x) <- window(rel_rec(x), start=range(x)['minyear'], end=range(y)['maxyear'])
-            rel_rec(x)[,as.character(proj.yrs)] <- rel_rec(y)[,as.character(proj.yrs)] 
-            
+            rel_rec(x)[,as.character(proj.yrs)] <- rel_rec(y)[,as.character(proj.yrs)]
+
             dimensions(x)         <- dimensions(y)
             range(x)              <- range(y)
-            
+
             return(x)
-            
+
           })
 
 #' @rdname generate
-setMethod("generate", signature(x="MFCLPar", y="MFCLFrq"), 
+setMethod("generate", signature(x="MFCLPar", y="MFCLFrq"),
   function(x, y, ...){
     # Add a check that we are going to extend the Par, not shorten it (which would be weird...)
     newx <- x
-    
+
     # Handy stuff
     last_original_year <- range(x)["maxyear"]
     extra_years <- (last_original_year + 1):range(y)["maxyear"]
     nseasons <- dimensions(x)["seasons"]
 
     # Add timestep to the freq table - this is used in several places later on
-    first_year <- min(freq(y)$year)
-    first_month <- min(freq(y)[freq(y)$year==first_year,"month"])
-    first_week <- min(freq(y)[freq(y)$year==first_year & freq(y)$month==first_month,"week"])
-    months <- sort(unique(freq(y)$month))
+    first_year <- min(catpeneff(y)$year)
+    first_month <- min(catpeneff(y)[catpeneff(y)$year==first_year,"month"])
+    first_week <- min(catpeneff(y)[catpeneff(y)$year==first_year & catpeneff(y)$month==first_month,"week"])
+    months <- sort(unique(catpeneff(y)$month))
     # get the season of each month in the freq table
-    season <- match(freq(y)$month, months) 
-    freq(y)$timestep <- ((freq(y)$year - first_year) * nseasons) + (season - which(first_month==months)) + 1
+    season <- match(catpeneff(y)$month, months)
+    catpeneff(y)$timestep <- ((catpeneff(y)$year - first_year) * nseasons) + (season - which(first_month==months)) + 1
 
     # Go slot by slot and change those that we think need changing
-    
+
     # range - easy - adjust maxyear using the Frq object
     range(newx)["maxyear"] <- range(y)["maxyear"]
 
     # dimensions - also easy, update the years element
     # this the number of timesteps, not years
-    dimensions(newx)["years"] <- max(freq(y)$timestep)
+    dimensions(newx)["years"] <- max(catpeneff(y)$timestep)
 
     # growth_devs_cohort - bit trickier
     # In par file # Cohort specific growth deviations, lmul_io4.cpp
@@ -277,7 +263,7 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLFrq"),
     # par flags 232 and 233 are specified in terms of time periods from the start.
     # Assume that flags 199 and 200 are anchored to last model / assessment timestep - they count backwards from here
     # Get the start of the projection period from the data flags
-    first_projection_year <- data_flags(y)[2,1] 
+    first_projection_year <- data_flags(y)[2,1]
     first_projection_month <- data_flags(y)[3,1]
     first_projection_timestep <- ((first_projection_year - first_year) * nseasons) + (which(first_projection_month==months) - which(first_month==months)) + 1
     last_model_timestep <- first_projection_timestep - 1
@@ -302,7 +288,7 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLFrq"),
     # nyrs is the number of timesteps - get from freq file
     # Make a new matrix of the right dims, fill it with 0s
     old_dims <- dim(unused(x)[["yrflags"]]) # Nrows should be 10
-    new_yrflags <- matrix(0, nrow=old_dims[1], ncol=max(freq(y)$timestep))
+    new_yrflags <- matrix(0, nrow=old_dims[1], ncol=max(catpeneff(y)$timestep))
     #new_yrflags <- matrix(0, nrow=old_dims[1], ncol=old_dims[2] + nseasons * length(extra_years))
     # Copy across the original values (probably still just 0s)
     new_yrflags[,1:old_dims[2]] <- unused(x)[["yrflags"]]
@@ -310,16 +296,17 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLFrq"),
 
     # Bring region into the freq object - used later on
     region_fishery <- data.frame(region=c(region_fish(y)), fishery=1:n_fisheries(y))
-    freq(y) <- merge(freq(y), region_fishery[,c("fishery","region")], all.x=TRUE)
+    catpeneff(y) <- merge(catpeneff(y), region_fishery[,c("fishery","region")], all.x=TRUE)
 
     # We want to get the number of unique fishing incidents - used later on
     # Drop -1s in both catch and effort - shouldn't be any
-    freq(y) <- freq(y)[!((freq(y)$catch < -0.5) & (freq(y)$effort < -0.5)),]
+    catpeneff(y) <- catpeneff(y)[!((catpeneff(y)$catch < -0.5) & (catpeneff(y)$effort < -0.5)),]
     # One method is to use unique but it's quite slow (~ 1s)
-    # ufreq <- unique(freq(y)[,c("year","month","week","fishery","catch","effort","region","timestep")])
+    ## Should be okay to do this now since it's not a giant dataframe
+    ufreq <- unique(catpeneff(y)[,c("year","month","week","fishery","catch","effort","region","timestep")])
     # This is quite slow (> 1s) - alternative to using unique?
     # Or use Rob's new method
-    ufreq <- realisations(y)
+    ## ufreq <- realisations(y)
 
     # Then we have these three:
     # * rep_rate_dev_coffs
@@ -331,7 +318,7 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLFrq"),
     # rep_rate_dev_coffs
     # Written out as # Reporting rate dev coffs in newm_io3.cpp
     # pof << fsh.rep_dev_coffs << endl;
-    # it's a dvarmatrix 
+    # it's a dvarmatrix
     # rep_dev_coffs.allocate(1,num_fisheries,2,num_fish_times); # see readtag.cpp
     # # so the first dim is 1: number of fisheries - not grouped!
     # Note that second dimension goes from 2 not 1
@@ -454,13 +441,13 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLFrq"),
     # pof << setscientific()<< setprecision(14) << fsh.fm_level_devs << endl;
     # (see htotcafi.cpp: fm_level_devs.allocate(1,num_fisheries,2,missing_catch_by_fishery_flag);)
     # Each line is a fishery, but only fisheries which have a catch == < -0.5 in the freq table, i.e. missing catch by fishery
-    # The length of each vector is the number of catch < -0.5 incidences in the freq file MINUS 1 
+    # The length of each vector is the number of catch < -0.5 incidences in the frq file MINUS 1
     # The MINUS 1 is important because for some reason in the MFCL code the dimension of the object is 2:something, not 1:something
-    number_of_negcatch_incidents_by_fishery <- table(freq(y)[freq(y)$catch < -0.5,"fishery"])
+    number_of_negcatch_incidents_by_fishery <- table(catpeneff(y)[catpeneff(y)$catch < -0.5,"fishery"])
     vector_length <- number_of_negcatch_incidents_by_fishery-1
     vector_length <- vector_length[vector_length > 0] # drop any length less than 1
     # Which fisheries have missing catches in original data
-    orig_number_of_negcatch_incidents_by_fishery <- table(freq(y)[(freq(y)$catch < -0.5) & (freq(y)$year <= last_original_year ),"fishery"])
+    orig_number_of_negcatch_incidents_by_fishery <- table(catpeneff(y)[(catpeneff(y)$catch < -0.5) & (catpeneff(y)$year <= last_original_year ),"fishery"])
     orig_vector_length <- orig_number_of_negcatch_incidents_by_fishery-1
     orig_vector_length <- orig_vector_length[orig_vector_length > 0] # drop any length less than 1
     # Really horrible for loop to load the new vectors
@@ -542,7 +529,7 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLFrq"),
 
 
 #' @rdname generate
-setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLTagProj"), 
+setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLTagProj"),
           function(x, y, z, ...){
             #browser()
             # does 'generate' as above but puts values into the tag reporting rate stuff rather than zeoes
@@ -550,37 +537,37 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLTagProj"),
             xdims <- dim(tag_fish_rep_rate(x))
             ydims <- dim(tag_fish_rep_rate(y))
             modrows <- (ydims[1]-(ydims[1]-xdims[1])):(ydims[1]-1)
-            
+
             # fill the reporting rate priors with the reporting rate used for tag data generation (ie from the MFCLTagProj object)
             # remember to keep the final row for the pooled tag settings
             #tag_fish_rep_rate(y) <- rbind(tag_fish_rep_rate(x)[-xdims[1],], t(rep_rate_proj(z)), tag_fish_rep_rate(x)[xdims[1],])
-            
+
             tag_fish_rep_rate(y)[1:(xdims[1]-1),] <- tag_fish_rep_rate(x)[1:(xdims[1]-1),]
-            tag_fish_rep_rate(y)[modrows,]        <- t(rep_rate_proj(z)) 
+            tag_fish_rep_rate(y)[modrows,]        <- t(rep_rate_proj(z))
             tag_fish_rep_rate(y)[ydims[1],]       <- tag_fish_rep_rate(x)[xdims[1],]
-            
+
             # use the same reporting rate groupings as for previous recaptures but increment for "simulated data" programme
-            #tag_fish_rep_grp(y)  <- rbind(tag_fish_rep_grp(x)[-xdims[1],], 
-            #                                 matrix(max(tag_fish_rep_grp(x))+tag_fish_rep_grp(x)[1,], 
+            #tag_fish_rep_grp(y)  <- rbind(tag_fish_rep_grp(x)[-xdims[1],],
+            #                                 matrix(max(tag_fish_rep_grp(x))+tag_fish_rep_grp(x)[1,],
             #                                        ncol=xdims[2], nrow=release_groups_proj(z), byrow=T),
             #                                 tag_fish_rep_grp(x)[xdims[1],])
-            tag_fish_rep_grp(y)[modrows,] <- matrix(max(tag_fish_rep_grp(x))+tag_fish_rep_grp(x)[1,], 
+            tag_fish_rep_grp(y)[modrows,] <- matrix(max(tag_fish_rep_grp(x))+tag_fish_rep_grp(x)[1,],
                                                     ncol=xdims[2], nrow=release_groups_proj(z), byrow=T)
-            
+
             # for the rest - use the first row of the matrix as the basis for extending for simulated data
             for(ss in list("tag_fish_rep_flags", "tag_fish_rep_pen", "tag_fish_rep_target"))
               #slot(y, ss)[modrows,] <- matrix(slot(x, ss)[1,], ncol=xdims[2], nrow=release_groups_proj(z), byrow=T)
-              slot(y, ss) <- rbind(slot(x, ss)[-xdims[1],], 
+              slot(y, ss) <- rbind(slot(x, ss)[-xdims[1],],
                                       matrix(slot(x, ss)[1,], ncol=xdims[2], nrow=release_groups_proj(z), byrow=T),
                                       slot(x, ss)[xdims[1],])
-            
+
             # add new tag flags for the new tag release groups
             max_tags_orig <- max(abs(flags(x)[is.element(flags(x)$flagtype, -10000:-99999),'flagtype']))
             #flags(y)      <- rbind(flags(y), data.frame(flagtype=rep(-(max_tags_orig+1:(xdims[1]-(max_tags_orig-10000))),each=10), flag=1:10, value=c(1,rep(0,9))))
             flags(y)[is.element(flags(y)$flagtype, -max_tags_orig:-99999) & flags(y)$flag==1, 'value'] <- 1
-            
+
             #dimensions(y)['taggrps'] <- xdims[1]-1
-            
+
             return(y)
           }
 )
