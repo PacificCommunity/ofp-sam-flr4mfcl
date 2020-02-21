@@ -36,9 +36,12 @@ setMethod("subset", signature(x="MFCLFrq"),
 
             for(ii in 1:length(args)){
               #res <- res[res[names(args)[ii]] == args[ii],]
-              res <- res[is.element(res[,names(args[ii])], args[[ii]]),]
+              ## res <- res[is.element(res[,names(args[ii])], args[[ii]]),]
+              cateffpen(x) <- cateffpen(x)[is.element(cateffpen(x)[,names(args[ii])], args[[ii]]),]
+              lnfrq(x) <- lnfrq(x)[is.element(lnfrq(x)[,names(args[ii])], args[[ii]]),]
+              wtfrq(x) <- wtfrq(x)[is.element(wtfrq(x)[,names(args[ii])], args[[ii]]),]
             }
 
-            return(res)
+            return(x)
           })
 

@@ -227,13 +227,13 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLFrq"),
     nseasons <- dimensions(x)["seasons"]
 
     # Add timestep to the freq table - this is used in several places later on
-    first_year <- min(catpeneff(y)$year)
-    first_month <- min(catpeneff(y)[catpeneff(y)$year==first_year,"month"])
-    first_week <- min(catpeneff(y)[catpeneff(y)$year==first_year & catpeneff(y)$month==first_month,"week"])
-    months <- sort(unique(catpeneff(y)$month))
+    first_year <- min(cateffpen(y)$year)
+    first_month <- min(cateffpen(y)[cateffpen(y)$year==first_year,"month"])
+    first_week <- min(cateffpen(y)[cateffpen(y)$year==first_year & cateffpen(y)$month==first_month,"week"])
+    months <- sort(unique(cateffpen(y)$month))
     # get the season of each month in the freq table
-    season <- match(catpeneff(y)$month, months)
-    catpeneff(y)$timestep <- ((catpeneff(y)$year - first_year) * nseasons) + (season - which(first_month==months)) + 1
+    season <- match(cateffpen(y)$month, months)
+    cateffpen(y)$timestep <- ((cateffpen(y)$year - first_year) * nseasons) + (season - which(first_month==months)) + 1
 
     # Go slot by slot and change those that we think need changing
 
@@ -242,7 +242,7 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLFrq"),
 
     # dimensions - also easy, update the years element
     # this the number of timesteps, not years
-    dimensions(newx)["years"] <- max(catpeneff(y)$timestep)
+    dimensions(newx)["years"] <- max(cateffpen(y)$timestep)
 
     # growth_devs_cohort - bit trickier
     # In par file # Cohort specific growth deviations, lmul_io4.cpp
@@ -288,7 +288,7 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLFrq"),
     # nyrs is the number of timesteps - get from freq file
     # Make a new matrix of the right dims, fill it with 0s
     old_dims <- dim(unused(x)[["yrflags"]]) # Nrows should be 10
-    new_yrflags <- matrix(0, nrow=old_dims[1], ncol=max(catpeneff(y)$timestep))
+    new_yrflags <- matrix(0, nrow=old_dims[1], ncol=max(cateffpen(y)$timestep))
     #new_yrflags <- matrix(0, nrow=old_dims[1], ncol=old_dims[2] + nseasons * length(extra_years))
     # Copy across the original values (probably still just 0s)
     new_yrflags[,1:old_dims[2]] <- unused(x)[["yrflags"]]
@@ -296,14 +296,14 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLFrq"),
 
     # Bring region into the freq object - used later on
     region_fishery <- data.frame(region=c(region_fish(y)), fishery=1:n_fisheries(y))
-    catpeneff(y) <- merge(catpeneff(y), region_fishery[,c("fishery","region")], all.x=TRUE)
+    cateffpen(y) <- merge(cateffpen(y), region_fishery[,c("fishery","region")], all.x=TRUE)
 
     # We want to get the number of unique fishing incidents - used later on
     # Drop -1s in both catch and effort - shouldn't be any
-    catpeneff(y) <- catpeneff(y)[!((catpeneff(y)$catch < -0.5) & (catpeneff(y)$effort < -0.5)),]
+    cateffpen(y) <- cateffpen(y)[!((cateffpen(y)$catch < -0.5) & (cateffpen(y)$effort < -0.5)),]
     # One method is to use unique but it's quite slow (~ 1s)
     ## Should be okay to do this now since it's not a giant dataframe
-    ufreq <- unique(catpeneff(y)[,c("year","month","week","fishery","catch","effort","region","timestep")])
+    ufreq <- unique(cateffpen(y)[,c("year","month","week","fishery","catch","effort","region","timestep")])
     # This is quite slow (> 1s) - alternative to using unique?
     # Or use Rob's new method
     ## ufreq <- realisations(y)
@@ -443,11 +443,11 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLFrq"),
     # Each line is a fishery, but only fisheries which have a catch == < -0.5 in the freq table, i.e. missing catch by fishery
     # The length of each vector is the number of catch < -0.5 incidences in the frq file MINUS 1
     # The MINUS 1 is important because for some reason in the MFCL code the dimension of the object is 2:something, not 1:something
-    number_of_negcatch_incidents_by_fishery <- table(catpeneff(y)[catpeneff(y)$catch < -0.5,"fishery"])
+    number_of_negcatch_incidents_by_fishery <- table(cateffpen(y)[cateffpen(y)$catch < -0.5,"fishery"])
     vector_length <- number_of_negcatch_incidents_by_fishery-1
     vector_length <- vector_length[vector_length > 0] # drop any length less than 1
     # Which fisheries have missing catches in original data
-    orig_number_of_negcatch_incidents_by_fishery <- table(catpeneff(y)[(catpeneff(y)$catch < -0.5) & (catpeneff(y)$year <= last_original_year ),"fishery"])
+    orig_number_of_negcatch_incidents_by_fishery <- table(cateffpen(y)[(cateffpen(y)$catch < -0.5) & (cateffpen(y)$year <= last_original_year ),"fishery"])
     orig_vector_length <- orig_number_of_negcatch_incidents_by_fishery-1
     orig_vector_length <- orig_vector_length[orig_vector_length > 0] # drop any length less than 1
     # Really horrible for loop to load the new vectors

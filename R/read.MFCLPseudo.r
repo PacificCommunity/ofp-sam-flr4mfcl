@@ -83,25 +83,22 @@ read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing",
   if(!missing(lw_sim)){
     ## read in the pseudo length frequencies
     pobs <- readLines(lw_sim)
-    markers <- lapply(1:nsims(ctrl), function(x){grep(paste('# projection',x), pobs)})
+    ## markers <- lapply(1:nsims(ctrl), function(x){grep(paste('# projection',x), pobs)})
+    markers <- grep("# Simulated",pobs)
+
 
     lfirst <- lf_range(projfrq)['LFFirst']; lwidth <- lf_range(projfrq)['LFWidth']; nlbins <- lf_range(projfrq)['LFIntervals']
     ll     <- seq(lfirst, lwidth*nlbins+lfirst-lwidth, by=lwidth)
 
     pobs.df <- data.frame()
     for(ss in 1:nsims(ctrl)){
-      tempdat2<- pobs[(markers[[ss]][1]+2):(markers[[ss]][2]-2)]
+      tempdat2<- pobs[(markers[[ss]][1]+3):(markers[[ss]][2]-1)]
       # strip out the fishery realization data
       realzid <- as.numeric(c(unlist(strsplit(trim.leading(tempdat2[seq(1, length=length(tempdat2)/3, by=3)]), split="[[:blank:]]+"))))
       # strip out the length frequency data
       llfreq  <- as.numeric(c(unlist(strsplit(trim.leading(tempdat2[seq(3, length=length(tempdat2)/3, by=3)]), split="[[:blank:]]+"))))
-
-      pobs.df <- rbind(pobs.df, data.frame(year   =rep(realzid[seq(1, length=length(tempdat2)/3, by=4)], each=lf_range(projfrq)['LFIntervals']),
-                                           month  =rep(realzid[seq(2, length=length(tempdat2)/3, by=4)], each=lf_range(projfrq)['LFIntervals']),
-                                           week   =rep(realzid[seq(3, length=length(tempdat2)/3, by=4)], each=lf_range(projfrq)['LFIntervals']),
-                                           fishery=rep(realzid[seq(4, length=length(tempdat2)/3, by=4)], each=lf_range(projfrq)['LFIntervals']),
-                                           length =ll, weight=NA, freq= llfreq, iter=ss))
-    }
+      pobs.df <- cbind(realzid,llfreq)
+      }
   }
 
   slot(res, "catcheff") <- tempdat[order(tempdat$iter, tempdat$fishery, tempdat$year, tempdat$month, tempdat$week),]
@@ -119,30 +116,30 @@ read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing",
   }
 
   if(historical){
-  # catch and effort vectors in projfrq format - ie you can just paste these into the catch and effort columns of the freq(projfrq)
-  # first of all re-order your projfrq
-  freq(projfrq) <- freq(projfrq)[order(freq(projfrq)$fishery, freq(projfrq)$year, freq(projfrq)$month, freq(projfrq)$week, freq(projfrq)$length),]
+    # catch and effort vectors in projfrq format - ie you can just paste these into the catch and effort columns of the cateffpen(projfrq)
+    # first of all re-order your projfrq
+    cateffpen(projfrq) <- cateffpen(projfrq)[order(cateffpen(projfrq)$fishery, cateffpen(projfrq)$year, cateffpen(projfrq)$month, freqcateffpen(projfrq)$week),]
 
-  lfs      <- c(table(freq(projfrq)$month, freq(projfrq)$year, freq(projfrq)$fishery))
+    lfs      <- c(table(freq(projfrq)$month, freq(projfrq)$year, freq(projfrq)$fishery))
   ce_itns  <- cbind(freq(projfrq)$catch, freq(projfrq)$effort)
 
-  for(ii in 1:nsims(ctrl))
-    ce_itns <- cbind(ce_itns, rep(catcheff(res)[catcheff(res)$iter==ii, 'catch'], lfs[lfs>0]), rep(catcheff(res)[catcheff(res)$iter==ii, 'effort'], lfs[lfs>0]))
+    for(ii in 1:nsims(ctrl))
+      ce_itns <- cbind(ce_itns, rep(catcheff(res)[catcheff(res)$iter==ii, 'catch'], lfs[lfs>0]), rep(catcheff(res)[catcheff(res)$iter==ii, 'effort'], lfs[lfs>0]))
 
-  colnames(ce_itns) <- paste(c("catch","effort"), rep(0:nsims(ctrl),each=2), sep="_")
+    colnames(ce_itns) <- paste(c("catch","effort"), rep(0:nsims(ctrl),each=2), sep="_")
 
-  # size frequency data in projfrq format
-  tmpfreq1 <- cbind(freq(projfrq), mkr=1:nrow(freq(projfrq)))
-  tmpfreq  <- rbind(tmpfreq1[!is.na(tmpfreq1$length),], tmpfreq1[is.na(tmpfreq1$length),])
+    # size frequency data in projfrq format
+    tmpfreq1 <- cbind(freq(projfrq), mkr=1:nrow(freq(projfrq)))
+    tmpfreq  <- rbind(tmpfreq1[!is.na(tmpfreq1$length),], tmpfreq1[is.na(tmpfreq1$length),])
 
-  lf_itns <- tmpfreq$freq
-  for(ii in 1:nsims(ctrl))
-    lf_itns <- cbind(lf_itns, c(l_frq(res)[l_frq(res)$iter==ii, 'freq'], freq(projfrq)[is.na(freq(projfrq)$length),'freq']))
+    lf_itns <- tmpfreq$freq
+    for(ii in 1:nsims(ctrl))
+      lf_itns <- cbind(lf_itns, c(l_frq(res)[l_frq(res)$iter==ii, 'freq'], freq(projfrq)[is.na(freq(projfrq)$length),'freq']))
 
-  lf_itns <- lf_itns[order(tmpfreq$mkr),]
-  colnames(lf_itns) <- paste("freq", 0:nsims(ctrl), sep="_")
+    lf_itns <- lf_itns[order(tmpfreq$mkr),]
+    colnames(lf_itns) <- paste("freq", 0:nsims(ctrl), sep="_")
 
-  slot(res, "freq") <- cbind(freq(projfrq)[,1:4], ce_itns, freq(projfrq)[,c("penalty","length","weight")], lf_itns)
+    slot(res, "freq") <- cbind(freq(projfrq)[,1:4], ce_itns, freq(projfrq)[,c("penalty","length","weight")], lf_itns)
   }
 
   slot(res, "range")[c("minyear","maxyear")] <- range(tempdat$year)

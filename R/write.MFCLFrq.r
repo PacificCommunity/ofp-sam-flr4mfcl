@@ -58,11 +58,11 @@ write.len <- function(x, file, append=T, ...){
   cat(paste(paste(as.vector(age_nage(x)), collapse="      "),"\n"), file=file, append=T)
 
   ## check for duplicate entries in all three dataframes
-  if (any(duplicate(catpeneff(x)[,1:4]))) stop("There was a duplicate in the catch effort and penalty data frame")
-  if (any(duplicate(lnfrq(x)[,1:4]))) stop("There was a duplicate in the length frequency data frame")
-  if (any(duplicate(wtfrq(x)[,1:4]))) stop("There was a duplicate in the weight frequency data frame")
+  if (any(duplicated(cateffpen(x)[,1:4]))) stop("There was a duplicate in the catch effort and penalty data frame")
+  if (any(duplicated(lnfrq(x)[,1:4]))) stop("There was a duplicate in the length frequency data frame")
+  if (any(duplicated(wtfrq(x)[,1:4]))) stop("There was a duplicate in the weight frequency data frame")
 
-  cep=catpeneff(x)
+  cep=cateffpen(x)
   lnfrq=lnfrq(x)
   wtfrq=wtfrq(x)
   LnMatcher=match(interaction(lnfrq[,1:4]),interaction(cep[,1:4]),nomatch=0)
@@ -70,15 +70,28 @@ write.len <- function(x, file, append=T, ...){
   WtMatcher=match(interaction(wtfrq[,1:4]),interaction(cep[,1:4]),nomatch=0)
   if(any(WtMatcher==0)) warning("There are entries in the weight composition data frame that aren't in the catch effort penalty data frame")
   NoMatch=!(1:dim(cep)[1]%in%c(LnMatcher,WtMatcher))
+  Lfirst=lf_range(x)['LFFirst']
+  Wfirst=lf_range(x)["WFFirst"]
 
   output=apply(cep,1,paste,collapse=' ')
-  output[LnMatcher]=paste(output[LnMatcher], apply(lnfrq[,-4:-1],1,paste,collapse=' '),sep=' ')
-  output[WtMatcher]=paste(output[WtMatcher], apply(wtfrq[,-4:-1],1,paste,collapse=' '),sep=' ')
-  output[NoMatch]=paste0(output[NoMatch]," -1 -1")
+  ## No Length or weight
+  if (length(NoMatch>0))
+    output[NoMatch]=paste(output[NoMatch],ifelse(Lfirst==0,"","-1"),ifelse(Wfirst==0,"","-1"),sep=' ')
 
-  writeLines(output,file)
+  ## Length only
+  if (length(LnMatcher[!(LnMatcher%in%WtMatcher)])>0)
+    output[LnMatcher[!(LnMatcher%in%WtMatcher)]]=paste(output[LnMatcher[!(LnMatcher%in%WtMatcher)]], apply(lnfrq[!(LnMatcher%in%WtMatcher),-4:-1],1,paste,collapse=' '),ifelse(Wfirst==0,"","-1"),sep=' ')
+
+  ## Weight only
+  if (length(WtMatcher[!(WtMatcher%in%LnMatcher)])>0)
+    output[WtMatcher[!(WtMatcher%in%LnMatcher)]]=paste(output[WtMatcher[!(WtMatcher%in%LnMatcher)]],ifelse(Lfirst==0,"","-1"), apply(wtfrq[!(WtMatcher%in%LnMatcher),-4:-1],1,paste,collapse=' '),sep=' ')
+
+  ## Length and weight
+  if (length(WtMatcher[WtMatcher%in%LnMatcher])>0)
+    output[WtMatcher[WtMatcher%in%LnMatcher]]=paste(output[WtMatcher[WtMatcher%in%LnMatcher]], apply(lnfrq[LnMatcher%in%WtMatcher,-4:-1],1,paste,collapse=' '), apply(wtfrq[WtMatcher%in%LnMatcher,-4:-1],1,paste,collapse=' '),sep=' ')
 
 
+  cat(output,file=file,sep="\n",append=TRUE)
 
 }
 

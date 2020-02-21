@@ -138,7 +138,7 @@ setMethod("+", signature(e1="MFCLLenFreq", e2="MFCLLenFreq"),
               wtfrq(e1) <- rbind(wtfrq(e1), wtfrq(e2))
 
 
-            lf_range(e1)['Datasets'] <- nrow(cateffpen(e1) #not really necessary
+            lf_range(e1)['Datasets'] <- nrow(cateffpen(e1)) # not really necessary
             range(e1)[c('minyear','maxyear')] <- range(cateffpen(e1)$year)
 
             return(e1)
