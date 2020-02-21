@@ -69,9 +69,14 @@ write.len <- function(x, file, append=T, ...){
   if(any(LnMatcher==0)) warning("There are entries in the length composition data frame that aren't in the catch effort penalty data frame")
   WtMatcher=match(interaction(wtfrq[,1:4]),interaction(cep[,1:4]),nomatch=0)
   if(any(WtMatcher==0)) warning("There are entries in the weight composition data frame that aren't in the catch effort penalty data frame")
+
+
   NoMatch=!(1:dim(cep)[1]%in%c(LnMatcher,WtMatcher))
   Lfirst=lf_range(x)['LFFirst']
   Wfirst=lf_range(x)["WFFirst"]
+
+  if(length(LnMatcher)>0&Lfirst==0) warning("You have length bins that will be printed but the lf_range says you shouldn't")
+    if(length(WtMatcher)>0&Wfirst==0) warning("You have weight bins that will be printed but the lf_range says you shouldn't")
 
   output=apply(cep,1,paste,collapse=' ')
   ## No Length or weight

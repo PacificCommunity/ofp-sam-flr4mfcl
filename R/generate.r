@@ -105,12 +105,14 @@ setMethod("generate", signature(x="MFCLFrq", y="MFCLprojControl"),
             ## STOCHASTIC PROJECTIONS WITH ESS
             # if an ESS is specified - include length composition data and set first value to ESS
            if(!all(is.na(ess(ctrl)))){
-             if(any(sc_df$length))      #any length comp to add
+             if(any(sc_df$length)) {     #any length comp to add
                projlnfrq <- generate.ESS(x, ctrl, projdat2, sc_df,'length')
-             lnfrq(x) <- rbind(lnfrq(x),projlnfrq)
-             if (any(sc_df$weight))     #any weight comp to add
+               lnfrq(x) <- rbind(lnfrq(x),projlnfrq)
+             }
+             if (any(sc_df$weight)){     #any weight comp to add
                projwtfrq <- generate.ESS(x, ctrl, projdat2, sc_df,'weight')
-             wtfrq(x) <- rbind(wtfrq(x),projlnfrq)
+               wtfrq(x) <- rbind(wtfrq(x),projwtfrq)
+             }
             }
 
             cateffpen(x) <- rbind(cateffpen(x), projdat2)

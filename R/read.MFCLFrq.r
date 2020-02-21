@@ -59,7 +59,11 @@ read.MFCLFrqStats <- function(frqfile){
     }
   }
   line <- grep("Season-region flags", frq)
-  kk <- unlist(strsplit(frq[line+1:res@n_recs_yr], split=" "))[1:(slot(res, 'n_regions')*slot(res, 'n_recs_yr'))]
+  if (length(line)>0){
+    kk <- unlist(strsplit(frq[line+1:res@n_recs_yr], split=" "))[1:(slot(res, 'n_regions')*slot(res, 'n_recs_yr'))]
+  } else{
+    kk <- 1
+  }
   res@season_flags <- matrix(as.numeric(kk), nrow=res@n_recs_yr, ncol=res@n_regions, byrow=T)
 
 
@@ -187,9 +191,10 @@ read.MFCLLenFreq <- function(frqfile){
     colnames(wtfrq) <- c("year", "month", "week", "fishery",frqwt)
   }
 
-  ## If a mufdager file enter a column for the penalty
+  ## If a mufdager file enter a column for the penalty and set age_nage to zero
   if (version <6) {
     cep=cbind(cep,penalty=-1)
+    slot(res, "age_nage") <- c(0,0)
   }
 
   ## renames the columns of the catch effort and penalty
