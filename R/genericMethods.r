@@ -114,15 +114,15 @@ setMethod("iter", signature(obj="MFCLPseudo"),
             if(iter > max(slot(obj, "catcheff")$iter))
               stop("max iter exceeded")
 
-            slot(obj, "catcheff") <- slot(obj, "catcheff")[slot(obj, "catcheff")$iter==iter,]
+            slot(obj, "catcheff") <- slot(obj, "catcheff")[slot(obj, "catcheff")$iter==iter,-c('iter')]
 
             for(ss in c("l_frq", "w_frq")){
               if(nrow(slot(obj, ss))>0)
-                slot(obj, ss) <- slot(obj, ss)[slot(obj, ss)$iter==iter ,]
+                slot(obj, ss) <- slot(obj, ss)[slot(obj, ss)$iter==iter ,-c('iter')]
             }
 
-            slot(obj, 'freq') <- slot(obj,'freq')[,c('year','month','week','fishery',paste0('catch_',iter), paste0('effort_',iter),'penalty','length','weight',paste0('freq_',iter))]
-            colnames(slot(obj, 'freq')) <- c('year','month','week','fishery','catch','effort','penalty','length','weight','freq')
+            ## slot(obj, 'freq') <- slot(obj,'freq')[,c('year','month','week','fishery',paste0('catch_',iter), paste0('effort_',iter),'penalty','length','weight',paste0('freq_',iter))]
+            ## colnames(slot(obj, 'freq')) <- c('year','month','week','fishery','catch','effort','penalty','length','weight','freq')
             return(obj)
           }
 ) # }}}
@@ -130,7 +130,7 @@ setMethod("iter", signature(obj="MFCLPseudo"),
 
 setMethod("+", signature(e1="MFCLLenFreq", e2="MFCLLenFreq"),
           function(e1, e2) {
-              if(any(is.element(apply(cateffpen(e1)[,1:4],1,paste, collapse="_"), apply(cateffpen(e2)[,1:4],1,paste, collapse="_"))))
+              if(any(is.element(interaction(cateffpen(e1)[,1:4]), interaction(cateffpen(e2)[,1:4]))))
               stop("Looks like you are duplicating fishery realisations!")
 
               cateffpen(e1) <- rbind(cateffpen(e1), cateffpen(e2))
@@ -167,17 +167,28 @@ setMethod("+", signature(e1="MFCLFrq", e2="MFCLFrq"),
 setMethod("+", signature(e1="MFCLFrq", e2="MFCLPseudo"),
           function(e1, e2) {
 
-            stop("This got messed up by new Frq structure")
-            ## # add future pseudo data to the original FRQ
-            ## if(any(range(e1)[c("minyear","maxyear")] != slot(e2, 'range')[c("minyear","maxyear")]))
-            ##   freq(e1) <- rbind(freq(e1), freq(e2))                                                      #catcheff(e2)[,1:10])
+            if(any(is.element(interaction(cateffpen(e1)[,1:4]), interaction(cateffpen(e2)[,1:4]))))
+              warning("Hopefully you are replacing all fishery realisations.")
+            if ('iter' %in% colnames(cateffpen(e2)))
+              stop("Looks like you need to call iter on the MFCLPseudo object!")
+            # add future pseudo data to the original FRQ
+            if(any(range(e1)[c("minyear","maxyear")] != slot(e2, 'range')[c("minyear","maxyear")]))
+              {
+                cateffpen(e1) <- rbind(cateffpen(e1), slot(e2,"cateff"))                                                      #catcheff(e2)[,1:10])
+                lnfrq(e1) <- rbind(lnfrq(e1),slot(e2,"l_frq"))
+                wtfrq(e1) <- rbind(wtfrq(e1),slot(e2,"w_frq"))
+              }
 
-            ## # add historical pseudo data to the PROJFRQ
-            ## if(all(range(e1)[c("minyear","maxyear")] == slot(e2, 'range')[c("minyear","maxyear")]))
-            ##   freq(e1) <- freq(e2)                                                                       #catcheff(e2)[,1:10]
+            # add historical pseudo data to the PROJFRQ
+            if(all(range(e1)[c("minyear","maxyear")] == slot(e2, 'range')[c("minyear","maxyear")]))
+            {
+              freq(e1) <- cateff(e2)                                                                       #catcheff(e2)[,1:10]
+              lnfrq(e1) <- slot(e2,"l_frq")
+              wtfrq(e1) <- slot(e2,"w_frq")
+            }
 
-            ## lf_range(e1)['Datasets'] <- nrow(freq(e1)[is.element(freq(e1)$length, c(lf_range(e1)['LFFirst'],NA)),])
-            ## range(e1)[c('minyear','maxyear')] <- range(freq(e1)$year)
+            lf_range(e1)['Datasets'] <- nrow(cateffpen(e1))
+            range(e1)[c('minyear','maxyear')] <- range(cateffpen(e1)$year)
 
             return(e1)
           }

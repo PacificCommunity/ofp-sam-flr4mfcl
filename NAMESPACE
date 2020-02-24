@@ -146,6 +146,7 @@ exportMethods(
   "control_flags<-",
   "controls",
   "controls<-",
+  "convertFrq",
   "cpue_obs",
   "cpue_obs<-",
   "cpue_pred",

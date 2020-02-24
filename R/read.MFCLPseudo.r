@@ -25,7 +25,7 @@
 read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing", projfrq="missing", ctrl="missing", historical=TRUE) {
 
   trim.leading  <- function(x) sub("^\\s+", "", x)
-  splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+"))
+  ## splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+"))
 
   res <- MFCLPseudo()
 
@@ -64,8 +64,8 @@ read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing",
                        row.names=NULL)
       tempdat <- tempdat[order(tempdat$iter, tempdat$fishery, tempdat$year, tempdat$month),]
 
-      tempdat$catch[tempdat$iter>0] <- rep(cdat[2,], each=length(unique(tempdat$length)))
-      tempdat$effort[tempdat$iter>0]<- rep(edat,     each=length(unique(tempdat$length)))
+      tempdat$catch[tempdat$iter>0] <- cdat[2,]
+      tempdat$effort[tempdat$iter>0]<- edat
       }
 
     if(historical){
@@ -84,44 +84,66 @@ read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing",
     ## read in the pseudo length frequencies
     pobs <- readLines(lw_sim)
     ## markers <- lapply(1:nsims(ctrl), function(x){grep(paste('# projection',x), pobs)})
-    markers <- grep("# Simulated",pobs)
+    LnMarkers <- grep("# Simulated length frequencies",pobs)
+    WtMarkers <- grep("# Simulated weight frequencies",pobs)
 
 
-    lfirst <- lf_range(projfrq)['LFFirst']; lwidth <- lf_range(projfrq)['LFWidth']; nlbins <- lf_range(projfrq)['LFIntervals']
-    ll     <- seq(lfirst, lwidth*nlbins+lfirst-lwidth, by=lwidth)
+    lfirst <- lf_range(projfrq)['LFFirst']; lwidth <- lf_range(projfrq)['LFWidth']; nLbins <- lf_range(projfrq)['LFIntervals']
+    if(lfirst==0){ ll <- NA} else{ll <- seq(lfirst, lwidth*nLbins+lfirst-lwidth, by=lwidth)}
 
-    pobs.df <- data.frame()
-    for(ss in 1:nsims(ctrl)){
-      tempdat2<- pobs[(markers[[ss]][1]+3):(markers[[ss]][2]-1)]
-      # strip out the fishery realization data
-      realzid <- as.numeric(c(unlist(strsplit(trim.leading(tempdat2[seq(1, length=length(tempdat2)/3, by=3)]), split="[[:blank:]]+"))))
-      # strip out the length frequency data
-      llfreq  <- as.numeric(c(unlist(strsplit(trim.leading(tempdat2[seq(3, length=length(tempdat2)/3, by=3)]), split="[[:blank:]]+"))))
-      pobs.df <- cbind(realzid,llfreq)
+    wfirst <- lf_range(projfrq)['WFFirst']; wwidth <- lf_range(projfrq)['WFWidth']; nWbins <- lf_range(projfrq)['WFIntervals']
+    if(wfirst==0){ wts <- NA} else{wts <- seq(wfirst, wwidth*nWbins+wfirst-wwidth, by=wwidth)}
+
+    lobs.df <- data.frame()
+    wtobs.df <- data.frame()
+    for(ss in 1:length(LnMarkers)){
+      if ((LnMarkers[ss]+3)!=WtMarkers[ss]){                   #Check there is length simulated
+        tempdat2<- pobs[(LnMarkers[ss]+3):(WtMarkers[ss]-1)]
+        # strip out the fishery realization data
+        realzid <- matrix(as.numeric(unlist(strsplit(trim.leading(tempdat2[seq(1, length=length(tempdat2)/3, by=3)]), split="[[:blank:]]+"))),ncol=4,byrow=TRUE)
+        # strip out the length frequency data
+        ## llfreq  <- as.numeric(c(unlist(strsplit(trim.leading(tempdat2[seq(3, length=length(tempdat2)/3, by=3)]), split="[[:blank:]]+"))))
+        llfreq=matrix(as.numeric(unlist(strsplit(trim.leading(tempdat2[seq(3, length=length(tempdat2)/3, by=3)]), split="[[:blank:]]+"))),ncol=nLbins,byrow=TRUE)
+        lobs.df <- rbind(lobs.df,cbind(realzid,ss,llfreq))
       }
+
+      if((WtMarkers[ss]+3)!=LnMarkers[ss+1] & wfirst>0){ #Check there is weight composition
+        tempdat3<- pobs[(WtMarkers[ss]+3):ifelse(ss==length(WtMarkers),length(pobs),LnMarkers[ss+1]-1)]
+        # strip out the fishery realization data
+        wid <- as.numeric(c(unlist(strsplit(trim.leading(tempdat3[seq(1, length=length(tempdat3)/3, by=3)]), split="[[:blank:]]+"))))
+        # strip out the weight frequency data
+        wtfreq  <- as.numeric(c(unlist(strsplit(trim.leading(tempdat3[seq(3, length=length(tempdat3)/3, by=3)]), split="[[:blank:]]+"))))
+        wtobs.df <- rbind(wtobs.df,cbind(wid,ss,wtfreq))
+      }
+    }
+    if(length(lobs.df)>0)  names(lobs.df) <- c("year","month","week","fishery",ll,"iter")
+    if(length(wtobs.df)>0)  names(wtobs.df) <- c("year","month","week","fishery",wts,"iter")
   }
+
 
   slot(res, "catcheff") <- tempdat[order(tempdat$iter, tempdat$fishery, tempdat$year, tempdat$month, tempdat$week),]
-  slot(res, "l_frq")    <- pobs.df[order(pobs.df$iter,  pobs.df$fishery, pobs.df$year, pobs.df$month, pobs.df$week, pobs.df$length),]
+  if(length(lobs.df)>0) slot(res, "l_frq")    <- lobs.df[order(lobs.df$iter,  lobs.df$fishery, lobs.df$year, lobs.df$month, lobs.df$week),]
+  if(length(wtobs.df)>0) slot(res, "w_frq")    <- wtobs.df[order(wtobs.df$iter,  wtobs.df$fishery, wtobs.df$year, wtobs.df$month, wtobs.df$week),]
 
 
-  if(!historical) { # think this is OK !!
-    slot(res, "catcheff")[slot(res, "catcheff")$iter>0,]$freq <- slot(res, "l_frq")$freq
-    slot(res, 'freq') <- slot(res, 'catcheff')[slot(res, "catcheff")$iter==0,c(1:4,7:9)]
-    for(ii in 0:nsims(ctrl)){
-      tmpdat <-  slot(res,'catcheff')[slot(res,'catcheff')$iter==ii, c("catch",'effort','freq')]
-      colnames(tmpdat) <- paste(c('catch','effort','freq'), '_', ii, sep="")
-      slot(res,'freq') <- cbind(slot(res,'freq'), tmpdat)
-    }
-  }
+  ## if(!historical) { # think this is OK !!
+  ##   slot(res, "catcheff")[slot(res, "catcheff")$iter>0,]$freq <- slot(res, "l_frq")$freq
+  ##   slot(res, 'freq') <- slot(res, 'catcheff')[slot(res, "catcheff")$iter==0,c(1:4,7:9)]
+  ##   for(ii in 0:nsims(ctrl)){
+  ##     tmpdat <-  slot(res,'catcheff')[slot(res,'catcheff')$iter==ii, c("catch",'effort','freq')]
+  ##     colnames(tmpdat) <- paste(c('catch','effort','freq'), '_', ii, sep="")
+  ##     slot(res,'freq') <- cbind(slot(res,'freq'), tmpdat)
+  ##   }
+  ## }
 
   if(historical){
     # catch and effort vectors in projfrq format - ie you can just paste these into the catch and effort columns of the cateffpen(projfrq)
+    warning("This probably doesn't work because the structure of the freq has changed")
     # first of all re-order your projfrq
     cateffpen(projfrq) <- cateffpen(projfrq)[order(cateffpen(projfrq)$fishery, cateffpen(projfrq)$year, cateffpen(projfrq)$month, freqcateffpen(projfrq)$week),]
 
-    lfs      <- c(table(freq(projfrq)$month, freq(projfrq)$year, freq(projfrq)$fishery))
-  ce_itns  <- cbind(freq(projfrq)$catch, freq(projfrq)$effort)
+    lfs      <- c(table(lnfrq(projfrq)$month, lnfrq(projfrq)$year, lnfrq(projfrq)$fishery))
+  ce_itns  <- cbind(cateffpen(projfrq)$catch, cateffpen(projfrq)$effort)
 
     for(ii in 1:nsims(ctrl))
       ce_itns <- cbind(ce_itns, rep(catcheff(res)[catcheff(res)$iter==ii, 'catch'], lfs[lfs>0]), rep(catcheff(res)[catcheff(res)$iter==ii, 'effort'], lfs[lfs>0]))
@@ -143,7 +165,7 @@ read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing",
   }
 
   slot(res, "range")[c("minyear","maxyear")] <- range(tempdat$year)
-  slot(res, "range")[c("min","max")]         <- range(pobs.df$length)
+  slot(res, "range")[c("min","max")]         <- range(ll)
 
   return(res)
 }
