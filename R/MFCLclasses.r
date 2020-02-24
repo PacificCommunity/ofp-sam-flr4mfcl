@@ -124,6 +124,42 @@ remove(validMFCLLenFreq)
 #'@export
 MFCLLenFreq <- function() {return(new("MFCLLenFreq"))}
 
+
+###### CLASSS MFCLLenFreq2  --- keeping the originial freq object
+
+validMFCLLenFreq2 <- function(object){
+  
+  # Everything is fine
+  return(TRUE)
+}
+#' An S4 class : Representation of a length freq input file for MFCL
+#'
+#' A class comprising both a new and old style MFCLLenFrq object
+#'
+setClass("MFCLLenFreq2",
+         representation(
+           "MFCLLenFreq",
+           freq     = "data.frame"
+         ),
+         prototype  = prototype(
+           freq     = data.frame()
+         ), 
+         validity=validMFCLLenFreq2
+)
+setValidity("MFCLLenFreq2", validMFCLLenFreq2)
+remove(validMFCLLenFreq2)
+
+#'MFCLLenFreq2
+#'
+#'Basic constructor for MFCLLenFreq2 class
+#'
+#'@export
+
+MFCLLenFreq2 <- function() {return(new("MFCLLenFreq2"))}
+
+
+
+
 ###### CLASSS MFCLFrq
 
 validMFCLFrq <- function(object){
@@ -152,6 +188,38 @@ remove(validMFCLFrq)
 #'@export
 
 MFCLFrq <- function() {return(new("MFCLFrq"))}
+
+
+
+
+###### CLASSS MFCLFrq2
+
+validMFCLFrq2 <- function(object){
+  
+  # Everything is fine
+  return(TRUE)
+}
+#' An S4 class : Representation of a frq input file for MFCL
+#'
+#' A class comprising an MFCLFrqStats object and an MFCLLenFrq object
+#'
+setClass("MFCLFrq2",
+         representation(
+           "MFCLFrq",
+           "MFCLLenFreq2"
+         ),
+         validity=validMFCLFrq2
+)
+setValidity("MFCLFrq2", validMFCLFrq2)
+remove(validMFCLFrq2)
+
+#'MFCLFrq2
+#'
+#'Basic constructor for MFCLFrq2 class
+#'
+#'@export
+
+MFCLFrq2 <- function() {return(new("MFCLFrq2"))}
 
 
 
