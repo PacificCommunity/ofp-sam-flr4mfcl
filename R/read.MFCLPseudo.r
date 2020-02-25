@@ -116,8 +116,8 @@ read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing",
         wtobs.df <- rbind(wtobs.df,cbind(wid,ss,wtfreq))
       }
     }
-    if(length(lobs.df)>0)  names(lobs.df) <- c("year","month","week","fishery",ll,"iter")
-    if(length(wtobs.df)>0)  names(wtobs.df) <- c("year","month","week","fishery",wts,"iter")
+    if(length(lobs.df)>0)  names(lobs.df) <- c("year","month","week","fishery","iter",ll)
+    if(length(wtobs.df)>0)  names(wtobs.df) <- c("year","month","week","fishery","iter",wts)
   }
 
 

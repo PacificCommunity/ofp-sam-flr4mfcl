@@ -7,8 +7,10 @@
 #' Keep this for backward compatability of code
 #'
 
+#'@export convertFreq
+setGeneric('convertFreq',function(frq,...) standardCeneric('convertFreq'))
 
-setMethod('convertFrq',signature(frq="MFCLLenFreq"), function(frq, convertFrq){
+setMethod('convertFreq',signature(frq="MFCLLenFreq"), function(frq) {
     cep <- cateffpen(frq)
     lnfrq <- lnfrq(frq)
     wtfrq <- wtfrq(frq)
@@ -42,7 +44,7 @@ setMethod('convertFrq',signature(frq="MFCLLenFreq"), function(frq, convertFrq){
         dfall <- rbind(dfall,cbind(apply(cep[LnMatcher[LengthWeight],],2,rep,each=nLbins),length=frqlen,weight=NA,freq=as.vector(t(lnfrq[LengthWeight,-4:-1]))))
         dfall <- rbind(dfall,cbind(apply(cep[WtMatcher[WeightLength],],2,rep,each=nWbins),length=NA,weight=frqwt,freq=as.vector(t(wtfrq[WeightLength,-4:-1]))))
     }
-    frq <- as.MFCLLenFrq2(frq)
+    frq <- as.MFCLLenFreq2(frq)
     frq@freq <- dfall[order(dfall$fishery,dfall$year,dfall$month),]
     return(frq)
 } )

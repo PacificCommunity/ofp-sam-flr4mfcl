@@ -105,6 +105,16 @@ setMethod('as.MFCLLenFreq', signature(object='MFCLPseudo'),
               slot(res, sn) <- slot(object, sn)
             return(res)})
 
+#'@export as.MFCLLenFreq2
+setGeneric('as.MFCLLenFreq2', function(object,...) standardGeneric('as.MFCLLenFreq2'))
+
+setMethod('as.MFCLLenFreq2', signature(object='MFCLLenFreq'),
+          function(object){
+            res <- MFCLLenFreq2()
+            ss <- names(getSlots(class(res)))
+            for(sn in ss[ss!='freq'])
+              slot(res, sn) <- slot(object, sn)
+            return(res)})
 
 
 # iter {{{
@@ -114,11 +124,11 @@ setMethod("iter", signature(obj="MFCLPseudo"),
             if(iter > max(slot(obj, "catcheff")$iter))
               stop("max iter exceeded")
 
-            slot(obj, "catcheff") <- slot(obj, "catcheff")[slot(obj, "catcheff")$iter==iter,-c('iter')]
+            slot(obj, "catcheff") <- slot(obj, "catcheff")[slot(obj, "catcheff")$iter==iter, !(names(slot(obj, "catcheff"))%in% c('iter','catch.seed','effort.seed'))]
 
             for(ss in c("l_frq", "w_frq")){
               if(nrow(slot(obj, ss))>0)
-                slot(obj, ss) <- slot(obj, ss)[slot(obj, ss)$iter==iter ,-c('iter')]
+                slot(obj, ss) <- slot(obj, ss)[slot(obj, ss)$iter==iter ,names(slot(obj, ss))!='iter']
             }
 
             ## slot(obj, 'freq') <- slot(obj,'freq')[,c('year','month','week','fishery',paste0('catch_',iter), paste0('effort_',iter),'penalty','length','weight',paste0('freq_',iter))]
@@ -167,14 +177,14 @@ setMethod("+", signature(e1="MFCLFrq", e2="MFCLFrq"),
 setMethod("+", signature(e1="MFCLFrq", e2="MFCLPseudo"),
           function(e1, e2) {
 
-            if(any(is.element(interaction(cateffpen(e1)[,1:4]), interaction(cateffpen(e2)[,1:4]))))
+            if(any(is.element(interaction(cateffpen(e1)[,1:4]), interaction(slot(e2,"catcheff")[,1:4]))))
               warning("Hopefully you are replacing all fishery realisations.")
-            if ('iter' %in% colnames(cateffpen(e2)))
+            if ('iter' %in% colnames(slot(e2,"catcheff")))
               stop("Looks like you need to call iter on the MFCLPseudo object!")
             # add future pseudo data to the original FRQ
             if(any(range(e1)[c("minyear","maxyear")] != slot(e2, 'range')[c("minyear","maxyear")]))
               {
-                cateffpen(e1) <- rbind(cateffpen(e1), slot(e2,"cateff"))                                                      #catcheff(e2)[,1:10])
+                cateffpen(e1) <- rbind(cateffpen(e1), slot(e2,"catcheff"))                                                      #catcheff(e2)[,1:10])
                 lnfrq(e1) <- rbind(lnfrq(e1),slot(e2,"l_frq"))
                 wtfrq(e1) <- rbind(wtfrq(e1),slot(e2,"w_frq"))
               }
@@ -182,7 +192,7 @@ setMethod("+", signature(e1="MFCLFrq", e2="MFCLPseudo"),
             # add historical pseudo data to the PROJFRQ
             if(all(range(e1)[c("minyear","maxyear")] == slot(e2, 'range')[c("minyear","maxyear")]))
             {
-              freq(e1) <- cateff(e2)                                                                       #catcheff(e2)[,1:10]
+              freq(e1) <- slot(e2,'cateff')                                                                       #catcheff(e2)[,1:10]
               lnfrq(e1) <- slot(e2,"l_frq")
               wtfrq(e1) <- slot(e2,"w_frq")
             }

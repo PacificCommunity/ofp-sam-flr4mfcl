@@ -128,7 +128,7 @@ MFCLLenFreq <- function() {return(new("MFCLLenFreq"))}
 ###### CLASSS MFCLLenFreq2  --- keeping the originial freq object
 
 validMFCLLenFreq2 <- function(object){
-  
+
   # Everything is fine
   return(TRUE)
 }
@@ -143,7 +143,7 @@ setClass("MFCLLenFreq2",
          ),
          prototype  = prototype(
            freq     = data.frame()
-         ), 
+         ),
          validity=validMFCLLenFreq2
 )
 setValidity("MFCLLenFreq2", validMFCLLenFreq2)
@@ -154,7 +154,6 @@ remove(validMFCLLenFreq2)
 #'Basic constructor for MFCLLenFreq2 class
 #'
 #'@export
-
 MFCLLenFreq2 <- function() {return(new("MFCLLenFreq2"))}
 
 
@@ -195,7 +194,7 @@ MFCLFrq <- function() {return(new("MFCLFrq"))}
 ###### CLASSS MFCLFrq2
 
 validMFCLFrq2 <- function(object){
-  
+
   # Everything is fine
   return(TRUE)
 }
