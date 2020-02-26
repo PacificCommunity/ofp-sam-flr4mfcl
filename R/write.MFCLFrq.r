@@ -65,6 +65,11 @@ write.len <- function(x, file, append=T, ...){
   cep=cateffpen(x)
   lnfrq=lnfrq(x)
   wtfrq=wtfrq(x)
+
+  ## Remove any rows that are all zeros from the length and weight frequency data frames
+  lnfrq=lnfrq[!apply(lnfrq[-4:-1]==0,1,all),]
+  wtfrq=wtfrq[!apply(wtfrq[-4:-1]==0,1,all),]
+
   LnMatcher=match(interaction(lnfrq[,1:4]),interaction(cep[,1:4]),nomatch=0)
   if(any(LnMatcher==0)) warning("There are entries in the length composition data frame that aren't in the catch effort penalty data frame")
   WtMatcher=match(interaction(wtfrq[,1:4]),interaction(cep[,1:4]),nomatch=0)
