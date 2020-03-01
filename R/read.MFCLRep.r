@@ -136,11 +136,12 @@ read.MFCLRep <- function(repfile) {
 
   if(length(grep("# Observed spawning Biomass", pp))>0) {
     #yrs_orig  <- (length(splitter(pp, "# Observed spawning Biomass"))+1)/dimensions(res)['seasons']
-    
-    if(length(splitter(pp, "# Observed spawning Biomass"))==dimensions(res)['years']){
-      ssb(res)  <- FLQuant(aperm(array(c(NA,as.numeric(splitter(pp, "# Observed spawning Biomass"))),c(dimensions(res)['seasons'],dimensions(res)['years'],1,1,1)), c(3,2,4,1,5)), dimnames=dnms4)
-      rec(res)  <- FLQuant(aperm(array(c(NA,as.numeric(splitter(pp, "# Observed recruitment"))),     c(dimensions(res)['seasons'],dimensions(res)['years'],1,1,1)), c(3,2,4,1,5)), dimnames=dnms4)
-    }
+
+# rds 14/02/20 - commenting out because not sure this is used in any .rep file ????? but not sure - changes made to work for swo projections   
+#    if(length(splitter(pp, "# Observed spawning Biomass"))==dimensions(res)['years']){
+#      ssb(res)  <- FLQuant(aperm(array(c(NA,as.numeric(splitter(pp, "# Observed spawning Biomass"))),c(dimensions(res)['seasons'],dimensions(res)['years'],1,1,1)), c(3,2,4,1,5)), dimnames=dnms4)
+#      rec(res)  <- FLQuant(aperm(array(c(NA,as.numeric(splitter(pp, "# Observed recruitment"))),     c(dimensions(res)['seasons'],dimensions(res)['years'],1,1,1)), c(3,2,4,1,5)), dimnames=dnms4)
+#    }
     if(length(splitter(pp, "# Observed spawning Biomass"))==dimensions(res)['years']/dimensions(res)['seasons']){
       ssb(res)  <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Observed spawning Biomass")),c(1,dimensions(res)['years']/dimensions(res)['seasons'],1,1,1)), c(3,2,4,1,5)), dimnames=dnms4a)
       rec(res)  <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Observed recruitment")),     c(1,dimensions(res)['years']/dimensions(res)['seasons'],1,1,1)), c(3,2,4,1,5)), dimnames=dnms4a)

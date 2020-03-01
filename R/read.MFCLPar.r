@@ -102,7 +102,10 @@ read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
   
   slot(res, "mat")      <- FLQuant(aperm(array(as.numeric(splitter(par, "# percent maturity")),
                                                dim=c(nseasons,nagecls/nseasons,1,1,1)),c(2,3,4,1,5)), dimnames=dims_age)
-  if(length(grep("# maturity at length",par))>0)
+
+  # if(length(grep("# maturity at length",par))>0)
+  # RDS 27/02/20
+  if(length(grep("# maturity at length",par))>0 & par[grep("# maturity at length",par)+1]!="# The von Bertalanffy parameters")
     slot(res, 'mat_at_length') <- as.numeric(splitter(par, "# maturity at length"))
     
   slot(res, "growth")   <- t(array(as.numeric(splitter(par, "# The von Bertalanffy parameters", 1:3)),
@@ -360,6 +363,7 @@ read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972) {
   vsn <- as.numeric(unlist(strsplit(trimws(par[2]), split="[[:blank:]]+")))[200]
   
   nseasons <- length(splitter(par, "# season_flags"))
+  nseasons.mov <- max(as.numeric(splitter(par, "# movement map")))                                ## RDS 29/02/2020
   nyears   <- length(splitter(par, "# Cohort specific growth deviations"))/nseasons
   nregions <- length(splitter(par,"# region parameters"))
   nagecls  <- as.numeric(par[grep("# The number of age classes", par)+1])  
@@ -368,8 +372,8 @@ read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972) {
   dca <- lapply(lapply(dca[-seq(nregions+1, length(dca), by=nregions+1)], strsplit, split="[[:blank:]]+"), unlist)
   #dca <- t(matrix(as.numeric(unlist(dca)), nrow=nregions+1)[-1,])
   dca <- t(matrix(as.numeric(unlist(dca)), nrow=nregions))
-  dca <- aperm(array(dca, dim=c(nregions, nagecls, nseasons, nregions), 
-                     dimnames=list(from=as.character(1:nregions), age=as.character(1:nagecls), period=as.character(1:nseasons), to=as.character(1:nregions))),
+  dca <- aperm(array(dca, dim=c(nregions, nagecls, nseasons.mov, nregions), 
+                     dimnames=list(from=as.character(1:nregions), age=as.character(1:nagecls), period=as.character(1:nseasons.mov), to=as.character(1:nregions))),
                c(1,4,2,3))
   
   rrv <- aperm(array(as.numeric(splitter(par, "# regional recruitment variation", 1:(nyears*nseasons))), 
@@ -390,15 +394,15 @@ read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972) {
   
   slot(res, 'diff_coffs_age_period') <- dca
   slot(res, 'diff_coffs_age') <- matrix(as.numeric(splitter(par, "# age dependent movement coefficients",1:length(slot(res, 'move_map')))), 
-                                        nrow=nseasons, byrow=T)
+                                        nrow=nseasons.mov, byrow=T)
   slot(res, 'diff_coffs_nl')  <- matrix(as.numeric(splitter(par, "# nonlinear movement coefficients",1:length(slot(res, 'move_map')))), 
-                                        nrow=nseasons, byrow=T)
+                                        nrow=nseasons.mov, byrow=T)
   slot(res, 'diff_coffs_priors')  <- matrix(as.numeric(splitter(par,"# Movement coefficients priors",1:length(slot(res, 'move_map')))), 
-                                        nrow=nseasons, byrow=T)
+                                        nrow=nseasons.mov, byrow=T)
   slot(res, 'diff_coffs_age_priors') <- matrix(as.numeric(splitter(par, "# age dependent movement coefficients priors",1:length(slot(res, 'move_map')))), 
-                                        nrow=nseasons, byrow=T)
+                                        nrow=nseasons.mov, byrow=T)
   slot(res, 'diff_coffs_nl_priors')  <- matrix(as.numeric(splitter(par, "# nonlinear movement coefficients priors",1:length(slot(res, 'move_map')))), 
-                                        nrow=nseasons, byrow=T)
+                                        nrow=nseasons.mov, byrow=T)
   slot(res, 'region_rec_var') <- FLQuant(rrv, dimnames=list(age="all", year=as.character(seq(first.yr, first.yr+nyears-1)),unit="unique", 
                                                             season=as.character(1:nseasons),area=as.character(1:nregions)))
   

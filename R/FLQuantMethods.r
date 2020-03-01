@@ -6,7 +6,7 @@
 
 
 #' @rdname FLQuant
-#' @aliases FLQuant,MFCLenFreq-method
+#' @aliases FLQuant,MFCLLenFreq-method
 #' @examples
 #'
 

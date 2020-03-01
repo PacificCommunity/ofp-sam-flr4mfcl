@@ -20,6 +20,8 @@
 
 write.par <- function(x, file, append=F, ...){
 
+  xfish    <- sum(flagval(x, -1:-dimensions(x)['fisheries'], 71)$value) # sum ff71 to check for selectivity blocks  # RDS 27/02/20
+  
   float <- function(x,ZeroPrint="0.00000000000000e+00") formatC(x, digits=14, format='e',drop0trailing=FALSE,zero.print=ZeroPrint)
 
   cat("# The parest_flags \n",                file=file, append=append)
@@ -81,7 +83,7 @@ write.par <- function(x, file, append=F, ...){
   write.table(float(rel_ini_pop(x)), file=file, append=T, col.names=F, row.names=F,quote=F)
 
   cat("# fishery selectivity \n",   file=file, append=T)
-  write.table(float(t(array(aperm(fishery_sel(x), c(4,1,5,2,3,6)), dim=c(dimensions(x)['agecls'],dimensions(x)['fisheries']))),"0"),
+  write.table(float(t(array(aperm(fishery_sel(x), c(4,1,5,2,3,6)), dim=c(dimensions(x)['agecls'],dimensions(x)['fisheries']+xfish))),"0"),   # RDS 27/02/20
               file=file, append=T, col.names=F, row.names=F,quote=F)
 
   cat("# age-dependent component of fishery selectivity  \n",   file=file, append=T)
@@ -113,7 +115,8 @@ write.par <- function(x, file, append=F, ...){
   }
   cat("# movement matrices \n",   file=file, append=T)
 
-  for(period in 1: dimensions(x)['seasons']){
+#  for(period in 1: dimensions(x)['seasons']){
+  for(period in 1:dim(diff_coffs_age_period(x))[4]){       ## RDS 29/02/2020  
     for(age in 1:dimensions(x)['agecls']){
       cat(paste("# Movement period", period, " age class", age, "\n"), file=file, append=T)
       write.table(float(as.array(diff_coffs_age_period(x)[,,age,period], dim=rep(dimensions(x)['regions'],2))),
