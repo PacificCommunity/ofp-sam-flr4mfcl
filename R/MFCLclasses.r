@@ -439,7 +439,7 @@ setClass("MFCLRegion",
            diff_coffs            = matrix(),
           xdiff_coffs            = matrix(),
            diff_coffs_mat        = matrix(),
-           diff_coffs_age_ssn        = array(),
+           diff_coffs_age_ssn    = array(),
            diff_coffs_age_period = array(),
            diff_coffs_age        = array(),
            diff_coffs_nl         = array(),
@@ -574,6 +574,8 @@ validMFCLIniBits <- function(object){
 }
 setClass("MFCLIniBits",
          representation(
+           ini_version         ="numeric",
+           region_flags        ="matrix",
            age_pars            ="matrix",
            rec_dist            ="numeric",
            lw_params           ="numeric",
@@ -582,6 +584,8 @@ setClass("MFCLIniBits",
            sd_length_dep       ='numeric'
          ),
          prototype=prototype(
+           ini_version		       =numeric(),
+           region_flags        =matrix(),
            age_pars            =matrix(),
            rec_dist            =numeric(),
            lw_params           =numeric(),
