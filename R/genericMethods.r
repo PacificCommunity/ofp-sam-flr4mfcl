@@ -35,6 +35,8 @@ setMethod('version', signature(x='MFCLPar'),function(x) flagval(x, 1, 200)$value
 
 setMethod('version', signature(x='MFCLFrq'),function(x) return(slot(x,'frq_version'))) 
 
+setMethod('version', signature(x='MFCLIni'),function(x) return(slot(x,'ini_version')))
+
 #'@export flagval
 setGeneric('flagval', function(x, flagtype, flag, ...) standardGeneric('flagval'))
 setMethod('flagval', signature(x='MFCLPar'), function(x, flagtype, flag) flags(x)[flags(x)$flagtype %in% flagtype & flags(x)$flag %in% flag,])
@@ -242,3 +244,27 @@ setMethod("+", signature(e1="MFCLMSEControl", e2="MFCLEMControl"),
             return(e1)
           }
 ) # }}}
+
+
+
+#'@export modifyRRini
+setGeneric('modifyRRini', function(ini,tag,rr,PlusGroup) standardGeneric('modifyRRini'))
+setMethod('modifyRRini', signature(ini='MFCLIni',tag='MFCLTag',rr='data.frame',PlusGroup='character'), function(ini,tag,rr,PlusGroup) {
+    Nfsh <- dim(rr)[1]
+    matrixFormation = function(colName="Grp", plGrp=PlusGroup) {
+        lnbins <- length(release_lengths(tag))
+        tmpPrg <- c(as.character(releases(tag)$program[seq(1,length(releases(tag)$program),lnbins)]),PlusGroup)
+        tmpMat <- matrix(NA, nrow = length(tmpPrg), ncol = Nfsh)
+        tmpInd <- match(paste(colName, tmpPrg, sep ='.'), colnames(rr))
+        for (x in 1:length(tmpPrg)) tmpMat[x,] <- rr[,tmpInd[x]]
+        return(tmpMat)
+    }
+
+    tag_fish_rep_rate(ini) <- matrixFormation("Ini",PlusGroup)
+    tag_fish_rep_target(ini) <- tag_fish_rep_rate(ini)*100
+    tag_fish_rep_grp(ini) <- matrixFormation("Grp",PlusGroup)
+    tag_fish_rep_pen(ini) <- matrixFormation("Pen",PlusGroup)
+    tag_fish_rep_flags(ini) <- matrix(1,nrow=nrow(tag_fish_rep_grp(ini)),ncol=ncol(tag_fish_rep_grp(ini)))
+    return(ini)
+})
+

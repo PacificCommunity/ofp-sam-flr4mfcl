@@ -1415,6 +1415,25 @@ setMethod('range', signature(x='MFCLIni'),function(x) return(slot(x,'range')))
 setReplaceMethod('range', signature(x='MFCLIni', i="missing", value=unname(getSlots('MFCLIni')['range'])),
                  function(x, value){slot(x, 'range') <- value; return(x)}) 
 
+#' @rdname accessor-methods
+setGeneric('ini_version', function(object, ...) standardGeneric('ini_version'))
+#' @rdname accessor-methods
+setMethod('ini_version', signature(object='MFCLIniBits'),function(object) return(slot(object, 'ini_version')))
+#' @rdname accessor-methods
+setGeneric('ini_version<-', function(object, ..., value) standardGeneric('ini_version<-'))
+#' @rdname accessor-methods
+setReplaceMethod('ini_version', signature(object='MFCLIniBits', value=unname(getSlots('MFCLIniBits')['ini_version'])),
+                                function(object, value){slot(object, 'ini_version') <- value; return(object)})
+#' @rdname accessor-methods
+setGeneric('region_flags', function(object, ...) standardGeneric('region_flags'))
+#' @rdname accessor-methods
+setMethod('region_flags', signature(object='MFCLIniBits'),function(object) return(slot(object, 'region_flags')))
+#' @rdname accessor-methods
+setGeneric('region_flags<-', function(object, ..., value) standardGeneric('region_flags<-'))
+#' @rdname accessor-methods
+setReplaceMethod('region_flags', signature(object='MFCLIniBits', value=unname(getSlots('MFCLIniBits')['region_flags'])),
+                 function(object, value){slot(object, 'region_flags') <- value; return(object)})
+
 #############################################################################################################
 # class  MFCLRep
 #' @rdname accessor-methods
