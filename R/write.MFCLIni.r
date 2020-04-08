@@ -59,9 +59,9 @@ write.ini <- function(x, file, append=F, ...){
   cat("# age_pars\n", file=file, append=T)
   write.table(age_pars(x),  row.names=F, col.names=F, file=file, append=T)
   cat("# recruitment distribution by region\n", file=file, append=T)
-  cat(as.character(rec_dist(x)), file=file, append=T)
+  cat(as.character(rec_dist(x)), file=file, append=T,fill=TRUE)
   if (vers>1002) {
-    cat(c("\n# maturity at length", paste(as.character(mat_at_length(x)),collapse=" ")), file=file, append=T,sep='\n')
+    cat(c("# maturity at length", paste(as.character(mat_at_length(x)),collapse=" ")), file=file, append=T,sep='\n')
   }
   cat("# The von Bertalanffy parameters\n# Initial  lower bound  upper bound\n# ML1\n", file=file, append=T)
   cat(as.character(growth(x)[1,]), file=file, append=T)
