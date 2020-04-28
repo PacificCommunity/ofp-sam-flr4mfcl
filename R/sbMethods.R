@@ -8,8 +8,8 @@
 # Not exported
 # This function fuels all the other methods here.
 rolling_mean_and_lagging <- function(flq, mean_nyears, lag_nyears){
-    if((mean_nyears < 1) | (lag_nyears < 1)){
-      stop("mean_nyears and lag_nyears must >= 1")
+    if((mean_nyears < 1) | (lag_nyears < 0)){
+      stop("mean_nyears >= 1 and lag_nyears must >= 0")
     }
     # Take a rolling mean over mean_nyears
     flq <- apply(flq, c(1,3,4,5,6), function(x, n, sides){stats::filter(c(x),rep(1/n,n), sides=sides)}, n=mean_nyears, sides=1)
@@ -119,6 +119,7 @@ rolling_mean_and_lagging <- function(flq, mean_nyears, lag_nyears){
 #' SBSBF0(rep1) # equivalent to extracting dividing the adultBiomass slot by the adultBiomass_nofish slot
 #' SBSBF0(rep1, sb_mean_nyears=4, sbf0_mean_nyears=10, sbf0_lag_nyears=1) # Depletion with SB with a 4 year rolling window and SBF0 with a 10 year rolling window and a lag of 1
 #' SBSBF0recent(rep1) #  Shortcut for depletion with SB with a 4 year rolling window and SBF0 with a 10 year rolling window and a lag of 1
+#' SBSBF0latest(rep1) #  Shortcut for depletion with SB without a rolling mean and no lag and SBF0 with a 10 year rolling window and a lag of 1
 #' # Using lists of rep objects. The lagging and rolling mean arguments are applied to all objects in the list.
 #' rep <- list(rep1=rep1, rep2=rep2, rep3=rep3)
 #' SBSBF0recent(rep)
@@ -345,7 +346,7 @@ setMethod("SBrecent", signature(rep="MFCLRep"),
 #' @export
 setMethod("SBrecent", signature(rep="list"),
   function(rep, ...){
-    return(lapply(rep, SB, mean_nyears=4, lag_nyears=0, ...))
+    return(lapply(rep, SBrecent, ...))
   }
 )
 
@@ -365,7 +366,7 @@ setMethod("SBlatest", signature(rep="MFCLRep"),
 #' @export
 setMethod("SBlatest", signature(rep="list"),
   function(rep, ...){
-    return(lapply(rep, SB, mean_nyears=1, lag_nyears=0, ...))
+    return(lapply(rep, SBlatest, ...))
   }
 )
 
@@ -385,7 +386,7 @@ setMethod("SBF0recent", signature(rep="MFCLRep"),
 #' @export
 setMethod("SBF0recent", signature(rep="list"),
   function(rep, ...){
-    return(lapply(rep, SBF0, mean_nyears=10, lag_nyears=1, ...))
+    return(lapply(rep, SBF0recent, ...))
   }
 )
 
@@ -397,7 +398,7 @@ setGeneric('SBSBF0recent',function(rep, ...) standardGeneric('SBSBF0recent'))
 #' @export
 setMethod("SBSBF0recent", signature(rep="MFCLRep"),
   function(rep, ...){
-    return(SBSBF0(rep=rep, sb_mean_nyears=1, sb_lag_nyears=0, sbf0_mean_nyears=10, sbf0_lag_nyears=1, ...))
+    return(SBSBF0(rep=rep, sb_mean_nyears=4, sb_lag_nyears=0, sbf0_mean_nyears=10, sbf0_lag_nyears=1, ...))
   }
 )
 
@@ -405,7 +406,28 @@ setMethod("SBSBF0recent", signature(rep="MFCLRep"),
 #' @export
 setMethod("SBSBF0recent", signature(rep="list"),
   function(rep, ...){
-    return(lapply(rep, SBSBF0, sb_mean_nyears=1, sb_lag_nyears=0, sbf0_mean_nyears=10, sbf0_lag_nyears=1, ...))
+    return(lapply(rep, SBSBF0recent, ...))
   }
 )
+
+#' @rdname SBmethods
+#' @export
+setGeneric('SBSBF0latest',function(rep, ...) standardGeneric('SBSBF0latest')) 
+
+#' @rdname SBmethods
+#' @export
+setMethod("SBSBF0latest", signature(rep="MFCLRep"),
+  function(rep, ...){
+    return(SBSBF0(rep=rep, sb_mean_nyears=1, sb_lag_nyears=0, sbf0_mean_nyears=10, sbf0_lag_nyears=1, ...))
+  }
+)
+
+#' @rdname SBmethods
+#' @export
+setMethod("SBSBF0latest", signature(rep="list"),
+  function(rep, ...){
+    return(lapply(rep, SBSBF0latest, ...))
+  }
+)
+
 

@@ -37,6 +37,9 @@
 \alias{SBSBF0recent}
 \alias{SBSBF0recent,MFCLRep-method}
 \alias{SBSBF0recent,list-method}
+\alias{SBSBF0latest}
+\alias{SBSBF0latest,MFCLRep-method}
+\alias{SBSBF0latest,list-method}
 \title{Methods for returns the spawning biomass (fished or unfished) and the depletion}
 \usage{
 SB(rep, mean_nyears, lag_nyears, ...)
@@ -143,6 +146,12 @@ SBSBF0recent(rep, ...)
 \S4method{SBSBF0recent}{MFCLRep}(rep, ...)
 
 \S4method{SBSBF0recent}{list}(rep, ...)
+
+SBSBF0latest(rep, ...)
+
+\S4method{SBSBF0latest}{MFCLRep}(rep, ...)
+
+\S4method{SBSBF0latest}{list}(rep, ...)
 }
 \arguments{
 \item{rep}{A single MFCLRep object or a list of MFCLRep objects.}
@@ -202,6 +211,7 @@ SBF0recent(rep1) # Shortcut for a 10 year rolling window and a lag of 1
 SBSBF0(rep1) # equivalent to extracting dividing the adultBiomass slot by the adultBiomass_nofish slot
 SBSBF0(rep1, sb_mean_nyears=4, sbf0_mean_nyears=10, sbf0_lag_nyears=1) # Depletion with SB with a 4 year rolling window and SBF0 with a 10 year rolling window and a lag of 1
 SBSBF0recent(rep1) #  Shortcut for depletion with SB with a 4 year rolling window and SBF0 with a 10 year rolling window and a lag of 1
+SBSBF0latest(rep1) #  Shortcut for depletion with SB without a rolling mean and no lag and SBF0 with a 10 year rolling window and a lag of 1
 # Using lists of rep objects. The lagging and rolling mean arguments are applied to all objects in the list.
 rep <- list(rep1=rep1, rep2=rep2, rep3=rep3)
 SBSBF0recent(rep)
