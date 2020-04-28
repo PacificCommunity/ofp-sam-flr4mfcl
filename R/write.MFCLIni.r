@@ -49,7 +49,8 @@ write.ini <- function(x, file, append=F, ...){
     write.table(region_flags(x),  row.names=F, col.names=F, file=file, append=T)
   }
   cat("# maturity at age\n", file=file, append=T)
-  cat(as.character(aperm(mat(x))), file=file, append=T)
+  #cat(as.character(aperm(mat(x))), file=file, append=T)
+  cat(as.character(mat(x)), file=file, append=T)
   cat("\n# natural mortality (per year)\n", file=file, append=T)
   cat(as.character(m(x)), file=file, append=T)
   cat("\n# movement map\n", file=file, append=T)
@@ -63,7 +64,7 @@ write.ini <- function(x, file, append=F, ...){
   if (vers>1002) {
     cat(c("\n# maturity at length", paste(as.character(mat_at_length(x)),collapse=" ")), file=file, append=T,sep='\n')
   }
-  cat("# The von Bertalanffy parameters\n# Initial  lower bound  upper bound\n# ML1\n", file=file, append=T)
+  cat("\n# The von Bertalanffy parameters\n# Initial  lower bound  upper bound\n# ML1\n", file=file, append=T)
   cat(as.character(growth(x)[1,]), file=file, append=T)
   cat("\n# ML2\n", file=file, append=T)
   cat(as.character(growth(x)[2,]), file=file, append=T)

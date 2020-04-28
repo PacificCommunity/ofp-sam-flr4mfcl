@@ -246,10 +246,19 @@ setGeneric('log_m<-', function(object, ..., value) standardGeneric('log_m<-'))
 setReplaceMethod('log_m', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['log_m'])),
                                 function(object, value){slot(object, 'log_m') <- value; return(object)}) 
 #' @rdname accessor-methods
-setMethod('mat', signature(object='MFCLBiol'),function(object) return(slot(object, 'mat'))) 
+setMethod('mat', signature(object='MFCLBiol'),function(object) return(slot(object, 'mat'))) # RDS 28/04/2020
+setMethod('mat', signature(object='MFCLBiol'),function(object) return(c(aperm(slot(object, 'mat'), c(4,1,2,3,5,6)))))
 #' @rdname accessor-methods
 setReplaceMethod('mat', signature(object='MFCLBiol', value=unname(getSlots('MFCLBiol')['mat'])),
-                                function(object, value){slot(object, 'mat') <- value; return(object)})
+                 function(object, value){
+                   slot(object, 'mat') <- value; return(object)})
+
+setReplaceMethod('mat', signature(object='MFCLBiol', value='numeric'),          ## RDS 28/04/2020
+                                function(object, value){
+                                  dd <- dim(slot(object, 'mat'))
+                                  slot(object, 'mat') <- FLQuant(aperm(array(value, dim=c(dd[1],dd[4],1,1,1,1)), c(2,3,4,1,5,6)))
+                                  return(object)
+                                })
 #' @rdname accessor-methods
 setGeneric('mat_at_length', function(object, ...) standardGeneric('mat_at_length')) 
 #' @rdname accessor-methods
@@ -1006,7 +1015,8 @@ setReplaceMethod('sd_laa', signature(object='MFCLRep', value=unname(getSlots('MF
 #' @rdname accessor-methods
 setGeneric('m_at_age', function(object, ...) standardGeneric('m_at_age')) 
 #' @rdname accessor-methods
-setMethod('m_at_age', signature(object='MFCLRep'),function(object) return(slot(object, 'm_at_age'))) 
+#setMethod('m_at_age', signature(object='MFCLRep'),function(object) return(slot(object, 'm_at_age')))   # RDS 28/04/2020
+setMethod('m_at_age', signature(object='MFCLRep'),function(object) return(c(aperm(slot(object,'m_at_age'),c(4,1,2,3,5,6)))))
 #' @rdname accessor-methods
 setGeneric('m_at_age<-', function(object, ..., value) standardGeneric('m_at_age<-')) 
 #' @rdname accessor-methods

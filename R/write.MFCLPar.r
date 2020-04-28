@@ -59,8 +59,9 @@ write.par <- function(x, file, append=F, ...){
   write.table(t(array(flagval(x, -100000:-100009,1:dimensions(x)["regions"])$value, dim=c(dimensions(x)["regions"], 10))),
               col.names=F, row.names=F, file=file, append=T)
 
-  cat("# percent maturity \n ",   file=file, append=T); cat(float(as.vector(aperm(mat(x), c(4,1,2,3,5,6)))), file=file, append=T)
-
+  #cat("# percent maturity \n ",   file=file, append=T); cat(float(as.vector(aperm(mat(x), c(4,1,2,3,5,6)))), file=file, append=T)
+  cat("# percent maturity \n ",   file=file, append=T); cat(float(as.vector(mat(x))), file=file, append=T)  # RDS 28/04/2020
+  
   cat(paste("\n# total populations scaling parameter   \n", float(tot_pop(x))),  file=file, append=T)
   cat(paste("\n# implicit total populations scaling parameter   \n", float(tot_pop_implicit(x))),  file=file, append=T)
   cat(paste("\n# rec init pop level difference    \n", float(rec_init_pop_diff(x))),  file=file, append=T)

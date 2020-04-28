@@ -67,6 +67,8 @@ read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
   if(!is.null(parobj))
     par <- parobj
   
+  vsn <- as.numeric(unlist(strsplit(trimws(par[2]), split="[[:blank:]]+")))[200]
+  
   nseasons <- length(splitter(par, "# season_flags"))
   nyears   <- length(splitter(par, "# Cohort specific growth deviations"))
   nagecls  <- as.numeric(par[grep("# The number of age classes", par)+1])
@@ -104,8 +106,9 @@ read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
                                                dim=c(nseasons,nagecls/nseasons,1,1,1)),c(2,3,4,1,5)), dimnames=dims_age)
 
   # if(length(grep("# maturity at length",par))>0)
-  # RDS 27/02/20
-  if(length(grep("# maturity at length",par))>0 & par[grep("# maturity at length",par)+1]!="# The von Bertalanffy parameters")
+  # RDS 27/02/20 and 16/04/20
+  #if(length(grep("# maturity at length",par))>0 & par[grep("# maturity at length",par)+1]!="# The von Bertalanffy parameters")
+  if(vsn > 1056)
     slot(res, 'mat_at_length') <- as.numeric(splitter(par, "# maturity at length"))
     
   slot(res, "growth")   <- t(array(as.numeric(splitter(par, "# The von Bertalanffy parameters", 1:3)),
