@@ -379,8 +379,6 @@ exportMethods(
   "richards<-",
   "SBF0",
   "SBSBF0",
-  "SBF0Alt",
-  "SBSBF0Alt",
   "scaler",
   "scaler<-",
   "sd_laa",
