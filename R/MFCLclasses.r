@@ -118,10 +118,56 @@ remove(validMFCLLenFreq)
 #'@export
 MFCLLenFreq <- function() {return(new("MFCLLenFreq"))}
 
+
+
+###### CLASSS MFCLLenFreq2  (from .frq file)
+
+validMFCLLenFreq2 <- function(object){
+  #Everything is fine
+  return(TRUE)
+}
+#' An S4 class : Size frequency information from the frq file.
+#'
+#' @slot lf_range Range information of the length frequencies
+#' @slot age_nage I don't know what this is but it's in the frq file
+#' @slot cateffpen Data frame of catch effort and penalty information
+#' @slot lnfrq Data frame of length frequency information.
+#' @slot wtfrq Data frame of weight frequency information.
+#'
+setClass("MFCLLenFreq2",
+         representation(
+           lf_range    ="numeric",
+           age_nage    ="numeric",
+           cateffpen   ="data.frame",
+           lnfrq       ="data.frame",
+           wtfrq       ="data.frame"
+         ),
+         prototype=prototype(
+           lf_range     =unlist(list(Datasets=0,LFIntervals=NA,LFFirst=NA,LFWidth=NA,LFFactor=NA,WFIntervals=NA,WFFirst=NA,WFWidth=NA,WFFactor=NA)),
+           age_nage     =unlist(list(age_nage=0,age_age1=NA)),
+           cateffpen   =data.frame(),
+           lnfrq       =data.frame(),
+           wtfrq       =data.frame()
+         ),
+         validity=validMFCLLenFreq2
+)
+setValidity("MFCLLenFreq2", validMFCLLenFreq2)
+remove(validMFCLLenFreq2)
+#createMFCLAccesors("MFCLLenFreq2")
+#'MFCLLenFreq2
+#'
+#'Basic constructor for MFCLLenFreq2 class
+#'@export
+MFCLLenFreq2 <- function() {return(new("MFCLLenFreq2"))}
+
+
+
+
+
 ###### CLASSS MFCLFrq
 
 validMFCLFrq <- function(object){
-
+  
   # Everything is fine
   return(TRUE)
 }
@@ -150,6 +196,38 @@ MFCLFrq <- function() {return(new("MFCLFrq"))}
 
 
 
+###### CLASSS MFCLFrq2
+
+validMFCLFrq2 <- function(object){
+  # Everything is fine
+  return(TRUE)
+}
+#' An S4 class : Representation of a frq input file for MFCL (based on the MFCLLenFreq2 object)
+#'
+#' A class comprising an MFCLFrqStats object and an MFCLLenFrq2 object
+#'
+setClass("MFCLFrq2",
+         representation(
+           "MFCLFrqStats",
+           "MFCLLenFreq2"
+         ),
+         validity=validMFCLFrq2
+)
+setValidity("MFCLFrq2", validMFCLFrq2)
+remove(validMFCLFrq2)
+
+#'MFCLFrq2
+#'
+#'Basic constructor for MFCLFrq2 class
+#'
+#'@export
+
+MFCLFrq2 <- function() {return(new("MFCLFrq2"))}
+
+
+
+
+
 ######################################################################
 ###
 ###  Par file
@@ -173,7 +251,7 @@ setClass("MFCLBase",
 #'Basic constructor for MFCLBase class
 #'@export
 MFCLBase <- function() {return(new("MFCLBase"))}         
-         
+
 
 
 validMFCLBiol <- function(object){
@@ -199,7 +277,7 @@ setClass("MFCLBiol",
            len_bias_pars     ="numeric",
            common_len_bias_pars  ="numeric",
            common_len_bias_coffs ="numeric"
-           ),
+         ),
          prototype=prototype(
            m                 =numeric(),
            m_devs_age        =FLQuant(),
@@ -217,7 +295,7 @@ setClass("MFCLBiol",
            len_bias_pars     =numeric(),
            common_len_bias_pars  =numeric(),
            common_len_bias_coffs =numeric()
-           ),
+         ),
          validity=validMFCLBiol
 )
 setValidity("MFCLBiol", validMFCLBiol)
@@ -241,11 +319,11 @@ setClass("MFCLFlags",
          representation(
            flags   = "data.frame",
            unused  ="list"
-           ),
+         ),
          prototype=prototype(
            flags   = data.frame(),
            unused  =list()
-           ),
+         ),
          validity=validMFCLFlags
 )
 setValidity("MFCLFlags", validMFCLFlags)
@@ -347,7 +425,7 @@ setClass("MFCLRegion",
            control_flags         = "matrix",
            move_map              = "numeric",
            diff_coffs            = "matrix",
-          xdiff_coffs            = "matrix",
+           xdiff_coffs            = "matrix",
            diff_coffs_mat        = "matrix",
            diff_coffs_age_ssn        = "array",
            diff_coffs_age_period = "array",
@@ -364,7 +442,7 @@ setClass("MFCLRegion",
            control_flags         = matrix(),
            move_map              = numeric(),
            diff_coffs            = matrix(),
-          xdiff_coffs            = matrix(),
+           xdiff_coffs            = matrix(),
            diff_coffs_mat        = matrix(),
            diff_coffs_age_ssn    = array(),
            diff_coffs_age_period = array(),
@@ -565,9 +643,9 @@ MFCLIni <- function() {return(new("MFCLIni"))}
 ###### CLASSS MFCLPar
 
 validMFCLPar <- function(object){
-
-   # Everything is fine
-   return(TRUE)
+  
+  # Everything is fine
+  return(TRUE)
 }
 
 setClass("MFCLPar",
@@ -580,9 +658,9 @@ setClass("MFCLPar",
            "MFCLSel",
            "MFCLParBits",
            range="numeric"
-           ),
+         ),
          prototype=prototype(
-           ),
+         ),
          validity=validMFCLPar
 )
 setValidity("MFCLPar", validMFCLPar)
@@ -664,7 +742,7 @@ setClass("MFCLTag",
            releases_proj   = data.frame(region=NULL, year=NULL, month=NULL, fishery=NULL, n=NULL),
            recaptures      = data.frame(rel.group=NULL, region=NULL, year=NULL, month=NULL, program=NULL, rel.length=NULL, recap.fishery=NULL, recap.year=NULL, recap.month=NULL, recap.number=NULL),
            range           = unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
-           ),
+         ),
          validity=validMFCLTag
 )
 setValidity("MFCLTag", validMFCLTag)
@@ -805,7 +883,7 @@ remove(validMFCLprojControl)
 #'Basic constructor for projControl class
 #'@export
 MFCLprojControl <- function(nyears=as.numeric(NULL), nsims=as.numeric(NULL), avyrs='', fprojyr=as.numeric(NULL), controls=data.frame(name=NULL, region=NULL, caeff=NULL, scaler=NULL, ess=NULL)) {
-
+  
   res <- new("MFCLprojControl")
   slot(res, 'nyears') <- nyears
   slot(res, 'nsims')  <- nsims
@@ -909,14 +987,14 @@ setClass("MFCLPseudo",
            catcheff            ="data.frame",
            l_frq               ="data.frame",
            w_frq               ="data.frame",
-#           freq                ="data.frame",
+           #           freq                ="data.frame",
            range               ="numeric"
          ),
          prototype=prototype(
            catcheff            =data.frame(year=NULL, month=NULL, fishery=NULL, iter=NULL, data=NULL),
            l_frq               =data.frame(year=NULL, month=NULL, fishery=NULL, length=NULL, iter=NULL, freq=NULL),
            w_frq               =data.frame(year=NULL, month=NULL, fishery=NULL, weight=NULL, iter=NULL, freq=NULL),
-#           freq                =data.frame(),
+           #           freq                =data.frame(),
            range               =unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
          ),
          validity=validMFCLPseudo
@@ -937,7 +1015,7 @@ MFCLPseudo <- function(catcheff =data.frame(year=NULL, month=NULL, fishery=NULL,
   slot(res, "range") <- unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
   
   return(res)
-  }
+}
 
 
 validMFCLPseudoControl <- function(object){
@@ -1066,8 +1144,6 @@ MFCLMSEControl <- function(hcr="hcr_threshold", hcr_params=c(sbsbf0_min = 0.2, s
   
   return(msec)
 }
-
-
 
 
 

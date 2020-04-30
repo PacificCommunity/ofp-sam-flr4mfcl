@@ -33,6 +33,45 @@ setMethod("FLQuant", signature(object="MFCLLenFreq"),
 ) # }}}
 
 
+setMethod("FLQuant", signature(object="MFCLLenFreq2"),
+          function(object,  data='catch', ...) {
+            
+            quant <- switch(data, "catch" = "all",
+                            "effort"= "all",
+                            "length"= "length",
+                            "weight"= "weight")
+            
+            if(data=='catch' | data=='effort'){
+              dd <- cbind(quant, realisations(object)[,c('year','fishery','month')], 'unique', 1, realisations(object)[,data])
+              colnames(dd) <- colnames(as.data.frame(FLQuant()))
+              return(as.FLQuant(dd))
+            }
+            
+            if(data=="length"){
+              ## if(data=="length" | data=='weight'){
+              ## dd <- cbind(freq(object)[,c(quant,'year','fishery','month')], 'unique', 1, freq(object)[,'freq'])
+              ## colnames(dd) <- c(quant, colnames(as.data.frame(FLQuant()))[-1])
+              lnfrq <- lnfrq(object)
+              nobs=dim(lnfrq)[1]
+              nLbins <- lf_range(object)['LFIntervals']; Lwidth <- lf_range(res)["LFWidth"]; Lfirst <- lf_range(res)["LFFirst"]
+              frqlen <- seq(Lfirst, Lwidth*nLbins+Lfirst-Lwidth, by=Lwidth)
+              dd <- cbind(rep(frqlen,nobs),rep(lnfrq$year,each=nLbins),rep(lnfrq$fishery,each=nLbins),rep(lnfrq$month,each=nLbins),'unique',1,unlist(lnfrq[,-4:-1]))
+              colnames(dd) <- c(quant, colnames(as.data.frame(FLQuant()))[-1])
+              return(as.FLQuant(dd))
+            }
+            if(data=='weight'){
+              wtfrq <- wtfrq(object)
+              nWbins <- lf_range(res)['WFIntervals']; Wwidth <- lf_range(res)["WFWidth"]; Wfirst <- lf_range(res)["WFFirst"]
+              frqwt  <- seq(Wfirst, Wwidth*nWbins+Wfirst-Wwidth, by=Wwidth)
+              dd <- cbind(rep(frqwt,nobs),rep(wtfrq$year,each=nWbins),rep(wtfrq$fishery,each=nWbins),rep(wtfrq$month,each=nWbins),'unique',1,unlist(wtfrq[,-4:-1]))
+              
+              return(as.FLQuant(dd))
+            }
+          }
+) # }}}
+
+
+
 
 #' qts
 #'
