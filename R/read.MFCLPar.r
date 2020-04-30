@@ -114,7 +114,7 @@ read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
   slot(res, "growth")   <- t(array(as.numeric(splitter(par, "# The von Bertalanffy parameters", 1:3)),
                                    dim=c(3,3), dimnames=list(c("est","min","max"),c("Lmin","Lmax","k"))))
                                        
-  slot(res, "richards") <- as.numeric(par[grep("# extra par for Richards",  par)+1])
+  slot(res, "richards") <- as.numeric(par[grep("# extra par for Richards",  par, ignore.case = T)+1])
   
   slot(res, "len_bias_pars")        <- as.numeric(splitter(par, "# First Length bias parameters"))
   slot(res, "common_len_bias_pars") <- as.numeric(splitter(par, "# Common first Length bias flags"))

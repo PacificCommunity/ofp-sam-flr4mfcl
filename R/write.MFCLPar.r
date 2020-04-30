@@ -198,8 +198,9 @@ write.par <- function(x, file, append=F, ...){
   cat("\n# The von Bertalanffy parameters  \n",   file=file, append=T)
   write.table(float(growth(x)),  col.names=F, row.names=F, file=file, append=T,quote=F)
 
-  cat(paste("\n# extra par for Richards     \n", richards(x)),  file=file, append=T)
-
+  #cat(paste("\n# extra par for Richards     \n", richards(x)),  file=file, append=T)
+  cat(paste("\n# Extra par for Richards     \n", richards(x)),  file=file, append=T)   ## RDS 30/04/2020 
+  
   cat(paste("\n \n# First Length bias parameters \n", paste(as.vector(len_bias_pars(x)), collapse=" ")),  file=file, append=T)
   cat(paste("\n \n# Common first Length bias flags \n", paste(as.vector(common_len_bias_pars(x)), collapse=" ")),  file=file, append=T)
   cat(paste("\n \n# Common first Length bias coffs \n", paste(as.vector(common_len_bias_coffs(x)), collapse=" ")),  file=file, append=T)
