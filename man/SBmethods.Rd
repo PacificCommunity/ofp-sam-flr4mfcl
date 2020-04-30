@@ -191,6 +191,7 @@ Shortcut methods are available (\code{SBlatest()}, \code{SBrecent()}, \code{SBF0
 \code{SBrecent()} uses a rolling mean of 4 years without a lag.
 \code{SBF0recent()} uses a rolling mean of 10 years with a lag of 1 year.
 \code{SBSBF0recent()} is a combination of \code{SBrecent()} and \code{SBF0recent()}.
+\code{SBSBF0latest()} is a combination of \code{SBlatest()} and \code{SBF0recent()}.
 }
 \examples{
 \dontrun{

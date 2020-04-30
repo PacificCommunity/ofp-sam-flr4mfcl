@@ -85,6 +85,7 @@ rolling_mean_and_lagging <- function(flq, mean_nyears, lag_nyears){
 #' \code{SBrecent()} uses a rolling mean of 4 years without a lag.
 #' \code{SBF0recent()} uses a rolling mean of 10 years with a lag of 1 year.
 #' \code{SBSBF0recent()} is a combination of \code{SBrecent()} and \code{SBF0recent()}.
+#' \code{SBSBF0latest()} is a combination of \code{SBlatest()} and \code{SBF0recent()}.
 #'
 #' @param rep A single MFCLRep object or a list of MFCLRep objects.
 #' @param mean_nyears The number of years to calculate the rolling mean over. A value of 1 is the same as not calculating a mean. For the SB() method the default value is 1.
