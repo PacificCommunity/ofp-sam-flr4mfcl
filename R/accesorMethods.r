@@ -221,6 +221,42 @@ setReplaceMethod('freq', signature(object='MFCLLenFreq', value=unname(getSlots('
                                 function(object, value){slot(object, 'freq') <- value; return(object)}) 
 
 #############################################################################################################
+# class  MFCLLenFreq2 
+#' @rdname accessor-methods
+setGeneric('cateffpen', function(object, ...) standardGeneric('cateffpen')) 
+#' @rdname accessor-methods
+setMethod('cateffpen', signature(object='MFCLLenFreq2'),function(object) return(slot(object, 'cateffpen'))) 
+#' @rdname accessor-methods
+setGeneric('cateffpen<-', function(object, ..., value) standardGeneric('cateffpen<-')) 
+#' @rdname accessor-methods
+setReplaceMethod('cateffpen', signature(object='MFCLLenFreq2', value=unname(getSlots('MFCLLenFreq2')['cateffpen'])),
+                 function(object, value){slot(object, 'cateffpen') <- value; return(object)}) 
+#' @rdname accessor-methods
+setGeneric('lnfrq', function(object, ...) standardGeneric('lnfrq')) 
+#' @rdname accessor-methods
+setMethod('lnfrq', signature(object='MFCLLenFreq2'),function(object) return(slot(object, 'lnfrq'))) 
+#' @rdname accessor-methods
+setGeneric('lnfrq<-', function(object, ..., value) standardGeneric('lnfrq<-')) 
+#' @rdname accessor-methods
+setReplaceMethod('lnfrq', signature(object='MFCLLenFreq2', value=unname(getSlots('MFCLLenFreq2')['lnfrq'])),
+                 function(object, value){slot(object, 'lnfrq') <- value; return(object)}) 
+#' @rdname accessor-methods
+setGeneric('wtfrq', function(object, ...) standardGeneric('wtfrq')) 
+#' @rdname accessor-methods
+setMethod('wtfrq', signature(object='MFCLLenFreq2'),function(object) return(slot(object, 'wtfrq'))) 
+#' @rdname accessor-methods
+setGeneric('wtfrq<-', function(object, ..., value) standardGeneric('wtfrq<-')) 
+#' @rdname accessor-methods
+setReplaceMethod('wtfrq', signature(object='MFCLLenFreq2', value=unname(getSlots('MFCLLenFreq2')['wtfrq'])),
+                 function(object, value){slot(object, 'wtfrq') <- value; return(object)}) 
+
+#' @rdname accessor-methods
+setMethod('freq', signature(object='MFCLLenFreq2'),function(object) print("This is not the freq object you are looking for"))
+#' @rdname accessor-methods
+setReplaceMethod('freq', signature(object='MFCLLenFreq2', value=unname(getSlots('MFCLLenFreq2')['freq'])),
+                 function(object, value){stop("Muppet!! This is an MFCLLenFrq2 object")}) 
+
+#############################################################################################################
 # class  MFCLBiol 
 #' @rdname accessor-methods
 setMethod('m', signature(object='MFCLBiol'),function(object) return(slot(object, 'm'))) 

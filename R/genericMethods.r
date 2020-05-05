@@ -82,7 +82,8 @@ setMethod('realisations', signature(object='MFCLLenFreq'),
   freq2 <- slot(object,'freq')[lw_realisations,]
   realisations <- unique(freq2[,c("year","month","week","fishery")])
   # Drop penalty, length, weight and freq column
-  drop_cols <- c("penalty", "length", "weight", "freq")
+  #drop_cols <- c("penalty", "length", "weight", "freq")  # RDS 05/05/2020
+  drop_cols <- c("length", "weight", "freq")
   realisations <- freq2[rownames(realisations),!(colnames(freq2) %in% drop_cols)]
   return(realisations)
 })

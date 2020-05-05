@@ -76,20 +76,50 @@ setMethod('as.MFCLFrq',signature(frq="MFCLFrq2"), function(frq) {
     dfall <- rbind(dfall,cbind(apply(cep[LnMatcher[LengthWeight],],2,rep,each=nLbins),length=frqlen,weight=NA,freq=as.vector(t(lnfrq[LengthWeight,-4:-1]))))
     dfall <- rbind(dfall,cbind(apply(cep[WtMatcher[WeightLength],],2,rep,each=nWbins),length=NA,weight=frqwt,freq=as.vector(t(wtfrq[WeightLength,-4:-1]))))
   }
-  frq <- as.MFCLLenFreq2(frq)
-  frq@freq <- dfall[order(dfall$fishery,dfall$year,dfall$month),]
-  return(frq)
+  res <- MFCLFrq()
+  for(ss in slotNames(res))
+    slot(res, ss) <- slot(frq, ss)
+  #frq <- as.MFCLLenFreq2(frq)
+  freq(res) <- dfall[order(dfall$fishery,dfall$year,dfall$month),]
+  return(res)
 } )
 
 
 
-## Matt's convertFreq code - renamed as.MFCLFrq
-## 30/04/2020
+
+## 04/05/2020
 setGeneric('as.MFCLFrq2', function(frq, ...) standardGeneric('as.MFCLFrq2'))
 
 setMethod('as.MFCLFrq2',signature(frq="MFCLFrq"), function(frq) {
   
+  lnfrq_stuff <- subset(freq(frq), length==lf_range(frq)["LFFirst"])[,1:4]
+  lnfrq_freq  <- t(matrix(subset(freq(frq), !is.na(length))$freq, nrow=lf_range(frq)['LFIntervals']))
+  lnfrq       <- cbind(lnfrq_stuff, lnfrq_freq)
+  if(nrow(lnfrq)>0)
+    colnames(lnfrq)[5:(lf_range(frq)['LFIntervals']+4)] <- seq(lf_range(frq)['LFFirst'], by=lf_range(frq)['LFWidth'], length.out=lf_range(frq)['LFIntervals'])
+
+  wtfrq_stuff <- subset(freq(frq), weight==lf_range(frq)["WFFirst"])[,1:4]
+  wtfrq_freq  <- t(matrix(subset(freq(frq), !is.na(weight))$freq, nrow=lf_range(frq)['WFIntervals']))
+  wtfrq       <- cbind(wtfrq_stuff, wtfrq_freq)
+  if(nrow(wtfrq)>0)
+    colnames(wtfrq)[5:(lf_range(frq)['WFIntervals']+4)] <- seq(lf_range(frq)['WFFirst'], by=lf_range(frq)['WFWidth'], length.out=lf_range(frq)['WFIntervals'])
   
+  res <- new("MFCLFrq2")
+  
+  for(sn in slotNames(MFCLFrq()))
+    slot(res, sn) <- slot(frq, sn)
+    
+  slot(res, "cateffpen") <- realisations(frq)
+  slot(res, "lnfrq")     <- lnfrq
+  slot(res, "wtfrq")     <- wtfrq
+    
+  return(res)
 }
 )
+
+
+
+
+
+
 

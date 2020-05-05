@@ -136,15 +136,12 @@ validMFCLLenFreq2 <- function(object){
 #'
 setClass("MFCLLenFreq2",
          representation(
-           lf_range    ="numeric",
-           age_nage    ="numeric",
+           "MFCLLenFreq",
            cateffpen   ="data.frame",
            lnfrq       ="data.frame",
            wtfrq       ="data.frame"
          ),
          prototype=prototype(
-           lf_range     =unlist(list(Datasets=0,LFIntervals=NA,LFFirst=NA,LFWidth=NA,LFFactor=NA,WFIntervals=NA,WFFirst=NA,WFWidth=NA,WFFactor=NA)),
-           age_nage     =unlist(list(age_nage=0,age_age1=NA)),
            cateffpen   =data.frame(),
            lnfrq       =data.frame(),
            wtfrq       =data.frame()
