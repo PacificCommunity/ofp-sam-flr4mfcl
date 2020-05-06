@@ -233,5 +233,185 @@ read.MFCLFrq <- function(frqfile){
 }
 
 
+
+
+
+
+#' MFCL Length Frequency2 - MUFDAGR friendly
+#'
+#' Extracts the length frequency data from Mufdagr output
+#'
+#' @param frqfile A character string giving the name and path of the frq file to be read
+#'
+#' @return An object of class MFCLLenFreq
+#'
+#' @examples
+#' read.MFCLLenFreq("C://R4MFCL//test_data//skj_ref_case//skj.frq")
+#'
+#' @export
+
+read.MFCLLenFreq2 <- function(frqfile){
+
+  trim.leading  <- function(x) sub("^\\s+", "", x)
+
+  quick.check <- function(obj, both, ...){
+    if(!both){
+      ## if(lf_range(obj)["WFIntervals"]>0 & lf_range(obj)["LFIntervals"]>0)
+      ##   stop("I don't know if the frequency data are by length or weight: check the lf_range inputs")
+      if(lf_range(obj)["WFIntervals"]==0 & lf_range(obj)["LFIntervals"]==0)
+        stop("Both the length intervals and weight intervals are set to 0: check the lf_range inputs")
+      if(lf_range(obj)["WFFirst"]==0 & lf_range(obj)["LFFirst"]==0)
+        stop("Both the first length and first weight bin are set to 0: check the lf_range inputs")
+    }
+    return(TRUE)
+  }
+
+  get_data<- function(subset,start,width){
+    df <- as.data.frame(matrix(as.numeric(unlist(lapply(strsplit(lffrq[subset], split="[[:blank:]]+"),'[',c(1:4,seq(start,by=1,length.out=width))))), ncol=(width+4), byrow=T))
+    return(df)
+  }
+
+  res  <- new("MFCLLenFreq2")
+  frq  <- readLines(frqfile,warn=FALSE)
+
+  # get the frq file version
+  tp <- frq[-grep("#", frq)]
+  tp <- tp[nchar(tp)>1]
+  version <- rev(as.numeric(unlist(strsplit(trim.leading(tp[1]), split="[[:blank:]]+"))))[1]
+  if (version >7) stop("FLR4MFCL cannot currently read in multispecies frq files")
+
+  dat  <- as.numeric(unlist(strsplit(frq[grep("Datasets", frq)+1], split="[[:blank:]]+")))
+  slot(res, "lf_range")[] <- dat[!is.na(dat)]
+
+  dat  <- as.numeric(unlist(strsplit(trim.leading(frq[grep("age_nage", frq)+1]), split="[[:blank:]]+")))
+  if(length(dat)>1)
+    slot(res, "age_nage")[] <- dat
+
+  nLbins <- lf_range(res)['LFIntervals']; Lwidth <- lf_range(res)["LFWidth"]; Lfirst <- lf_range(res)["LFFirst"]
+  nWbins <- lf_range(res)['WFIntervals']; Wwidth <- lf_range(res)["WFWidth"]; Wfirst <- lf_range(res)["WFFirst"]
+
+  line1 <- ifelse(any(is.na(slot(res, "age_nage"))), grep("Datasets", frq)+2, grep("age_nage", frq)+2)  # first line of frequency data
+  #lffrq <- frq[line1:length(frq)]   # just the length frequency data
+  lffrq <- trim.leading(frq[line1:length(frq)])   # just the length frequency data )
+
+  ## add in a check to remove first line if it is a blank line
+  if (lffrq[1]=="") lffrq <- lffrq[-1]
+
+  ## frq_size <- ifelse(version==6, 9, 8)
+  nfields <- count.fields(frqfile, skip=line1-1)          # number of fields in each line of the frequency data
+  sumfields <- c(0,cumsum(nfields))
+  frq_size <- min(nfields)
+  #both    <- length(table(nfields))>2 & min(nfields) > 8  # check if you have both length and weight frequency data
+  ## both    <- length(table(nfields))>2 & min(nfields) >= frq_size  # version control that doesnt work at the moment
+  both <- Wfirst!=0 & Lfirst!=0         #check to make sure that there is length and weight data as defined in Mufdager
+
+  frqlen <- frqwt <- NA
+  if(nLbins>0& Lfirst!=0) {frqlen <- seq(Lfirst, Lwidth*nLbins+Lfirst-Lwidth, by=Lwidth)}
+  if(nWbins>0& Wfirst!=0) {frqwt  <- seq(Wfirst, Wwidth*nWbins+Wfirst-Wwidth, by=Wwidth)}
+
+  if(!both & quick.check(res, both)){ # If only one type of frequency data - length or weight
+
+    ## catch effort and penalty with identifiers
+    cep <- as.data.frame(matrix(as.numeric(unlist(lapply(strsplit(lffrq, split="[[:blank:]]+"),head,(frq_size-1)))), ncol=(frq_size-1), byrow=T))
+
+    if(Lfirst==0){                      #If only weight frequency
+      lnfrq <- data.frame(year=NA,month=NA,week=NA,fishery=NA,Len=NA)
+      lnfrq <- lnfrq[-1,]
+      wtfrq <- get_data(nfields==(frq_size-1+nWbins),frq_size,nWbins)
+      colnames(wtfrq) <- c("year", "month", "week", "fishery",frqwt)
+    } else{                             #If only length frequency
+      lnfrq <- get_data(nfields==(frq_size-1+nLbins),frq_size,nLbins)
+      colnames(lnfrq) <- c("year", "month", "week", "fishery",frqlen)
+      wtfrq <- data.frame(year=NA,month=NA,week=NA,fishery=NA,Wt=NA)
+      wtfrq <- wtfrq[-1,]
+    }
+  }
+
+  if(both){  # if you have both length and weight frequency data ...
+    ## catch effort and penalty with identifiers
+    cep <- as.data.frame(matrix(as.numeric(unlist(lapply(strsplit(lffrq, split="[[:blank:]]+"),head,(frq_size-2)))), ncol=(frq_size-2), byrow=T))
+
+    ## columns with only length
+    lnfrq1 <- get_data(nfields==(frq_size-1+nLbins),(frq_size-1),nLbins)
+
+    ## columns with only weight
+    wtfrq1 <- get_data(nfields==(frq_size-1+nWbins),(frq_size),nWbins)
+
+    ## columns with both length and weight
+    lnfrq2 <- get_data(nfields==(frq_size-2+nLbins+nWbins),(frq_size-1),nLbins)
+    wtfrq2 <- get_data(nfields==(frq_size-2+nLbins+nWbins),(frq_size-1+nLbins),nWbins)
+
+    ## combine the two
+    lnfrq <- rbind(lnfrq1,lnfrq2)
+    wtfrq <- rbind(wtfrq1,wtfrq2)
+    colnames(lnfrq) <- c("year", "month", "week", "fishery",frqlen)
+    colnames(wtfrq) <- c("year", "month", "week", "fishery",frqwt)
+  }
+
+  ## If a mufdager file enter a column for the penalty and set age_nage to zero
+  if (version <6) {
+    cep=cbind(cep,penalty=-1)
+    slot(res, "age_nage") <- c(0,0)
+  }
+
+  ## renames the columns of the catch effort and penalty
+  if (version <=7){                     #single species
+    colnames(cep) <- c("year", "month", "week", "fishery", "catch", "effort", "penalty")
+  } ## need to add to this for multispecies frq files
+
+  cep <- cep[order(cep$fish,cep$year,cep$month),]
+  lnfrq <- lnfrq[order(lnfrq$fish,lnfrq$year,lnfrq$month),]
+  wtfrq <- wtfrq[order(wtfrq$fish,wtfrq$year,wtfrq$month),]
+
+  res@cateffpen <- cep
+  res@lnfrq <- lnfrq
+  res@wtfrq <- wtfrq
+
+  return(res)
+
+}
+
+
+
+#' MFCL frq2 file reader - Mufdagr friendly
+#'
+#' Reads the entire contents of the frq file
+#'
+#' @param frqfile A character string giving the name and path of the frq file to be read
+#'
+#' @return An object of class MFCLFrq
+#'
+#' @examples
+#' read.MFCLLenFreq(paste(system.file('data', package='FLR4MFCL'), 'skj.frq', sep='//'))
+#'
+#' @export
+
+read.MFCLFrq2 <- function(frqfile){
+
+  lenfreq <- read.MFCLLenFreq2(frqfile)
+  vitals  <- read.MFCLFrqStats(frqfile)
+
+  ## If version number is less than 6 when read in change it to 6 because it is transformed by adding penalty column
+  if (frq_version(vitals)<6) frq_version(vitals) <- 6
+  res <- new("MFCLFrq2")
+
+  for(slotname in slotNames(lenfreq)){
+    if(slotname!="freq")
+      slot(res, slotname) <- slot(lenfreq, slotname)
+  }
+
+  for(slotname in slotNames(vitals)){
+    slot(res, slotname) <- slot(vitals, slotname)
+  }
+
+  minlen <- lenfreq@lf_range['LFFirst']
+  maxlen <- lenfreq@lf_range['LFFirst'] + lenfreq@lf_range['LFIntervals'] * lenfreq@lf_range['LFFirst']
+  res@range[c('min','max')] <- c(minlen,maxlen)
+  res@range['maxyear']      <- max(res@cateffpen[,'year'])
+
+  return(res)
+
+}
+
 #frqfile <- 'C://R4MFCL//test_data//skj_ref_case//skj.frq'
 

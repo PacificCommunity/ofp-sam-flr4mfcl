@@ -11,7 +11,7 @@
   if(length(builddate) == 0)
     builddate <- date()
 #  packageStartupMessage(paste("FLR4MFCL (Version ", pkgdesc$Version, ", packaged: ", builddate, "): Pissing with the big dogs", sep = ""))
-  packageStartupMessage(paste("FLR4MFCL ", pkgdesc$Version, "(",builddate,")"," -- "," 'Ginger bearded feckless dataframe manipulator'", sep = ""))  
+  packageStartupMessage(paste("FLR4MFCL ", pkgdesc$Version, "(",builddate,")"," -- "," 'the package formerly known as ...'", sep = ""))  
 }
 
 # ac
