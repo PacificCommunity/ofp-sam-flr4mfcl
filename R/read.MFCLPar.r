@@ -108,7 +108,7 @@ read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
   # if(length(grep("# maturity at length",par))>0)
   # RDS 27/02/20 and 16/04/20
   #if(length(grep("# maturity at length",par))>0 & par[grep("# maturity at length",par)+1]!="# The von Bertalanffy parameters")
-  if(vsn > 1056)
+  if(vsn >= 1056)
     slot(res, 'mat_at_length') <- as.numeric(splitter(par, "# maturity at length"))
     
   slot(res, "growth")   <- t(array(as.numeric(splitter(par, "# The von Bertalanffy parameters", 1:3)),
