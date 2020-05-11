@@ -50,6 +50,7 @@ read.MFCLCatch <- function(catchfile, dimensions, rnge) {
   slot(res, "fishery_catch") <- FLQuant(aperm(array(fishery_catch, dim=c(nsns,nyrs,nfish,1,1)), c(4,2,3,1,5)),dimnames=dmns2)
   slot(res, "range")[] <- c(NA, NA, NA, rnge["minyear"], rnge["maxyear"])
   
+  res <- checkUnitDimnames(res)
   return(res)
 }
   

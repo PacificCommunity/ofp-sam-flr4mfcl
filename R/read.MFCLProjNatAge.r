@@ -28,6 +28,7 @@ read.MFCLProjectedNatAge <- function(filename="projected_numbers_at_age", quarte
   
   projN <- FLQuant(aperm(arr, c(1,3,6,2,4,5)), dimnames=dimnames)
   
+  projN <- checkUnitDimnames(projN)
   return(projN)
 }
 
@@ -61,4 +62,5 @@ read.MFCLProjectedSpawningBiomass <- function(filename="projected_spawning_bioma
   
   projB <- FLQuant(aperm(arr, c(1,4,6,3,2,5)), dimnames=dimnames)
   
+  return(projB)
 }

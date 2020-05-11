@@ -67,6 +67,7 @@ read.MFCLLenFit <- function(lffile) {
   
   slot(lf.obj, 'range')[] <- c(ages[1], ages[length(ages)], NA, min(df1$year), max(df1$year)) 
   
+  lf.obj <- checkUnitDimnames(lf.obj)
   return(lf.obj)
 }  
   

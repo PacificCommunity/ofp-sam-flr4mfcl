@@ -269,3 +269,58 @@ setMethod('modifyRRini', signature(ini='MFCLIni',tag='MFCLTag',rr='data.frame',P
     return(ini)
 })
 
+
+
+# Re-order dimnames
+
+#' checkUnitDimnames
+#'
+#' Re-orders the unit dimnames in ascending order instead 
+#' of default ordering of FLQuant method which uses the year dimension
+#'
+#' @param obj An object of class MFCL eg. MFCLFrq, MFCLPar, etc.
+#'
+#' @param ... Additional argument list that might not ever
+#'  be used.
+#'
+#' @return Returns an object of the same class but with FLQuant unit dimension
+#' re-ordered as appropriate.
+#' 
+#' 
+#'
+#' @examples
+#' checkUnitDimnames(MFCLRep())
+
+
+checkUnitDimnames <-    function(obj){
+  
+      unit_order <- as.character(1: dimensions(obj)["fisheries"])
+      # ID FLQs with unit dimensions
+      repslots <- getSlots(class(obj))
+      # Get FLQ slots
+      flqslots <- names(repslots[repslots == "FLQuant"])
+      # Do they have a unit dimension of number of fisheries
+      flqslots <- flqslots[sapply(flqslots, function(x) dim(slot(obj, x))[3]==dimensions(obj)['fisheries'])]
+      # Reorder the unit dimensions
+      newslots <- sapply(flqslots, function(x) slot(obj,x)[,,unit_order])
+      # Put them back into res
+      for(flq in flqslots){
+        slot(obj, flq) <- newslots[[flq]]
+      }
+      return(obj)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

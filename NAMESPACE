@@ -3,6 +3,7 @@ import("FLCore")
 export(
   "availableMFCLversions",
   "check.mfcl.cfg",
+  "checkUnitDimnames",
   "condor_submit_set_iters",
   "flagSummary",
   "flagDiff",

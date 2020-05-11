@@ -192,6 +192,7 @@ read.MFCLFlags <- function(parfile, parobj=NULL, first.yr=1972) {
   slot(res, 'flags') <- rbind(parflagsdf, ageflagsdf, fishflagsdf, tagflagsdf, regionflagsdf)
   slot(res, 'unused')<- list(yrflags  =array(yearflags,  dim=c(10, length(yearflags)/10)),
                              snflags  =array(seasonflags,dim=c(10, length(seasonflags)/10)))
+  res <- checkUnitDimnames(res)
   
   return(res)
 }
@@ -251,6 +252,7 @@ read.MFCLTagRep <- function(parfile, parobj=NULL, first.yr=1972) {
                                             dim=c(nfish, nlines(par, "# tag_fish_rep penalty"))))
   slot(res, 'rep_rate_dev_coffs') <- lapply(seq(1:nfish), function(x) as.numeric(splitter(par, "# Reporting rate dev coffs",x)))
   
+  res <- checkUnitDimnames(res)
   return(res)
 }
 
@@ -326,6 +328,7 @@ read.MFCLRec <- function(parfile, parobj=NULL, first.yr=1972) {
   slot(res, "range") <- c(min=min(as.numeric(dims$age)), max=max(as.numeric(dims$age)), plusgroup=NA,
                           minyear=min(as.numeric(dims$year)), maxyear=max(as.numeric(dims$year)))
   
+  res <- checkUnitDimnames(res)
   return(res) 
 }
 
@@ -416,6 +419,7 @@ read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972) {
   
   slot(res, 'range') <- c(min=0, max=nagecls/nseasons, plusgroup=NA, minyear=first.yr, maxyear=max(as.numeric(dimnames(region_rec_var(res))$year)))
   
+  res <- checkUnitDimnames(res)
   return(res)
 }
   
@@ -525,6 +529,7 @@ read.MFCLSel <- function(parfile, parobj=NULL, first.yr=1972) {
   
   slot(res, 'range') <- c(min=0, max=nagecls/nseasons, plusgroup=NA, minyear=1, maxyear=1)
   
+  res <- checkUnitDimnames(res)
   return(res)
 }
 
@@ -599,6 +604,7 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972) {
   if(length(grep("# Historical_flags", par))>0)
     slot(res, 'historic_flags') <- par[(grep("# Historical_flags", par)+1):length(par)]
     
+  res <- checkUnitDimnames(res)
   return(res)
 }
 
