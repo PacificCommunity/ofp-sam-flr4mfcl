@@ -279,6 +279,7 @@ setMethod('modifyRRini', signature(ini='MFCLIni',tag='MFCLTag',rr='data.frame',P
 #' of default ordering of FLQuant method which uses the year dimension
 #'
 #' @param obj An object of class MFCL eg. MFCLFrq, MFCLPar, etc.
+#' @param nfisheries The number of fisheries in the model
 #'
 #' @param ... Additional argument list that might not ever
 #'  be used.
@@ -292,15 +293,15 @@ setMethod('modifyRRini', signature(ini='MFCLIni',tag='MFCLTag',rr='data.frame',P
 #' checkUnitDimnames(MFCLRep())
 
 
-checkUnitDimnames <-    function(obj){
+checkUnitDimnames <-    function(obj,nfisheries){
   
-      unit_order <- as.character(1: dimensions(obj)["fisheries"])
+      unit_order <- as.character(1:nfisheries)
       # ID FLQs with unit dimensions
       repslots <- getSlots(class(obj))
       # Get FLQ slots
       flqslots <- names(repslots[repslots == "FLQuant"])
       # Do they have a unit dimension of number of fisheries
-      flqslots <- flqslots[sapply(flqslots, function(x) dim(slot(obj, x))[3]==dimensions(obj)['fisheries'])]
+      flqslots <- flqslots[sapply(flqslots, function(x) dim(slot(obj, x))[3]==nfisheries)]
       # Reorder the unit dimensions
       newslots <- sapply(flqslots, function(x) slot(obj,x)[,,unit_order])
       # Put them back into res

@@ -196,7 +196,7 @@ read.MFCLRep <- function(repfile) {
                                          dim=c(dimensions(res)['seasons'], dimensions(res)['years']/dimensions(res)['seasons'],1,1,1,1)), c(3,2,4,1,5,6)),
                              dimnames=list(age="all", year=as.character(range(res)['minyear']:range(res)["maxyear"])))
   
-  res <- checkUnitDimnames(res)
+  res <- checkUnitDimnames(res, nfisheries=dimensions(res)['fisheries'])
   return(res)
 }
 

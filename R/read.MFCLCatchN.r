@@ -17,7 +17,7 @@ read.MFCLCatchN <- function(file="ests.rep", first.yr=1972){
       
   res <- FLQuant(array(kk, dim=c(nages, nyears, nfisheries,1,1,1)), dimnames=dmnms)
   
-  res <- checkUnitDimnames(res)
+  res <- checkUnitDimnames(res,nfisheries=nfisheries)
   return(res)
 }
 
