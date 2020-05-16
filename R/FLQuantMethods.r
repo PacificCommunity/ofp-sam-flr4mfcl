@@ -101,6 +101,9 @@ qts <- function(quant){
   q2 <- aperm(quant, c(4,2,1,3,5,6))
   q3 <- array(c(q2), dim=c(dim(q2)[3], dim(q2)[1]*dim(q2)[2], dim(q2)[4], 1, dim(q2)[5:6]))
   
+  # dirty hack to force the first dimension to be age - not ideal but OK for now I think
+  names(dimnames(quant))[1] <- "age"
+  
   dimnames(q3) <- list(age = dimnames(quant)$age,
                        year= as.character(rep(as.numeric(dimnames(quant)$year),each=ssns)+(1/(2*ssns))*seq(1, by=2, length.out=ssns)),
                        unit= dimnames(quant)$unit,
