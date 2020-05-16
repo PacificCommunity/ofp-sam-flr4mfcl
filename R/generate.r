@@ -141,7 +141,9 @@ setMethod("generate", signature(x="MFCLFrq", y="MFCLprojControl"),
             #                           nrow(freq(x)[is.element(freq(x)$weight, c(   lf_range(x)['WFFirst'])),])
             
             # potential solution - see if this breaks anything
-            lf_range(x)['Datasets'] <- lf_range(x)['Datasets'] + nrow(unique(projdat2[,1:4]))
+            #lf_range(x)['Datasets'] <- lf_range(x)['Datasets'] + nrow(unique(projdat2[,1:4]))
+            # using realisations because I think it is safer RDS 15/04/2020
+            lf_range(x)['Datasets'] <- nrow(realisations(x))
             
             slot(x,'range')['maxyear']     <- max(freq(x)$year)
             
