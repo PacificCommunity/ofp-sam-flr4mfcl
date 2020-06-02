@@ -21,7 +21,6 @@
 # kk <- read.MFCLPseudo(catch="catch_sim", effort="effort_sim", lw_sim="test_lw_sim", projfrq=projfrq, ctrl=projCtrl)
 
 read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing", projfrq="missing", ctrl="missing", historical=TRUE) {
-  
   trim.leading  <- function(x) sub("^\\s+", "", x) 
   splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+")) 
   
@@ -67,10 +66,10 @@ read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing",
       }
     
     if(historical){
-      len     <- nrow(freq(projfrq)[is.element(freq(projfrq)$length, c(NA,lf_range(projfrq)['LFFirst'])),])
-      tempdat <- cbind(freq(projfrq)[is.element(freq(projfrq)$length, c(NA,lf_range(projfrq)['LFFirst'])),], 
-                       iter=rep(0:nsims(ctrl), each=len), catch.seed=rep(c(NA,cseed), each=len), effort.seed=rep(c(NA,eseed), each=len), 
-                       row.names=NULL)
+      tempdat <- realisations(projfrq)
+      len <- dim(tempdat)[1] 
+      tempdat <- cbind(tempdat,
+                  iter=rep(0:nsims(ctrl), each=len), catch.seed=rep(c(NA,cseed), each=len), effort.seed=rep(c(NA,eseed), each=len), row.names=NULL)
       tempdat <- tempdat[order(tempdat$iter, tempdat$fishery, tempdat$year, tempdat$month),]
       tempdat$catch[tempdat$iter>0] <- cdat[2,]
       tempdat$effort[tempdat$iter>0]<- edat
