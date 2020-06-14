@@ -17,14 +17,19 @@
 # contributions.plot(par, rep, Fmult=2, propn=F)
 
 
+#par <- read.MFCLPar("/home/rob/MSE/skj/MSE_grid_2019/A0B0C0D0E0_fit/07.par")
+#rep <- read.MFCLRep("/home/rob/MSE/skj/MSE_grid_2019/A0B0C0D0E0_fit/plot-07.par.rep")
+
 contributions.plot <- function(par, rep, Fmult=0, propn=T, cols=NULL){
   
 nages   <- dimensions(par)['agecls']
 ssns    <- dimensions(par)['seasons']
 regions <- dimensions(par)['regions']
 
-m   <- c(aperm(m_at_age(rep), c(4,1,2,3,5,6)))
-fec <- c(aperm(mat(par), c(4,1,2,3,5,6)))
+#m   <- c(aperm(m_at_age(rep), c(4,1,2,3,5,6)))
+m   <- m_at_age(rep)
+#fec <- c(aperm(mat(par), c(4,1,2,3,5,6)))
+fec <- mat(par)
 f   <- fm(rep)[,as.character(range(rep)['maxyear'])]
 
 # calculate average recruitment by region and season for an appropriate period
@@ -54,7 +59,7 @@ dat <- aperm(pop_ab, c(6,5,1,2,3,4))[,,1,1,1,1]
 if(is.null(cols))
   cols <- gray(seq(0,1,length.out=regions+2))[-c(1,regions)]
 
-X11(2000,1400)
+#X11(2000,1400)
 layout(matrix(c(1,2),2,1,byrow=TRUE), c(35,20), c(20,5), TRUE)
 par(mar=c(2.5,3,2,2))
 
