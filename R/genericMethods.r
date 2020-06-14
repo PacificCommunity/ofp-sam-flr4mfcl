@@ -130,6 +130,29 @@ setMethod("iter", signature(obj="MFCLPseudo"),
 ) # }}}
 
 
+
+# summary {{{
+setMethod("summary", signature(object="MFCLLikelihood"),
+          function(object) {
+            obj <- object
+            res <- data.frame(component=c("bhsteep","effort_dev","catchability_dev","length_comp","weight_comp","tag_data", "total"),
+                              likelihood=c(bh_steep_contrib(obj),
+                                           sum(effort_dev_penalty(obj)),
+                                           sum(q_dev_pen_fish_grp(obj)),
+                                           sum(unlist(length_fish(obj))),
+                                           sum(unlist(weight_fish(obj))),
+                                           sum(unlist(tag_rel_fish(obj))),
+                                           0))
+            res[7,"likelihood"] <- abs(sum(res[,"likelihood"]))
+            return(res)
+          }
+) # }}}
+
+
+
+
+
+
 setMethod("+", signature(e1="MFCLLenFreq", e2="MFCLLenFreq"),
           function(e1, e2) {
             
@@ -201,6 +224,7 @@ setMethod("+", signature(e1="MFCLTag", e2="MFCLTag"),
             return(e1)
           }
 ) # }}}
+
 
 
 ##----------------------------- 

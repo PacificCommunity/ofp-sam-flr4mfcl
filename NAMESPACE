@@ -444,6 +444,7 @@ exportMethods(
   "steepness",
   "steepness<-",
   "subset",
+  "summary",
   "sv",
   "sv<-",
   "tag_controls",
