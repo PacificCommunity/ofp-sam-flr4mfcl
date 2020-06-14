@@ -61,13 +61,20 @@ read.MFCLIni <- function(inifile, nseasons=4) {
   slot(res, 'diff_coffs') <- as.array(matrix(as.numeric(splitter(par, '# diffusion coffs', 1:(max(c(length(slot(res,'move_map'))),1)))),
                                              nrow=length(slot(res,"move_map")), byrow=T))
 
-  if ( slot(res,'ini_version') > 1001) slot(res,"region_flags") <- matrix(as.numeric(splitter(par,"# region_flags")),ncol=nregions,nrow=10,byrow=TRUE)
+  # RDS 05/2020 - dodgy hack - shortening text string to match on because the "_" is missing in some ini files
+  if ( slot(res,'ini_version') > 1001) 
+    #slot(res,"region_flags") <- matrix(as.numeric(splitter(par,"# region_flags")),ncol=nregions,nrow=10,byrow=TRUE)
+    slot(res,"region_flags") <- matrix(as.numeric(splitter(par,"# region")),ncol=nregions,nrow=10,byrow=TRUE)
+  
   slot(res, 'age_pars')   <- as.array(matrix(as.numeric(splitter(par, '# age_pars', 1:10)), nrow=10, byrow=T))
   slot(res, 'rec_dist')   <- as.numeric(splitter(par, '# recruitment distribution'))
   slot(res, 'growth')     <- t(array(as.numeric(splitter(par, '# The von Bertalanffy', c(3,5,7))),
                                      dim=c(3,3), dimnames=list(c("est","min","max"),c("Lmin","Lmax","k"))))
   slot(res, 'lw_params')  <- as.numeric(splitter(par, '# Length-weight'))
-  slot(res, 'sv')         <- as.numeric(splitter(par, '# sv'))
+  
+  # RDS 05/2020 - dodgy hack - shortening text string to match on because the the text changes in some ini files
+  slot(res, 'sv')         <- as.numeric(splitter(par, 'sv')) # used to be '# sv'
+  
   slot(res, 'sd_length_at_age')   <- as.numeric(splitter(par, '# Generic SD'))
   slot(res, 'sd_length_dep')      <- as.numeric(splitter(par, '# Length-dependent SD'))
   slot(res, 'n_mean_constraints')   <- as.numeric(splitter(par, '# The number of mean constraints'))

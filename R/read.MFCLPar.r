@@ -366,7 +366,7 @@ read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972) {
   vsn <- as.numeric(unlist(strsplit(trimws(par[2]), split="[[:blank:]]+")))[200]
   
   nseasons <- length(splitter(par, "# season_flags"))
-  nseasons.mov <- max(as.numeric(splitter(par, "# movement map")))                                ## RDS 29/02/2020
+  nseasons.mov <- max(c(as.numeric(splitter(par, "# movement map")),1))                                ## RDS 29/02/2020
   nyears   <- length(splitter(par, "# Cohort specific growth deviations"))/nseasons
   nregions <- length(splitter(par,"# region parameters"))
   nagecls  <- as.numeric(par[grep("# The number of age classes", par)+1])  
@@ -573,7 +573,8 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972) {
   vsn <- as.numeric(unlist(strsplit(trimws(par[2]), split="[[:blank:]]+")))[200]
   
   # changed this to 1051 (from 1053) - not sure why it was 1053 but it seems to be breaking the skj code - rds 28/11/2018
-  if(any(mm[!is.na(mm)]>0) & vsn >= 1051) 
+  # I suspect the if conditions here are ot quite right - need to check this cos it breaks for striped marlin. !!!
+  #if(any(mm[!is.na(mm)]>0) & vsn >= 1051) 
     if(length(grep("# fm_level_devs", par))>0)  # YFT - no missing catch in yft.frq and therefore no fm_level_devs produced in par file - need to find better approach !!!
       slot(res, 'fm_level_devs') <- par[(grep("# fm_level_devs", par)+1):(grep("# movement map", par)-1)]
   
