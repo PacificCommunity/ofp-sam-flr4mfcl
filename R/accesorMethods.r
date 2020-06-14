@@ -1656,6 +1656,126 @@ setReplaceMethod('range', signature(x='MFCLLenFit', i="missing", value=unname(ge
                  function(x, value){slot(x, 'range') <- value; return(x)}) 
 
 
+#############################################################################################################
+# class  MFCLLikelihood
+#' @rdname accessor-methods
+setGeneric('bh_steep_contrib', function(object, ...) standardGeneric('bh_steep_contrib'))
+#' @rdname accessor-methods
+setMethod('bh_steep_contrib', signature(object='MFCLLikelihood'), function(object) return(slot(object, 'bh_steep_contrib')))
+#' @rdname accessor-methods
+setGeneric('bh_steep_contrib<-', function(object, ..., value) standardGeneric('bh_steep_contrib<-'))
+#' @rdname accessor-methods
+setReplaceMethod('bh_steep_contrib', signature(object='MFCLLikelihood', value=unname(getSlots('MFCLLikelihood')['bh_steep_contrib'])), 
+                 function(object, value){slot(object, 'bh_steep_contrib') <- value; return(object)})
+
+#' @rdname accessor-methods
+setGeneric('effort_dev_penalty', function(object, ...) standardGeneric('effort_dev_penalty'))
+#' @rdname accessor-methods
+setMethod('effort_dev_penalty', signature(object='MFCLLikelihood'), function(object) return(slot(object, 'effort_dev_penalty')))
+#' @rdname accessor-methods
+setGeneric('effort_dev_penalty<-', function(object, ..., value) standardGeneric('effort_dev_penalty<-'))
+#' @rdname accessor-methods
+setReplaceMethod('effort_dev_penalty', signature(object='MFCLLikelihood', value=unname(getSlots('MFCLLikelihood')['effort_dev_penalty'])), 
+                 function(object, value){slot(object, 'effort_dev_penalty') <- value; return(object)})
+
+#' @rdname accessor-methods
+setGeneric('q_dev_pen_fish', function(object, ...) standardGeneric('q_dev_pen_fish'))
+#' @rdname accessor-methods
+setMethod('q_dev_pen_fish', signature(object='MFCLLikelihood'), function(object) return(slot(object, 'q_dev_pen_fish')))
+#' @rdname accessor-methods
+setGeneric('q_dev_pen_fish<-', function(object, ..., value) standardGeneric('q_dev_pen_fish<-'))
+#' @rdname accessor-methods
+setReplaceMethod('q_dev_pen_fish', signature(object='MFCLLikelihood', value=unname(getSlots('MFCLLikelihood')['q_dev_pen_fish'])), 
+                 function(object, value){slot(object, 'q_dev_pen_fish') <- value; return(object)})
+
+#' @rdname accessor-methods
+setGeneric('q_dev_pen_fish_grp', function(object, ...) standardGeneric('q_dev_pen_fish_grp'))
+#' @rdname accessor-methods
+setMethod('q_dev_pen_fish_grp', signature(object='MFCLLikelihood'), function(object) return(slot(object, 'q_dev_pen_fish_grp')))
+#' @rdname accessor-methods
+setGeneric('q_dev_pen_fish_grp<-', function(object, ..., value) standardGeneric('q_dev_pen_fish_grp<-'))
+#' @rdname accessor-methods
+setReplaceMethod('q_dev_pen_fish_grp', signature(object='MFCLLikelihood', value=unname(getSlots('MFCLLikelihood')['q_dev_pen_fish_grp'])), 
+                 function(object, value){slot(object, 'q_dev_pen_fish_grp') <- value; return(object)})
+
+#' @rdname accessor-methods
+setGeneric('total_length_fish', function(object, ...) standardGeneric('total_length_fish'))
+#' @rdname accessor-methods
+setMethod('total_length_fish', signature(object='MFCLLikelihood'), function(object) return(slot(object, 'total_length_fish')))
+#' @rdname accessor-methods
+setGeneric('total_length_fish<-', function(object, ..., value) standardGeneric('total_length_fish<-'))
+#' @rdname accessor-methods
+setReplaceMethod('total_length_fish', signature(object='MFCLLikelihood', value=unname(getSlots('MFCLLikelihood')['total_length_fish'])), 
+                 function(object, value){slot(object, 'total_length_fish') <- value; return(object)})
+
+#' @rdname accessor-methods
+setGeneric('length_fish', function(object, ...) standardGeneric('length_fish'))
+#' @rdname accessor-methods
+setMethod('length_fish', signature(object='MFCLLikelihood'), function(object) return(slot(object, 'length_fish')))
+#' @rdname accessor-methods
+setGeneric('length_fish<-', function(object, ..., value) standardGeneric('length_fish<-'))
+#' @rdname accessor-methods
+setReplaceMethod('length_fish', signature(object='MFCLLikelihood', value=unname(getSlots('MFCLLikelihood')['length_fish'])), 
+                 function(object, value){slot(object, 'length_fish') <- value; return(object)})
+
+#' @rdname accessor-methods
+setGeneric('total_weight_fish', function(object, ...) standardGeneric('total_weight_fish'))
+#' @rdname accessor-methods
+setMethod('total_weight_fish', signature(object='MFCLLikelihood'), function(object) return(slot(object, 'total_weight_fish')))
+#' @rdname accessor-methods
+setGeneric('total_weight_fish<-', function(object, ..., value) standardGeneric('total_weight_fish<-'))
+#' @rdname accessor-methods
+setReplaceMethod('total_weight_fish', signature(object='MFCLLikelihood', value=unname(getSlots('MFCLLikelihood')['total_weight_fish'])), 
+                 function(object, value){slot(object, 'total_weight_fish') <- value; return(object)})
+
+#' @rdname accessor-methods
+setGeneric('weight_fish', function(object, ...) standardGeneric('weight_fish'))
+#' @rdname accessor-methods
+setMethod('weight_fish', signature(object='MFCLLikelihood'), function(object) return(slot(object, 'weight_fish')))
+#' @rdname accessor-methods
+setGeneric('weight_fish<-', function(object, ..., value) standardGeneric('weight_fish<-'))
+#' @rdname accessor-methods
+setReplaceMethod('weight_fish', signature(object='MFCLLikelihood', value=unname(getSlots('MFCLLikelihood')['weight_fish'])), 
+                 function(object, value){slot(object, 'weight_fish') <- value; return(object)})
+
+#' @rdname accessor-methods
+setGeneric('total_catch_fish', function(object, ...) standardGeneric('total_catch_fish'))
+#' @rdname accessor-methods
+setMethod('total_catch_fish', signature(object='MFCLLikelihood'), function(object) return(slot(object, 'total_catch_fish')))
+#' @rdname accessor-methods
+setGeneric('total_catch_fish<-', function(object, ..., value) standardGeneric('total_catch_fish<-'))
+#' @rdname accessor-methods
+setReplaceMethod('total_catch_fish', signature(object='MFCLLikelihood', value=unname(getSlots('MFCLLikelihood')['total_catch_fish'])), 
+                 function(object, value){slot(object, 'total_catch_fish') <- value; return(object)})
+
+#' @rdname accessor-methods
+setGeneric('catch_fish', function(object, ...) standardGeneric('catch_fish'))
+#' @rdname accessor-methods
+setMethod('catch_fish', signature(object='MFCLLikelihood'), function(object) return(slot(object, 'catch_fish')))
+#' @rdname accessor-methods
+setGeneric('catch_fish<-', function(object, ..., value) standardGeneric('catch_fish<-'))
+#' @rdname accessor-methods
+setReplaceMethod('catch_fish', signature(object='MFCLLikelihood', value=unname(getSlots('MFCLLikelihood')['catch_fish'])), 
+                 function(object, value){slot(object, 'catch_fish') <- value; return(object)})
+
+#' @rdname accessor-methods
+setGeneric('tag_rel_fish', function(object, ...) standardGeneric('tag_rel_fish'))
+#' @rdname accessor-methods
+setMethod('tag_rel_fish', signature(object='MFCLLikelihood'), function(object) return(slot(object, 'tag_rel_fish')))
+#' @rdname accessor-methods
+setGeneric('tag_rel_fish<-', function(object, ..., value) standardGeneric('tag_rel_fish<-'))
+#' @rdname accessor-methods
+setReplaceMethod('tag_rel_fish', signature(object='MFCLLikelihood', value=unname(getSlots('MFCLLikelihood')['tag_rel_fish'])), 
+                 function(object, value){slot(object, 'tag_rel_fish') <- value; return(object)})
+
+#' @rdname accessor-methods
+setMethod('dimensions', signature(object='MFCLLikelihood'), function(object) return(slot(object, 'dimensions')))
+#' @rdname accessor-methods
+setReplaceMethod('dimensions', signature(object='MFCLLikelihood', value=unname(getSlots('MFCLLikelihood')['dimensions'])), 
+                 function(object, value){slot(object, 'dimensions') <- value; return(object)})
+
+
+
 
 #############################################################################################################
 # class  MFCLPseudo

@@ -964,6 +964,54 @@ MFCLLenFit <- function() {return(new("MFCLLenFit"))}
 
 
 
+###### CLASSS MFCLLikelihood
+
+validMFCLLikelihood <- function(object){
+  #Everything is fine
+  return(TRUE)
+}
+setClass("MFCLLikelihood",
+         representation(
+           bh_steep_contrib    ="numeric",
+           effort_dev_penalty  ="numeric",
+           q_dev_pen_fish      ="numeric",
+           q_dev_pen_fish_grp  ="numeric",
+           total_length_fish   ="numeric",
+           length_fish         ="list",
+           total_weight_fish   ="numeric",
+           weight_fish         ="list",
+           total_catch_fish    ="numeric",
+           catch_fish          ="list",
+           tag_rel_fish        ="list",
+           dimensions          ="numeric"
+         ),
+         prototype=prototype(
+           bh_steep_contrib    =numeric(),
+           effort_dev_penalty  =numeric(),
+           q_dev_pen_fish      =numeric(),
+           q_dev_pen_fish_grp  =numeric(),
+           total_length_fish   =numeric(),
+           length_fish         =list(),
+           total_weight_fish   =numeric(),
+           weight_fish         =list(),
+           total_catch_fish    =numeric(),
+           catch_fish          =list(),
+           tag_rel_fish        =list(), # or maybe a data.frame
+           dimensions          =unlist(list(agecls=as.numeric(NA), years=NA, seasons=NA, regions=NA, fisheries=NA, taggrps=NA))
+         ),
+         validity=validMFCLLikelihood
+)
+setValidity("MFCLLikelihood", validMFCLLikelihood)
+remove(validMFCLLikelihood)
+#'MFCLLenFit
+#'
+#'Basic constructor for MFCLLikelihood class
+#'@export
+MFCLLikelihood <- function() {return(new("MFCLLikelihood"))}
+
+
+
+
 
 ########################
 ##
