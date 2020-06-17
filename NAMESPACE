@@ -10,6 +10,10 @@ export(
   "flagDiff",
   "getMFCLversion",
   "gradients",
+  "hcr_constant",
+  "hcr_hillary_step",
+  "hcr_threshold",
+  "hcr_threshold_constrained",
   "MFCLBase",
   "MFCLBiol",
   "MFCLEMControl",
@@ -64,12 +68,7 @@ export(
   "setMFCLversion",
   "setSimYrs",
   "write.simNumAge",
-  "write.simyears",
-  # assessment plotting stuff
-  "contributions.plot",
-  "hcr_threshold",
-  "hcr_constant",
-  "hcr_threshold_constrained"
+  "write.simyears"
 )
 exportClasses(
   "MFCLBase",
@@ -231,6 +230,7 @@ exportMethods(
   "Fmult",
   "Fmult<-",
   "fprojyr",
+  "fprojyr<-",
   "freq",
   "freq<-",
   "frq_age_len",
