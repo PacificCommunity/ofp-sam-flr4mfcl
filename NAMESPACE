@@ -25,6 +25,7 @@ export(
   "MFCLIniBits",
   "MFCLLenFreq",
   "MFCLLenFreq2",
+  "MFCLLikelihood",
   "MFCLMSEControl",
   "MFCLPar",
   "MFCLParBits",
