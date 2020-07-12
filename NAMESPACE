@@ -50,6 +50,7 @@ export(
   "read.MFCLFrqStats",
   "read.MFCLIni",
   "read.MFCLLenFreq",
+  "read.MFCLLikelihood",
   "read.MFCLPar",
   "read.MFCLParBits",
   "read.MFCLPseudo",

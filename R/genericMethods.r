@@ -318,7 +318,6 @@ setMethod('modifyRRini', signature(ini='MFCLIni',tag='MFCLTag',rr='data.frame',P
 
 
 checkUnitDimnames <-    function(obj,nfisheries){
-  
       unit_order <- as.character(1:nfisheries)
       # ID FLQs with unit dimensions
       repslots <- getSlots(class(obj))
@@ -326,11 +325,9 @@ checkUnitDimnames <-    function(obj,nfisheries){
       flqslots <- names(repslots[repslots == "FLQuant"])
       # Do they have a unit dimension of number of fisheries
       flqslots <- flqslots[sapply(flqslots, function(x) dim(slot(obj, x))[3]==nfisheries)]
-      # Reorder the unit dimensions
-      newslots <- sapply(flqslots, function(x) slot(obj,x)[,,unit_order])
-      # Put them back into res
+      # Reorder the unit dimensions and put back in
       for(flq in flqslots){
-        slot(obj, flq) <- newslots[[flq]]
+        slot(obj, flq) <- slot(obj,flq)[,,unit_order]
       }
       return(obj)
 }
