@@ -32,7 +32,7 @@ write.par <- function(x, file, append=F, ...){
   cat(paste(formatC(flags(x)[flags(x)$flagtype==2,'value'], format='d'), collapse=' '), file=file, append=T)
 
   cat("\n \n# fish flags \n",                 file=file, append=T)
-  write.table(t(matrix(formatC(flags(x)[is.element(flags(x)$flagtype,format='d'), -1:-dimensions(x)['fisheries']),'value'],
+  write.table(t(matrix(formatC(flags(x)[is.element(flags(x)$flagtype, -1:-dimensions(x)['fisheries']),'value'],format='d'),
                        ncol=dimensions(x)['fisheries'])), row.names=F, col.names=F, file=file, append=T, quote=FALSE)
   if(!all(is.na(flags(x)[is.element(flags(x)$flagtype, -10000:-(10000+dimensions(x)["taggrps"]-1)),'value']))){
     cat("# tag flags\n",                       file=file, append=T)
