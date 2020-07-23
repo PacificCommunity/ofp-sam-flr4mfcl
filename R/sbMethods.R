@@ -130,11 +130,16 @@ rolling_mean_and_lagging <- function(flq, mean_nyears, lag_nyears){
 #---------------- SBF0 methods ---------------------------
 setGeneric('SB',function(rep, mean_nyears, lag_nyears, ...) standardGeneric('SB')) 
 
+# This is the main method that the other SB() methods call
 #' @rdname SBmethods
 #' @export
 setMethod("SB", signature(rep="MFCLRep",mean_nyears="numeric", lag_nyears="numeric"),
-  function(rep, mean_nyears, lag_nyears, combine_areas=TRUE){
-    out <- seasonMeans(adultBiomass(rep))
+  function(rep, mean_nyears, lag_nyears, combine_areas=TRUE, season_means=TRUE){
+    
+    out <- adultBiomass(rep)
+    if(season_means==TRUE){
+      out <- seasonMeans(out)
+    }
     if(combine_areas==TRUE){
       out <- areaSums(out)
     }
@@ -170,12 +175,12 @@ setMethod("SB", signature(rep="MFCLRep",mean_nyears="missing", lag_nyears="numer
 #' @rdname SBmethods
 #' @export
 setMethod("SB", signature(rep="list",mean_nyears="numeric", lag_nyears="numeric"),
-  function(rep, mean_nyears, lag_nyears, combine_areas=TRUE){
+  function(rep, mean_nyears, lag_nyears, combine_areas=TRUE, season_means=TRUE){
     guts <- unlist(lapply(rep, function(x){class(x)=="MFCLRep"}))
     if(!all(guts==TRUE)){
       stop("All elements in the list must be of class 'MFCLRep'")
     }
-    out <- lapply(rep, SB, mean_nyears=mean_nyears, lag_nyears=lag_nyears, combine_areas=combine_areas)
+    out <- lapply(rep, SB, mean_nyears=mean_nyears, lag_nyears=lag_nyears, combine_areas=combine_areas, season_means=season_means)
     return(out)
   }
 )
@@ -213,8 +218,11 @@ setGeneric('SBF0',function(rep, mean_nyears, lag_nyears, ...) standardGeneric('S
 #' @rdname SBmethods
 #' @export
 setMethod("SBF0", signature(rep="MFCLRep",mean_nyears="numeric", lag_nyears="numeric"),
-  function(rep, mean_nyears, lag_nyears, combine_areas=TRUE){
-    out <- seasonMeans(adultBiomass_nofish(rep))
+  function(rep, mean_nyears, lag_nyears, combine_areas=TRUE, season_means=TRUE){
+    out <- adultBiomass_nofish(rep)
+    if(season_means==TRUE){
+      out <- seasonMeans(out)
+    }
     if(combine_areas==TRUE){
       out <- areaSums(out)
     }
@@ -251,12 +259,12 @@ setMethod("SBF0", signature(rep="MFCLRep",mean_nyears="missing", lag_nyears="num
 #' @rdname SBmethods
 #' @export
 setMethod("SBF0", signature(rep="list",mean_nyears="numeric", lag_nyears="numeric"),
-  function(rep, mean_nyears, lag_nyears, combine_areas=TRUE){
+  function(rep, mean_nyears, lag_nyears, combine_areas=TRUE, season_means=TRUE){
     guts <- unlist(lapply(rep, function(x){class(x)=="MFCLRep"}))
     if(!all(guts==TRUE)){
       stop("All elements in the list must be of class 'MFCLRep'")
     }
-    out <- lapply(rep, SBF0, mean_nyears=mean_nyears, lag_nyears=lag_nyears, combine_areas=combine_areas)
+    out <- lapply(rep, SBF0, mean_nyears=mean_nyears, lag_nyears=lag_nyears, combine_areas=combine_areas, season_means=season_means)
     return(out)
   }
 )
