@@ -381,7 +381,7 @@ read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972) {
 
   # put to and from in the correct order (the from must sum to 1, and be the first dimension so as not to break the downstream code)
     dca = aperm(dca,c(2,1,3,4))
-    dimnames(dca) = list(from=as.character(1:nregions), to=as.character(1:nregions), age=as.character(1:nagecls), period=as.character(1:nseasons.mov), to=as.character(1:nregions))
+    dimnames(dca) = list(from=as.character(1:nregions), to=as.character(1:nregions), age=as.character(1:nagecls), period=as.character(1:nseasons.mov))
 
   
   rrv <- aperm(array(as.numeric(splitter(par, "# regional recruitment variation", 1:(nyears*nseasons))), 
