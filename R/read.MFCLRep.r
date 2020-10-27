@@ -46,6 +46,7 @@ read.MFCLRep <- function(repfile) {
   dnms4 <- list(age='all', year=range(res)['minyear']+c(1:((length(splitter(pp, "# Observed spawning Biomass"))+1)/dimensions(res)['seasons']))-1, unit='unique', season=1:dimensions(res)['seasons'], area='all')
   dnms4a<- list(age='all', year=range(res)['minyear']:range(res)['maxyear'], unit='unique', season='all', area='unique')
   dnms5 <- dnms2; dnms5$age <- 1:dimensions(res)['agecls']
+  dnms5a<- dnms5; dnms5a$area <- "all"
   dnms6 <- list(age='all', year=range(res)['minyear']:range(res)["maxyear"], unit=1:dimensions(res)['fisheries'], season=1:dimensions(res)['seasons'], area='unique')
   dnms7 <- list(age='all', year=range(res)['minyear']:range(res)['maxyear'], unit=1:dimensions(res)['fisheries'], season='all', area='unique')
   
@@ -107,7 +108,6 @@ read.MFCLRep <- function(repfile) {
                                            dim=c(dimensions(res)["regions"], dimensions(res)['seasons'], dimensions(res)['years']/dimensions(res)["seasons"],1,1)), 
                                      c(4,3,5,2,1)), dimnames=dnms2)
   
-  
   # adult biomass  
   adultBiomass(res) <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Adult biomass", 1:dimensions(res)['years'])), 
                                      dim=c(dimensions(res)["regions"], dimensions(res)['seasons'], dimensions(res)['years']/dimensions(res)["seasons"],1,1)), 
@@ -119,6 +119,14 @@ read.MFCLRep <- function(repfile) {
   # Selectivity by age class
   sel(res)  <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Selectivity by age class", 1:dimensions(res)['fisheries'])),
                              dim=c(dimensions(res)['agecls'], dimensions(res)['fisheries'],1,1,1)), c(1,3,2,4,5)),dimnames=dnms3)
+  
+  
+  
+  # Fishing mortality by age class (across), year (down) aggregated across regions
+  dat     <- pp[(grep("# Fishing mortality by age class", pp)[1]+2) : (grep("# Fishing mortality by age class", pp)[1]+dimensions(res)['years']+1)]
+  fm_aggregated(rep) <- FLQuant(aperm(array(as.numeric(unlist(strsplit(trim.leading(dat),split="[[:blank:]]+"))), 
+                                            dim=c(dimensions(res)['agecls'], dimensions(res)['seasons'], dimensions(res)['years']/dimensions(res)['seasons'], 1,1)), 
+                                      c(1,3,5,2,4)), dimnames=dnms5a)
   
   # Fishing mortality by age class (across), year (down) and region (block)
   dat     <- pp[(grep("# Fishing mortality by age class", pp)[2]+2) : (grep("# Fishing mortality by age class", pp)[2]+(dimensions(res)['years']*dimensions(res)['regions'])+dimensions(res)['regions'])]

@@ -773,7 +773,8 @@ setClass("MFCLRep",
            sel                 ="FLQuant",
            q_fishery           ='FLQuant',
            q_effdev            ='FLQuant',
-           fm                   ='FLQuant',
+           fm                  ='FLQuant',
+           fm_aggregated       ="FLQuant",
            popN                 ='FLQuant',
            rec_region          ='FLQuant',
            totalBiomass        ='FLQuant',
@@ -811,6 +812,7 @@ setClass("MFCLRep",
            q_fishery           =FLQuant(),
            q_effdev            =FLQuant(),
            fm                  =FLQuant(),
+           fm_aggregated       =FLQuant(),
            popN                =FLQuant(),
            rec_region          =FLQuant(),
            totalBiomass        =FLQuant(),
@@ -1190,6 +1192,38 @@ MFCLMSEControl <- function(hcr="hcr_threshold", hcr_params=c(sbsbf0_min = 0.2, s
   return(msec)
 }
 
+
+
+###### CLASSS MFCLEquilibrium  (from .rep file)
+
+validMFCLEquilibrium <- function(object){
+  #Everything is fine
+  return(TRUE)
+}
+#' An S4 class : Size frequency information from the frq file.
+#'
+#' @slot Eq_calcs
+#' @slot YPR
+#'
+setClass("MFCLEquilibrium",
+         representation(
+           Eq_calcs   ="data.frame",
+           YPR        ="data.frame"
+         ),
+         prototype=prototype(
+           Eq_calcs   =data.frame(),
+           YPR        =data.frame()
+         ),
+         validity=validMFCLEquilibrium
+)
+setValidity("MFCLEquilibrium", validMFCLEquilibrium)
+remove(validMFCLEquilibrium)
+
+#'MFCLEquilibrium
+#'
+#'Basic constructor for MFCLEquilibrium class
+#'@export
+MFCLEquilibrium <- function() {return(new("MFCLEquilibrium"))}
 
 
 

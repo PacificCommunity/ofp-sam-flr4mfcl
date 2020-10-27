@@ -17,6 +17,7 @@ export(
   "MFCLBase",
   "MFCLBiol",
   "MFCLEMControl",
+  "MFCLEquilibrium",
   "MFCLFlags",
   "MFCLFrq",
   "MFCLFrq2",
@@ -45,6 +46,7 @@ export(
   "read.MFCLBiol",
   "read.MFCLCatch",
   "read.MFCLCatchN",
+  "read.MFCLEquilibrium",
   "read.MFCLFlags",
   "read.MFCLFrq",
   "read.MFCLFrqStats",
@@ -76,6 +78,7 @@ exportClasses(
   "MFCLBase",
   "MFCLBiol",
   "MFCLEMControl",
+  "MFCLEquilibrium",
   "MFCLFlags",
   "MFCLFrq",
   "MFCLFrq2",
@@ -203,8 +206,12 @@ exportMethods(
   "effort_sd<-",
   "eq_biomass",
   "eq_biomass<-",
+#  "eq_mult",
+#  "eq_mult<-",
   "eq_yield",
   "eq_yield<-",
+  "Eq_calcs",
+  "Eq_calcs<-",
   "ess",
   "ess<-",
   "fish_params",
@@ -223,6 +230,8 @@ exportMethods(
   "flagval<-",
   "fm",
   "fm<-",
+  "fm_aggregated",
+  "fm_aggregated<-",
   "fm_level_devs",
   "fm_level_devs<-",
   "FMSY",
@@ -497,7 +506,9 @@ exportMethods(
   "wtfrq",
   "wtfrq<-",
   "xdiff_coffs",
-  "xdiff_coffs<-"
+  "xdiff_coffs<-",
+  "YPR",
+  "YPR<-"
 )
 
 

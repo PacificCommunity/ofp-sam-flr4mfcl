@@ -1095,6 +1095,15 @@ setGeneric('fm<-', function(object, ..., value) standardGeneric('fm<-'))
 setReplaceMethod('fm', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['fm'])),
                                 function(object, value){slot(object, 'fm') <- value; return(object)}) 
 #' @rdname accessor-methods
+setGeneric('fm_aggregated', function(object, ...) standardGeneric('fm_aggregated')) 
+#' @rdname accessor-methods
+setMethod('fm_aggregated', signature(object='MFCLRep'),function(object) return(slot(object, 'fm_aggregated'))) 
+#' @rdname accessor-methods
+setGeneric('fm_aggregated<-', function(object, ..., value) standardGeneric('fm_aggregated<-')) 
+#' @rdname accessor-methods
+setReplaceMethod('fm_aggregated', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['fm'])),
+                 function(object, value){slot(object, 'fm_aggregated') <- value; return(object)}) 
+#' @rdname accessor-methods
 setGeneric('popN', function(object, ...) standardGeneric('popN')) 
 #' @rdname accessor-methods
 setMethod('popN', signature(object='MFCLRep'),function(object) return(slot(object, 'popN'))) 
@@ -1940,6 +1949,32 @@ setGeneric('effort_creep_fish<-', function(object, ..., value) standardGeneric('
 #' @rdname accessor-methods
 setReplaceMethod('effort_creep_fish', signature(object='MFCLMSEControl', value=unname(getSlots('MFCLMSEControl')['effort_creep_fish'])), 
                  function(object, value){slot(object, 'effort_creep_fish') <- value; return(object)})
+
+
+
+#############################################################################################################
+# class  MFCLEquilibrium
+#' @rdname accessor-methods
+setGeneric('Eq_calcs', function(object, ...) standardGeneric('Eq_calcs'))
+#' @rdname accessor-methods
+setMethod('Eq_calcs', signature(object='MFCLEquilibrium'), function(object) return(slot(object, 'Eq_calcs')))
+#' @rdname accessor-methods
+setGeneric('Eq_calcs<-', function(object, ..., value) standardGeneric('Eq_calcs<-'))
+#' @rdname accessor-methods
+setReplaceMethod('Eq_calcs', signature(object='MFCLEquilibrium', value=unname(getSlots('MFCLEquilibrium')['Eq_calcs'])), 
+                 function(object, value){slot(object, 'Eq_calcs') <- value; return(object)})
+
+
+#' @rdname accessor-methods
+setGeneric('YPR', function(object, ...) standardGeneric('YPR'))
+#' @rdname accessor-methods
+setMethod('YPR', signature(object='MFCLEquilibrium'), function(object) return(slot(object, 'YPR')))
+#' @rdname accessor-methods
+setGeneric('YPR<-', function(object, ..., value) standardGeneric('YPR<-'))
+#' @rdname accessor-methods
+setReplaceMethod('YPR', signature(object='MFCLEquilibrium', value=unname(getSlots('MFCLEquilibrium')['YPR'])), 
+                 function(object, value){slot(object, 'YPR') <- value; return(object)})
+
 
 
 
