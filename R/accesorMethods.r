@@ -1101,7 +1101,7 @@ setMethod('fm_aggregated', signature(object='MFCLRep'),function(object) return(s
 #' @rdname accessor-methods
 setGeneric('fm_aggregated<-', function(object, ..., value) standardGeneric('fm_aggregated<-')) 
 #' @rdname accessor-methods
-setReplaceMethod('fm_aggregated', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['fm'])),
+setReplaceMethod('fm_aggregated', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['fm_aggregated'])),
                  function(object, value){slot(object, 'fm_aggregated') <- value; return(object)}) 
 #' @rdname accessor-methods
 setGeneric('popN', function(object, ...) standardGeneric('popN')) 

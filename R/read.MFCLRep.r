@@ -124,7 +124,7 @@ read.MFCLRep <- function(repfile) {
   
   # Fishing mortality by age class (across), year (down) aggregated across regions
   dat     <- pp[(grep("# Fishing mortality by age class", pp)[1]+2) : (grep("# Fishing mortality by age class", pp)[1]+dimensions(res)['years']+1)]
-  fm_aggregated(rep) <- FLQuant(aperm(array(as.numeric(unlist(strsplit(trim.leading(dat),split="[[:blank:]]+"))), 
+  fm_aggregated(res) <- FLQuant(aperm(array(as.numeric(unlist(strsplit(trim.leading(dat),split="[[:blank:]]+"))), 
                                             dim=c(dimensions(res)['agecls'], dimensions(res)['seasons'], dimensions(res)['years']/dimensions(res)['seasons'], 1,1)), 
                                       c(1,3,5,2,4)), dimnames=dnms5a)
   
