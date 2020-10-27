@@ -96,5 +96,27 @@ setMethod("plot", signature(x="MFCLRep", y="MFCLPar"), function(x, y, ...){
 
 
 
+setMethod("plot", signature(x="array"), function(x,...){
+  
+  if(any(names(dimnames(x)) != c("from",   "to",     "age",    "period")))
+    plot(x, ...)
+  
+  if(all(names(dimnames(x)) == c("from",   "to",     "age",    "period"))){
+    oldpar <- par()
+    
+    move <- data.frame(from  = 1:dim(x)[1], 
+                       to    = rep(1:dim(x)[2], each=dim(x)[1]), 
+                       age   = rep(1:dim(x)[3], each=prod(dim(x)[c(1,2)])),
+                       period= rep(1:dim(x)[4], each=prod(dim(x)[c(1,2,3)])),
+                       move  = c(x))
+    barchart(move~period|to*from, data=move, horiz=F, xlab="Season", ylab="Diffusion Coefficient", ...)
+  }
+    
+})
+
+
+
+
+
 
 
