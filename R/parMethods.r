@@ -118,7 +118,7 @@ setMethod("SPR0", signature(par="MFCLBiol"),
             age <- 1:dimensions(par)['agecls']
             wgt <- waa(par)
             m   <- m(par)*exp(c(aperm(m_devs_age(par), c(4,1,2,3,5,6))))
-            mat <- c(aperm(mat(par), c(4,1,2,3,5,6)))
+            mat <- mat(par)  #c(aperm(mat(par), c(4,1,2,3,5,6)))
             
 
             spr0           <- c(1,exp(-cumsum(m)))[-max(age)]*mat*wgt
