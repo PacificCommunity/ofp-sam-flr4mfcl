@@ -65,6 +65,9 @@ read.MFCLRep <- function(repfile) {
   # sd length at age
   sd_laa(res) <- FLQuant(aperm(array(as.numeric(splitter(pp, "# SD of length at age")),
                                        dim=c(dimensions(res)['seasons'], (range(res)['max']-range(res)['min']+1), 1,1,1)), c(2,3,4,1,5)), dimnames=dnms1 )
+  # mean weight at age
+  mean_waa(res) <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Mean weights at age")),
+                                       dim=c(dimensions(res)['seasons'], (range(res)['max']-range(res)['min']+1), 1,1,1)), c(2,3,4,1,5)), dimnames=dnms1 )
   # m at age
   m_at_age(res) <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Natural mortality at age")),
                                        dim=c(dimensions(res)['seasons'], (range(res)['max']-range(res)['min']+1), 1,1,1)), c(2,3,4,1,5)), dimnames=dnms1 )
