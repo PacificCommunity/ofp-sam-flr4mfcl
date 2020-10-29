@@ -313,6 +313,8 @@ exportMethods(
   "max_grad<-",
   "mean_laa",
   "mean_laa<-",
+  "mean_waa",
+  "mean_waa<-",
   "mfcl",
   "mn_len_pen",
   "mn_len_pen<-",

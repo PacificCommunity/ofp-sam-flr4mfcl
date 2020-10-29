@@ -131,3 +131,66 @@ setMethod("SPR0", signature(par="MFCLBiol"),
 
 
 
+
+#' YPR
+#'
+#' Calculates yield per recruit and spawners per recruit - in kilos
+#'
+#' @param rep:    An object of class MFCLRep  
+#' @param par:    An object of class MFCLPar
+#'
+#' @return A dataframe.
+#' 
+#' 
+#' @export
+#' @docType methods
+#' @rdname par-methods
+#'
+
+
+setGeneric('YPR', function(rep, par, ...) standardGeneric('YPR')) 
+
+#' @rdname par-methods
+#' @aliases YPR
+
+setMethod("YPR", signature(rep = "MFCLRep", par="MFCLPar"), 
+          function(rep, par, fminyr=NULL, fmaxyr=NULL, scalars=NULL, ...){
+            
+            
+            frange <- range(rep)['maxyear'] - flagval(par, 2, c(148,155))$value/flagval(par, 2, 57)$value 
+            if(!is.null(fminyr))
+              frange[1] <- fminyr
+            if(!is.null(fmaxyr))
+              frange[2] <- fmaxyr
+            
+            nm  <- m_at_age(rep)  
+            mat <- mat(par)
+            wt  <- c(aperm(mean_waa(rep), c(4,1,2,3,5,6)))  #waa(par)
+            sel <- yearMeans(seasonMeans(fm_aggregated(rep)[,as.character(frange[1]:frange[2])]))
+            
+            if(is.null(scalars))
+              scalars <- seq(0, 5, by=0.01)
+            
+            ypr <- spr <- NULL
+            for(fmult in scalars){
+              N            <- c(1, exp(-cumsum(nm + c(sel * fmult)))[-length(nm)])
+              N[length(N)] <- N[length(N)-1] * exp(-nm[length(N)-1] - c(sel[length(N)-1] * fmult))/(1-exp(-nm[length(N)] - c(sel[length(N)] * fmult)))
+              
+              spr <- c(spr, sum(N * mat *wt))
+              ypr <- c(ypr, sum(c(sel*fmult)/(nm+c(sel*fmult)) * N * (1-exp(-nm - c(sel*fmult))) * wt))
+            }
+            
+            res <- data.frame(scalar = scalars,
+                              ypr    = ypr,
+                              spr    = spr)
+            
+            return(res)
+          })
+
+
+
+
+
+
+
+
