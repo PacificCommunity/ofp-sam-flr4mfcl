@@ -1040,6 +1040,15 @@ setGeneric('mean_laa<-', function(object, ..., value) standardGeneric('mean_laa<
 setReplaceMethod('mean_laa', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['mean_laa'])),
                                 function(object, value){slot(object, 'mean_laa') <- value; return(object)}) 
 #' @rdname accessor-methods
+setGeneric('mean_waa', function(object, ...) standardGeneric('mean_waa')) 
+#' @rdname accessor-methods
+setMethod('mean_waa', signature(object='MFCLRep'),function(object) return(slot(object, 'mean_waa'))) 
+#' @rdname accessor-methods
+setGeneric('mean_waa<-', function(object, ..., value) standardGeneric('mean_waa<-')) 
+#' @rdname accessor-methods
+setReplaceMethod('mean_waa', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['mean_waa'])),
+                 function(object, value){slot(object, 'mean_waa') <- value; return(object)}) 
+#' @rdname accessor-methods
 setGeneric('sd_laa', function(object, ...) standardGeneric('sd_laa')) 
 #' @rdname accessor-methods
 setMethod('sd_laa', signature(object='MFCLRep'),function(object) return(slot(object, 'sd_laa'))) 
