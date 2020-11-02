@@ -33,12 +33,20 @@ setMethod("n_fisheries", signature(object="MFCLPar"),
 setMethod("laa", signature(object="MFCLBiol"), 
           function(object, ...){
             
+# test - L1 <- 38.4705; LA <- 152.8989; rho <- 0.94129; beta <- 0.5770; ages <- seq(0.5, 40.5)  - John' spreadsheet          
+            
             L1  <- growth(object)['Lmin','est']
             LA  <- growth(object)['Lmax','est']
             K   <- growth(object)['k',   'est']
+            rho <- exp(-K)
+            beta<- richards(object)
             ages<- 1:dimensions(object)['agecls']
             
-            return(L1+(LA-L1)*((1-exp(-K*(ages-1)))/(1-exp(-K*(max(ages)-1)))))
+            if(beta != 0) # Richards
+              return( (L1^(1/beta) + (LA^(1/beta) - L1^(1/beta)) * ((1-rho^(ages-1))/(1-rho^(max(ages-1)))))^beta   )
+            
+            if(beta == 0) # Von Bertalanffy
+              return(L1+(LA-L1)*((1-exp(-K*(ages-1)))/(1-exp(-K*(max(ages)-1)))))
 
           })
 
@@ -186,7 +194,6 @@ setMethod("YPR", signature(rep = "MFCLRep", par="MFCLPar"),
             
             return(res)
           })
-
 
 
 
