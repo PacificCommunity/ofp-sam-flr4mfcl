@@ -38,12 +38,11 @@ setMethod("laa", signature(object="MFCLBiol"),
             L1  <- growth(object)['Lmin','est']
             LA  <- growth(object)['Lmax','est']
             K   <- growth(object)['k',   'est']
-            rho <- exp(-K)
             beta<- richards(object)
             ages<- 1:dimensions(object)['agecls']
             
             if(beta != 0) # Richards
-              return( (L1^(1/beta) + (LA^(1/beta) - L1^(1/beta)) * ((1-rho^(ages-1))/(1-rho^(max(ages-1)))))^beta   )
+              return( (L1^(1/exp(beta)) + (LA^(1/exp(beta)) - L1^(1/exp(beta))) * ((1-exp(-K*(ages-1)))/(1-exp(-K*(max(ages-1))))))^exp(beta)   )
             
             if(beta == 0) # Von Bertalanffy
               return(L1+(LA-L1)*((1-exp(-K*(ages-1)))/(1-exp(-K*(max(ages)-1)))))
