@@ -49,7 +49,7 @@ export(
   "read.MFCLBiol",
   "read.MFCLCatch",
   "read.MFCLCatchN",
-  "read.MFCLEquilibrium",
+  #"read.MFCLEquilibrium",
   "read.MFCLFlags",
   "read.MFCLFrq",
   "read.MFCLFrqStats",
