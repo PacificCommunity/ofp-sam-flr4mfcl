@@ -195,8 +195,48 @@ setMethod("YPR", signature(rep = "MFCLRep", par="MFCLPar"),
           })
 
 
+setGeneric('calc_diff_coffs_age_period', function(par, frq, ...) standardGeneric('calc_diff_coffs_age_period')) 
 
+setMethod("calc_diff_coffs_age_period", signature(par="MFCLPar", frq="MFCLFrq"),
+          function(par, frq, new_diff_coffs=NULL, ...){
+            
+            if(is.null(new_diff_coffs)) 
+              new_diff_coffs <- diff_coffs(par) 
+            
+            # check the dimensinos of the new_diff_coffs
+            if(!all(dim(diff_coffs(par))==dim(new_diff_coffs)))   
+              stop("dimensions of new_diff_coffs not consistent with diff_coffs(par)")
+            
+            new_dcap <- array(NA, dim(diff_coffs_age_period(par))) # new diff_coffs_age_period container
+            
+            for(qq in 1:length(move_map(par))){                    # for each season (if seasonal movement)
+              
+              # get the move_matrix from the frq
+              map2 <- move_matrix(frq)
+              map2[lower.tri(map2)] <- t(map2)[lower.tri(map2)]    # complete the lower triangle of map2
+              map2[is.na(map2)]     <- 0                           # and set the diagonals to zero
+            
+              map3 <- map2
+              map3[map3!=0] <- cumsum(map3[map3!=0])               # map the diff_coff array sequence onto the move map
 
-
-
-
+              dcoff <- matrix(0, nrow=nrow(map2), ncol=ncol(map2))
+            
+              for(dd in 1:length(diag(dcoff))){                    # set the diagonals to 1 + sum(diff_coff) by column
+                vv <- unlist(apply(map3, 2, function(x){list(x)})[[dd]])
+                diag(dcoff)[dd] <- 1+sum(new_diff_coffs[qq, vv[vv!=0]])
+              }
+            
+              # feed the diff coffs into the movement matrix by columns
+              nn <- 1
+              for(mapcol in 1:ncol(map2)){
+                for(maprow in 1:nrow(map2)){
+                  if(map2[maprow, mapcol] == 1){
+                    dcoff[maprow,mapcol] <- -new_diff_coffs[qq,nn]
+                    nn <- nn+1
+                  }
+                }
+              }
+              new_dcap[,,,qq] <- solve(dcoff)
+            }
+            return(new_dcap)
+          })
