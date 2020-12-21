@@ -1,6 +1,7 @@
 import("methods")
 import("FLCore")
 export(
+  "ats",
   "availableMFCLversions",
   "check.mfcl.cfg",
   "checkMissingRealisations",
@@ -387,6 +388,7 @@ exportMethods(
   "recaptures<-",
   "recoveries",
   "recoveries<-",
+  "recYears",
   "reduce",
   "region_fish",
   "region_fish<-",

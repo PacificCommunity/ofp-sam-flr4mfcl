@@ -240,3 +240,43 @@ setMethod("calc_diff_coffs_age_period", signature(par="MFCLPar", frq="MFCLFrq"),
             }
             return(new_dcap)
           })
+
+
+
+
+
+
+#' recYears
+#'
+#' Returns the year range over which the SRR is calculated given the flag settings from af199 and af200
+#'
+#' @param par:    An object of class MFCLPar
+#'
+#' @return A vector.
+#' 
+#' 
+#' @export
+#' @docType methods
+#' @rdname par-methods
+#'
+
+
+setGeneric('recYears', function(par,...) standardGeneric('recYears'))
+
+#' @rdname par-methods
+#' @aliases recYears
+
+setMethod("recYears", signature(par="MFCLPar"), 
+          function(par, nrecsyr=4, ...){
+            
+            recyrs <- rev(unlist(dimnames(qts(rel_rec(par)))['year']))[recPeriod(par)[c(1,2)]+c(0,1)]
+            return(recyrs)
+          })
+            
+            
+
+
+
+
+
+

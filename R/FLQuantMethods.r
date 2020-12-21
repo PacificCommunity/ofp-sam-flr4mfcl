@@ -114,3 +114,43 @@ qts <- function(quant){
   return(as.FLQuant(q3))
   
 }
+
+
+#' ats
+#'
+#' Converts a quarterly time series object into a 6 dimensional, seasonally structured FLQuant (i.e. the opposite of qts).
+#'
+#' @param quant:  An FLQuant object 
+#' 
+#'
+#' @return An object of class FLQuant
+#'
+#'
+#' @export
+
+ats <- function(quant){
+  
+  if(!is.FLQuant(quant))
+    stop('quant must be an object of class FLQuant')
+  
+  ssns <- unique(as.numeric(unlist(dimnames(quant)['year']))-floor(as.numeric(unlist(dimnames(quant)['year']))))
+  if(length(ssns)<=1){
+    warning("object has only 1 season: nothing changed")
+    return(quant)
+  }
+  
+  qdf <- as.data.frame(quant)
+  
+  for(ss in 1:length(ssns))
+    qdf$new.season[qdf$year-floor(qdf$year)==ssns[ss]] <- factor(ss, levels=as.character(1:length(ssns)))
+  
+  qdf$season <- qdf$new.season
+  qdf$year   <- floor(qdf$year)
+  
+  return(as.FLQuant(qdf[,c(1:7)]))
+  
+}
+
+
+
+
