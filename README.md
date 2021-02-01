@@ -17,3 +17,19 @@ Copyright (C) 2018  Rob Scott
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    
+Installation
+
+FLR4MFCL depends on FLCore (FLR-project) which itself depends on iterators.
+
+install.packages("iterators")
+install.packages("FLCore", repos="http://flr-project.org/R")
+install.packages("remotes")
+
+library(remotes)
+install_github("robscott3/FLR4MFCL")
+
+NOTE: Installation from github may fail due to warning messages being elevated to errors. You can override this behaviour by setting the environment variable as follows - but use with caution because some warnings may not be completely benign!
+
+Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS="true")
+
