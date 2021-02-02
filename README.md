@@ -27,7 +27,7 @@ install.packages("FLCore", repos="http://flr-project.org/R")
 install.packages("remotes")
 
 library(remotes)
-install_github("robscott3/FLR4MFCL")
+install_github("PacificCommunity/ofp-sam-flr4mfcl")
 ```
 
 NOTE: Installation from github may fail due to warning messages being elevated to errors. You can override this behaviour by setting the environment variable as follows and re-running the install_github command - but use with caution because some warnings may not be completely benign!
