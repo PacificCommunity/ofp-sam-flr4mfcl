@@ -19,7 +19,7 @@
 #'
 #' @export
 
-read.MFCLSimulatedNatAge <- function(file='simulated_numbers_at_age', data="N", dimensions=NULL, rnge=NULL) {
+read.MFCLSimulatedNatAge <- function(file='simulated_numbers_at_age', data="N", dimensions=NULL, rnge=NULL, nssns=4) {
   
   res <- FLQuant() 
   
@@ -38,18 +38,24 @@ read.MFCLSimulatedNatAge <- function(file='simulated_numbers_at_age', data="N", 
   
   splitter      <- function(ff, tt, ll=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)+ll]),split="[[:blank:]]+"))
   
-  
   dat <- readLines(file)
   
+  if(is.null(dimensions))
+    dimensions <- c(agecls = length(unlist(strsplit(trim.leading(dat[3]), " "))) + 1, 
+                    years  = length(unlist(strsplit(trim.leading(dat[grep('# simulated_recruitments', dat)+1]), split=" "))), 
+                    seasons= nssns, 
+                    regions= (grep('# simulated_recruitments', dat)-3)/as.numeric(dat[2]),
+                    fisheries=NA, taggrps=NA)
+  
   itns  <- as.numeric(dat[2])
-  nages <- dimensions['agecls']  #length(val[[1]])+1
+  nages <- dimensions['agecls']  
   nssns <- dimensions['seasons']
   nreg  <- dimensions["regions"]
   
   if(data=='N'){
     val <- lapply(strsplit(trim.leading(dat[1:(itns*nreg)+2]), split="[[:blank:]]+"), as.numeric)
     dms <- list(age=2:nages, year=1, unit="unique", season=nssns, area=1:nreg, iter=1:itns)
-    res <- FLQuant(array(unlist(val), dim=c(15,1,1,1,nreg,itns)), dimnames=dms)
+    res <- FLQuant(array(unlist(val), dim=c(nages-1,1,1,1,nreg,itns)), dimnames=dms)
   }
   
   if(data=='R'){
