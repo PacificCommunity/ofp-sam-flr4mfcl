@@ -13,7 +13,7 @@ read.MFCLProjectedNatAge <- function(filename="projected_numbers_at_age", quarte
   
   n_sims    <- length(grep("# Simulation", ff))
   n_regions <- length(grep("# Region", ff))/n_sims
-  n_periods <- grep("# Region 2", ff)[1] - grep("# Region 1", ff)[1] - 2
+  n_periods <- ifelse(length(grep('# Region 2', ff))>0, grep("# Region 2", ff)[1] - grep("# Region 1", ff)[1] - 2, 1)
   n_ages    <- length(unlist(strsplit(trim.leading(fff[1]), split="[[:blank:]]+")))
   
   sns <- 1
