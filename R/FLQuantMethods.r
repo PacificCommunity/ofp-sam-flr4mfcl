@@ -98,8 +98,10 @@ qts <- function(quant){
     return(quant)
   }
   
-  q2 <- aperm(quant, c(4,2,1,3,5,6))
-  q3 <- array(c(q2), dim=c(dim(q2)[3], dim(q2)[1]*dim(q2)[2], dim(q2)[4], 1, dim(q2)[5:6]))
+  #q2 <- aperm(quant, c(4,2,1,3,5,6))
+  q2 <- aperm(quant, c(1,4,2,3,5,6))                                                             ## RDS 16/03/2021
+  #q3 <- array(c(q2), dim=c(dim(q2)[3], dim(q2)[1]*dim(q2)[2], dim(q2)[4], 1, dim(q2)[5:6]))
+  q3 <- array(c(q2), dim=c(dim(q2)[1], dim(q2)[2]*dim(q2)[3], dim(q2)[4], 1, dim(q2)[5:6]))      ## RDS 16/03/2021
   
   # dirty hack to force the first dimension to be age - not ideal but OK for now I think
   names(dimnames(quant))[1] <- "age"
@@ -114,6 +116,11 @@ qts <- function(quant){
   return(as.FLQuant(q3))
   
 }
+
+# testing qts
+#aa <- array(rep(1:30, 4)+rep(c(0.125,0.375,0.625,0.875), each=30), dim=c(5,6,1,4,1))
+#tt <- FLQuant(aa, dimnames=list(age=1:5, year=1:6, unit='unique', season=1:4, area='all')) 
+#qts(tt)
 
 
 #' ats
