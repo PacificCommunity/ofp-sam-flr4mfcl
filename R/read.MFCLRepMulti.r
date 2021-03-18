@@ -26,7 +26,9 @@ read.MFCLRepMulti <- function(repfile) {
   if(any(grepl("# ", pp) & nchar(pp)<3))
     pp <- pp[-seq(1,length(pp))[grepl("# ", pp) & nchar(pp)<3]]   # remove single hashes with no text "# "
   
-  dimensions(res)['agecls']    <- c(as.numeric(trim.leading(pp[grep("# Number of age classes", pp)+1])))
+  tmp.agecls <- c(as.numeric(strsplit(trim.leading(pp[grep("# Number of age classes", pp)+1]),split="\\s+")[[1]]))
+  if(length(tmp.agecls)>1 & length(unique(tmp.agecls))!=1){stop("Functionality to handle multi-sex/species output with differential age classes has not been developed.")}  
+  dimensions(res)['agecls'] <- c(as.numeric(unique(tmp.agecls)))
   dimensions(res)['years']     <- c(as.numeric(trim.leading(pp[grep("# Number of time periods", pp)+1])))
   dimensions(res)['seasons']   <- c(as.numeric(trim.leading(pp[grep("# Number of recruitments per year", pp)+1])))
   dimensions(res)['regions']   <- c(as.numeric(trim.leading(pp[grep("# Number of regions", pp)+1])))
