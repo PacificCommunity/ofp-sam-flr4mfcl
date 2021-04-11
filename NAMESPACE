@@ -146,6 +146,7 @@ exportMethods(
   "bh_steep_contrib<-",
   "caeff",
   "caeff<-",
+  "calc_diff_coffs_age_period",
   "catch_dev_coffs",
   "catch_dev_coffs<-",
   "catch_dev_coffs_flag",
