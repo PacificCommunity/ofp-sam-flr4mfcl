@@ -120,7 +120,7 @@ read.MFCLRep <- function(repfile) {
                                            dim=c(dimensions(res)["regions"], dimensions(res)['seasons'], dimensions(res)['years']/dimensions(res)["seasons"],1,1)), 
                                      c(4,3,5,2,1)), dimnames=dnms2)
   # Selectivity by age class
-  tmp.n_sel <- diff(grep("# Selectivity by age class",pp),grep("# length bin mid-points",pp)) - 1 # accounts for case where there are time-blocks on selectivity which will cause there to be more selectivity patterns than 'fisheries'
+  tmp.n_sel <- diff(c(grep("# Selectivity by age class",pp),grep("# length bin mid-points",pp))) - 1 # accounts for case where there are time-blocks on selectivity which will cause there to be more selectivity patterns than 'fisheries'
   sel(res)  <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Selectivity by age class", 1:tmp.n_sel)),
                              dim=c(dimensions(res)['agecls'], tmp.n_sel,1,1,1)), c(1,3,2,4,5)),dimnames=dnms3)
   
