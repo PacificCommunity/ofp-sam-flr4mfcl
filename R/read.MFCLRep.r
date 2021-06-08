@@ -162,6 +162,12 @@ read.MFCLRep <- function(repfile) {
     if(length(splitter(pp, "# Observed spawning Biomass"))==dimensions(res)['years']/dimensions(res)['seasons']){
       ssb(res)  <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Observed spawning Biomass")),c(1,dimensions(res)['years']/dimensions(res)['seasons'],1,1,1)), c(3,2,4,1,5)), dimnames=dnms4a)
       rec(res)  <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Observed recruitment")),     c(1,dimensions(res)['years']/dimensions(res)['seasons'],1,1,1)), c(3,2,4,1,5)), dimnames=dnms4a)
+    } else if(length(splitter(pp, "# Observed spawning Biomass")) < dimensions(res)['years']/dimensions(res)['seasons']){
+      tmp.n_ssb <- length(as.numeric(splitter(pp, "# Observed spawning Biomass")))
+      tmp.dnms4a <- dnms4a
+      tmp.dnms4a$year <- tail(dnms4a$year,n=tmp.n_ssb) 
+      ssb(res)  <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Observed spawning Biomass")),c(1,tmp.n_ssb,1,1,1)), c(3,2,4,1,5)), dimnames=tmp.dnms4a)
+      rec(res)  <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Observed recruitment")),     c(1,tmp.n_ssb,1,1,1)), c(3,2,4,1,5)), dimnames=tmp.dnms4a)
     }
   
     srr(res)  <- FLPar(suppressWarnings(as.numeric(splitter(pp, "# Beverton-Holt")))[!is.na(suppressWarnings(as.numeric(splitter(pp, "# Beverton-Holt"))))],
