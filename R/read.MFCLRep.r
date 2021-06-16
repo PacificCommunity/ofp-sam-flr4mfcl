@@ -221,3 +221,50 @@ read.MFCLRep <- function(repfile) {
 
 
 
+
+
+
+read.SBSBF0 <- function(repfile, sbsbf0 = 'latest') {
+  
+  trim.leading  <- function(x) sub("^\\s+", "", x) 
+  splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+")) 
+  
+  
+  res <- new("MFCLRep")
+  
+  pp    <- readLines(repfile)
+  pp    <- pp[nchar(pp)>=1]                                          # remove blank lines
+  if(any(grepl("# ", pp) & nchar(pp)<3))
+    pp <- pp[-seq(1,length(pp))[grepl("# ", pp) & nchar(pp)<3]]   # remove single hashes with no text "# "
+  
+  dimensions(res)['agecls']    <- c(as.numeric(trim.leading(pp[grep("# Number of age classes", pp)+1])))
+  dimensions(res)['years']     <- c(as.numeric(trim.leading(pp[grep("# Number of time periods", pp)+1])))
+  dimensions(res)['seasons']   <- c(as.numeric(trim.leading(pp[grep("# Number of recruitments per year", pp)+1])))
+  dimensions(res)['regions']   <- c(as.numeric(trim.leading(pp[grep("# Number of regions", pp)+1])))
+  dimensions(res)['fisheries'] <- c(as.numeric(trim.leading(pp[grep("# Number of fisheries", pp)+1])))
+  
+  res@range['minyear'] <- as.numeric(trim.leading(pp[grep("# Year 1", pp)+1]))
+  res@range['maxyear'] <- range(res)['minyear'] + (as.numeric(trim.leading(pp[grep("# Number of time periods", pp)+1]))/dimensions(res)['seasons'])-1
+  res@range['min']     <- 0
+  res@range['max']     <- (dimensions(res)['agecls']/dimensions(res)['seasons'])-1
+  
+  dnms2 <- list(age='all', year=range(res)['minyear']:range(res)["maxyear"], unit='unique', season=1:dimensions(res)['seasons'], area=1:dimensions(res)['regions'])
+
+  # adult biomass  
+  adultBiomass(res) <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Adult biomass", 1:dimensions(res)['years'])), 
+                                           dim=c(dimensions(res)["regions"], dimensions(res)['seasons'], dimensions(res)['years']/dimensions(res)["seasons"],1,1)), 
+                                     c(4,3,5,2,1)), dimnames=dnms2)
+  # adult biomass_no_fish  
+  adultBiomass_nofish(res) <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Adult biomass in absence of fishing", 1:dimensions(res)['years'])), 
+                                                  dim=c(dimensions(res)["regions"], dimensions(res)['seasons'], dimensions(res)['years']/dimensions(res)["seasons"],1,1)), 
+                                            c(4,3,5,2,1)), dimnames=dnms2)
+  
+  returnval <- switch(sbsbf0,
+                      latest = SBSBF0latest(res),
+                      recent = SBSBF0recent(res),
+                      instantaneous = SBSBF0(res))
+  
+  return(returnval)
+
+}
+

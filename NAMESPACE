@@ -71,6 +71,7 @@ export(
   "read.MFCLProjectedNatAge",
   "read.MFCLProjectedSpawningBiomass",
   "read.MFCLSimulatedNatAge",
+  "read.SBSBF0",
   "read.temporary_tag_report",
   "recPeriod",
   "setMFCLversion",
