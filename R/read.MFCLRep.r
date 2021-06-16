@@ -120,8 +120,11 @@ read.MFCLRep <- function(repfile) {
                                            dim=c(dimensions(res)["regions"], dimensions(res)['seasons'], dimensions(res)['years']/dimensions(res)["seasons"],1,1)), 
                                      c(4,3,5,2,1)), dimnames=dnms2)
   # Selectivity by age class
-  sel(res)  <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Selectivity by age class", 1:dimensions(res)['fisheries'])),
-                             dim=c(dimensions(res)['agecls'], dimensions(res)['fisheries'],1,1,1)), c(1,3,2,4,5)),dimnames=dnms3)
+  tmp.n_sel <- diff(c(grep("# Selectivity by age class",pp),grep("# length bin mid-points",pp))) - 1 # accounts for case where there are time-blocks on selectivity which will cause there to be more selectivity patterns than 'fisheries'
+  tmp.dnms3 <- dnms3
+  tmp.dnms3$unit <- 1:tmp.n_sel
+  sel(res)  <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Selectivity by age class", 1:tmp.n_sel)),
+                             dim=c(dimensions(res)['agecls'], tmp.n_sel,1,1,1)), c(1,3,2,4,5)),dimnames=tmp.dnms3)
   
   
   
@@ -159,6 +162,12 @@ read.MFCLRep <- function(repfile) {
     if(length(splitter(pp, "# Observed spawning Biomass"))==dimensions(res)['years']/dimensions(res)['seasons']){
       ssb(res)  <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Observed spawning Biomass")),c(1,dimensions(res)['years']/dimensions(res)['seasons'],1,1,1)), c(3,2,4,1,5)), dimnames=dnms4a)
       rec(res)  <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Observed recruitment")),     c(1,dimensions(res)['years']/dimensions(res)['seasons'],1,1,1)), c(3,2,4,1,5)), dimnames=dnms4a)
+    } else if(length(splitter(pp, "# Observed spawning Biomass")) < dimensions(res)['years']/dimensions(res)['seasons']){
+      tmp.n_ssb <- length(as.numeric(splitter(pp, "# Observed spawning Biomass")))
+      tmp.dnms4a <- dnms4a
+      tmp.dnms4a$year <- tail(dnms4a$year,n=tmp.n_ssb) 
+      ssb(res)  <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Observed spawning Biomass")),c(1,tmp.n_ssb,1,1,1)), c(3,2,4,1,5)), dimnames=tmp.dnms4a)
+      rec(res)  <- FLQuant(aperm(array(as.numeric(splitter(pp, "# Observed recruitment")),     c(1,tmp.n_ssb,1,1,1)), c(3,2,4,1,5)), dimnames=tmp.dnms4a)
     }
   
     srr(res)  <- FLPar(suppressWarnings(as.numeric(splitter(pp, "# Beverton-Holt")))[!is.na(suppressWarnings(as.numeric(splitter(pp, "# Beverton-Holt"))))],
