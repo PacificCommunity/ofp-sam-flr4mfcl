@@ -35,14 +35,16 @@ generate.ESS<- function(x, ctrl, projdat2, sc_df){
 #'
 #' 'generate()' can generate a range of different MFCL objects including 'par' and 'freq' files.
 #' The exact behaviour depends on the type of objects passed to 'generate()'.
-#' It is used to (hopefully) improve the workflow when manipulating MFCL objects in R, particularly when preparing objects for running projections.
+#' It is used to (hopefully) improve the workflow when manipulating MFCL objects in R, particularly when preparing objects for 
+#' running projections, but also when generating new stock assessment input files from pseudo data.
 #'
-#' There are currently four 'generate()' methods:
+#' There are currently five 'generate()' methods:
 #' \itemize{
 #'   \item Generate an expanded \linkS4class{MFCLFrq} object from an existing \linkS4class{MFCLFrq} object and a \linkS4class{MFCLprojControl} object. 
 #'   \item Generate an expanded \linkS4class{MFCLPar} object from an existing \linkS4class{MFCLPar} object and a \linkS4class{MFCLFrq} object. This is typically used for taking a expanding an existing par and using a 00 par (generated using the MFCL executable).
 #'   \item Generate an expanded \linkS4class{MFCLPar} object from an existing \linkS4class{MFCLFrq} object. This can be a useful way of avoiding making a 00 par with MFCL executable, reading it in, and blowing it up. It can be used for standard projection analyses that do not include additional tag data. Tests for this method can be found in the inst/mfcl_tests folder of the package source.
 #'   \item Generate an expanded \linkS4class{MFCLPar} object from an existing \linkS4class{MFCLFrq} object and a \linkS4class{MFCLTagProj} object. This method is method can be used to set up par objects that include additional tag data.
+#'   \item Generate new stock assessment input files \linkS4class{MFCLFrq}, \linkS4class{MFCLTag}, etc. objects from an \linkS4class{MFCLPseudo} object and a \linkS4class{MFCLTagProj} object.
 #' }
 #' @param x An \linkS4class{MFCLFrq} or \linkS4class{MFCLPar} object that will be expanded.
 #' @param y If \code{x} is an \linkS4class{MFCLFrq} then \code{y} is an \linkS4class{MFCLprojControl}. If \code{x} is \linkS4class{MFCLPar}, \code{y} is either an \linkS4class{MFCLPar} or \linkS4class{MFCLFrq}. 
@@ -553,6 +555,8 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLTagProj"),
             ydims <- dim(tag_fish_rep_rate(y))
             modrows <- (ydims[1]-(ydims[1]-xdims[1])):(ydims[1]-1)
             
+            proj.yrs <- seq(range(x)['maxyear']+1, range(x)['maxyear']+(dimensions(y)[2]-dimensions(x)[2])/dimensions(x)[3])
+            
             # fill the reporting rate priors with the reporting rate used for tag data generation (ie from the MFCLTagProj object)
             # remember to keep the final row for the pooled tag settings
             #tag_fish_rep_rate(y) <- rbind(tag_fish_rep_rate(x)[-xdims[1],], t(rep_rate_proj(z)), tag_fish_rep_rate(x)[xdims[1],])
@@ -583,10 +587,87 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLTagProj"),
             
             #dimensions(y)['taggrps'] <- xdims[1]-1
             
+            # set future rec_standard and rec_orthogonal values to the mean of the historical values.
+            if(version(x)>=1064){
+              rec_standard(y) <- window(rec_standard(x), start=range(x)['minyear'], end=range(y)['maxyear'])
+              rec_standard(y)[,as.character(proj.yrs)] <- apply(rec_standard(x), c(1,3,4,5,6), mean, na.rm=T)
+              
+              rec_orthogonal(y) <- window(rec_orthogonal(x), start=range(x)['minyear'], end=range(y)['maxyear'])
+              rec_orthogonal(y)[,as.character(proj.yrs)] <- apply(rec_orthogonal(x), c(1,3,4,5,6), mean, na.rm=T)
+              
+              rec_standard_dim(y) <- c(dim(rec_standard(y))[5], prod(dim(rec_standard(y))[c(2,4)]))
+            }
+            
+            
             return(y)
           }
 )
 
+
+
+
+#' @rdname generate
+#' There's not much to this one - maybe not necessary.
+#' 
+setMethod("generate", signature(x="MFCLTag", y="MFCLTag", z="missing"), 
+          function(x, y, z, ...){
+            
+            
+          }
+)
+
+
+
+
+#' @rdname generate
+setMethod("generate", signature(x="MFCLFrq", y="MFCLPseudo", z="MFCLTag"), 
+          function(x, y, z, eff_crp_mult, ...){
+            
+            newfrq  <- x + y 
+            
+            # Need to reorder newfrq by year, fishery, season, length so that eff_crp_mult works
+            freq(newfrq) <- freq(newfrq)[order(freq(newfrq)$year, freq(newfrq)$fishery, freq(newfrq)$month, freq(newfrq)$length),]
+            
+            # Downscale effort so that effort has not been subject to effort creep so estimation model has perceived effort not effective effort
+            freq(newfrq)[freq(newfrq)$year>=fprojyr(mseCtrl) & is.element(freq(newfrq)$fishery, effort_creep_fish(mseCtrl)), "effort"] <-
+              freq(newfrq)[freq(newfrq)$year>=fprojyr(mseCtrl) & is.element(freq(newfrq)$fishery, effort_creep_fish(mseCtrl)), "effort"] / eff_crp_mult
+            
+            n_tag_groups(newfrq) <- release_groups(z)
+            
+            data_flags(newfrq)[c(2,3),] <- 0
+            
+            return(newfrq)
+          }
+)
+
+
+
+#' @rdname generate
+#' 
+setMethod("generate", signature(x="MFCLIni", y="MFCLMSEControl", z="MFCLTag"), 
+          function(x, y, z, z2="missing", ...){
+            
+            if(!is.element("MFCLTag", is(z2)))
+              stop("argument z2 should be an object of class 'MFCLTag'. (z=original tag object; z2=new tag object)")
+            
+            newini  <- x
+            mseCtrl <- y
+            tag     <- z
+            newtag  <- z2
+            
+            tagrepvals <- list(tag_fish_rep_rate  = tag_fish_rep_rate(mseCtrl),  
+                               tag_fish_rep_grp   = c(max(tag_fish_rep_grp(newini)) + c(tag_fish_rep_grp(newini)[1,])), 
+                               tag_fish_rep_flags = 1, 
+                               tag_fish_rep_target= 50,
+                               tag_fish_rep_pen   = 1)
+            
+            for(ss in names(tagrepvals))  {
+              slot(newini, ss) <- rbind(slot(ini, ss)[1:release_groups(tag),], 
+                                        t(matrix(tagrepvals[[ss]], ncol=release_groups(newtag)-release_groups(tag), nrow=ncol(slot(ini, ss)), byrow=F)), 
+                                        slot(ini, ss)[release_groups(tag)+1,])
+            }
+          }
+)
 
 
 

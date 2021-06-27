@@ -563,6 +563,42 @@ setGeneric('orth_coffs<-', function(object, ..., value) standardGeneric('orth_co
 #' @rdname accessor-methods
 setReplaceMethod('orth_coffs', signature(object='MFCLRec', value=unname(getSlots('MFCLRec')['orth_coffs'])),
                  function(object, value){slot(object, 'orth_coffs') <- value; return(object)}) 
+#' @rdname accessor-methods
+setGeneric('new_orth_coffs', function(object, ...) standardGeneric('new_orth_coffs')) 
+#' @rdname accessor-methods
+setMethod('new_orth_coffs', signature(object='MFCLRec'),function(object) return(slot(object, 'new_orth_coffs'))) 
+#' @rdname accessor-methods
+setGeneric('new_orth_coffs<-', function(object, ..., value) standardGeneric('new_orth_coffs<-')) 
+#' @rdname accessor-methods
+setReplaceMethod('new_orth_coffs', signature(object='MFCLRec', value=unname(getSlots('MFCLRec')['new_orth_coffs'])),
+                 function(object, value){slot(object, 'new_orth_coffs') <- value; return(object)}) 
+#' @rdname accessor-methods
+setGeneric('rec_orthogonal', function(object, ...) standardGeneric('rec_orthogonal')) 
+#' @rdname accessor-methods
+setMethod('rec_orthogonal', signature(object='MFCLRec'),function(object) return(slot(object, 'rec_orthogonal'))) 
+#' @rdname accessor-methods
+setGeneric('rec_orthogonal<-', function(object, ..., value) standardGeneric('rec_orthogonal<-')) 
+#' @rdname accessor-methods
+setReplaceMethod('rec_orthogonal', signature(object='MFCLRec', value=unname(getSlots('MFCLRec')['rec_orthogonal'])),
+                 function(object, value){slot(object, 'rec_orthogonal') <- value; return(object)}) 
+#' @rdname accessor-methods
+setGeneric('rec_standard_dim', function(object, ...) standardGeneric('rec_standard_dim')) 
+#' @rdname accessor-methods
+setMethod('rec_standard_dim', signature(object='MFCLRec'),function(object) return(slot(object, 'rec_standard_dim'))) 
+#' @rdname accessor-methods
+setGeneric('rec_standard_dim<-', function(object, ..., value) standardGeneric('rec_standard_dim<-')) 
+#' @rdname accessor-methods
+setReplaceMethod('rec_standard_dim', signature(object='MFCLRec', value=unname(getSlots('MFCLRec')['rec_standard_dim'])),
+                 function(object, value){slot(object, 'rec_standard_dim') <- value; return(object)}) 
+#' @rdname accessor-methods
+setGeneric('rec_standard', function(object, ...) standardGeneric('rec_standard')) 
+#' @rdname accessor-methods
+setMethod('rec_standard', signature(object='MFCLRec'),function(object) return(slot(object, 'rec_standard'))) 
+#' @rdname accessor-methods
+setGeneric('rec_standard<-', function(object, ..., value) standardGeneric('rec_standard<-')) 
+#' @rdname accessor-methods
+setReplaceMethod('rec_standard', signature(object='MFCLRec', value=unname(getSlots('MFCLRec')['rec_standard'])),
+                 function(object, value){slot(object, 'rec_standard') <- value; return(object)}) 
 
 #' @rdname accessor-methods
 setMethod('range', signature(x='MFCLRec'),function(x) return(slot(x,'range'))) 
@@ -608,6 +644,33 @@ setGeneric('xdiff_coffs<-', function(object, ..., value) standardGeneric('xdiff_
 #' @rdname accessor-methods
 setReplaceMethod('xdiff_coffs', signature(object='MFCLRegion', value=unname(getSlots('MFCLRegion')['xdiff_coffs'])),
                  function(object, value){slot(object, 'xdiff_coffs') <- value; return(object)}) 
+#' @rdname accessor-methods
+setGeneric('y1diff_coffs', function(object, ...) standardGeneric('y1diff_coffs')) 
+#' @rdname accessor-methods
+setMethod('y1diff_coffs', signature(object='MFCLRegion'),function(object) return(slot(object, 'y1diff_coffs'))) 
+#' @rdname accessor-methods
+setGeneric('y1diff_coffs<-', function(object, ..., value) standardGeneric('y1diff_coffs<-')) 
+#' @rdname accessor-methods
+setReplaceMethod('y1diff_coffs', signature(object='MFCLRegion', value=unname(getSlots('MFCLRegion')['y1diff_coffs'])),
+                 function(object, value){slot(object, 'y1diff_coffs') <- value; return(object)}) 
+#' @rdname accessor-methods
+setGeneric('y2diff_coffs', function(object, ...) standardGeneric('y2diff_coffs')) 
+#' @rdname accessor-methods
+setMethod('y2diff_coffs', signature(object='MFCLRegion'),function(object) return(slot(object, 'y2diff_coffs'))) 
+#' @rdname accessor-methods
+setGeneric('y2diff_coffs<-', function(object, ..., value) standardGeneric('y2diff_coffs<-')) 
+#' @rdname accessor-methods
+setReplaceMethod('y2diff_coffs', signature(object='MFCLRegion', value=unname(getSlots('MFCLRegion')['y2diff_coffs'])),
+                 function(object, value){slot(object, 'y2diff_coffs') <- value; return(object)}) 
+#' @rdname accessor-methods
+setGeneric('zdiff_coffs', function(object, ...) standardGeneric('zdiff_coffs')) 
+#' @rdname accessor-methods
+setMethod('zdiff_coffs', signature(object='MFCLRegion'),function(object) return(slot(object, 'zdiff_coffs'))) 
+#' @rdname accessor-methods
+setGeneric('zdiff_coffs<-', function(object, ..., value) standardGeneric('zdiff_coffs<-')) 
+#' @rdname accessor-methods
+setReplaceMethod('zdiff_coffs', signature(object='MFCLRegion', value=unname(getSlots('MFCLRegion')['zdiff_coffs'])),
+                 function(object, value){slot(object, 'zdiff_coffs') <- value; return(object)}) 
 #' @rdname accessor-methods
 setGeneric('diff_coffs_mat', function(object, ...) standardGeneric('diff_coffs_mat')) 
 #' @rdname accessor-methods
@@ -868,6 +931,15 @@ setGeneric('fm_level_devs<-', function(object, ..., value) standardGeneric('fm_l
 setReplaceMethod('fm_level_devs', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['fm_level_devs'])),
                                 function(object, value){slot(object, 'fm_level_devs') <- value; return(object)}) 
 #' @rdname accessor-methods
+setGeneric('fm_level_regression_pars', function(object, ...) standardGeneric('fm_level_regression_pars')) 
+#' @rdname accessor-methods
+setMethod('fm_level_regression_pars', signature(object='MFCLParBits'),function(object) return(slot(object, 'fm_level_regression_pars'))) 
+#' @rdname accessor-methods
+setGeneric('fm_level_regression_pars<-', function(object, ..., value) standardGeneric('fm_level_regression_pars<-')) 
+#' @rdname accessor-methods
+setReplaceMethod('fm_level_regression_pars', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['fm_level_regression_pars'])),
+                 function(object, value){slot(object, 'fm_level_regression_pars') <- value; return(object)}) 
+#' @rdname accessor-methods
 setGeneric('obj_fun', function(object, ...) standardGeneric('obj_fun')) 
 #' @rdname accessor-methods
 setMethod('obj_fun', signature(object='MFCLParBits'),function(object) return(slot(object, 'obj_fun'))) 
@@ -957,6 +1029,24 @@ setGeneric('lagrangian<-', function(object, ..., value) standardGeneric('lagrang
 #' @rdname accessor-methods
 setReplaceMethod('lagrangian', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['lagrangian'])),
                                 function(object, value){slot(object, 'lagrangian') <- value; return(object)}) 
+#' @rdname accessor-methods
+setGeneric('kludged_eq_coffs', function(object, ...) standardGeneric('kludged_eq_coffs')) 
+#' @rdname accessor-methods
+setMethod('kludged_eq_coffs', signature(object='MFCLParBits'),function(object) return(slot(object, 'kludged_eq_coffs'))) 
+#' @rdname accessor-methods
+setGeneric('kludged_eq_coffs<-', function(object, ..., value) standardGeneric('kludged_eq_coffs<-')) 
+#' @rdname accessor-methods
+setReplaceMethod('kludged_eq_coffs', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['kludged_eq_coffs'])),
+                 function(object, value){slot(object, 'kludged_eq_coffs') <- value; return(object)}) 
+#' @rdname accessor-methods
+setGeneric('kludged_eq_level_coffs', function(object, ...) standardGeneric('kludged_eq_level_coffs')) 
+#' @rdname accessor-methods
+setMethod('kludged_eq_level_coffs', signature(object='MFCLParBits'),function(object) return(slot(object, 'kludged_eq_level_coffs'))) 
+#' @rdname accessor-methods
+setGeneric('kludged_eq_level_coffs<-', function(object, ..., value) standardGeneric('kludged_eq_level_coffs<-')) 
+#' @rdname accessor-methods
+setReplaceMethod('kludged_eq_level_coffs', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['kludged_eq_level_coffs'])),
+                 function(object, value){slot(object, 'kludged_eq_level_coffs') <- value; return(object)}) 
 #' @rdname accessor-methods
 setMethod('range', signature(x='MFCLParBits'),function(x) return(slot(x,'range'))) 
 #' @rdname accessor-methods

@@ -307,6 +307,9 @@ read.MFCLRec <- function(parfile, parobj=NULL, first.yr=1972) {
   dims2$year  <- as.character(first.yr)
   dims2$area  <- as.character(1:nregions)
   
+  dims3       <- dims
+  dims3$area  <- as.character(1:nregions)
+  
   #rel_rec <- array(     as.numeric(splitter(par, "# relative recruitment")),dim=c(nseasons, nyears/nseasons, 1,1,1,1))
   rel_rec <- array(c(NA, as.numeric(splitter(par, "# relative recruitment"))),dim=c(nseasons, nyears/nseasons, 1,1,1,1))
   
@@ -322,6 +325,16 @@ read.MFCLRec <- function(parfile, parobj=NULL, first.yr=1972) {
   
   if(vsn>=1055)
     slot(res, "orth_coffs")        <- as.numeric(par[grep("# new orthogonal coefficients", par)+1])
+  
+  if(vsn>=1064){
+    slot(res, "rec_standard_dim")  <-       as.numeric(splitter(par, "#Recruitment standard"))
+    
+    slot(res, 'rec_standard')  <- FLQuant(aperm(array(as.numeric(splitter(par, "#Recruitment standard", 1:nregions+1)), 
+                                                      dim=c(nregions, nseasons, nyears/nseasons,1,1)), c(4,3,5,2,1)), dimnames=dims3)
+                                    
+    slot(res, "rec_orthogonal")<- FLQuant(aperm(array(as.numeric(splitter(par, "#Recruitment orthogonal", 1:nregions)), 
+                                                      dim=c(nregions, nseasons, nyears/nseasons,1,1)), c(4,3,5,2,1)), dimnames=dims3)
+  }
   
   slot(res, "range") <- c(min=min(as.numeric(dims$age)), max=max(as.numeric(dims$age)), plusgroup=NA,
                           minyear=min(as.numeric(dims$year)), maxyear=max(as.numeric(dims$year)))
@@ -388,10 +401,19 @@ read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972) {
                                         dim=c(nregions,10)))
   slot(res, 'move_map')      <- as.numeric(splitter(par, "# movement map"))
 
-  slot(res, 'diff_coffs')    <- matrix(as.numeric(splitter(par,"# movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons, byrow=T)  
+  if(vsn<1064)
+    slot(res, 'diff_coffs')    <- matrix(as.numeric(splitter(par,"# movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons, byrow=T)  
 
-  if(vsn>=1059)
+  if(vsn>=1059 & vsn<1064)
     slot(res, 'xdiff_coffs')    <- matrix(as.numeric(splitter(par,"# xmovement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons, byrow=T)  
+  
+  if(vsn>=1064){
+    slot(res, 'diff_coffs')    <- matrix(as.numeric(splitter(par,"# diff_coffs movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons, byrow=T)  
+    slot(res, 'xdiff_coffs')   <- matrix(as.numeric(splitter(par,"# xdiff_coffs movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons, byrow=T)  
+    slot(res, 'y1diff_coffs')  <- matrix(as.numeric(splitter(par,"# y1diff_coffs movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons, byrow=T)  
+    slot(res, 'y2diff_coffs')  <- matrix(as.numeric(splitter(par,"# y2diff_coffs movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons, byrow=T)  
+    slot(res, 'zdiff_coffs')   <- matrix(as.numeric(splitter(par,"# zdiff_coffs movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons, byrow=T)  
+  }
   
   slot(res, 'diff_coffs_mat')<- matrix(as.numeric(splitter(par, "# The diffusion coefficients",1:nregions)), nrow=nregions, byrow=T)
   
@@ -563,6 +585,10 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972) {
   
   vsn <- as.numeric(unlist(strsplit(trimws(par[2]), split="[[:blank:]]+")))[200]
   
+  nseasons <- length(splitter(par, "# season_flags"))
+  nregions <- length(splitter(par,"# region parameters"))
+  nfish    <- length(splitter(par, "# q0_miss")) #grep("# tag flags", par) - grep("# fish flags", par)[1] -1
+  
   taglik <- unlist(strsplit(par[grep("# Likelihood component for tags",          par)], split="[[:blank:]]+"))
   mn_l_p <- unlist(strsplit(par[grep("# Average fish mort per fishing incident", par)], split="[[:blank:]]+"))
   av_f_i <- unlist(strsplit(par[grep("# Average fish mort per fishing incident", par)], split="[[:blank:]]+"))
@@ -577,7 +603,9 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972) {
   #if(any(mm[!is.na(mm)]>0) & vsn >= 1051) 
     if(length(grep("# fm_level_devs", par))>0)  # YFT - no missing catch in yft.frq and therefore no fm_level_devs produced in par file - need to find better approach !!!
       slot(res, 'fm_level_devs') <- par[(grep("# fm_level_devs", par)+1):(grep("# movement map", par)-1)]
-  
+
+  slot(res, 'fm_level_regression_pars') <- matrix(as.numeric(splitter(par, "# fsh.implicit_fm_level_regression_pars", 1:nfish)), nrow=nfish)
+    
   slot(res, 'obj_fun')  <- as.numeric(splitter(par, "# Objective function value"))
   slot(res, 'n_pars')   <- as.numeric(splitter(par, "# The number of parameters"))
   slot(res, 'tag_lik')  <- as.numeric(taglik[length(taglik)])
@@ -597,6 +625,12 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972) {
     #slot(res, 'lagrangian') <- par[(grep("# Lambdas for augmented Lagrangian", par)+1):(grep("# Reporting rate dev coffs", par)-1)]
   }
   
+  ######## CAUTION -- DIMENSIONS HARD WIRED -- until I can find out what they should be !!
+  cat("Watch out -- dims of kludged eq calcs are hard wired !!!")
+  if(vsn>=1064){   
+    slot(res, 'kludged_eq_coffs') <- t(array(as.numeric(splitter(par, "# kludged_equilib_coffs", 1:(nseasons*nregions))), dim=c(16,32))) ## Yikes !!
+    slot(res, 'kludged_eq_level_coffs') <- as.numeric(splitter(par, "# kludged_equilib_level_coffs"))
+  }
   
   if(length(grep("# Historical_flags", par))>0)
     slot(res, 'historic_flags') <- par[(grep("# Historical_flags", par)+1):length(par)]

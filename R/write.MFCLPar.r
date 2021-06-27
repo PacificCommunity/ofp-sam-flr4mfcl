@@ -107,13 +107,33 @@ write.par <- function(x, file, append=F, ...){
 
   cat(paste("# movement map \n", paste(move_map(x), collapse=" ")),  file=file, append=T)
 
-  cat("\n# movement coefficients \n",   file=file, append=T)
-  write.table(float(diff_coffs(x)), col.names=F, row.names=F, file=file, append=T,quote=F)
+  if(version(x)<1064){
+    cat("\n# movement coefficients \n",   file=file, append=T)
+    write.table(float(diff_coffs(x)), col.names=F, row.names=F, file=file, append=T,quote=F)
 
-  if(version(x)>=1059){
-    cat("# xmovement coefficients \n",   file=file, append=T)
-    write.table(float(xdiff_coffs(x)), col.names=F, row.names=F, file=file, append=T,quote=F)
+    if(version(x)>=1059){
+      cat("# xmovement coefficients \n",   file=file, append=T)
+      write.table(float(xdiff_coffs(x)), col.names=F, row.names=F, file=file, append=T,quote=F)
+    }
   }
+  if(version(x)>=1064){
+    cat("\n# diff_coffs movement coefficients \n",   file=file, append=T)
+    write.table(float(diff_coffs(x)), col.names=F, row.names=F, file=file, append=T,quote=F)
+    
+    cat("# xdiff_coffs movement coefficients \n",   file=file, append=T)
+    write.table(float(xdiff_coffs(x)), col.names=F, row.names=F, file=file, append=T,quote=F)
+    
+    cat("# y1diff_coffs movement coefficients \n",   file=file, append=T)
+    write.table(float(y1diff_coffs(x)), col.names=F, row.names=F, file=file, append=T,quote=F)
+    
+    cat("# y2diff_coffs movement coefficients \n",   file=file, append=T)
+    write.table(float(y2diff_coffs(x)), col.names=F, row.names=F, file=file, append=T,quote=F)
+    
+    cat("# zdiff_coffs movement coefficients \n",   file=file, append=T)
+    write.table(float(zdiff_coffs(x)), col.names=F, row.names=F, file=file, append=T,quote=F)
+  }
+  
+  
   cat("# movement matrices \n",   file=file, append=T)
 
 #  for(period in 1: dimensions(x)['seasons']){
@@ -152,6 +172,11 @@ write.par <- function(x, file, append=F, ...){
   cat("\n \n# extra fishery parameters   \n# \n \n",   file=file, append=T)
   write.table(float(fish_params(x),ZeroPrint="0"),  col.names=F, row.names=F, file=file, append=T,quote=F)
 
+  if(version(x)>=1064){
+    cat("\n \n# fsh.implicit_fm_level_regression_pars   \n# \n \n",   file=file, append=T)
+    write.table(float(fm_level_regression_pars(x),ZeroPrint="0"),  col.names=F, row.names=F, file=file, append=T, quote=F)
+  }
+  
   if(version(x)>=1052){
     cat("\n \n# species parameters \n \n",   file=file, append=T)
     write.table(slot(x, 'spp_params'),  col.names=F, row.names=F, file=file, append=T,quote=F)
@@ -205,6 +230,16 @@ write.par <- function(x, file, append=F, ...){
   cat(paste("\n \n# Common first Length bias flags \n", paste(as.vector(common_len_bias_pars(x)), collapse=" ")),  file=file, append=T)
   cat(paste("\n \n# Common first Length bias coffs \n", paste(as.vector(common_len_bias_coffs(x)), collapse=" ")),  file=file, append=T)
 
+  if(version(x)>=1064){
+    cat("\n \n#Recruitment standard  \n ", slot(x, 'rec_standard_dim'), "\n",   file=file, append=T)
+    write.table(float(t(drop(aperm(qts(rec_standard(x)), c(2,5,1,3,4,6)))), ZeroPrint="0"),  
+                col.names=F, row.names=F, file=file, append=T,quote=F)
+    
+    cat("\n \n#Recruitment orthogonal  \n ",   file=file, append=T)
+    write.table(float(t(drop(aperm(qts(rec_orthogonal(x)), c(2,5,1,3,4,6)))), ZeroPrint="0"),  
+                col.names=F, row.names=F, file=file, append=T,quote=F)
+  }
+  
   cat(paste("\n \n# Seasonal growth parameters    \n"), file=file, append=T)
   cat(paste(float(as.vector(season_growth_pars(x)),ZeroPrint="0"), collaps=" "),  file=file, append=T)
 
@@ -214,6 +249,15 @@ write.par <- function(x, file, append=F, ...){
   cat("\n \n# Variance parameters \n",   file=file, append=T)
   write.table(float(growth_var_pars(x),ZeroPrint="0"),  col.names=F, row.names=F, file=file, append=T,quote=F)
 
+  if(version(x)>=1064){
+    cat("Check the dims of the 'kludged_eguilib_coffs'")
+    cat("\n# kludged_equilib_coffs  \n ",  file=file, append=T)
+    write.table(float(kludged_eq_coffs(x),ZeroPrint="0"),  col.names=F, row.names=F, file=file, append=T,quote=F)
+    
+    cat("\n# kludged_equilib_level_coffs  \n ",  file=file, append=T)
+    cat(as.vector(kludged_eq_level_coffs(x)), file=file, append=T)
+  }
+  
   if(version(x)>=1055)
     cat(paste("\n# new orthogonal coefficients     \n", orth_coffs(x)),  file=file, append=T)
 
