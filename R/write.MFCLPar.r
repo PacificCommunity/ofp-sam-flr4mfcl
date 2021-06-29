@@ -250,7 +250,7 @@ write.par <- function(x, file, append=F, ...){
   write.table(float(growth_var_pars(x),ZeroPrint="0"),  col.names=F, row.names=F, file=file, append=T,quote=F)
 
   if(version(x)>=1064){
-    cat("Check the dims of the 'kludged_eguilib_coffs'")
+    #cat("Check the dims of the 'kludged_eguilib_coffs'")
     cat("\n# kludged_equilib_coffs  \n ",  file=file, append=T)
     write.table(float(kludged_eq_coffs(x),ZeroPrint="0"),  col.names=F, row.names=F, file=file, append=T,quote=F)
     

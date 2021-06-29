@@ -330,10 +330,10 @@ read.MFCLRec <- function(parfile, parobj=NULL, first.yr=1972) {
     slot(res, "rec_standard_dim")  <-       as.numeric(splitter(par, "#Recruitment standard"))
     
     slot(res, 'rec_standard')  <- FLQuant(aperm(array(as.numeric(splitter(par, "#Recruitment standard", 1:nregions+1)), 
-                                                      dim=c(nregions, nseasons, nyears/nseasons,1,1)), c(4,3,5,2,1)), dimnames=dims3)
+                                                      dim=c(nseasons, nyears/nseasons, nregions,1,1)), c(4,2,5,1,3)), dimnames=dims3)
                                     
     slot(res, "rec_orthogonal")<- FLQuant(aperm(array(as.numeric(splitter(par, "#Recruitment orthogonal", 1:nregions)), 
-                                                      dim=c(nregions, nseasons, nyears/nseasons,1,1)), c(4,3,5,2,1)), dimnames=dims3)
+                                                      dim=c(nseasons, nyears/nseasons, nregions,1,1)), c(4,2,5,1,3)), dimnames=dims3)
   }
   
   slot(res, "range") <- c(min=min(as.numeric(dims$age)), max=max(as.numeric(dims$age)), plusgroup=NA,
@@ -585,6 +585,7 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972) {
   
   vsn <- as.numeric(unlist(strsplit(trimws(par[2]), split="[[:blank:]]+")))[200]
   
+  nagecls  <- as.numeric(par[grep("# The number of age classes", par)+1]) 
   nseasons <- length(splitter(par, "# season_flags"))
   nregions <- length(splitter(par,"# region parameters"))
   nfish    <- length(splitter(par, "# q0_miss")) #grep("# tag flags", par) - grep("# fish flags", par)[1] -1
@@ -625,10 +626,11 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972) {
     #slot(res, 'lagrangian') <- par[(grep("# Lambdas for augmented Lagrangian", par)+1):(grep("# Reporting rate dev coffs", par)-1)]
   }
   
-  ######## CAUTION -- DIMENSIONS HARD WIRED -- until I can find out what they should be !!
-  cat("Watch out -- dims of kludged eq calcs are hard wired !!!")
   if(vsn>=1064){   
-    slot(res, 'kludged_eq_coffs') <- t(array(as.numeric(splitter(par, "# kludged_equilib_coffs", 1:(nseasons*nregions))), dim=c(16,32))) ## Yikes !!
+    ## Need to keep an eye on this as dimensions may be off !!
+    slot(res, 'kludged_eq_coffs') <- t(array(as.numeric(splitter(par, "# kludged_equilib_coffs", 1:(nseasons*nregions))), 
+                                             dim=c(nagecls,nseasons*nregions))) 
+    
     slot(res, 'kludged_eq_level_coffs') <- as.numeric(splitter(par, "# kludged_equilib_level_coffs"))
   }
   
