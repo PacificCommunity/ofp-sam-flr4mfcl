@@ -91,6 +91,7 @@ rolling_mean_and_lagging <- function(flq, mean_nyears, lag_nyears){
 #' @param mean_nyears The number of years to calculate the rolling mean over. A value of 1 is the same as not calculating a mean. For the SB() method the default value is 1.
 #' @param lag_nyears The number of years to lag the output. A value of 0 is the same as not lagging the output. For the SB() method the default value is 0.
 #' @param combine_areas If TRUE the biomassses in different areas are summed. Default value is TRUE.
+#' @param season_means If TRUE the seasonal biomassses are averaged in each year so only annual biomass is returned. Default value is TRUE.
 #' @param sb_mean_nyears Equivalent to the argument \code{mean_nyears} for the SB part of the \code{SBSBF0()} method.
 #' @param sb_lag_nyears Equivalent to the argument \code{lag_nyears} for the SB part of the \code{SBSBF0()} method.
 #' @param sbf0_mean_nyears Equivalent to the argument \code{mean_nyears} for the SBF0 part of the \code{SBSBF0()} method.
