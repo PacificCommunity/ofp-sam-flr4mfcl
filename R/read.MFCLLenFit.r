@@ -133,9 +133,13 @@ read.MFCLLenFit2 <- function(lffile, get_lenage = FALSE) {
     # Get year and month of each sample block in each fishery
     time_ids_posns <- fishery_start + seq(from = 1, to = sample_size * fsh_nobs[fishery], by=sample_size)
     time_ids <- lff[time_ids_posns]
-    time_ids <- strsplit(time_ids, split="[[:blank:]]+")
+    time_ids <- strsplit(trim.leading(time_ids), split="[[:blank:]]+")
     year <- as.numeric(unlist(lapply(time_ids, "[[", 1)))
     month <- as.numeric(unlist(lapply(time_ids, "[[", 2)))
+    # Get nsamples
+    nsample_posns <- fishery_start + seq(from = 3, to = sample_size * fsh_nobs[fishery], by=sample_size)
+    nsamples <- lff[nsample_posns]
+    nsamples <- as.numeric(unlist(strsplit(trim.leading(nsamples), split="[[:blank:]]+")))
   
     # prop_obs - 1 line per sample block
     obs_posns <- fishery_start +  seq(from = 6, to = (sample_size* (fsh_nobs[fishery] - 1)) + 6, by=sample_size)
@@ -150,6 +154,7 @@ read.MFCLLenFit2 <- function(lffile, get_lenage = FALSE) {
     temp_df <- data.frame(fishery = fishery,
                             year = rep(year, each=length(lbins)),
                              month = rep(month, each=length(lbins)),
+                             sample_size = rep(nsamples, each=length(lbins)),
                              length = rep(lbins, fsh_nobs[fishery]),
                              obs = prop_obs,
                              pred = prop_pred)
