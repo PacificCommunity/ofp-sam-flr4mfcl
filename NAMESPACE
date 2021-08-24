@@ -68,6 +68,7 @@ export(
   "read.MFCLTag",
   "read.MFCLTagRep",
   "read.MFCLLenFit",
+  "read.MFCLLenFit2",
   "read.MFCLProjectedNatAge",
   "read.MFCLProjectedSpawningBiomass",
   "read.MFCLSimulatedNatAge",
