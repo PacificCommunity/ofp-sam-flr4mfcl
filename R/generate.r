@@ -157,6 +157,8 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLFrq"),
           function(x, y, z, ...){
             
             # set stochastic recruitment flags
+            if(flagval(x, 2, 199)$value == 0)    # value of 0 for af199 sets full range of available years
+              flagval(x, 1, 232)$value <- 1
             if(flagval(x, 1, 232)$value == 0)
               flagval(x, 1, 232) <- recPeriod(x, af199=flagval(x, 2, 199)$value, af200=flagval(x, 2, 200)$value)['pf232']
             if(flagval(x, 1, 233)$value == 0)
