@@ -24,6 +24,7 @@ read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing",
   trim.leading  <- function(x) sub("^\\s+", "", x) 
   splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+")) 
   
+  #browser()
   res <- MFCLPseudo() 
   
   if(!missing(catch) & !file.exists(catch))
@@ -102,7 +103,8 @@ read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing",
   }
  
   slot(res, "catcheff") <- tempdat[order(tempdat$iter, tempdat$fishery, tempdat$year, tempdat$month, tempdat$week),]
-  slot(res, "l_frq")    <- pobs.df[order(pobs.df$iter,  pobs.df$fishery, pobs.df$year, pobs.df$month, pobs.df$week, pobs.df$length),]  
+  if(exists('pobs.df'))
+    slot(res, "l_frq")    <- pobs.df[order(pobs.df$iter,  pobs.df$fishery, pobs.df$year, pobs.df$month, pobs.df$week, pobs.df$length),]  
 
   
   if(!historical) { # think this is OK !!
@@ -143,7 +145,9 @@ read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing",
   }
 
   slot(res, "range")[c("minyear","maxyear")] <- range(tempdat$year)
-  slot(res, "range")[c("min","max")]         <- range(pobs.df$length)
+  
+  if(exists('pobs.df'))
+    slot(res, "range")[c("min","max")]         <- range(pobs.df$length)
   
   return(res)
 }
@@ -296,4 +300,65 @@ read.MFCLPseudoAlt <- function(catch="missing", effort="missing", lw_sim="missin
 
 
 
+#' read.MFCLCatch_sim
+#'
+#' Reads information from the pseudo generation catch_sim file and creates a data.frame  object.
+#' The object here is to break down the read.MFCLPseudo function in smaller, more manageable code units.
+#'
+#' @param catch:     A character string giving the name and path of the catch.sim file to be read 
+#' @param projfrq:   The projfrq object used to generate the pseudo data
+#' @param ctrl:      The control object used to generate teh pseudo data
+#' @param historical Boolean flag specifying if historical data included 
+#' 
+#'
+#' @return An object of class data.frame that can be subset to freq
+#'
+#' @examples
+#'
+#' @export
 
+# kk <- read.MFCLCatch_sim(catch="catch_sim", projfrq=projfrq, ctrl=projCtrl, historical=TRUE)
+
+read.MFCLCatch_sim <- function(catch="catch_sim", projfrq="missing", ctrl="missing", historical=TRUE) {
+  
+  trim.leading  <- function(x) sub("^\\s+", "", x) 
+  splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+")) 
+  
+  if(missing(projfrq) | missing(ctrl))
+    stop("Error: The projfrq and ctrl are also reqquired.")
+  if(!missing(catch) & !file.exists(catch))
+    stop("catch_sim file does not exist")
+  if(!(class(projfrq)=="MFCLFrq"))
+    stop("projfrq must be an object of class MFCLFrq")
+  if(!inherits(ctrl, "MFCLprojControl"))
+    stop("ctrl must be an object of class MFCLprojControl")  
+  if(length(fprojyr(ctrl))==0)
+    warning("fprojyr(ctrl)==0, object may be incomplete")
+  
+  # CATCH
+    # read in pseudo catch data
+    cc    <- readLines(catch)
+    cdat  <- matrix(as.numeric(unlist(strsplit(trim.leading(cc[-grep("#", cc)]), split="[[:blank:]]+"))), nrow=2)
+    cseed <- as.numeric(unlist(lapply(strsplit(cc[grep("# seed", cc)], split="[[:blank:]]+"), el, 3)))
+    
+    if(!historical){
+      # MFCL output files will not include historical data
+      len     <- nrow(freq(projfrq)[freq(projfrq)$year>=fprojyr(ctrl),])
+      tempdat <- cbind(freq(projfrq)[freq(projfrq)$year>=fprojyr(ctrl),], 
+                       iter=rep(0:nsims(ctrl), each=len), catch.seed=rep(c(NA,cseed), each=len), effort.seed=rep(c(NA,eseed), each=len), 
+                       row.names=NULL)
+      # Ordering of tempdat must be the same as cdat:  timestep (month, year, week), fishery, iter
+      tempdat <- tempdat[order(tempdat$iter, tempdat$fishery, tempdat$year, tempdat$month),]
+      tempdat$catch[tempdat$iter>0] <- rep(cdat[2,], each=nlbins)
+      tempdat$effort[tempdat$iter>0]<- rep(edat,     each=nlbins)
+    }
+    
+    if(historical){
+      len     <- nrow(realisations(projfrq))
+      tempdat <- cbind(realisations(projfrq), iter=rep(0:nsims(ctrl), each=len), catch.seed=rep(c(NA,cseed), each=len),row.names=NULL)
+      tempdat <- tempdat[order(tempdat$iter, tempdat$fishery, tempdat$year, tempdat$month),]
+      tempdat$catch[tempdat$iter>0] <- cdat[2,]
+    }
+    
+    return(tempdat)
+}
