@@ -233,7 +233,7 @@ read.MFCLRep <- function(repfile) {
 
 
 
-read.SBSBF0 <- function(repfile, sbsbf0 = 'latest') {
+read.SBSBF0 <- function(repfile, sbsbf0 = 'latest', ...) {
   
   trim.leading  <- function(x) sub("^\\s+", "", x) 
   splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+")) 
@@ -269,9 +269,9 @@ read.SBSBF0 <- function(repfile, sbsbf0 = 'latest') {
                                             c(4,3,5,2,1)), dimnames=dnms2)
   
   returnval <- switch(sbsbf0,
-                      latest = SBSBF0latest(res),
-                      recent = SBSBF0recent(res),
-                      instantaneous = SBSBF0(res))
+                      latest = SBSBF0latest(res, ...),
+                      recent = SBSBF0recent(res, ...),
+                      instantaneous = SBSBF0(res, ...))
   
   return(returnval)
 
