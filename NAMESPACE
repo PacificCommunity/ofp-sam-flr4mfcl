@@ -49,7 +49,9 @@ export(
   "qts",
   "read.MFCLBiol",
   "read.MFCLCatch",
+  "read.MFCLCatchSim",
   "read.MFCLCatchN",
+  "read.MFCLEffortSim",
   #"read.MFCLEquilibrium",
   "read.MFCLFlags",
   "read.MFCLFrq",
@@ -537,6 +539,8 @@ exportMethods(
   "y2diff_coffs<-",
   "zdiff_coffs",
   "zdiff_coffs<-",
+#  "ypr",
+#  "ypr<-"
   "YPR",
   "YPR<-"
 )

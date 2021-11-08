@@ -300,7 +300,7 @@ read.MFCLPseudoAlt <- function(catch="missing", effort="missing", lw_sim="missin
 
 
 
-#' read.MFCLCatch_sim
+#' read.MFCLCatchSim
 #'
 #' Reads information from the pseudo generation catch_sim file and creates a data.frame  object.
 #' The object here is to break down the read.MFCLPseudo function in smaller, more manageable code units.
@@ -319,7 +319,7 @@ read.MFCLPseudoAlt <- function(catch="missing", effort="missing", lw_sim="missin
 
 # kk <- read.MFCLCatch_sim(catch="catch_sim", projfrq=projfrq, ctrl=projCtrl, historical=TRUE)
 
-read.MFCLCatch_sim <- function(catch="catch_sim", projfrq="missing", ctrl="missing", historical=TRUE) {
+read.MFCLCatchSim <- function(catch="catch_sim", projfrq="missing", ctrl="missing", historical=TRUE) {
   
   trim.leading  <- function(x) sub("^\\s+", "", x) 
   splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+")) 
@@ -334,9 +334,7 @@ read.MFCLCatch_sim <- function(catch="catch_sim", projfrq="missing", ctrl="missi
     stop("ctrl must be an object of class MFCLprojControl")  
   if(length(fprojyr(ctrl))==0)
     warning("fprojyr(ctrl)==0, object may be incomplete")
-  
-  # CATCH
-    # read in pseudo catch data
+    
     cc    <- readLines(catch)
     cdat  <- matrix(as.numeric(unlist(strsplit(trim.leading(cc[-grep("#", cc)]), split="[[:blank:]]+"))), nrow=2)
     cseed <- as.numeric(unlist(lapply(strsplit(cc[grep("# seed", cc)], split="[[:blank:]]+"), el, 3)))
@@ -345,7 +343,7 @@ read.MFCLCatch_sim <- function(catch="catch_sim", projfrq="missing", ctrl="missi
       # MFCL output files will not include historical data
       len     <- nrow(freq(projfrq)[freq(projfrq)$year>=fprojyr(ctrl),])
       tempdat <- cbind(freq(projfrq)[freq(projfrq)$year>=fprojyr(ctrl),], 
-                       iter=rep(0:nsims(ctrl), each=len), catch.seed=rep(c(NA,cseed), each=len), effort.seed=rep(c(NA,eseed), each=len), 
+                       iter=rep(0:nsims(ctrl), each=len), catch.seed=rep(c(NA,cseed), each=len), 
                        row.names=NULL)
       # Ordering of tempdat must be the same as cdat:  timestep (month, year, week), fishery, iter
       tempdat <- tempdat[order(tempdat$iter, tempdat$fishery, tempdat$year, tempdat$month),]
@@ -361,4 +359,28 @@ read.MFCLCatch_sim <- function(catch="catch_sim", projfrq="missing", ctrl="missi
     }
     
     return(tempdat)
+}
+
+
+## Finlays code - stolen from the mixed fishery folder - with modified inputs to be consistent with read.MFCLCatchSim
+##
+read.MFCLEffortSim <- function(effort="effort_sim", projfrq='missing', ctrl='missing', historical=TRUE){
+  trim.leading  <- function(x) sub("^\\s+", "", x) 
+  splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+")) 
+  ee    <- readLines(effort)
+  edat  <- unlist(lapply(1:length(ee[-grep("#",ee)]), 
+                         function(ii){as.numeric(unlist(strsplit(trim.leading(ee[-grep("#",ee)][ii]), split="[[:blank:]]+")))[-1]}))
+  eseed <- as.numeric(unlist(lapply(strsplit(ee[grep("# seed", ee)], split="[[:blank:]]+"), el, 3)))
+  realprojfrq <- realisations(projfrq)
+  # I don't know if this works yet
+  if (!historical){
+    realprojfrq <- subset(realprojfrq, year>= fprojyr)
+  }
+  
+  tempdat <- realprojfrq
+  len <- dim(tempdat)[1] 
+  tempdat <- cbind(tempdat, iter=rep(0:nsim, each=len), effort.seed=rep(c(NA,eseed), each=len), row.names=NULL)
+  tempdat <- tempdat[order(tempdat$iter, tempdat$fishery, tempdat$year, tempdat$month),]
+  tempdat$effort[tempdat$iter>0] <- edat
+  return(tempdat)
 }
