@@ -379,7 +379,7 @@ read.MFCLEffortSim <- function(effort="effort_sim", projfrq='missing', ctrl='mis
   
   tempdat <- realprojfrq
   len <- dim(tempdat)[1] 
-  tempdat <- cbind(tempdat, iter=rep(0:nsim, each=len), effort.seed=rep(c(NA,eseed), each=len), row.names=NULL)
+  tempdat <- cbind(tempdat, iter=rep(0:nsims(ctrl), each=len), effort.seed=rep(c(NA,eseed), each=len), row.names=NULL)
   tempdat <- tempdat[order(tempdat$iter, tempdat$fishery, tempdat$year, tempdat$month),]
   tempdat$effort[tempdat$iter>0] <- edat
   return(tempdat)
