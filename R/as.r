@@ -27,12 +27,16 @@ setMethod("as.MFCLIni", signature(object="MFCLPar"),
           for(ss in c(names(getSlots("MFCLBiol")), names(getSlots("MFCLBase")), names(getSlots("MFCLRegion")), names(getSlots("MFCLTagRep"))))
             slot(res, ss) <- slot(object, ss)
           
+          # temporary hack because the region_control_flags have different names in the ini and par objects - needs fixing!. 17/01/2022
+          region_flags(res) <- control_flags(res)
+          
           age_pars(res)         <- matrix(0, nrow=10, ncol=dimensions(object)['agecls'])
           sv(res)               <- steepness(object)
           rec_dist(res)         <- rep(1/dimensions(object)['regions'], dimensions(object)['regions'])
           sd_length_at_age(res) <- c(5,1,9)
           sd_length_dep(res)    <- c(0.5,0,3)
           
+          ini_version(res)      <- ifelse(length(mat_at_length(res))>1, 1003, 1001)  # 17/01/2022 adding version control to as.ini
           return(res)
           })
 
