@@ -833,9 +833,9 @@ setGeneric('q_dev_coffs<-', function(object, ..., value) standardGeneric('q_dev_
 setReplaceMethod('q_dev_coffs', signature(object='MFCLSel', value=unname(getSlots('MFCLSel')['q_dev_coffs'])),
                                 function(object, value){slot(object, 'q_dev_coffs') <- value; return(object)}) 
 #' @rdname accessor-methods
-setGeneric('effort_dev_coffs', function(object, ...) standardGeneric('effort_dev_coffs')) 
+setGeneric('effort_dev_coffs', function(object, frq, ...) standardGeneric('effort_dev_coffs')) 
 #' @rdname accessor-methods
-setMethod('effort_dev_coffs', signature(object='MFCLSel'),function(object) return(slot(object, 'effort_dev_coffs'))) 
+setMethod('effort_dev_coffs', signature(object='MFCLSel', frq='missing'),function(object) return(slot(object, 'effort_dev_coffs'))) 
 #' @rdname accessor-methods
 setGeneric('effort_dev_coffs<-', function(object, ..., value) standardGeneric('effort_dev_coffs<-')) 
 #' @rdname accessor-methods
