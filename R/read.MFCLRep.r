@@ -80,10 +80,17 @@ read.MFCLRep <- function(repfile) {
   
   # q_fishery
   temp_dat       <- as.numeric(splitter(pp,"# Catchability by realization", 1:dimensions(res)['fisheries']))
+  ## Catch Conditioned rep file - name change in rep file - RDS Feb 2022
+  if(all(is.na(temp_dat)))
+    temp_dat       <- as.numeric(splitter(pp,"# Implicit catchability by realization", 1:dimensions(res)['fisheries']))
+  
   q_fishery(res) <- as.FLQuant(cbind(realizations.df, data=unlist(temp_dat)))
 
   # q_effdev
   temp_dat       <- as.numeric(splitter(pp,"dev.", 1:dimensions(res)['fisheries']))
+  ## Catch Conditioned rep file - no effort devs are output - RDS Feb 2022
+  if(all(is.na(temp_dat)))
+    temp_dat <- NA
   q_effdev(res)  <- as.FLQuant(cbind(realizations.df, data=unlist(temp_dat)))
   
   # catch_obs
