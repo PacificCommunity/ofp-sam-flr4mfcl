@@ -115,14 +115,16 @@ read.MFCLLenFreq <- function(frqfile){
   res  <- new("MFCLLenFreq")  
   frq  <- readLines(frqfile)  
   
-  # get the frq file version
+  # get the frq file version - this should be the last number on the first non-commented line - hopefully
   tp <- frq[-grep("#", frq)]
   tp <- tp[nchar(tp)>1]
   version <- rev(as.numeric(unlist(strsplit(trim.leading(tp[1]), split="[[:blank:]]+"))))[1]
   
+  # get the summary dimension data
   dat  <- as.numeric(unlist(strsplit(frq[grep("Datasets", frq)+1], split="[[:blank:]]+")))
   slot(res, "lf_range")[] <- dat[!is.na(dat)]
   
+  # age nage values - whatever they might be
   dat  <- as.numeric(unlist(strsplit(trim.leading(frq[grep("age_nage", frq)+1]), split="[[:blank:]]+")))
   if(length(dat)>1)
     slot(res, "age_nage")[] <- dat
@@ -130,14 +132,15 @@ read.MFCLLenFreq <- function(frqfile){
   nLbins <- lf_range(res)['LFIntervals']; Lwidth <- lf_range(res)["LFWidth"]; Lfirst <- lf_range(res)["LFFirst"]
   nWbins <- lf_range(res)['WFIntervals']; Wwidth <- lf_range(res)["WFWidth"]; Wfirst <- lf_range(res)["WFFirst"]
   
-  line1 <- ifelse(all(is.na(slot(res, "age_nage"))), grep("Datasets", frq)+2, grep("age_nage", frq)+2)  # first line of frequency data
+  line1 <- ifelse(all(is.na(slot(res, "age_nage"))), grep("Datasets", frq)+2, grep("age_nage", frq)+2)  # find the first line of freq datatable
   #lffrq <- frq[line1:length(frq)]   # just the length frequency data 
-  lffrq <- trim.leading(frq[line1:length(frq)])   # just the length frequency data )
+  lffrq <- trim.leading(frq[line1:length(frq)])   # just the length frequency data table)
   
   frq_size <- ifelse(version==6, 9, 8)
   nfields <- count.fields(frqfile, skip=line1-1)          # number of fields in each line of the frequency data
-  #both    <- length(table(nfields))>2 & min(nfields) > 8  # check if you have both length and weight frequency data
-  both    <- length(table(nfields))>2 & min(nfields) >= frq_size  # version control that doesnt work at the moment
+  
+  both      <- length(table(nfields))>2 & min(nfields) >= frq_size  # does the freq contain both length and weight frequency data - this is not ideal
+  both_comb <- length(table(nfields))>3 & min(nfields) >= frq_size  # do you have realisations with both length and weight freq data
   
   frqlen <- frqwt <- NA
   if(nLbins>0) {frqlen <- seq(Lfirst, Lwidth*nLbins+Lfirst-Lwidth, by=Lwidth)}
@@ -162,7 +165,8 @@ read.MFCLLenFreq <- function(frqfile){
   if(both){  # if you have both length and weight frequency data ...
     
     # no frequency data-frame bit
-    df1 <- as.data.frame(matrix(as.numeric(unlist(strsplit(lffrq[nfields==min(nfields)], split="[[:blank:]]+"))), ncol=min(nfields), byrow=T)[,1:(min(nfields)-2)])
+    df1 <- as.data.frame(matrix(as.numeric(unlist(strsplit(lffrq[nfields==min(nfields)], split="[[:blank:]]+"))), 
+                                ncol=min(nfields), byrow=T)[,1:(min(nfields)-2)])
     #colnames(df1) <- ifelse(version==6, cnames, cnames[-7])
     colnames(df1) <- c("year", "month", "week", "fishery", "catch", "effort", "penalty")
     df1 <- cbind(df1, length=NA, weight=NA, freq=-1)
@@ -173,12 +177,16 @@ read.MFCLLenFreq <- function(frqfile){
     # weight frequency data-frame bit
     dfW      <- build.df(lffrq, arr.rows=(7+1+nWbins), nfields, frqlen=NA, frqwt, inc=1, inc2=0, inc3=0)
     
+    dfall <- rbind(df1, dfL, dfW)
+    
     # length and weight frequency data-frame bit
-    dfLW      <- build.df(lffrq, arr.rows=(7+nLbins+nWbins), nfields, 
-                         frqlen=c(frqlen, rep(NA, length(frqwt))), 
-                         frqwt =c(rep(NA, length(frqlen)), frqwt), inc=0, inc2=1, inc3=0)
+    if(both_comb){
+      dfLW      <- build.df(lffrq, arr.rows=(7+nLbins+nWbins), nfields, 
+                           frqlen=c(frqlen, rep(NA, length(frqwt))), 
+                           frqwt =c(rep(NA, length(frqlen)), frqwt), inc=0, inc2=1, inc3=0)
   
-    dfall <- rbind(df1, dfL, dfW, dfLW) 
+      dfall <- rbind(df1, dfL, dfW, dfLW) 
+    }
   }
   
   res@freq <- dfall
