@@ -127,7 +127,7 @@ setMethod("reduce", signature(obj='MFCLIni'),
   
   inix <- obj            
   ini2 <- inix
-  map  <- cbind(fishery=1:ncol(tag_fish_rep_rate(inix)), region=fsh.rgn.map)
+  map  <- cbind(fishery=1:ncol(tag_fish_rep_rate(inix)), region=fsh.rgn.map) # maps the fisheries for the regions that you want to retain
   
   releases.new <- releases(tagx)
   # strip out the release groups you want to remove.
@@ -143,6 +143,7 @@ setMethod("reduce", signature(obj='MFCLIni'),
   
   #rel.map <- cbind(unique(releases.new$rel.group), 1:length(unique(releases.new$rel.group)))
   release.grps.in  <- c(is.element(1:release_groups(tagx), releases.new$rel.group), TRUE)
+  release.grps.out <- c(!is.element(1:release_groups(tagx), releases.new$rel.group), FALSE)
   
   sim.releases <- (dim(tag_fish_rep_grp(inix))[1]) - length(release.grps.in)
   vv           <- NULL
