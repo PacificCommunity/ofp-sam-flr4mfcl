@@ -74,12 +74,15 @@ write.len <- function(x, file, append=T, ...){
     wfwide<- cbind(wfwide, -1, t(array(wobs$freq, dim=c(lf_range(x)['WFIntervals'], nrow(wfwide))))) }
   
   # rows with both length and weight frequency data
+  # combine all the length obs and all the weight obs
   tp <- rbind(lobs[lobs$length==lf_range(x)["LFFirst"],], wobs[wobs$weight==lf_range(x)["WFFirst"],])
+  # select only the duplicated realisations
   lwfwide <- tp[duplicated(tp[,c(1:7)]),][,c(1:7)]
 
   if(nrow(tp)>0){
-    lwobs <- freq(x)[with(freq(x), paste(year, month, week, fishery, sep = "\r")) %in% with(tp, paste(year, month, week, fishery, sep="\r")), ] 
-  
+    #lwobs <- freq(x)[with(freq(x), paste(year, month, week, fishery, sep = "\r")) %in% with(tp, paste(year, month, week, fishery, sep="\r")), ] 
+    lwobs <- freq(x)[with(freq(x), paste(year, month, week, fishery, sep = "\r")) %in% with(lwfwide, paste(year, month, week, fishery, sep="\r")), ] 
+    
     lwfwide <- cbind(lwfwide, t(array(lwobs[!is.na(lwobs$length),'freq'], dim=c(lf_range(x)['LFIntervals'], nrow(lwfwide)))),
                               t(array(lwobs[!is.na(lwobs$weight),'freq'], dim=c(lf_range(x)['WFIntervals'], nrow(lwfwide)))))
   }
