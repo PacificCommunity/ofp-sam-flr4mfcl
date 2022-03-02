@@ -50,6 +50,9 @@ read.MFCLIni <- function(inifile, nseasons=4) {
 
   if(any(grep("# tag fish rep", par)))
     res <- slotcopy(read.MFCLTagRep(parfile, par), res)
+  
+  if(slot(res, 'ini_version') >= 1004)
+    tag_shed_rate(res) <- as.numeric(splitter(par, "tag shed rate"))  # Annoyingly this is called "tag shed rate" in the ini and "tagmort" in the par
 
   slot(res, 'm')          <- as.numeric(splitter(par, '# natural mortality'))
   slot(res, "mat")      <- FLQuant(aperm(array(as.numeric(splitter(par, "# maturity at age")),

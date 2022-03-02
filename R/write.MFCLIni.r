@@ -27,11 +27,17 @@ write.ini <- function(x, file, append=F, ...){
   ## Check for maturity at length and version number
   if (vers<1003 & length(mat_at_length(x))>0) warning("In order to use the maturity at length in the ini you need to set the version number to 1003. This will print out an ini of version 1001 that does not have the maturity at length.")
   if (vers==1003 & length(region_flags(x))==0) stop("You need to specify a region_flags matrix!! Otherwise MFCL will fail.")
+  
   cat(c("# ini version number",vers),sep= "\n",file=file, append=append)
+  
   if (slot(x,"dimensions")[1] != length(slot(x,"mat"))) warning("The number of age classes and length of maturity at age don't match up")
 
   cat("# number of age classes\n",  file=file, append=T)
   cat(slot(x,"dimensions")[1],file=file, append=T,sep='\n')
+  
+  if(vers>=1004)
+    cat(c('# tag shed rate', paste(tag_shed_rate(x), collapse=" ")), sep='\n', file=file, append=T)
+  
   if(!all(is.na(tag_fish_rep_rate(x)))){
     cat("# tag fish rep\n",         file=file, append=T)
     write.table(tag_fish_rep_rate(x), row.names=F, col.names=F, file=file, append=T)

@@ -342,6 +342,7 @@ validMFCLTagRep <- function(object){
 }
 setClass("MFCLTagRep",
          representation(
+           tag_shed_rate      = "numeric",
            tag_fish_rep_rate  = "array",
            tag_fish_rep_grp   = "array",
            tag_fish_rep_flags = "array",
@@ -351,6 +352,7 @@ setClass("MFCLTagRep",
            range              = "numeric"
          ),
          prototype=prototype(
+           tag_shed_rate      = numeric(),
            tag_fish_rep_rate  = array(),
            tag_fish_rep_grp   = array(),
            tag_fish_rep_flags = array(),
@@ -893,8 +895,8 @@ setClass("MFCLprojControl",
            nsims               =numeric(),
            avyrs               =character(),
            fprojyr             =numeric(),
-           controls            =data.frame(name=NULL, region=NULL, caeff=NULL, scaler=NULL, ess=NULL)
-         ),
+           controls            =data.frame(name=NULL, region=NULL, caeff=NULL, scaler=NULL, ess_length=NULL, ess_weight=NULL) # RDS 24/02/2022
+         ),                                                                                                                   # really hope this doesn't break everything!
          validity=validMFCLprojControl
 )
 setValidity("MFCLprojControl", validMFCLprojControl)

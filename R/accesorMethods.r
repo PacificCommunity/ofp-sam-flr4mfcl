@@ -439,6 +439,15 @@ setReplaceMethod('unused', signature(object='MFCLFlags', value=unname(getSlots('
 #############################################################################################################
 # class  MFCLTagRep 
 #' @rdname accessor-methods
+setGeneric('tag_shed_rate', function(object, ...) standardGeneric('tag_shed_rate')) 
+#' @rdname accessor-methods
+setMethod('tag_shed_rate', signature(object='MFCLTagRep'),function(object) return(slot(object, 'tag_shed_rate'))) 
+#' @rdname accessor-methods
+setGeneric('tag_shed_rate<-', function(object, ..., value) standardGeneric('tag_shed_rate<-')) 
+#' @rdname accessor-methods
+setReplaceMethod('tag_shed_rate', signature(object='MFCLTagRep', value=unname(getSlots('MFCLTagRep')['tag_shed_rate'])),
+                 function(object, value){slot(object, 'tag_shed_rate') <- value; return(object)}) 
+#' @rdname accessor-methods
 setGeneric('tag_fish_rep_rate', function(object, ...) standardGeneric('tag_fish_rep_rate')) 
 #' @rdname accessor-methods
 setMethod('tag_fish_rep_rate', signature(object='MFCLTagRep'),function(object) return(slot(object, 'tag_fish_rep_rate'))) 
@@ -1531,12 +1540,12 @@ setReplaceMethod('scaler', signature(object='MFCLprojControl', value="numeric"),
 #' @rdname accessor-methods
 setGeneric('ess', function(object, ...) standardGeneric('ess')) 
 #' @rdname accessor-methods
-setMethod('ess', signature(object='MFCLprojControl'),function(object) return(slot(object, 'controls')$ess)) 
+setMethod('ess', signature(object='MFCLprojControl'),function(object) return(slot(object, 'controls')[,c('ess_length','ess_weight')])) 
 #' @rdname accessor-methods
 setGeneric('ess<-', function(object, ..., value) standardGeneric('ess<-')) 
 #' @rdname accessor-methods
-setReplaceMethod('ess', signature(object='MFCLprojControl', value="numeric"), #unname(getSlots('MFCLprojControl')['scaler'])),
-                 function(object, value){slot(object, 'controls')$ess <- value; return(object)}) 
+setReplaceMethod('ess', signature(object='MFCLprojControl', value="data.frame"), 
+                 function(object, value){slot(object, 'controls')[,c('ess_length','ess_weight')] <- value; return(object)}) 
 
 
 #############################################################################################################
