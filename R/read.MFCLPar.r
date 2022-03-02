@@ -170,9 +170,12 @@ read.MFCLFlags <- function(parfile, parobj=NULL, first.yr=1972) {
   if(!is.null(parobj))
     par <- parobj
   
+  vsn      <- as.numeric(unlist(strsplit(trimws(par[2]), split="[[:blank:]]+")))[200]  
+  marker1  <- ifelse(vsn>=1065, "# tagmort", "# tag fish rep")
+  
   #nfish    <- grep("# tag flags", par) - grep("# fish flags", par)[1] -1
   nfish    <- length(splitter(par, "# q0_miss"))
-  ntaggrps <- max(0,grep("# tag fish rep", par)[1] - grep("# tag flags", par) -1)
+  ntaggrps <- max(0,grep(marker1, par)[1] - grep("# tag flags", par) -1)
   nregions <- length(splitter(par,"# region parameters"))
   
   parflags   <- as.numeric(splitter(par,"# The parest_flags"))      # 400 of them
@@ -236,9 +239,13 @@ read.MFCLTagRep <- function(parfile, parobj=NULL, first.yr=1972) {
   
   if(length(grep("# tag fish rep", par))==0)  # if there's no tag data just return without doing anything
     return(res)
-    
+  
+  vsn      <- as.numeric(unlist(strsplit(trimws(par[2]), split="[[:blank:]]+")))[200]  
   nfish    <- length(splitter(par, '# tag fish rep', 1))
   
+  if(vsn>=1065 & length(grep('tagmort', par))>0)
+    slot(res, 'tag_shed_rate')     <-   as.numeric(splitter(par, "# tagmort")) # annoyingly called 'tag shed rate' in ini file and 'tagmort' in par file
+                                                                             # works as long as this is entered on one line only in par file
   slot(res, 'tag_fish_rep_rate') <- t(array(as.numeric(splitter(par, "# tag fish rep", 1:(nlines(par, "# tag fish rep")))), 
                                             dim=c(nfish, nlines(par, "# tag fish rep"))))
   slot(res, 'tag_fish_rep_grp')  <- t(array(as.numeric(splitter(par, "# tag fish rep group flags", 1:(nlines(par, "# tag fish rep group flags")))), 

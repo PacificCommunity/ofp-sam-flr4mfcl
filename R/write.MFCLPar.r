@@ -40,6 +40,9 @@ write.par <- function(x, file, append=F, ...){
                          ncol=10, byrow=TRUE), #dimensions(x)['taggrps'])),
                          row.names=F, col.names=F, file=file, append=T)
 
+    if(version(x)>=1065)
+      cat(c('# tagmort', paste(float(tag_shed_rate(x)), collapse=" ")), sep='\n', file=file, append=T)
+    
     cat("\n# tag fish rep\n\n",  file=file, append=T)
     write.table(tag_fish_rep_rate(x), row.names=F, col.names=F, file=file, append=T)
 
