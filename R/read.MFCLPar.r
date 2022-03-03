@@ -415,11 +415,13 @@ read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972) {
     slot(res, 'xdiff_coffs')    <- matrix(as.numeric(splitter(par,"# xmovement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons, byrow=T)  
   
   if(vsn>=1064){
-    slot(res, 'diff_coffs')    <- matrix(as.numeric(splitter(par,"# diff_coffs movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons, byrow=T)  
-    slot(res, 'xdiff_coffs')   <- matrix(as.numeric(splitter(par,"# xdiff_coffs movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons, byrow=T)  
-    slot(res, 'y1diff_coffs')  <- matrix(as.numeric(splitter(par,"# y1diff_coffs movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons, byrow=T)  
-    slot(res, 'y2diff_coffs')  <- matrix(as.numeric(splitter(par,"# y2diff_coffs movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons, byrow=T)  
-    slot(res, 'zdiff_coffs')   <- matrix(as.numeric(splitter(par,"# zdiff_coffs movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons, byrow=T)  
+    if(nregions>1){
+      slot(res, 'diff_coffs')    <- matrix(as.numeric(splitter(par,"# diff_coffs movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons, byrow=T)  
+      slot(res, 'xdiff_coffs')   <- matrix(as.numeric(splitter(par,"# xdiff_coffs movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons, byrow=T)  
+      slot(res, 'y1diff_coffs')  <- matrix(as.numeric(splitter(par,"# y1diff_coffs movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons, byrow=T)  
+      slot(res, 'y2diff_coffs')  <- matrix(as.numeric(splitter(par,"# y2diff_coffs movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons, byrow=T)  
+      slot(res, 'zdiff_coffs')   <- matrix(as.numeric(splitter(par,"# zdiff_coffs movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons, byrow=T)  
+    }
   }
   
   slot(res, 'diff_coffs_mat')<- matrix(as.numeric(splitter(par, "# The diffusion coefficients",1:nregions)), nrow=nregions, byrow=T)

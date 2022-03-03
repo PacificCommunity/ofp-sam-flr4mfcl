@@ -113,27 +113,38 @@ write.par <- function(x, file, append=F, ...){
   if(version(x)<1064){
     cat("\n# movement coefficients \n",   file=file, append=T)
     write.table(float(diff_coffs(x)), col.names=F, row.names=F, file=file, append=T,quote=F)
-
+    
     if(version(x)>=1059){
       cat("# xmovement coefficients \n",   file=file, append=T)
       write.table(float(xdiff_coffs(x)), col.names=F, row.names=F, file=file, append=T,quote=F)
     }
   }
   if(version(x)>=1064){
-    cat("\n# diff_coffs movement coefficients \n",   file=file, append=T)
-    write.table(float(diff_coffs(x)), col.names=F, row.names=F, file=file, append=T,quote=F)
     
-    cat("# xdiff_coffs movement coefficients \n",   file=file, append=T)
-    write.table(float(xdiff_coffs(x)), col.names=F, row.names=F, file=file, append=T,quote=F)
+    if(dimensions(x)['regions'] > 1){
+      cat("\n# diff_coffs movement coefficients \n",   file=file, append=T)
+      write.table(float(diff_coffs(x)), col.names=F, row.names=F, file=file, append=T,quote=F)
     
-    cat("# y1diff_coffs movement coefficients \n",   file=file, append=T)
-    write.table(float(y1diff_coffs(x)), col.names=F, row.names=F, file=file, append=T,quote=F)
+      cat("# xdiff_coffs movement coefficients \n",   file=file, append=T)
+      write.table(float(xdiff_coffs(x)), col.names=F, row.names=F, file=file, append=T,quote=F)
     
-    cat("# y2diff_coffs movement coefficients \n",   file=file, append=T)
-    write.table(float(y2diff_coffs(x)), col.names=F, row.names=F, file=file, append=T,quote=F)
+      cat("# y1diff_coffs movement coefficients \n",   file=file, append=T)
+      write.table(float(y1diff_coffs(x)), col.names=F, row.names=F, file=file, append=T,quote=F)
     
-    cat("# zdiff_coffs movement coefficients \n",   file=file, append=T)
-    write.table(float(zdiff_coffs(x)), col.names=F, row.names=F, file=file, append=T,quote=F)
+      cat("# y2diff_coffs movement coefficients \n",   file=file, append=T)
+      write.table(float(y2diff_coffs(x)), col.names=F, row.names=F, file=file, append=T,quote=F)
+    
+      cat("# zdiff_coffs movement coefficients \n",   file=file, append=T)
+      write.table(float(zdiff_coffs(x)), col.names=F, row.names=F, file=file, append=T,quote=F)
+    }
+    ## this is horrible - if there's only one region then the diff coffs have a specific output format
+    if(dimensions(x)['regions']==1){
+      cat(paste("\n# diff_coffs movement coefficients \n", float(0)),   file=file, append=T)
+      cat(paste("\n# xdiff_coffs movement coefficients \n",float(0)),   file=file, append=T)
+      cat(paste("\n# y1diff_coffs movement coefficients \n"),           file=file, append=T)
+      cat(paste("\n# y2diff_coffs movement coefficients \n"),           file=file, append=T)
+      cat(paste("\n# zdiff_coffs movement coefficients \n",float(0),"\n"),   file=file, append=T)
+    }
   }
   
   
