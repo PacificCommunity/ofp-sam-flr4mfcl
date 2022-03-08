@@ -1,6 +1,99 @@
 #FLR4MFCL - R4MFCL built with FLR classes
 #Copyright (C) 2018  Rob Scott
 
+
+
+read.MFCLPseudoCatchEffort <- function(catch="catch_sim", effort="effort_sim", projfrq=projfrq, ctrl="missing", historical=FALSE) {
+  
+  trim.leading  <- function(x) sub("^\\s+", "", x) 
+  splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+")) 
+  
+  res <- MFCLPseudo() 
+  
+  # read in pseudo catch data
+  cc    <- readLines(catch)
+  cdat  <- matrix(as.numeric(unlist(strsplit(trim.leading(cc[-grep("#", cc)]), split="[[:blank:]]+"))), nrow=2)
+  cseed <- as.numeric(unlist(lapply(strsplit(cc[grep("# seed", cc)], split="[[:blank:]]+"), el, 3)))
+  
+  # read in pseudo effort data
+  ee    <- readLines(effort)
+  edat  <- unlist(lapply(1:length(ee[-grep("#",ee)]), 
+                         function(ii){as.numeric(unlist(strsplit(trim.leading(ee[-grep("#",ee)][ii]), split="[[:blank:]]+")))[-1]}))
+  eseed <- as.numeric(unlist(lapply(strsplit(ee[grep("# seed", ee)], split="[[:blank:]]+"), el, 3)))
+  
+  # create data frame for obs and pseudo data 
+  projfrq_realz <- realisations(projfrq)
+  
+  if(!historical)
+    projfrq_realz <- subset(projfrq_realz, year>=fprojyr(ctrl))
+    
+  tempdat       <- cbind(projfrq_realz, iter       =rep(0:nsims(ctrl), each=nrow(projfrq_realz)),
+                                        catch.seed =rep(c(NA,cseed),   each=nrow(projfrq_realz)),
+                                        effort.seed=rep(c(NA,eseed),   each=nrow(projfrq_realz)), row.names=NULL)
+    
+  tempdat[tempdat$iter>0,'catch']  <- cdat[2,]
+  tempdat[tempdat$iter>0,'effort'] <- edat
+  
+  slot(res, "catcheff") <- tempdat[order(tempdat$iter, tempdat$fishery, tempdat$year, tempdat$month, tempdat$week),]
+  
+  # not fixed yet
+  #slot(res, "freq")     <- cbind(freq(projfrq)[,1:4], ce_itns, freq(projfrq)[,c("penalty","length","weight")], lf_itns)         
+  
+  slot(res, "range")[c("minyear","maxyear")] <- range(tempdat$year)
+  
+  
+  return(res)
+}
+
+
+
+read.MFCLPseudoSizeComp <- function(lw_sim='test_lw_sim', projfrq=projfrq, ctrl="missing", historical=FALSE) {
+  
+  trim.leading  <- function(x) sub("^\\s+", "", x) 
+  splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+")) 
+  
+  res <- MFCLPseudo() 
+  
+  ## read in the pseudo length frequencies
+  pobs <- readLines(lw_sim)
+  markers <- lapply(1:nsims(ctrl), function(x){grep(paste('# projection',x), pobs)})   # get row numbers for each iteration
+  
+  lfirst <- lf_range(projfrq)['LFFirst']; lwidth <- lf_range(projfrq)['LFWidth']; nlbins <- lf_range(projfrq)['LFIntervals']
+  ll     <- seq(lfirst, lwidth*nlbins+lfirst-lwidth, by=lwidth)
+  
+  wfirst <- lf_range(projfrq)['WFFirst']; wwidth <- lf_range(projfrq)['WFWidth']; nwbins <- lf_range(projfrq)['WFIntervals']
+  ww     <- seq(wfirst, wwidth*nwbins+wfirst-wwidth, by=wwidth)
+  
+  pobs.df <- data.frame()
+  for(ss in 1:nsims(ctrl)){
+    tempdat2<- pobs[(markers[[ss]][1]+2):(markers[[ss]][2]-2)]
+    # strip out the fishery realization data
+    realzid <- as.numeric(c(unlist(strsplit(trim.leading(tempdat2[seq(1, length=length(tempdat2)/3, by=3)]), split="[[:blank:]]+"))))
+    # strip out the length frequency data
+    llfreq  <- as.numeric(c(unlist(strsplit(trim.leading(tempdat2[seq(3, length=length(tempdat2)/3, by=3)]), split="[[:blank:]]+"))))
+    
+    pobs.df <- rbind(pobs.df, data.frame(year   =rep(realzid[seq(1, length=length(tempdat2)/3, by=4)], each=lf_range(projfrq)['LFIntervals']),
+                                         month  =rep(realzid[seq(2, length=length(tempdat2)/3, by=4)], each=lf_range(projfrq)['LFIntervals']),
+                                         week   =rep(realzid[seq(3, length=length(tempdat2)/3, by=4)], each=lf_range(projfrq)['LFIntervals']),
+                                         fishery=rep(realzid[seq(4, length=length(tempdat2)/3, by=4)], each=lf_range(projfrq)['LFIntervals']),
+                                         length =ll, weight=NA, freq= llfreq, iter=ss))
+  }
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #' read.MFCLPseudo
 #'
 #' Reads information from the pseudo generation files and creates an MFCLPseudo object.
@@ -374,7 +467,7 @@ read.MFCLEffortSim <- function(effort="effort_sim", projfrq='missing', ctrl='mis
   realprojfrq <- realisations(projfrq)
   # I don't know if this works yet
   if (!historical){
-    realprojfrq <- subset(realprojfrq, year>= fprojyr)
+    realprojfrq <- subset(realprojfrq, year>= fprojyr(ctrl))
   }
   
   tempdat <- realprojfrq
