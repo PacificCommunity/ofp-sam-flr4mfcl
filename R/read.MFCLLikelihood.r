@@ -3,6 +3,7 @@
 
 
 #setwd("/home/rob/MSE/ofp-sam-skipjack_MSE/OM_2019/A1B1C1D0E0_fit")
+#setwd('/home/rob/Desktop/Shared/transfer/FLR4MFCL/test_files')
 
 
 read.MFCLLikelihood <- function(tpofile="test_plot_output"){
@@ -50,7 +51,7 @@ read.MFCLLikelihood <- function(tpofile="test_plot_output"){
   slot(res, 'total_catch_fish')   <- as.numeric(splitter(tpo, "total catch component of likelihood for each fishery"))
   slot(res, 'catch_fish')         <- n_catch_fsh
   slot(res, 'tag_rel_fish')       <- tag_likelihood
-  
+  slot(res, 'survey_index')       <- as.numeric(splitter(tpo, "Survey_index_like_by_group"))                 ## 10/03/2022
   slot(res, 'dimensions')          <- unlist(list(agecls=as.numeric(NA), years=NA, seasons=NA, regions=NA, 
                                                   fisheries=length(n_catch_fsh_marker), taggrps=length(tag_likelihood)))
   return(res)

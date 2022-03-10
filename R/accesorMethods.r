@@ -1886,6 +1886,16 @@ setReplaceMethod('tag_rel_fish', signature(object='MFCLLikelihood', value=unname
                  function(object, value){slot(object, 'tag_rel_fish') <- value; return(object)})
 
 #' @rdname accessor-methods
+setGeneric('survey_index', function(object, ...) standardGeneric('survey_index'))
+#' @rdname accessor-methods
+setMethod('survey_index', signature(object='MFCLLikelihood'), function(object) return(slot(object, 'survey_index')))
+#' @rdname accessor-methods
+setGeneric('survey_index<-', function(object, ..., value) standardGeneric('survey_index<-'))
+#' @rdname accessor-methods
+setReplaceMethod('survey_index', signature(object='MFCLLikelihood', value=unname(getSlots('MFCLLikelihood')['survey_index'])), 
+                 function(object, value){slot(object, 'survey_index') <- value; return(object)})
+
+#' @rdname accessor-methods
 setMethod('dimensions', signature(object='MFCLLikelihood'), function(object) return(slot(object, 'dimensions')))
 #' @rdname accessor-methods
 setReplaceMethod('dimensions', signature(object='MFCLLikelihood', value=unname(getSlots('MFCLLikelihood')['dimensions'])), 
