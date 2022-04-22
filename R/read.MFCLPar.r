@@ -431,7 +431,7 @@ read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972) {
   dca <- t(matrix(as.numeric(unlist(dca)), nrow=nregions))
   dca <- aperm(array(dca, dim=c(nregions, nagecls, nseasons.mov, nregions), 
                      dimnames=list(to=as.character(1:nregions), age=as.character(1:nagecls), period=as.character(1:nseasons.mov), from=as.character(1:nregions))),
-               c(1,4,2,3))  ## RDS 22/04/22 switching labels to and from 
+               c(1,4,2,3))
   
   rrv <- aperm(array(as.numeric(splitter(par, "# regional recruitment variation", 1:(nyears*nseasons))), 
                      dim=c(nregions, nseasons, nyears, 1, 1)), 
