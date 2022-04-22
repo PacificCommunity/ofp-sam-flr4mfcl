@@ -98,10 +98,10 @@ setMethod("plot", signature(x="MFCLRep", y="MFCLPar"), function(x, y, ...){
 
 setMethod("plot", signature(x="array"), function(x,...){
   
-  if(any(names(dimnames(x)) != c("from",   "to",     "age",    "period")))
+  if(any(names(dimnames(x)) != c("to",  "from",   "age",    "period")))
     plot(x, ...)
   
-  if(all(names(dimnames(x)) == c("from",   "to",     "age",    "period"))){
+  if(all(names(dimnames(x)) == c("to",  "from",  "age",    "period"))){
     oldpar <- par()
     
     move <- data.frame(from  = 1:dim(x)[1], 
