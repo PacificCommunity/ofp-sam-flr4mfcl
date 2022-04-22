@@ -54,12 +54,12 @@ read.MFCLFrqStats <- function(frqfile){
     line <- grep("Incidence matrix", frq)
     res@move_matrix <- matrix(NA, nrow=res@n_regions, ncol=res@n_regions)
     for(i in 1:(res@n_regions-1)){
-      dat <- as.numeric(unlist(strsplit(frq[line+i], split=" ")))[!is.na(as.numeric(unlist(strsplit(frq[line+i], split=" "))))]
+      dat <- as.numeric(unlist(strsplit(frq[line+i], split="[[:blank:]]+")))[!is.na(as.numeric(unlist(strsplit(frq[line+i], split="[[:blank:]]+"))))]
       res@move_matrix[i,(i+1):res@n_regions] <- dat
     }
   }
   line <- grep("Season-region flags", frq)
-  kk <- unlist(strsplit(frq[line+1:res@n_recs_yr], split=" "))[1:(slot(res, 'n_regions')*slot(res, 'n_recs_yr'))]
+  kk <- unlist(strsplit(frq[line+1:res@n_recs_yr], split="[[:blank:]]+"))[1:(slot(res, 'n_regions')*slot(res, 'n_recs_yr'))]
   res@season_flags <- matrix(as.numeric(kk), nrow=res@n_recs_yr, ncol=res@n_regions, byrow=T)
   
     
@@ -70,7 +70,7 @@ read.MFCLFrqStats <- function(frqfile){
   res@n_move_yr <- as.numeric(frq[grep("Number of movements per year", frq)+1])
   
   line <- grep("Weeks in which movement occurs", frq)
-  res@move_weeks <- as.numeric(unlist(strsplit(frq[line+1], split=" ")))
+  res@move_weeks <- as.numeric(unlist(strsplit(frq[line+1], split="[[:blank:]]+")))
   
   return(res)
 }
