@@ -1,6 +1,40 @@
 #FLR4MFCL - R4MFCL built with FLR classes
 #Copyright (C) 2018  Rob Scott
 
+
+############################################
+# history of par file additions
+#
+# >1058
+# - xdiff_coffs movement
+# 
+# >1060
+# - implicit_fm_level_regression_pars
+# - kludged_equilib_coffs
+# - kludged_equilib_level_coffs
+# 
+# >1061
+# - y1diff_coffs and y2diff_coffs movement
+# 
+# >1062
+# - zdiff_coffs movement
+# 
+# >1063
+# - Recruitment standard and Recruitment orthogonal
+# Note that the first two numbers specify the dimensions, e.g.
+# #Recruitment standard
+# 3  60
+# 1.46198054165940e+01 1.27997887451213e+01 1.59027441201687e+01 …
+# So you don’t need to extend these matrices.
+
+# >1064
+# - tag loss
+#
+#___________________________________________________
+
+
+
+###############################################
 # unexported function to strip Dave's diagnostic stuff out of the par file.
 
 stripDebugNumbers <- function(fstring){
@@ -396,8 +430,8 @@ read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972) {
   #dca <- t(matrix(as.numeric(unlist(dca)), nrow=nregions+1)[-1,])
   dca <- t(matrix(as.numeric(unlist(dca)), nrow=nregions))
   dca <- aperm(array(dca, dim=c(nregions, nagecls, nseasons.mov, nregions), 
-                     dimnames=list(from=as.character(1:nregions), age=as.character(1:nagecls), period=as.character(1:nseasons.mov), to=as.character(1:nregions))),
-               c(1,4,2,3))
+                     dimnames=list(to=as.character(1:nregions), age=as.character(1:nagecls), period=as.character(1:nseasons.mov), from=as.character(1:nregions))),
+               c(1,4,2,3))  ## RDS 22/04/22 switching labels to and from 
   
   rrv <- aperm(array(as.numeric(splitter(par, "# regional recruitment variation", 1:(nyears*nseasons))), 
                      dim=c(nregions, nseasons, nyears, 1, 1)), 
@@ -606,7 +640,6 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972) {
   av_f_a <- unlist(strsplit(trim.leading(par[grep("# Average fish mort per year by age class",par)+1]), split="[[:blank:]]+"))
   
   mm <- as.numeric(unlist(strsplit(par[grep("# movement map",par)+1], split="[[:blank:]]+")))
-  vsn <- as.numeric(unlist(strsplit(trimws(par[2]), split="[[:blank:]]+")))[200]
   
   # changed this to 1051 (from 1053) - not sure why it was 1053 but it seems to be breaking the skj code - rds 28/11/2018
   # I suspect the if conditions here are ot quite right - need to check this cos it breaks for striped marlin. !!!
@@ -614,7 +647,7 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972) {
     if(length(grep("# fm_level_devs", par))>0)  # YFT - no missing catch in yft.frq and therefore no fm_level_devs produced in par file - need to find better approach !!!
       slot(res, 'fm_level_devs') <- par[(grep("# fm_level_devs", par)+1):(grep("# movement map", par)-1)]
 
-  slot(res, 'fm_level_regression_pars') <- matrix(as.numeric(splitter(par, "# fsh.implicit_fm_level_regression_pars", 1:nfish)), nrow=nfish)
+  slot(res, 'fm_level_regression_pars') <- matrix(as.numeric(splitter(par, "# fsh.implicit_fm_level_regression_pars", 1:nfish)), byrow=T, nrow=nfish)
     
   slot(res, 'obj_fun')  <- as.numeric(splitter(par, "# Objective function value"))
   slot(res, 'n_pars')   <- as.numeric(splitter(par, "# The number of parameters"))
