@@ -55,7 +55,8 @@ simyears <- function(projpar, projCtrl){
 dummy_simulated_numbers_at_age <- function(){
   
   n <- popN(rep)[,'2015',,3]
-  z <- sweep(fm(rep)[,'2015',,3,], 1, c(aperm(m_at_age(rep), c(4,1,2,3,5,6))), "+")
+  #z <- sweep(fm(rep)[,'2015',,3,], 1, c(aperm(slot(rep,'m_at_age'), c(4,1,2,3,5,6))), "+")
+  z <- sweep(fm(rep)[,'2015',,3,], 1, c(m_at_age(rep)), "+")
   
   n[1,] %*% diff_coffs_age_period(par)[,,1,3] %*% c(exp(-z)[1,])
 
@@ -64,7 +65,7 @@ dummy_simulated_numbers_at_age <- function(){
   year<- 44
   ssn <- 1
   
-  popN(rep)[age,year,1,ssn,,1] %*% diff_coffs_age_period(par)[,,age,ssn] * c(sweep(fm(rep)[age,year,1,ssn,,1], 1, aperm(m_at_age(rep), c(4,1,2,3,5,6))[age], "+"))
+  popN(rep)[age,year,1,ssn,,1] %*% diff_coffs_age_period(par)[,,age,ssn] * c(sweep(fm(rep)[age,year,1,ssn,,1], 1, c(m_at_age(rep))[age], "+"))
   
   c(popN(rep)[age+1,year,1,ssn+1,,1])
   
