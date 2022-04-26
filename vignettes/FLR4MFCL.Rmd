@@ -1,0 +1,137 @@
+---
+title: "FLR4MFCL"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{FLR4MFCL}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+
+# Introduction
+FLR4MFCL is package for reading, writing and manipulating the input and output files of MULTIFAN-CL. The package is constructed around a collection of S4 classes that represent MULTIFAN-CL input and output objects. It makes extensive use of the FLQuant class, defined in the FLR package FLCore, as well as a number of other FLR classes.
+
+This tutorial will introduce the basic FLR4MFCL classes and their associated methods and functions. It assumes some familiarity with MULTIFAN-CL. 
+
+```{r, echo=FALSE, include=FALSE}
+library(FLR4MFCL)
+```
+
+## FLR4MFCL Classes
+MULTIFAN-CL can generate a bewildering array of output files depending on the type of assessment being conducted and the process being performed. Many of these output files are represented by FLR4MFCL classes, however, for the time being we will consider the five most commonly used input and output files.
+
+The basic classes of FLR4MFCL include
+
+* __MFCLIni__ class represents a MULTIFAN-CL .ini input file
+
+* __MFCLFrq__ class represents a MULTIFAN-CL .frq input file
+
+* __MFCLTag__ class represents a MULTIFAN-CL .tag input file
+
+* __MFCLPar__ class represents a MULTIFAN-CL .par file that is both an input and an output 
+
+* __MFCLRep__ class represents a MULTIFAN-CL .rep output file
+
+
+For each class, data are most often stored within slots, where a slot defines the type of data (integer, character, etc.) as well as its structure (vector, array, data frame, etc.). We can see what slots are available for each class using the function **slotNames()** and we can get additional information on the data type of each slot using the function **getSlots()** as shown below.
+
+Every class has a constructor function that creates an instance of that class without any data.
+
+```{r, echo=TRUE}
+# create an instance of an MFCLFrq class using the MFCLFrq() constructor
+myfrq <- MFCLFrq()
+
+# get the slotnames from the class
+slotNames(myfrq)
+# use getSlots() for additional information 
+getSlots('MFCLFrq')
+```
+
+<!--
+Classes define the representation of objects, in other words, they define a template for data structures with the data often organised in slots.
+
+Everything in R is an object and every object belongs to a class. For example, the object **myfrq** created above is an object of class **MFCLFrq** that is built from a collection of smaller objects, each one belonging to a class. The **n_fisheries** slot, for example is an object of class **numeric** . -->
+
+### Accessing data in slots
+The information contained within each slot can be accessed and modified using slot accessor functions. These slot accessor functions allow the contents of the slot to be extracted, modified and replaced. To demonstrate this we will first load an example MFCLFrq class.
+
+```{r, echo=TRUE}
+data(frq)
+class(frq)
+
+# use the slot accessor function to access the data in the 'n_fisheries' slot
+n_fisheries(frq)
+
+# use the slot accessor function to modify the data in the 'n_fisheries' slot
+n_fisheries(frq) <- 5
+
+```
+Note that because the **n_fisheries** slot is an object of class **numeric** you cannot assign a non-numeric value to it. 
+
+There are two further methods for accessing slots. The first uses the **slot()** method, the second uses '@'. Both methods can be used to access the slot directly in its raw format without any processing of the slot's contents. In general, however, the slot accessor functions are the preferred method to use as they represent a more formal way of accessing slots, they allow for the slot contents to be presented in a more convenient format and when used consistently can help to make your code more readable. 
+
+In the example below, the data are stored in a slot of class **FLQuant** (more on that later), however, the slot accessor method converts the data to a more convenient numeric vector format. 
+
+```{r, echo=TRUE}
+# the natural mortality at age data from the MFCLPar class is a good example of how slot accessors can improve access to data.
+data(rep)
+# using the slot accessor function
+m_at_age(rep)
+
+# using the slot method
+slot(rep, 'm_at_age')
+
+# using @
+rep@m_at_age
+```
+
+
+### Building complex objects from simpler structures
+Some of the MULTIFAN-CL input and output files can have very large and complicated file structures. The .par file, for example, is often very large (several thousand lines of data) and represents different data types of various formats and structure. To try to simplify such large objects and to make the code base more efficient, large, complex objects in FLR4MFCL, such as the **MFCLPar**, are constructed from multiple smaller sub-classes.
+
+To demonstrate this we first load the example **MFCLPar** object and then use teh **is** method to which classes are represented by it. You can see that 9 classes in total are represented. The **MFCLPar** class is comprised of the remaining 8 classes.
+
+```{r, echo=TRUE}
+data(par)
+class(par)
+is(par)
+```
+
+We will look closer at these sub-classess later.
+
+### The FLQuant
+The FLQuant is a basic building block of FLR. It is in essence a 6-diemensional array with specific dimensions relating to time, size, age, region, as well as allowing for data replicates generated from simulation analyses, for example. A tutorial on the FLQuant object is available on the FLR website (https://flr-project.org/doc/A_quick_introduction_to_FLR.html)
+
+## Reading and writing files
+MULTIFAN-CL input and output files can be read into FLR4MFCL objects using their specific read functions. In most cases the year and age ranges of the data can be discerned from the input file, however, for the **MFCLPar** object the first year of the input data must be user defined.
+
+```{r, echo=TRUE, eval=FALSE}
+myini <- read.MFCLIni('path_to/file.ini')
+myfrq <- read.MFCLFrq('path_to/file.frq')
+mytag <- read.MFCLTag('path_to/file.tag')
+mypar <- read.MFCLPar('path_to/file.par', first.yr = range(myfrq)['minyear'])
+```
+
+The generic **write** method is available for writing objects to a file
+
+```{r, echo=TRUE, eval=FALSE}
+write(frq, "path_to/my.frq")
+write(tag, "path_to/my.tag")
+# etc.
+```
+
+
+## Plotting stuff
+A benefit of extending the FLCore package is that it allows both lattice and ggplot plotting functions to work with FLQuant objects. This makes plotting data within FLR4MFCL very easy indeed. The example below shows a simple plot of the fishery specific selection patterns from the rep file
+
+```{r, echo=TRUE, fig.width=7, fig.height=6, fig.fullwidth=TRUE}
+data(rep)
+xyplot(data~age|unit, data=sel(rep), type="l", xlab="Age", ylab="Selection")
+```
+
+<!--
+xyplot(data~year, group=qname, data=FLQuants(qts(areaSums(adultBiomass(rep))), 
+                                             qts(areaSums(adultBiomass_nofish(rep)))), type="l")
+-->                                             
+                                             
+
