@@ -2,7 +2,30 @@
 #Copyright (C) 2018  Rob Scott
 
 
-
+#' 'read.MFCLPseudoCatchEffort()' function for FLR4MFCL
+#'
+#' Reads in simulated catch and effort data from the MFCL generated files 'catch_sim' and 'effort_sim' and
+#' returns a partially complete object of MFCLPseudo. The size composition slots of the MFCLPseudo object are not filled.
+#'
+#' There are now several functions for reading pseudo data :
+#' \itemize{
+#'   \item read.MFCLPseudo - reads both catch, effort and size comps. Works when you only have either pseudo length or weight composition data (e.g. skipjack). 
+#'   \item read.MFCLCatchEffort - only reads in the simulated catch and effort data
+#'   \item read.MFCLPseudoSizeComp - only reads the size comp data from test_lw_sim but works when you have both length and weight data.
+#' }
+#' @param catch A character string for the 'catch_sim' input file name.
+#' @param effort A character string for the 'effort_sim' input file name.
+#' @param projfrq An \linkS4class{MFCLFrq} object for the projection period over which the pseudo data have been generated.
+#' @param ctrl An \linkS4class{MFCLMSEControl}
+#' @param historical Boolean TRUE or FALSE If the simulated data include the historical period or just the projecion period.
+#' @return An object of class \linkS4class{MFCLPseudo}.
+#' @export
+#' @seealso \code{\link{MFCLprojContrl}} \code{\link{MFCLFrq}} \code{\link{MFCLPar}}
+#' @examples
+#' \dontrun{
+#' # Expanding an MFCLFrq, e.g. that was used from in an assessment
+#' pseudo <- read.MFCLPseudoCatchEffort('catch_sim', 'effort_sim', projfrq, mseCtrl, historical=FALSE)
+#' }
 read.MFCLPseudoCatchEffort <- function(catch="catch_sim", effort="effort_sim", projfrq=projfrq, ctrl="missing", historical=FALSE) {
   
   trim.leading  <- function(x) sub("^\\s+", "", x) 
@@ -46,7 +69,29 @@ read.MFCLPseudoCatchEffort <- function(catch="catch_sim", effort="effort_sim", p
 }
 
 
-
+#' 'read.MFCLPseudoSizeComp()' function for FLR4MFCL
+#'
+#' Reads in simulated length and weight size composition data from the MFCL generated file 'test_lw_sim' and
+#' returns a partially complete object of MFCLPseudo. The 'catcheff' slot of the MFCLPseudo object is not filled.
+#'
+#' There are now several functions for reading pseudo data :
+#' \itemize{
+#'   \item read.MFCLPseudo - reads both catch, effort and size comps. Works when you only have either pseudo length or weight composition data (e.g. skipjack). 
+#'   \item read.MFCLCatchEffort - only reads in the simulated catch and effort data
+#'   \item read.MFCLPseudoSizeComp - only reads the size comp data from test_lw_sim but works when you have both length and weight data.
+#' }
+#' @param lw_sim A character string for the input file name.
+#' @param projfrq An \linkS4class{MFCLFrq} object for the projection period over which the pseudo data have been generated.
+#' @param ctrl An \linkS4class{MFCLMSEControl}
+#' @param historical Boolean TRUE or FALSE If the simulated data include the historical period or just the projecion period.
+#' @return An object of class \linkS4class{MFCLPseudo}.
+#' @export
+#' @seealso \code{\link{MFCLprojContrl}} \code{\link{MFCLFrq}} \code{\link{MFCLPar}}
+#' @examples
+#' \dontrun{
+#' # Expanding an MFCLFrq, e.g. that was used from in an assessment
+#' pseudo <- read.MFCLPseudoSizeComp('test_lw_sim', projfrq, mseCtrl, historical=FALSE)
+#' }
 read.MFCLPseudoSizeComp <- function(lw_sim='test_lw_sim', projfrq=projfrq, ctrl="missing", historical=FALSE) {
   
   trim.leading  <- function(x) sub("^\\s+", "", x) 
@@ -54,39 +99,51 @@ read.MFCLPseudoSizeComp <- function(lw_sim='test_lw_sim', projfrq=projfrq, ctrl=
   
   res <- MFCLPseudo() 
   
-  ## read in the pseudo length frequencies
-  pobs <- readLines(lw_sim)
-  markers <- lapply(1:nsims(ctrl), function(x){grep(paste('# projection',x), pobs)})   # get row numbers for each iteration
-  
   lfirst <- lf_range(projfrq)['LFFirst']; lwidth <- lf_range(projfrq)['LFWidth']; nlbins <- lf_range(projfrq)['LFIntervals']
   ll     <- seq(lfirst, lwidth*nlbins+lfirst-lwidth, by=lwidth)
   
   wfirst <- lf_range(projfrq)['WFFirst']; wwidth <- lf_range(projfrq)['WFWidth']; nwbins <- lf_range(projfrq)['WFIntervals']
   ww     <- seq(wfirst, wwidth*nwbins+wfirst-wwidth, by=wwidth)
   
-  pobs.df <- data.frame()
-  for(ss in 1:nsims(ctrl)){
-    tempdat2<- pobs[(markers[[ss]][1]+2):(markers[[ss]][2]-2)]
-    # strip out the fishery realization data
-    realzid <- as.numeric(c(unlist(strsplit(trim.leading(tempdat2[seq(1, length=length(tempdat2)/3, by=3)]), split="[[:blank:]]+"))))
-    # strip out the length frequency data
-    llfreq  <- as.numeric(c(unlist(strsplit(trim.leading(tempdat2[seq(3, length=length(tempdat2)/3, by=3)]), split="[[:blank:]]+"))))
+  pobs <- readLines(lw_sim)                                # read in the pseudo length frequencies
+  markers <- c(grep('Simulated', pobs), length(pobs)+1)    # identify each iteration (both length and weight)
+  pobs.w.df <- pobs.l.df <- data.frame()
+  
+  for(ii in 2:length(markers)){
+    pobstemp <- pobs[markers[ii-1]:(markers[ii]-1)]
+    nrecords <- (length(pobstemp)-3)/3
+    iter     <- as.numeric(unlist(strsplit(pobstemp[2], "[[:blank:]]+"))[3])
+    realzid  <- as.numeric(c(unlist(strsplit(trim.leading(pobstemp[seq(4, length=nrecords, by=3)]), split="[[:blank:]]+"))))
     
-    pobs.df <- rbind(pobs.df, data.frame(year   =rep(realzid[seq(1, length=length(tempdat2)/3, by=4)], each=lf_range(projfrq)['LFIntervals']),
-                                         month  =rep(realzid[seq(2, length=length(tempdat2)/3, by=4)], each=lf_range(projfrq)['LFIntervals']),
-                                         week   =rep(realzid[seq(3, length=length(tempdat2)/3, by=4)], each=lf_range(projfrq)['LFIntervals']),
-                                         fishery=rep(realzid[seq(4, length=length(tempdat2)/3, by=4)], each=lf_range(projfrq)['LFIntervals']),
-                                         length =ll, weight=NA, freq= llfreq, iter=ss))
+    if(grepl('length', pobstemp[1])){
+      pobs.l.df  <- rbind(pobs.l.df, data.frame(year   =rep(realzid[seq(1, length=nrecords, by=4)], each=lf_range(projfrq)['LFIntervals']),
+                                            month  =rep(realzid[seq(2, length=nrecords, by=4)], each=lf_range(projfrq)['LFIntervals']),
+                                            week   =rep(realzid[seq(3, length=nrecords, by=4)], each=lf_range(projfrq)['LFIntervals']),
+                                            fishery=rep(realzid[seq(4, length=nrecords, by=4)], each=lf_range(projfrq)['LFIntervals']),
+                                            length = ll, 
+                                            weight = NA,
+                                            freq   =as.numeric(c(unlist(strsplit(trim.leading(pobstemp[seq(6, length=nrecords, by=3)]), split="[[:blank:]]+")))),
+                                            iter   = iter)) 
+    }
+    if(grepl('weight', pobstemp[1])){
+      pobs.w.df  <- rbind(pobs.w.df, data.frame(year   =rep(realzid[seq(1, length=nrecords, by=4)], each=lf_range(projfrq)['WFIntervals']),
+                                            month  =rep(realzid[seq(2, length=nrecords, by=4)], each=lf_range(projfrq)['WFIntervals']),
+                                            week   =rep(realzid[seq(3, length=nrecords, by=4)], each=lf_range(projfrq)['WFIntervals']),
+                                            fishery=rep(realzid[seq(4, length=nrecords, by=4)], each=lf_range(projfrq)['WFIntervals']),
+                                            length = NA, 
+                                            weight = ww,
+                                            freq   =as.numeric(c(unlist(strsplit(trim.leading(pobstemp[seq(6, length=nrecords, by=3)]), split="[[:blank:]]+")))),
+                                            iter   = iter)) 
+    }
   }
   
+  l_frq(res)    <- pobs.l.df #subset(pobs.df, !is.na(pobs.df$length))
+  w_frq(res)    <- pobs.w.df #subset(pobs.df, !is.na(pobs.df$weight))
+  slot(res, 'range')    <- c(min=min(ll), max=max(ll), plusgroup=NA, minyear=min(pobs.df$year), maxyear=max(pobs.df$year))
+  age_nage(res) <- age_nage(projfrq)
+  
+  return(res)
 }
-
-
-
-
-
-
-
 
 
 
