@@ -6,27 +6,40 @@
 generate.ESS<- function(x, ctrl, projdat2, sc_df){
   
   # projdat stuff for which no ESS is specified
-  projdat_noess <- projdat2[is.element(projdat2$fishery, sc_df$fishery[is.na(sc_df$ess)]),]
+  projdat_noess <- projdat2[is.element(projdat2$fishery, sc_df$fishery[is.na(sc_df$ess_length) & is.na(sc_df$ess_weight)]),]
   # projdat stuff with an ESS to be applied to length comps
-  projdat_ess_l <- projdat2[is.element(projdat2$fishery, sc_df$fishery[!is.na(sc_df$ess)]) & 
-                              is.element(projdat2$fishery, sc_df$fishery[sc_df$length]),]
+  projdat_ess_l <- projdat2[is.element(projdat2$fishery, sc_df$fishery[!is.na(sc_df$ess_length)]) ,]
   # projdat stuff with an ESS to be applied to weight comps
-  projdat_ess_w <- projdat2[is.element(projdat2$fishery, sc_df$fishery[!is.na(sc_df$ess)]) & 
-                              is.element(projdat2$fishery, sc_df$fishery[sc_df$weight]),]
+  projdat_ess_w <- projdat2[is.element(projdat2$fishery, sc_df$fishery[!is.na(sc_df$ess_weight)]) ,] 
   # add length and weight frequency data to the frq
   lengths <- seq(lf_range(x)["LFFirst"], by=lf_range(x)["LFWidth"], length=lf_range(x)["LFIntervals"])
   weights <- seq(lf_range(x)["WFFirst"], by=lf_range(x)["WFWidth"], length=lf_range(x)["WFIntervals"])
   
-  projdat_ess_ll <- as.data.frame(lapply(projdat_ess_l, rep, each=length(lengths)))
-  projdat_ess_ww <- as.data.frame(lapply(projdat_ess_w, rep, each=length(weights)))
+  # RDS 24/02/2022
+  # substantial changes made to include ESS for weight frequency data
+  # Instead of a single ESS value placed in the smallest length or weight field (and all else NA) we now fill every cell with 
+  # the ESS/(n length bins) so that the sum is the ESS - MFCL will treat this as the same.
+  
+  # first the length data
+  projdat_ess_ll <- as.data.frame(lapply(projdat_ess_l, rep, each=length(lengths)))  # repeat each record for n length groups
   projdat_ess_ll$length <- lengths
+  temp_df         <- merge(projdat_ess_ll, sc_df[,c("fishery", "ess_length")])     # temporary object of merged data frames to add the length SS
+  # order the data frames so thay map across properly
+  temp_df         <- temp_df[order(temp_df$fishery, temp_df$year, temp_df$month, temp_df$length),]
+  projdat_ess_ll  <- projdat_ess_ll[order(projdat_ess_ll$fishery, projdat_ess_ll$year, projdat_ess_ll$month, projdat_ess_ll$length),]
+  projdat_ess_ll$freq <- temp_df$ess_length/length(lengths)                     # divide SS by n length groups so that MFCL calculates teh correct SS
+  
+  # do the same for the weight data
+  projdat_ess_ww <- as.data.frame(lapply(projdat_ess_w, rep, each=length(weights)))
   projdat_ess_ww$weight <- weights
+  temp_df      <- merge(projdat_ess_ww, sc_df[,c("fishery", "ess_weight")])     # temporary object of merged data frames to add the length SS
+  # order the data frames so thay map across properly
+  temp_df         <- temp_df[order(temp_df$fishery, temp_df$year, temp_df$month, temp_df$length),]
+  projdat_ess_ww  <- projdat_ess_ww[order(projdat_ess_ww$fishery, projdat_ess_ww$year, projdat_ess_ww$month, projdat_ess_ww$length),]
+  projdat_ess_ww$freq <- temp_df$ess_weight/length(weights)                     # divide SS by n length groups so that MFCL calculates teh correct SS
   
   projdat2      <- rbind(projdat_noess, projdat_ess_ll, projdat_ess_ww)
-  projdat2$freq <- 0
-  
-  for(ff in 1:n_fisheries(x))
-    projdat2[projdat2$length==lf_range(x)["LFFirst"] & projdat2$fishery==ff,'freq'] <- ess(ctrl)[ff]
+  projdat2      <- projdat2[order(projdat2$fishery, projdat2$year, projdat2$month, projdat2$length, projdat2$weight) ,]
   
   return(projdat2)
 }
@@ -88,7 +101,7 @@ setMethod("generate", signature(x="MFCLFrq", y="MFCLprojControl"),
               stop("Error: scaler values do not match number of fisheries")
             
             #sc_df <- data.frame(fishery=1:n_fisheries(x), caeff  = caeff(ctrl), scaler = scaler(ctrl))
-            sc_df <- data.frame(fishery=1:n_fisheries(x), caeff  = caeff(ctrl), scaler = scaler(ctrl), ess=ess(ctrl), 
+            sc_df <- data.frame(fishery=1:n_fisheries(x), caeff  = caeff(ctrl), scaler = scaler(ctrl), ess(ctrl), 
                                 length=tapply(freq(x)$length, freq(x)$fishery, function(tt){any(!is.na(tt))}), 
                                 weight=tapply(freq(x)$weight, freq(x)$fishery, function(tt){any(!is.na(tt))}))
             
@@ -120,7 +133,7 @@ setMethod("generate", signature(x="MFCLFrq", y="MFCLprojControl"),
             std.fish <- seq(1:n_fisheries(x))[tapply(freq(x)$penalty, freq(x)$fishery, mean)>0]
             projdat2$penalty[is.element(projdat2$fishery, std.fish)] <- 1.0
             
-            # set catch/effort to -1 for fisheries projected on effort/catch
+            # set catch/effort to -1 for fisheries projected on effort/catch respectively
             projdat2[is.element(projdat2$fishery, sc_df[sc_df$caeff==1, 'fishery']),'effort'] <- -1
             projdat2[is.element(projdat2$fishery, sc_df[sc_df$caeff==2, 'fishery']),'catch'] <- -1
             
