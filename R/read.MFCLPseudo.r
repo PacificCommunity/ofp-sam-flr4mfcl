@@ -139,7 +139,7 @@ read.MFCLPseudoSizeComp <- function(lw_sim='test_lw_sim', projfrq=projfrq, ctrl=
   
   l_frq(res)    <- pobs.l.df #subset(pobs.df, !is.na(pobs.df$length))
   w_frq(res)    <- pobs.w.df #subset(pobs.df, !is.na(pobs.df$weight))
-  slot(res, 'range')    <- c(min=min(ll), max=max(ll), plusgroup=NA, minyear=min(pobs.df$year), maxyear=max(pobs.df$year))
+  slot(res, 'range')    <- c(min=min(ll), max=max(ll), plusgroup=NA, minyear=min(pobs.l.df$year), maxyear=max(pobs.l.df$year))
   age_nage(res) <- age_nage(projfrq)
   
   return(res)
