@@ -3,6 +3,7 @@ import("FLCore")
 export(
   "ats",
   "availableMFCLversions",
+  "catchWfromcatchN",
   "check.mfcl.cfg",
   "checkMissingRealisations",
   "checkUnitDimnames",
