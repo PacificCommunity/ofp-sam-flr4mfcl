@@ -1285,33 +1285,41 @@ setGeneric('srr<-', function(object, ..., value) standardGeneric('srr<-'))
 setReplaceMethod('srr', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['srr'])),
                                 function(object, value){slot(object, 'srr') <- value; return(object)}) 
 #' @rdname accessor-methods
-setMethod('ssb', signature(object='MFCLRep'),function(object) return(slot(object, 'ssb'))) 
+setGeneric('eq_ssb', function(object, ...) standardGeneric('eq_ssb')) 
 #' @rdname accessor-methods
-setReplaceMethod('ssb', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['ssb'])),
-                                function(object, value){slot(object, 'ssb') <- value; return(object)}) 
+setMethod('eq_ssb', signature(object='MFCLRep'),function(object) return(slot(object, 'eq_ssb'))) 
 #' @rdname accessor-methods
-setGeneric('ssb_obs', function(object, ...) standardGeneric('ssb_obs')) 
+setGeneric('eq_ssb<-', function(object, ..., value) standardGeneric('eq_ssb<-'))
 #' @rdname accessor-methods
-setMethod('ssb_obs', signature(object='MFCLRep'),function(object) return(slot(object, 'ssb_obs'))) 
+setReplaceMethod('eq_ssb', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['eq_ssb'])),
+                                function(object, value){slot(object, 'eq_ssb') <- value; return(object)}) 
 #' @rdname accessor-methods
-setGeneric('ssb_obs<-', function(object, ..., value) standardGeneric('ssb_obs<-')) 
+setGeneric('eq_ssb_obs', function(object, ...) standardGeneric('eq_ssb_obs')) 
 #' @rdname accessor-methods
-setReplaceMethod('ssb_obs', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['ssb_obs'])),
-                                function(object, value){slot(object, 'ssb_obs') <- value; return(object)}) 
+setMethod('eq_ssb_obs', signature(object='MFCLRep'),function(object) return(slot(object, 'eq_ssb_obs'))) 
 #' @rdname accessor-methods
-setMethod('rec', signature(object='MFCLRep'),function(object) return(slot(object, 'rec'))) 
+setGeneric('eq_ssb_obs<-', function(object, ..., value) standardGeneric('eq_ssb_obs<-')) 
 #' @rdname accessor-methods
-setReplaceMethod('rec', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['rec'])),
-                                function(object, value){slot(object, 'rec') <- value; return(object)}) 
+setReplaceMethod('eq_ssb_obs', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['eq_ssb_obs'])),
+                                function(object, value){slot(object, 'eq_ssb_obs') <- value; return(object)}) 
 #' @rdname accessor-methods
-setGeneric('rec_obs', function(object, ...) standardGeneric('rec_obs')) 
+setGeneric('eq_rec', function(object, ...) standardGeneric('eq_rec')) 
 #' @rdname accessor-methods
-setMethod('rec_obs', signature(object='MFCLRep'),function(object) return(slot(object, 'rec_obs'))) 
+setMethod('eq_rec', signature(object='MFCLRep'),function(object) return(slot(object, 'eq_rec'))) 
 #' @rdname accessor-methods
-setGeneric('rec_obs<-', function(object, ..., value) standardGeneric('rec_obs<-')) 
+setGeneric('eq_rec<-', function(object, ..., value) standardGeneric('eq_rec<-'))
 #' @rdname accessor-methods
-setReplaceMethod('rec_obs', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['rec_obs'])),
-                                function(object, value){slot(object, 'rec_obs') <- value; return(object)}) 
+setReplaceMethod('eq_rec', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['eq_rec'])),
+                                function(object, value){slot(object, 'eq_rec') <- value; return(object)}) 
+#' @rdname accessor-methods
+setGeneric('eq_rec_obs', function(object, ...) standardGeneric('eq_rec_obs')) 
+#' @rdname accessor-methods
+setMethod('eq_rec_obs', signature(object='MFCLRep'),function(object) return(slot(object, 'eq_rec_obs'))) 
+#' @rdname accessor-methods
+setGeneric('eq_rec_obs<-', function(object, ..., value) standardGeneric('eq_rec_obs<-')) 
+#' @rdname accessor-methods
+setReplaceMethod('eq_rec_obs', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['eq_rec_obs'])),
+                                function(object, value){slot(object, 'eq_rec_obs') <- value; return(object)}) 
 
 #' @rdname accessor-methods
 setGeneric('catch_obs', function(object, ...) standardGeneric('catch_obs')) 
