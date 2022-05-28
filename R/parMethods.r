@@ -276,9 +276,52 @@ setMethod("recYears", signature(par="MFCLPar"),
             return(recyrs)
           })
             
+ 
+## Gets m at age from MFCLBiol - does not check flag settings
+setMethod("m_at_age", signature(object='MFCLBiol'),
+          function(object, ...){
             
+            m <- CalcMSpline(MNodes=as.vector(aperm(log_m(object),c(4,1,2,3,5,6)))[1:5],ages=dimensions(object)['agecls'])
+            return(m)
+          })
+
+## Gets m at age from MFCLBiol - additional checks of flag settings
+setMethod("m_at_age", signature(object='MFCLPar'),
+          function(object, ...){
+            
+            if(flagval(object, 1, 122)$value != 0)
+              warning("parest flag 122 greater than 0 : natural mortality shared across older ages")
+            
+            m <- CalcMSpline(MNodes=as.vector(aperm(log_m(object),c(4,1,2,3,5,6)))[1:5],ages=dimensions(object)['agecls'])
+            return(m)
+          })
 
 
+## Note at present the sel(par) method only returns selectivit values for the spline function
+## logistic and double normal selectivity to be added later
+
+setMethod("sel", signature(object="MFCLPar"),
+          function(object, ...){
+            
+            nd    <- flagval(object, -(1:dimensions(object)['fisheries']), 3)$value
+            nodes <- flagval(object, -(1:dimensions(object)['fisheries']), 61)$value
+            ff75  <- flagval(object, -(1:dimensions(object)['fisheries']), 75)$value
+            k     <- growth(object)['k','est']
+            
+            sel   <- FLQuant(NA, dimnames=list(age=1:dimensions(object)['agecls'], year='all', unit=1:dimensions(object)['fisheries'], season=1)) 
+            
+            nages <- dimensions(object)['agecls']
+            fshsel<- aperm(fishery_sel(object), c(4,1,2,3,5,6))
+            
+            for(ff in 1:dimensions(object)['fisheries']){
+              if(flagval(object, -ff, 57)$value == 3){          # currently only implemented for cubic spline selectivity
+                sel[1:nd[ff],,ff,] <- CalcSelSpline(nd[ff], nodes[ff], ff75[ff], k, c(fshsel[,,,ff,,])[c(abs(fshsel[,,,ff,,]))>0])
+                sel[(nd[ff]+1):nages,,ff,]       <- sel[nd[ff],,ff,]
+              }
+            }
+            
+            return(sel)
+          })
 
 
 
