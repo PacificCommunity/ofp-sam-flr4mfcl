@@ -119,7 +119,7 @@ setMethod("plot", signature(x="MFCLMSEControl"), function(x, y="missing", ...){
   
   sbsbf0 <- seq(0, 1, by=0.001)
   
-  plot(sbsbf0, eval_hcr(x, sbsbf0), type="l", bty='n', ylim=c(0, max(eval_hcr(x, sbsbf0))), xlab="SB/SBF=0", ylab="Scalar")
+  plot(sbsbf0, eval_hcr(x, sbsbf0), type="l", bty='n', ylim=c(0, max(eval_hcr(x, sbsbf0))), xlab="SB/SBF=0", ylab="Scalar", ...)
 
 })
 
