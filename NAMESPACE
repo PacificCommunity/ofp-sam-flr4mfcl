@@ -65,8 +65,6 @@ export(
   "read.MFCLPseudo",
   "read.MFCLPseudoAlt",
   "read.MFCLPseudoCatchEffort",
-  "read.MFCLPseudoCatch",
-  "read.MFCLPseudoEffort",
   "read.MFCLPseudoSizeComp",
   "read.MFCLRec",
   "read.MFCLRegion",
