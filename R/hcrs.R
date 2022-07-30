@@ -220,3 +220,44 @@ hcr_threshold_constrained <- function(sbsbf0, params, reference_out){
 
 
 
+#' hcr_asymptotic_hillary_step
+#'
+#' Hillary step is basically two thresholds on top of each other, side by side
+#' Parameters are 'sbsbf0_min', 'sbsbf0_max', 'sbsbf0_step_min', 'sbsbf0_step_max','out_min', 'out_max', 'step_height'.
+#' Adding 'curve' to allow for asymptotic out_left
+#'
+#' @param reference_out The reference level that the constraint is applied to.
+#'
+#' @rdname hcr_funcs
+#' @example
+# 
+#
+# Add in extra HCR function - actually in FLR4MFCL but needs to be reinstalled into Condor R
+hcr_asymptotic_hillary_step <- function(sbsbf0, params){
+  if (!all(c('sbsbf0_min', 'sbsbf0_max', 'sbsbf0_step_min', 'sbsbf0_step_max','out_min', 'out_max', 'step_height', 'curve') %in% names(params))){
+    stop("HCR parameter names do not match those in the HCR function\n")
+  }
+  # Need to unname them - kind of annoying
+  sbsbf0_min <- unname(params['sbsbf0_min'])
+  sbsbf0_max <- unname(params['sbsbf0_max'])
+  sbsbf0_step_min <- unname(params['sbsbf0_step_min'])
+  sbsbf0_step_max <- unname(params['sbsbf0_step_max'])
+  out_min <- unname(params['out_min'])
+  out_max <- unname(params['out_max'])
+  step_height <- unname(params['step_height'])
+  curve       <- unname(params['curve'])
+  
+  # Hillary step is basically two thresholds on top of each other, side by side
+  out_left_params <- c(sbsbf0_min = sbsbf0_min, sbsbf0_max = sbsbf0_step_min, out_min = out_min, out_max = step_height, curve=curve)
+  out_left <- hcr_asymptotic(sbsbf0, params=out_left_params)
+  out_right_params <- c(sbsbf0_min = sbsbf0_step_max, sbsbf0_max = sbsbf0_max, out_min = step_height, out_max = out_max)
+  out_right <- hcr_threshold(sbsbf0, params=out_right_params)
+  # out is out_left, 
+  out <- out_left
+  # If we're on the right hand side threshold, use that
+  out[sbsbf0 > sbsbf0_step_min] <- out_right[sbsbf0 > sbsbf0_step_min]
+  return(out)
+}
+
+
+
