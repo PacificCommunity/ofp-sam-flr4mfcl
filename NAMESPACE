@@ -16,6 +16,7 @@ export(
   "hcr_hillary_step",
   "hcr_asymptotic",
   "hcr_asymptotic_constrained",
+  "hcr_asymptotic_hillary_step",
   "hcr_threshold",
   "hcr_threshold_constrained",
   "hcr_constrained",
