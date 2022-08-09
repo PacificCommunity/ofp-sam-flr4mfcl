@@ -15,14 +15,7 @@
 #' @export
 #' @docType methods
 #' @rdname mfcl-methods
-#'
-#' @examples
-#'
-
-
-#' @rdname mfcl-methods
 #' @aliases mfcl
-
 
 setMethod("effort_dev_coffs", signature(object="MFCLPar", frq="MFCLFrq"), 
           function(object, frq, ...){

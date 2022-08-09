@@ -13,10 +13,6 @@
 #'
 #' @return An object of class FLQuant
 #'
-#' @examples
-#' 
-#' 
-#'
 #' @export
 
 read.MFCLSimulatedNatAge <- function(file='simulated_numbers_at_age', data="N", dimensions=NULL, rnge=NULL, nssns=4) {

@@ -164,8 +164,6 @@ read.MFCLPseudoSizeComp <- function(lw_sim='test_lw_sim', projfrq=projfrq, ctrl=
 #'
 #' @return An object of class MFCLPseudo
 #'
-#' @examples
-#'
 #' @export
 
 # kk <- read.MFCLPseudo(catch="catch_sim", effort="effort_sim", lw_sim="test_lw_sim", projfrq=projfrq, ctrl=projCtrl)
@@ -462,8 +460,6 @@ read.MFCLPseudoAlt <- function(catch="missing", effort="missing", lw_sim="missin
 #' 
 #'
 #' @return An object of class data.frame that can be subset to freq
-#'
-#' @examples
 #'
 #' @export
 
