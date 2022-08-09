@@ -12,4 +12,4 @@ Suggests: mapdata, knitr, rmarkdown
 VignetteBuilder: knitr
 LazyLoad: Yes
 LazyData: No
-RoxygenNote: 6.1.1
+RoxygenNote: 7.2.1
