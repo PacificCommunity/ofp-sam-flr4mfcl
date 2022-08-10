@@ -24,8 +24,8 @@
 # Note that the first two numbers specify the dimensions, e.g.
 # #Recruitment standard
 # 3  60
-# 1.46198054165940e+01 1.27997887451213e+01 1.59027441201687e+01 …
-# So you don’t need to extend these matrices.
+# 1.46198054165940e+01 1.27997887451213e+01 1.59027441201687e+01 ...
+# So you don't need to extend these matrices.
 
 # >1064
 # - tag loss

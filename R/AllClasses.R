@@ -26,13 +26,13 @@ validMFCLFrqStats <- function(object){
 #' @slot frq_age_len Logical. Is the frq file age or length based
 #' @slot frq_version The version of the frq file
 #' @slot region_size Size of each region relative to first region
-#' @slot region_fish
-#' @slot move_matrix
-#' @slot data_flags
-#' @slot season_flags
-#' @slot n_move_yr
-#' @slot move_weeks
-#' @slot range
+#' @slot region_fish Description
+#' @slot move_matrix Description
+#' @slot data_flags Description
+#' @slot season_flags Description
+#' @slot n_move_yr Description
+#' @slot move_weeks Description
+#' @slot range Description
 #'
 setClass("MFCLFrqStats",
          representation(
@@ -1172,7 +1172,7 @@ validMFCLMSEControl <- function(object){
 
 #' An S4 class : Controls the MSE simulations
 #'
-#' @slot itn
+#' @slot itn Description
 #' @slot hcr The name of the HCR function as a character string. This function must exist and have the arguments: sbsbf0 and params. The params argument is taken from the params slot when evaluated.
 #' @slot hcr_params A numeric vector of parameters for the HCR function.
 #' @slot ess_scalar
@@ -1228,8 +1228,8 @@ validMFCLEquilibrium <- function(object){
 }
 #' An S4 class : Size frequency information from the frq file.
 #'
-#' @slot Eq_calcs
-#' @slot YPR
+#' @slot Eq_calcs Description
+#' @slot YPR Description
 #'
 setClass("MFCLEquilibrium",
          representation(

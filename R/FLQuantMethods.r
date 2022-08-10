@@ -7,8 +7,6 @@
 
 #' @rdname FLQuant
 #' @aliases FLQuant,MFCLLenFreq-method
-#' @examples
-#'
 
 setMethod("FLQuant", signature(object="MFCLLenFreq"),
           function(object,  data='catch', ...) {

@@ -104,9 +104,7 @@ hcr_constant <- function(sbsbf0, params){
 #' @param reference_out The reference level that the constraint is applied to.
 #'
 #' @rdname hcr_funcs
-#' @example
-# 
-#
+
 # Add in extra HCR function - actually in FLR4MFCL but needs to be reinstalled into Condor R
 hcr_hillary_step <- function(sbsbf0, params){
   if (!all(c('sbsbf0_min', 'sbsbf0_max', 'sbsbf0_step_min', 'sbsbf0_step_max','out_min', 'out_max', 'step_height') %in% names(params))){
@@ -197,7 +195,7 @@ hcr_asymptotic_constrained <- function(sbsbf0, params, reference_out){
 #' @param reference_out The reference level that the constraint is applied to.
 #'
 #' @rdname hcr_funcs
-#' @example
+#' @examples
 #'
 #' Without constraint
 #'msectrl <- MFCLMSEControl()
@@ -229,9 +227,7 @@ hcr_threshold_constrained <- function(sbsbf0, params, reference_out){
 #' @param reference_out The reference level that the constraint is applied to.
 #'
 #' @rdname hcr_funcs
-#' @example
-# 
-#
+
 # Add in extra HCR function - actually in FLR4MFCL but needs to be reinstalled into Condor R
 hcr_asymptotic_hillary_step <- function(sbsbf0, params){
   if (!all(c('sbsbf0_min', 'sbsbf0_max', 'sbsbf0_step_min', 'sbsbf0_step_max','out_min', 'out_max', 'step_height', 'curve') %in% names(params))){
