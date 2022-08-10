@@ -16,9 +16,6 @@
 #' @export
 #' @docType methods
 #' @rdname subset-methods
-#'
-#' @examples
-#' 
 
 setGeneric('subset', function(x, ...) standardGeneric('subset')) 
 
