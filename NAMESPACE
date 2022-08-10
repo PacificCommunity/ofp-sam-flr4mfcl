@@ -552,8 +552,8 @@ exportMethods(
   "zdiff_coffs<-",
 #  "ypr",
 #  "ypr<-"
-  "YPR",
-  "YPR<-"
+  "YPR"
+#  "YPR<-"
 )
 
 

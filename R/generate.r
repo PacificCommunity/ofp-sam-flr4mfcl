@@ -209,26 +209,28 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLFrq"),
             #effort_dev_coffs(x)   <- lapply(1:dimensions(x)["fisheries"], function(g) c(effort_dev_coffs(x)[[g]], rep(eff_dev_coff_vals[g], eff_dev_coff_incs[g])))
             effort_dev_coffs(x)   <- lapply(1:dimensions(x)["fisheries"], function(g) c(effort_dev_coffs(x)[[g]], rep(0, eff_dev_coff_incs[g])))
             
+            # catch conditioned assessments - not the best check 
+            if(flagval(x, 1, 200)$value<1065){
             # catch_dev_coffs - gets really messy because you may have zero catch obs in some cases and fishery groupings to worry about.
-#            catch_dev_coffs(x)    <- lapply(1:length(catch_dev_coffs(x)), 
-#                                            function(g) c(catch_dev_coffs(x)[[g]], rep(0, length(proj.yrs)*dimensions(x)['seasons'])))
+              catch_dev_coffs(x)    <- lapply(1:length(catch_dev_coffs(x)), 
+                                              function(g) c(catch_dev_coffs(x)[[g]], rep(0, length(proj.yrs)*dimensions(x)['seasons'])))
             
-            ## YUKIO's CODE - hacked by RDS to remove dependencies on tidyr and magrittr
-            ncgrp<-length(catch_dev_coffs(x))
-            ffl29<-flagval(x,-(1:n_fisheries(x)),29)$value  # Obtain fish flags(29) determining the grouping of catchbility
+              ## YUKIO's CODE - hacked by RDS to remove dependencies on tidyr and magrittr
+              ncgrp<-length(catch_dev_coffs(x))
+              ffl29<-flagval(x,-(1:n_fisheries(x)),29)$value  # Obtain fish flags(29) determining the grouping of catchbility
             
-            test1 <- unique(with(freq(z), paste(year,month,fishery, sep="_")))
-            test2 <- as.data.frame(t(sapply(strsplit(test1, split="_"), "as.numeric",simplify = T)))
-            test3 <- data.frame(V1=paste(test2$V1, test2$V2, sep="_"), V2=test2$V3)
+              test1 <- unique(with(freq(z), paste(year,month,fishery, sep="_")))
+              test2 <- as.data.frame(t(sapply(strsplit(test1, split="_"), "as.numeric",simplify = T)))
+              test3 <- data.frame(V1=paste(test2$V1, test2$V2, sep="_"), V2=test2$V3)
             
-            nElemByGrp<-vector(mode="numeric",length=length(unique(ffl29)))
+              nElemByGrp<-vector(mode="numeric",length=length(unique(ffl29)))
             
-            for(grp in sort(unique(ffl29))){
-              nElemByGrp[grp] <- length(unique(test3[test3$V2 %in% which(ffl29==grp),'V1']))
-              nElemFuture<- nElemByGrp[grp]-length(catch_dev_coffs(x)[[grp]])-1 #
-              catch_dev_coffs(x)[[grp]]<-c(catch_dev_coffs(x)[[grp]],rep(0,nElemFuture))
+              for(grp in sort(unique(ffl29))){
+                nElemByGrp[grp] <- length(unique(test3[test3$V2 %in% which(ffl29==grp),'V1']))
+                nElemFuture<- nElemByGrp[grp]-length(catch_dev_coffs(x)[[grp]])-1 #
+                catch_dev_coffs(x)[[grp]]<-c(catch_dev_coffs(x)[[grp]],rep(0,nElemFuture))
+              }
             }
-            
             # region_rec_var
             region_rec_var(x)     <- window(region_rec_var(x), start=range(x)['minyear'], end=range(y)['maxyear'])
             region_rec_var(x)[is.na(region_rec_var(x))] <- 0

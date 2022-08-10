@@ -2091,15 +2091,15 @@ setReplaceMethod('Eq_calcs', signature(object='MFCLEquilibrium', value=unname(ge
                  function(object, value){slot(object, 'Eq_calcs') <- value; return(object)})
 
 
-#' @rdname accessor-methods
-setGeneric('YPR', function(object, ...) standardGeneric('YPR'))
-#' @rdname accessor-methods
-setMethod('YPR', signature(object='MFCLEquilibrium'), function(object) return(slot(object, 'YPR')))
-#' @rdname accessor-methods
-setGeneric('YPR<-', function(object, ..., value) standardGeneric('YPR<-'))
-#' @rdname accessor-methods
-setReplaceMethod('YPR', signature(object='MFCLEquilibrium', value=unname(getSlots('MFCLEquilibrium')['YPR'])), 
-                 function(object, value){slot(object, 'YPR') <- value; return(object)})
+##' @rdname accessor-methods
+#setGeneric('YPR', function(object, ...) standardGeneric('YPR'))
+##' @rdname accessor-methods
+#setMethod('YPR', signature(object='MFCLEquilibrium'), function(object) return(slot(object, 'YPR')))
+##' @rdname accessor-methods
+#setGeneric('YPR<-', function(object, ..., value) standardGeneric('YPR<-'))
+##' @rdname accessor-methods
+#setReplaceMethod('YPR', signature(object='MFCLEquilibrium', value=unname(getSlots('MFCLEquilibrium')['YPR'])), 
+#                 function(object, value){slot(object, 'YPR') <- value; return(object)})
 
 
 

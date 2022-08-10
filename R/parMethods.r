@@ -146,7 +146,7 @@ setMethod("SPR0", signature(par="MFCLBiol"),
 #'
 #' Calculates yield per recruit and spawners per recruit - in kilos
 #'
-#' @param rep:    An object of class MFCLRep  
+#' @param object:    An object of class MFCLRep  
 #' @param par:    An object of class MFCLPar
 #'
 #' @return A dataframe.
@@ -158,15 +158,15 @@ setMethod("SPR0", signature(par="MFCLBiol"),
 #'
 
 
-setGeneric('YPR', function(rep, par, ...) standardGeneric('YPR')) 
+setGeneric('YPR', function(object, par, ...) standardGeneric('YPR')) 
 
 #' @rdname par-methods
 #' @aliases YPR
 
-setMethod("YPR", signature(rep = "MFCLRep", par="MFCLPar"), 
-          function(rep, par, fminyr=NULL, fmaxyr=NULL, scalars=NULL, ...){
+setMethod("YPR", signature(object = "MFCLRep", par="MFCLPar"), 
+          function(object, par, fminyr=NULL, fmaxyr=NULL, scalars=NULL, ...){
             
-            
+            rep <- object
             frange <- range(rep)['maxyear'] - flagval(par, 2, c(148,155))$value/flagval(par, 2, 57)$value 
             if(!is.null(fminyr))
               frange[1] <- fminyr

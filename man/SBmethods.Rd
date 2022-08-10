@@ -44,7 +44,7 @@
 \usage{
 SB(rep, mean_nyears, lag_nyears, ...)
 
-\S4method{SB}{MFCLRep,numeric,numeric}(rep, mean_nyears, lag_nyears, combine_areas = TRUE)
+\S4method{SB}{MFCLRep,numeric,numeric}(rep, mean_nyears, lag_nyears, combine_areas = TRUE, season_means = TRUE)
 
 \S4method{SB}{MFCLRep,missing,missing}(rep, mean_nyears, lag_nyears, ...)
 
@@ -52,7 +52,7 @@ SB(rep, mean_nyears, lag_nyears, ...)
 
 \S4method{SB}{MFCLRep,missing,numeric}(rep, mean_nyears, lag_nyears, ...)
 
-\S4method{SB}{list,numeric,numeric}(rep, mean_nyears, lag_nyears, combine_areas = TRUE)
+\S4method{SB}{list,numeric,numeric}(rep, mean_nyears, lag_nyears, combine_areas = TRUE, season_means = TRUE)
 
 \S4method{SB}{list,missing,missing}(rep, mean_nyears, lag_nyears, ...)
 
@@ -62,7 +62,7 @@ SB(rep, mean_nyears, lag_nyears, ...)
 
 SBF0(rep, mean_nyears, lag_nyears, ...)
 
-\S4method{SBF0}{MFCLRep,numeric,numeric}(rep, mean_nyears, lag_nyears, combine_areas = TRUE)
+\S4method{SBF0}{MFCLRep,numeric,numeric}(rep, mean_nyears, lag_nyears, combine_areas = TRUE, season_means = TRUE)
 
 \S4method{SBF0}{MFCLRep,missing,missing}(rep, mean_nyears, lag_nyears, ...)
 
@@ -70,7 +70,7 @@ SBF0(rep, mean_nyears, lag_nyears, ...)
 
 \S4method{SBF0}{MFCLRep,missing,numeric}(rep, mean_nyears, lag_nyears, ...)
 
-\S4method{SBF0}{list,numeric,numeric}(rep, mean_nyears, lag_nyears, combine_areas = TRUE)
+\S4method{SBF0}{list,numeric,numeric}(rep, mean_nyears, lag_nyears, combine_areas = TRUE, season_means = TRUE)
 
 \S4method{SBF0}{list,missing,missing}(rep, mean_nyears, lag_nyears, ...)
 
@@ -163,6 +163,8 @@ SBSBF0latest(rep, ...)
 \item{...}{Other arguments.}
 
 \item{combine_areas}{If TRUE the biomassses in different areas are summed. Default value is TRUE.}
+
+\item{season_means}{If TRUE the seasonal biomassses are averaged in each year so only annual biomass is returned. Default value is TRUE.}
 
 \item{sb_mean_nyears}{Equivalent to the argument \code{mean_nyears} for the SB part of the \code{SBSBF0()} method.}
 

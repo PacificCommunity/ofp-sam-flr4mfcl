@@ -2,15 +2,30 @@
 % Please edit documentation in R/hcrs.R
 \name{hcr_threshold}
 \alias{hcr_threshold}
+\alias{hcr_asymptotic}
 \alias{hcr_constant}
+\alias{hcr_hillary_step}
+\alias{hcr_constrained}
+\alias{hcr_asymptotic_constrained}
 \alias{hcr_threshold_constrained}
+\alias{hcr_asymptotic_hillary_step}
 \title{hcr_threshold}
 \usage{
 hcr_threshold(sbsbf0, params)
 
+hcr_asymptotic(sbsbf0, params)
+
 hcr_constant(sbsbf0, params)
 
+hcr_hillary_step(sbsbf0, params)
+
+hcr_constrained(sbsbf0, params, reference_out, hcr_func)
+
+hcr_asymptotic_constrained(sbsbf0, params, reference_out)
+
 hcr_threshold_constrained(sbsbf0, params, reference_out)
+
+hcr_asymptotic_hillary_step(sbsbf0, params)
 }
 \arguments{
 \item{sbsbf0}{Numeric vector of SBSBF0.}
@@ -18,17 +33,55 @@ hcr_threshold_constrained(sbsbf0, params, reference_out)
 \item{params}{Numeric vector of HCR parameters.}
 
 \item{reference_out}{The reference level that the constraint is applied to.}
+
+\item{hcr_func}{Character string of the function name}
 }
 \value{
+Numberic vector of the HCR output
+
+Numberic vector of the HCR output
+
+Numberic vector of the HCR output
+
 Numberic vector of the HCR output
 }
 \description{
 Typical HCR function with the parameters sbsbf0_min, sbsbf0_max, out_min, out_max passed as a vector.
 The default HCR for the MFCLMSEControl class.
 
+Instead of a threshold shape this HCR has a lovely curvy shape based on an asymptotic function.
+
 An HCR function that just returns the same output irrespective of the SBSBF0 input
+
+Hillary step is basically two thresholds on top of each other, side by side
+Parameters are 'sbsbf0_min', 'sbsbf0_max', 'sbsbf0_step_min', 'sbsbf0_step_max','out_min', 'out_max', 'step_height'.
+
+Takes any HCR function as a character string and applies constraint if necessary
+
+Instead of a threshold shape this HCR has a lovely curvy shape based on an asymptotic function.
+Also has a maximum constraint change up or down from previous value
 
 Like the typical HCR function with the parameters but with a constraint on how much the output is allowed to change from a reference output.
 Parameters are 'sbsbf0_min', 'sbsbf0_max', 'out_min', 'out_max', 'max_change_up', 'max_change_down'.
 There is an additional argument 'reference_out' that is the reference output, i.e. the value to which to the new output is compared.
+
+Hillary step is basically two thresholds on top of each other, side by side
+Parameters are 'sbsbf0_min', 'sbsbf0_max', 'sbsbf0_step_min', 'sbsbf0_step_max','out_min', 'out_max', 'step_height'.
+Adding 'curve' to allow for asymptotic out_left
+}
+\examples{
+
+Without constraint
+msectrl <- MFCLMSEControl()
+hcr(msectrl) <- "hcr_threshold"
+hcr_params(msectrl) <- c(sbsbf0_min=0.1, sbsbf0_max=0.5, out_min=0.0, out_max=1.2)
+eval_hcr(msectrl, sbsbf0=0.3) # 0.5
+
+With a constraint of 15\% each way
+msectrl2 <- MFCLMSEControl()
+hcr(msectrl2) <- "hcr_threshold_constrained"
+hcr_params(msectrl2) <- c(sbsbf0_min=0.1, sbsbf0_max=0.5, out_min=0.0, out_max=1.2, max_change_up=1.15, max_change_down=0.85)
+eval_hcr(msectrl2, sbsbf0=0.3, reference_out=1.0)
+# So that next out cannot change by more 15\%
+eval_hcr(msectrl2, sbsbf0=0.3, reference_out=0.1)
 }
