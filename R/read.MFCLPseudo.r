@@ -2,6 +2,78 @@
 #Copyright (C) 2018  Rob Scott
 
 
+
+
+# breaking it all down to much simpler functions
+#
+read.MFCLPseudoCatch <- function(catch="catch_sim", projfrq=projfrq, ctrl="missing", historical=FALSE) {
+  
+  # read in pseudo catch data and grab some dimensions stuff
+  cc    <- readLines(catch)
+  
+  nsims <- as.numeric(unlist(lapply(strsplit(cc[grep("# projection", cc)], split="[[:blank:]]+"), el, 3)))
+  seeds <- as.numeric(unlist(lapply(strsplit(cc[grep("# seed",       cc)], split="[[:blank:]]+"), el, 3)))
+  nfish <- as.numeric(unlist(lapply(strsplit(cc[grep("# fishery",    cc)], split="[[:blank:]]+"), el, 3)))
+  
+  # read in pseudo catch again - just the data
+  cdat       <- read.table(catch)
+  
+  freqdat    <- realisations(projfrq)        ## function not yet tested with historical data !
+  
+  if(!historical)
+    freqdat    <- subset(realisations(projfrq), year>=fprojyr(ctrl))
+  
+  freqdat    <- freqdat[order(freqdat$fishery, freqdat$year, freqdat$month),]
+  freqdat    <- cbind(freqdat, catch_sim=unlist(c(cdat[,-1])), 
+                               cseed    =rep(seeds, each=nrow(cdat)), 
+                               iter     =rep(1:length(seeds), each=nrow(cdat)), row.names=NULL)
+  
+  return(freqdat)
+}
+
+
+
+# breaking it all down to much simpler functions
+#
+read.MFCLPseudoEffort <- function(effort="effort_sim", projfrq=projfrq, ctrl="missing", historical=FALSE) {
+  
+  trim.leading  <- function(x) sub("^\\s+", "", x) 
+  
+  # read in pseudo catch data and grab some dimensions stuff
+  ee    <- readLines(effort)
+  
+  nsims <- as.numeric(unlist(lapply(strsplit(ee[grep("# projection", ee)], split="[[:blank:]]+"), el, 3)))
+  seeds <- as.numeric(unlist(lapply(strsplit(ee[grep("# seed",       ee)], split="[[:blank:]]+"), el, 3)))
+  
+  edat     <- strsplit(trim.leading(readLines(effort)), split="[[:blank:]]+")
+  projfish <- as.numeric(unlist(lapply(edat[-c(grep('#', edat))], el, 1)))         # projected fisheries - not all of them are projected
+  
+  edat     <- edat[-c(grep('#', edat))]           # drop the header information
+  edat     <- lapply(edat, function(x){x[-1]})    # drop the fishery identifier
+  
+  freqdat  <- realisations(projfrq)
+  
+  if(!historical)
+    freqdat    <- subset(realisations(projfrq), year>=fprojyr(ctrl))
+  
+  freqdat    <- freqdat[order(freqdat$fishery, freqdat$year, freqdat$month),]
+  
+  freqdat    <- cbind(freqdat, effort_sim = as.numeric(unlist(edat)), 
+                               eseed      = rep(seeds, each=sum(unlist(lapply(edat, length)))), 
+                               iter       = rep(1:length(seeds), each=sum(unlist(lapply(edat, length)))), row.names=NULL)
+  
+  return(freqdat)
+  
+}
+
+
+
+
+
+
+
+
+
 #' 'read.MFCLPseudoCatchEffort()' function for FLR4MFCL
 #'
 #' Reads in simulated catch and effort data from the MFCL generated files 'catch_sim' and 'effort_sim' and
@@ -33,36 +105,27 @@ read.MFCLPseudoCatchEffort <- function(catch="catch_sim", effort="effort_sim", p
   
   res <- MFCLPseudo() 
   
-  # read in pseudo catch data
-  cc    <- readLines(catch)
-  cdat  <- matrix(as.numeric(unlist(strsplit(trim.leading(cc[-grep("#", cc)]), split="[[:blank:]]+"))), nrow=2)
-  cseed <- as.numeric(unlist(lapply(strsplit(cc[grep("# seed", cc)], split="[[:blank:]]+"), el, 3)))
+  catchdat  <- read.MFCLPseudoCatch(catch,   projfrq, ctrl, historical)
+  effortdat <- read.MFCLPseudoEffort(effort, projfrq, ctrl, historical)
   
-  # read in pseudo effort data
-  ee    <- readLines(effort)
-  edat  <- unlist(lapply(1:length(ee[-grep("#",ee)]), 
-                         function(ii){as.numeric(unlist(strsplit(trim.leading(ee[-grep("#",ee)][ii]), split="[[:blank:]]+")))[-1]}))
-  eseed <- as.numeric(unlist(lapply(strsplit(ee[grep("# seed", ee)], split="[[:blank:]]+"), el, 3)))
-  
-  # create data frame for obs and pseudo data 
-  projfrq_realz <- realisations(projfrq)
+  freqdat  <- realisations(projfrq)
   
   if(!historical)
-    projfrq_realz <- subset(projfrq_realz, year>=fprojyr(ctrl))
-    
-  tempdat       <- cbind(projfrq_realz, iter       =rep(0:nsims(ctrl), each=nrow(projfrq_realz)),
-                                        catch.seed =rep(c(NA,cseed),   each=nrow(projfrq_realz)),
-                                        effort.seed=rep(c(NA,eseed),   each=nrow(projfrq_realz)), row.names=NULL)
-    
-  tempdat[tempdat$iter>0,'catch']  <- cdat[2,]
-  tempdat[tempdat$iter>0,'effort'] <- edat
+    freqdat    <- subset(realisations(projfrq), year>=fprojyr(ctrl))
   
-  slot(res, "catcheff") <- tempdat[order(tempdat$iter, tempdat$fishery, tempdat$year, tempdat$month, tempdat$week),]
+  
+  freqdat2        <- cbind(freqdat, iter=rep(0:nsims(mseCtrl), each=nrow(freqdat)), row.names=NULL)
+  freqdat2$catch  <- c(freqdat$catch,  catchdat$catch_sim)
+  freqdat2$effort <- c(freqdat$effort, effortdat$effort_sim)
+  freqdat2$cseed[freqdat2$iter>0]  <- catchdat$cseed
+  freqdat2$eseed[freqdat2$iter>0]  <- effortdat$eseed
+  
+  slot(res, "catcheff") <- freqdat2[,c('year','month','week','fishery','catch','effort','penalty','cseed','eseed','iter')]
   
   # not fixed yet
   #slot(res, "freq")     <- cbind(freq(projfrq)[,1:4], ce_itns, freq(projfrq)[,c("penalty","length","weight")], lf_itns)         
   
-  slot(res, "range")[c("minyear","maxyear")] <- range(tempdat$year)
+  slot(res, "range")[c("minyear","maxyear")] <- range(catchdat$year)
   
   
   return(res)
