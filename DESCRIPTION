@@ -12,4 +12,5 @@ Suggests: mapdata, knitr, rmarkdown
 VignetteBuilder: knitr
 LazyLoad: Yes
 LazyData: No
+Encoding: UTF-8
 RoxygenNote: 7.2.1
