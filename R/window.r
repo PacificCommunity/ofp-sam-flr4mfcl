@@ -26,11 +26,7 @@
 #'
 #' @examples
 #' window(MFCLFrq(), start = 1990, end = 1995)
-
-
-
-
-#' @rdname mfcl-methods
+#'
 #' @aliases mfcl
 
 

@@ -20,9 +20,7 @@
 #'
 #' @examples
 #' trim(MFCLFrq(), year=1990:1995)
-
-
-#' @rdname mfcl-methods
+#'
 #' @aliases mfcl
 
 setMethod("trim", signature(x="MFCLFrqStats"), function(x, ...){

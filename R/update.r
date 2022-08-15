@@ -20,15 +20,9 @@
 #'
 #' @examples
 #' update(MFCLFrq())
-
-
-
-#setGeneric('update', function(object, ...) standardGeneric('update')) 
-
-#' @rdname mfcl-methods
+#'
 #' @aliases mfcl
-
-
+#setGeneric('update', function(object, ...) standardGeneric('update')) 
 
 setMethod("update", signature(object="MFCLFrq"), function(object, years, fisheries, multiplier, quantity, ...){
             

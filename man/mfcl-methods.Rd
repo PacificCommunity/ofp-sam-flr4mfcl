@@ -120,9 +120,13 @@ subset MFCL objects between the times start and end.
 write(MFCLFrqStats())
 mohns_rho(retros)
 plot(MFCLFrq())
+
 trim(MFCLFrq(), year=1990:1995)
+
 update(MFCLFrq())
+
 window(MFCLFrq(), start = 1990, end = 1995)
+
 }
 \seealso{
 \code{\link{MFCLFrq}},  \code{\link{MFCLPar}} and \code{\link{MFCLPar}}

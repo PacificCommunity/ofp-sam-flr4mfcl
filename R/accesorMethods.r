@@ -34,7 +34,6 @@ setMethod('range', signature(x='MFCLBase'),function(x) return(slot(x,'range')))
 
 # In FLCore
 #setGeneric("range<-", function(x, i, value) standardGeneric("range<-"))
-#' @rdname accessor-methods
 #setGeneric('range<-', function(object, ..., value) standardGeneric('range<-')) 
 
 #' @rdname accessor-methods
@@ -2050,7 +2049,6 @@ setMethod('eval_hcr', signature(msectrl='MFCLMSEControl', sbsbf0='numeric'),
 setGeneric('itn', function(object, ...) standardGeneric('itn'))
 #' @rdname accessor-methods
 setMethod('itn', signature(object='MFCLMSEControl'), function(object) return(slot(object, 'itn')))
-#' @rdname accessor-methods
 #' @rdname accessor-methods
 setGeneric('itn<-', function(object, ..., value) standardGeneric('itn<-'))
 setReplaceMethod('itn', signature(object='MFCLMSEControl', value=unname(getSlots('MFCLMSEControl')['itn'])), 
