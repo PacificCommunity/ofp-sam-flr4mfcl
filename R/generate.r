@@ -623,8 +623,8 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLTagProj"),
 
 
 
-#' @rdname generate
 #' There's not much to this one - maybe not necessary.
+#' @rdname generate
 #' 
 setMethod("generate", signature(x="MFCLTag", y="MFCLTag", z="missing"), 
           function(x, y, z, ...){
