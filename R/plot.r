@@ -10,21 +10,14 @@
 #' @param ... Additional argument list that might not ever
 #'  be used.
 #'
-#' 
-#' 
 #' @export
 #' @docType methods
 #' @rdname mfcl-methods
 #'
 #' @examples
 #' plot(MFCLFrq())
-
-
-
-#' @rdname mfcl-methods
+#'
 #' @aliases mfcl
-
-
 
 setMethod("plot", signature(x="MFCLLenFreq"), function(x, y="missing", ...){
   

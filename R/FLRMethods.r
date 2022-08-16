@@ -4,8 +4,8 @@
 
 
 
-#' @rdname rep-methods
-#' @aliases ssb
+## #' @rdname rep-methods
+## #' @aliases ssb
 
 setMethod("ssb", signature(object="MFCLRep"), 
           function(object, ...){

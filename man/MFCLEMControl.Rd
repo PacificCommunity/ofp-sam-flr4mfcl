@@ -4,8 +4,12 @@
 \alias{MFCLEMControl}
 \title{MFCLEMControl}
 \usage{
-MFCLEMControl(doitall = function() {
-}, tag_fish_rep_rate = 0.9, ...)
+MFCLEMControl(
+  doitall = function() {
+ },
+  tag_fish_rep_rate = 0.9,
+  ...
+)
 }
 \description{
 Basic constructor for MFCLPseudo class

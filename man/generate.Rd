@@ -6,6 +6,7 @@
 \alias{generate,MFCLPar,MFCLPar,MFCLFrq-method}
 \alias{generate,MFCLPar,MFCLFrq,ANY-method}
 \alias{generate,MFCLPar,MFCLPar,MFCLTagProj-method}
+\alias{generate,MFCLTag,MFCLTag,missing-method}
 \alias{generate,MFCLFrq,MFCLPseudo,MFCLTag-method}
 \alias{generate,MFCLIni,MFCLMSEControl,MFCLTag-method}
 \title{'generate()' method for FLR4MFCL}
@@ -19,6 +20,8 @@ generate(x, y, z, ...)
 \S4method{generate}{MFCLPar,MFCLFrq,ANY}(x, y, z, ...)
 
 \S4method{generate}{MFCLPar,MFCLPar,MFCLTagProj}(x, y, z, ...)
+
+\S4method{generate}{MFCLTag,MFCLTag,missing}(x, y, z, ...)
 
 \S4method{generate}{MFCLFrq,MFCLPseudo,MFCLTag}(x, y, z, eff_crp_mult, ...)
 
