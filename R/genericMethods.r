@@ -23,7 +23,9 @@
 #' @rdname write-methods
 #'
 #' @examples
-#' write(MFCLFrqStats())
+#'\dontrun{
+#' write(MFCLFrqStats(), "file.txt")
+#' }
 
 setGeneric('write', function(x, file, append=F, ...) standardGeneric('write')) 
 
@@ -329,18 +331,3 @@ checkUnitDimnames <- function(obj,nfisheries){
       }
       return(obj)
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
