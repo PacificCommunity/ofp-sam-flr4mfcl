@@ -63,20 +63,22 @@ mohns_rho(object, ...)
 )
 }
 \arguments{
+\item{frq}{An object of class MFCLFrq.}
+
 \item{...}{Additional argument list that might not ever
 be used.}
 
+\item{spp}{Character string with 3 letter species code - optional but required to produce the .cfg file if missing.}
+
+\item{par}{An object of class MFCLPar.}
+
+\item{outpar}{The name of the output par file.}
+
 \item{object:}{An object of class MFCLPar}
 
-\item{frq:}{An object of class MFCLFrq.}
+\item{frq:}{The corresponding MFCLFrq for the MFCLPar}
 
-\item{par:}{An object of class MFCLPar.}
-
-\item{outpar:}{The name of the output par file}
-
-\item{switch:}{Optional numeric vector of additional flag settings}
-
-\item{spp:}{character string with 3 letter species code - optional but required to produce the .cfg file if missing}
+\item{switch}{Optional numeric vector of additional flag settings.}
 
 \item{depletion_method:}{the method for calculating depletion (default SBSBF0)}
 
@@ -117,7 +119,6 @@ Update MFCL objects with new values
 subset MFCL objects between the times start and end.
 }
 \examples{
-write(MFCLFrqStats())
 mohns_rho(retros)
 plot(MFCLFrq())
 
