@@ -70,14 +70,13 @@ Parameters are 'sbsbf0_min', 'sbsbf0_max', 'sbsbf0_step_min', 'sbsbf0_step_max',
 Adding 'curve' to allow for asymptotic out_left
 }
 \examples{
-
-Without constraint
+# Without constraint
 msectrl <- MFCLMSEControl()
 hcr(msectrl) <- "hcr_threshold"
 hcr_params(msectrl) <- c(sbsbf0_min=0.1, sbsbf0_max=0.5, out_min=0.0, out_max=1.2)
 eval_hcr(msectrl, sbsbf0=0.3) # 0.5
 
-With a constraint of 15\% each way
+# With a constraint of 15\% each way
 msectrl2 <- MFCLMSEControl()
 hcr(msectrl2) <- "hcr_threshold_constrained"
 hcr_params(msectrl2) <- c(sbsbf0_min=0.1, sbsbf0_max=0.5, out_min=0.0, out_max=1.2, max_change_up=1.15, max_change_down=0.85)
