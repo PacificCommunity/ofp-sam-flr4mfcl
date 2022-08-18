@@ -74,13 +74,15 @@ be used.}
 
 \item{outpar}{The name of the output par file.}
 
+\item{depletion_method}{The method for calculating depletion (default SBSBF0).}
+
 \item{object:}{An object of class MFCLPar}
 
 \item{frq:}{The corresponding MFCLFrq for the MFCLPar}
 
 \item{switch}{Optional numeric vector of additional flag settings.}
 
-\item{depletion_method:}{the method for calculating depletion (default SBSBF0)}
+\item{obj}{An object of class list containing the rep files from the final assessment and each retrospective peel.}
 
 \item{obj:}{An object of class MFCLX.}
 
@@ -95,7 +97,7 @@ be used.}
 \value{
 Creates a text file at the specified location.
 
-A numerric value of mohn's rho
+A numeric value of mohn's rho.
 
 An updated object of the same class
 
@@ -119,7 +121,9 @@ Update MFCL objects with new values
 subset MFCL objects between the times start and end.
 }
 \examples{
+\dontrun{
 mohns_rho(retros)
+}
 plot(MFCLFrq())
 
 trim(MFCLFrq(), year=1990:1995)

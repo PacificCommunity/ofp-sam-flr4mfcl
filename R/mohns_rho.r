@@ -5,11 +5,11 @@
 #'
 #' Calculate mohns rho for retrospective analyses
 #'
-#' @param obj:    An object of class list containing the rep files from the final assessment and each retrospective peel. 
+#' @param obj An object of class list containing the rep files from the final assessment and each retrospective peel.
 #'
-#' @param depletion_method: the method for calculating depletion (default SBSBF0)
+#' @param depletion_method The method for calculating depletion (default SBSBF0).
 #'
-#' @return A numerric value of mohn's rho
+#' @return A numeric value of mohn's rho.
 #' 
 #' @seealso \code{\link{SBSBF0}} and \code{\link{MFCLRep}}
 #' 
@@ -18,16 +18,14 @@
 #' @rdname mfcl-methods
 #'
 #' @examples
+#' \dontrun{
 #' mohns_rho(retros)
-
-
+#' }
 
 setGeneric('mohns_rho', function(object, ...) standardGeneric('mohns_rho')) 
 
 #' @rdname mfcl-methods
 #' @aliases mfcl
-
-
 
 setMethod("mohns_rho", signature(object="list"), function(object, depletion_method='SBSBF0', ...){
   
@@ -61,5 +59,3 @@ setMethod("mohns_rho", signature(object="list"), function(object, depletion_meth
 #xyplot(data~year, group=qname, data=FLQuants(mcf(lapply(rep_retro_list, SBSBF0))), type="l", ylim=c(0,1), panel=pfunretro)
 
 #mohns_rho(rep_retro_list[-1], 'SBSBF0')
-
-
