@@ -7,7 +7,7 @@
 flagSummary(par, type)
 }
 \arguments{
-\item{par}{A object of class MFCLPar}
+\item{par}{An object of class MFCLPar}
 
 \item{type}{A character string specifying the MFCL User Guide section}
 }
@@ -18,6 +18,7 @@ A data frame of flag settings
 flag settings summarised by MFCL User Guide sections
 }
 \examples{
+data(par)
 flagSummary(par, 'projection')
 
 }

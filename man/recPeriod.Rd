@@ -2,7 +2,7 @@
 % Please edit documentation in R/flagTools.r
 \name{recPeriod}
 \alias{recPeriod}
-\title{recruitment peiods}
+\title{recruitment periods}
 \usage{
 recPeriod(
   par,
@@ -14,7 +14,7 @@ recPeriod(
 )
 }
 \arguments{
-\item{parfile}{A object of class MFCLPar}
+\item{parfile}{An object of class MFCLPar}
 }
 \value{
 An object of class numeric vector
@@ -23,6 +23,7 @@ An object of class numeric vector
 Calculates recruitment periods for deterministic and stochastic projection settings
 }
 \examples{
+data(par)
 recPeriod(par)
 
 }
