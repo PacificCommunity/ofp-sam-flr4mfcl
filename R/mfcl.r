@@ -207,14 +207,15 @@ getMFCLversion <- function(){
 #'
 #' Returns a data.frame of parameters and their gradients in reverse order
 #'
-#' @param grads:  text string of input file name for sorted gradients
-#' @param parnames:  text string of input file name for parameter names
-#' 
+#' @param grads text string of input file name for sorted gradients
+#' @param parnames text string of input file name for parameter names
 #'
 #' @return data.frame of parameter gradients
 #'
 #' @examples
+#' \dontrun{
 #' gradients()
+#' }
 #'
 #' @export
 
@@ -236,6 +237,3 @@ gradients <- function(grads="sorted_gradient.rpt", parnames="xinit.rpt"){
   
   return(df3[rev(order(df3$gradient)),])
 }
-
-
-
