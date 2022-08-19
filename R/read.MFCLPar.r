@@ -167,8 +167,6 @@ read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
 #kk <- read.MFCLBiol("C:/R4MFCL/test_data/skj_ref_case/11.par")
 
 
-
-
 #' read.MFCLFlags
 #'
 #' Reads the Flag information from the par file and creates an MFCLFlags object
@@ -179,7 +177,9 @@ read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
 #' @return An object of class MFCLFlags
 #'
 #' @examples
+#' \dontrun{
 #' read.MFCLFlags("C:/R4MFCL/test_data/skj_ref_case/11.par")
+#' }
 #'
 #' @export
 
@@ -733,15 +733,3 @@ read.MFCLPar <- function(parfile, first.yr=1972) {
 
   return(res)
 }
-
-
-
-
-
-
-
-
-
-
-
-  

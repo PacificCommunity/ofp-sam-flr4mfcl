@@ -18,6 +18,8 @@ An object of class MFCLFlags
 Reads the Flag information from the par file and creates an MFCLFlags object
 }
 \examples{
+\dontrun{
 read.MFCLFlags("C:/R4MFCL/test_data/skj_ref_case/11.par")
+}
 
 }
