@@ -1,7 +1,6 @@
 #FLR4MFCL - R4MFCL built with FLR classes
 #Copyright (C) 2018  Rob Scott
 
-
 ############################################
 # history of par file additions
 #
@@ -32,8 +31,6 @@
 #
 #___________________________________________________
 
-
-
 ###############################################
 # unexported function to strip Dave's diagnostic stuff out of the par file.
 
@@ -59,28 +56,25 @@ stripDebugNumbers <- function(fstring){
   return(fstring)
 }
 
-
-
-
-
 #' read.MFCLBiol
 #'
-#' Reads the Biol information from the par file and creates an MFCLBiol object
+#' Reads the Biol information from the par file and creates an MFCLBiol object.
 #' Unfortunately you still need to supply the first year of the time series.
 #' Other dimensions are interpreted from the data blocks so care should be taken to check
 #' that these have been reproduced correctly
 #'
-#' @param parfile:  A character string giving the name and path of the frq file to be read 
-#' @param parobj:   A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file
-#' @param first.yr: The first year of the input data time series (default values 1972)
+#' @param parfile A character string giving the name and path of the frq file to be read.
+#' @param parobj A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.
+#' @param first.yr The first year of the input data time series (default values 1972).
 #'
-#' @return An object of class MFCLBiol
+#' @return An object of class MFCLBiol.
 #'
 #' @examples
-#' read.MFCLBiol("C://R4MFCL//test_data//skj_ref_case//11.par")
+#' \dontrun{
+#' read.MFCLBiol("C:/R4MFCL/test_data/skj_ref_case/11.par")
+#' }
 #'
 #' @export
-
 
 read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
   
