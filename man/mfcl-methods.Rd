@@ -124,7 +124,9 @@ subset MFCL objects between the times start and end.
 \dontrun{
 mohns_rho(retros)
 }
+\dontrun{
 plot(MFCLFrq())
+}
 
 trim(MFCLFrq(), year=1990:1995)
 
