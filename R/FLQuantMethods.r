@@ -1,10 +1,6 @@
 #FLR4MFCL - R4MFCL built with FLR classes
 #Copyright (C) 2018  Rob Scott
 
-
-
-
-
 ## #' @rdname FLQuant
 ## #' @aliases FLQuant,MFCLLenFreq-method
 
@@ -75,13 +71,13 @@ setMethod("FLQuant", signature(object="MFCLLenFreq2"),
 #'
 #' Returns a quarterly time series from a seasonally structured FLQuant.
 #'
-#' @param quant:  An FLQuant object 
-#' 
+#' @param quant An FLQuant object.
 #'
-#' @return An object of class FLQuant
+#' @return An object of class FLQuant.
 #'
 #' @examples
-#' flq(stock.n(ple4))
+#' data(ple4)
+#' qts(stock.n(ple4))
 #'
 #' @export
 
@@ -155,7 +151,3 @@ ats <- function(quant){
   return(as.FLQuant(qdf[,c(1:7)]))
   
 }
-
-
-
-
