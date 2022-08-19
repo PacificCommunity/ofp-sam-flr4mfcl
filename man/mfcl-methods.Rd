@@ -65,8 +65,7 @@ mohns_rho(object, ...)
 \arguments{
 \item{frq}{An object of class MFCLFrq.}
 
-\item{...}{Additional argument list that might not ever
-be used.}
+\item{...}{Additional argument list that might not ever be used.}
 
 \item{spp}{Character string with 3 letter species code - optional but required to produce the .cfg file if missing.}
 
@@ -76,7 +75,13 @@ be used.}
 
 \item{depletion_method}{The method for calculating depletion (default SBSBF0).}
 
-\item{x}{An object of class MFCL*.}
+\item{x}{An object of class MFCLX.}
+
+\item{start}{The start time of the period of interest}
+
+\item{end}{The end time of the period of interest.}
+
+\item{extend}{Logical. If true the start and end times can extend the time series. If false any attempt to extend the series prompts a warning and is ignored.}
 
 \item{object:}{An object of class MFCLPar}
 
@@ -87,14 +92,6 @@ be used.}
 \item{obj:}{An object of class MFCLX.}
 
 \item{obj}{An object of class MFCL*.}
-
-\item{x:}{An object of class MFCLX.}
-
-\item{start:}{The start time of the period of interest}
-
-\item{end:}{The end time of the period of interest.}
-
-\item{extend:}{logical. If true the start and end times can extend the time series. If false any attempt to extend the series prompts a warning and is ignored.}
 }
 \value{
 Creates a text file at the specified location.
@@ -105,7 +102,7 @@ An updated object of the same class.
 
 An updated object of the same class.
 
-An updated object of the same class
+An updated object of the same class.
 }
 \description{
 Strip out effort devs from an MFCLPar object including the realisations information from the frq file
@@ -120,7 +117,7 @@ Trim MFCL objects using named dimensions
 
 Update MFCL objects with new values
 
-subset MFCL objects between the times start and end.
+Subset MFCL objects between the times start and end.
 }
 \examples{
 \dontrun{
@@ -138,7 +135,9 @@ trim(MFCLFrq(), year=1990:1995)
 update(MFCLFrq())
 }
 
+\dontrun{
 window(MFCLFrq(), start = 1990, end = 1995)
+}
 
 }
 \seealso{

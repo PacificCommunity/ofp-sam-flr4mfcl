@@ -3,20 +3,19 @@
 
 #' window
 #'
-#' subset MFCL objects between the times start and end.
+#' Subset MFCL objects between the times start and end.
 #'
-#' @param x:    An object of class MFCLX.
+#' @param x An object of class MFCLX.
 #' 
-#' @param start:    The start time of the period of interest
+#' @param start The start time of the period of interest
 #' 
-#' @param end:    The end time of the period of interest.
+#' @param end The end time of the period of interest.
 #' 
-#' @param extend: logical. If true the start and end times can extend the time series. If false any attempt to extend the series prompts a warning and is ignored.
+#' @param extend Logical. If true the start and end times can extend the time series. If false any attempt to extend the series prompts a warning and is ignored.
 #'
-#' @param ... Additional argument list that might not ever
-#'  be used.
+#' @param ... Additional argument list that might not ever be used.
 #'
-#' @return An updated object of the same class
+#' @return An updated object of the same class.
 #' 
 #' @seealso \code{\link{MFCLFrq}},  \code{\link{MFCLPar}} and \code{\link{MFCLPar}}
 #' 
@@ -25,14 +24,14 @@
 #' @rdname mfcl-methods
 #'
 #' @examples
+#' \dontrun{
 #' window(MFCLFrq(), start = 1990, end = 1995)
+#' }
 #'
 #' @aliases mfcl
 
-
 setMethod("window", signature(x="MFCLFrq"), 
           function(x, start=range(x)['minyear'], end=range(x)['maxyear'], extend=FALSE, ...){
-            
             
             if(start < range(x)['minyear'] | end > range(x)['maxyear'])
               stop("Error: This method does not yet allow the extension of MFCL objects beyond their current year range")
