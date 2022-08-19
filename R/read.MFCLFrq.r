@@ -260,7 +260,9 @@ read.MFCLFrq <- function(frqfile){
 #' @return An object of class MFCLLenFreq
 #'
 #' @examples
-#' read.MFCLLenFreq("C:/R4MFCL/test_data/skj_ref_case/skj.frq")
+#' \dontrun{
+#' read.MFCLLenFreq2("C:/R4MFCL/test_data/skj_ref_case/skj.frq")
+#' }
 #'
 #' @export
 
