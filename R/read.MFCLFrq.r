@@ -11,7 +11,9 @@
 #' @return An object of class MFCLFrqStats
 #'
 #' @examples
+#' \dontrun{
 #' read.MFCLFrqStats("C:/R4MFCL/test_data/skj_ref_case/skj.frq")
+#' }
 #'
 #' @export
 
