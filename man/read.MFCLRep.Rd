@@ -7,16 +7,18 @@
 read.MFCLRep(repfile)
 }
 \arguments{
-\item{inifile:}{A character string giving the name and path of the .rep file to be read}
+\item{inifile}{A character string giving the name and path of the .rep file to be read.}
 }
 \value{
 An object of class MFCLRep
 }
 \description{
-Reads information from the .rep file and creates an MFCLRep object
+Reads information from the .rep file and creates an MFCLRep object.
 }
 \examples{
-read.MFCLIni("C:/R4MFCL/test_data/skj_ref_case/plot-out.par.rep")
-read.MFCLIni("/home/roberts/skj/HCR/run0/plot-out.par.rep")
+\dontrun{
+read.MFCLRep("C:/R4MFCL/test_data/skj_ref_case/plot-out.par.rep")
+read.MFCLRep("/home/roberts/skj/HCR/run0/plot-out.par.rep")
+}
 
 }
