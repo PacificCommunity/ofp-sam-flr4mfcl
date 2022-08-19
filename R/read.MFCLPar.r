@@ -671,24 +671,22 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972) {
   return(res)
 }
 
-
 #parfile <- "Q:/yft/2017/assessment/Model_Runs/Sensitivity_annualSRR_steepness0.65/12.par"
-
-
-
 
 
 #' read.MFCLPar
 #'
-#' Reads information from the par file and creates an MFCLPar object
+#' Reads information from the par file and creates an MFCLPar object.
 #'
-#' @param parfile:  A character string giving the name and path of the frq file to be read 
-#' @param first.yr: The first year of the input data time series (default values 1972)
+#' @param parfile A character string giving the name and path of the frq file to be read.
+#' @param first.yr The first year of the input data time series (default values 1972).
 #'
-#' @return An object of class MFCLPar
+#' @return An object of class MFCLPar.
 #'
 #' @examples
+#' \dontrun{
 #' read.MFCLPar("C:/R4MFCL/test_data/skj_ref_case/11.par")
+#' }
 #'
 #' @export
 
