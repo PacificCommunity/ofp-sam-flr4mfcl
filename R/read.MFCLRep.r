@@ -11,7 +11,7 @@
 #' @return An object of class MFCLRep
 #'
 #' @examples
-#' read.MFCLIni("C://R4MFCL//test_data//skj_ref_case//plot-out.par.rep")
+#' read.MFCLIni("C:/R4MFCL/test_data/skj_ref_case/plot-out.par.rep")
 #' read.MFCLIni("/home/roberts/skj/HCR/run0/plot-out.par.rep")
 #'
 #' @export

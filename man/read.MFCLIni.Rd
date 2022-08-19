@@ -16,7 +16,7 @@ An object of class MFCLIni
 Reads information from the ini file and creates an MFCLIni object
 }
 \examples{
-read.MFCLIni("C://R4MFCL//test_data//skj_ref_case//skj.ini")
+read.MFCLIni("C:/R4MFCL/test_data/skj_ref_case/skj.ini")
 read.MFCLIni("/home/robertsc/skj/HCR/run0/skj.ini")
 
 }

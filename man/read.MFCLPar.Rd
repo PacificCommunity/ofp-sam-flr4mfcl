@@ -18,6 +18,6 @@ An object of class MFCLPar
 Reads information from the par file and creates an MFCLPar object
 }
 \examples{
-read.MFCLPar("C://R4MFCL//test_data//skj_ref_case//11.par")
+read.MFCLPar("C:/R4MFCL/test_data/skj_ref_case/11.par")
 
 }

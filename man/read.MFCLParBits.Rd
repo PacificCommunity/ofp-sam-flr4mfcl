@@ -18,6 +18,6 @@ An object of class MFCLParBit
 Reads the remaining information from the par file and creates an MFCLParBits object
 }
 \examples{
-read.MFCLParBits("C://R4MFCL//test_data//skj_ref_case//11.par")
+read.MFCLParBits("C:/R4MFCL/test_data/skj_ref_case/11.par")
 
 }

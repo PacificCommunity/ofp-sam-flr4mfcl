@@ -16,6 +16,6 @@ An object of class MFCLLenFit
 Reads information from the length.fit file and creates an MFCLLenFit object
 }
 \examples{
-read.MFCLLenFit("C://R4MFCL//test_data//skj_ref_case//length.fit")
+read.MFCLLenFit("C:/R4MFCL/test_data/skj_ref_case/length.fit")
 
 }

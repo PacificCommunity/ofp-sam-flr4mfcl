@@ -18,6 +18,6 @@ An object of class MFCLTagRep
 Reads the TAaRep information from the par file and creates an MFCLTagRep object
 }
 \examples{
-read.MFCLTagRep("C://R4MFCL//test_data//skj_ref_case//11.par")
+read.MFCLTagRep("C:/R4MFCL/test_data/skj_ref_case/11.par")
 
 }

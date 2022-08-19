@@ -20,6 +20,6 @@ An object of class MFCLRec
 Reads the region specific information from the par file and creates an MFCLRegion object
 }
 \examples{
-read.MFCLRegion("C://R4MFCL//test_data//skj_ref_case//11.par")
+read.MFCLRegion("C:/R4MFCL/test_data/skj_ref_case/11.par")
 
 }

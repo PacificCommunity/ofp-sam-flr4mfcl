@@ -11,7 +11,7 @@
 #' @return An object of class MFCLFrqStats
 #'
 #' @examples
-#' read.MFCLFrqStats("C://R4MFCL//test_data//skj_ref_case//skj.frq")
+#' read.MFCLFrqStats("C:/R4MFCL/test_data/skj_ref_case/skj.frq")
 #'
 #' @export
 
@@ -85,7 +85,7 @@ read.MFCLFrqStats <- function(frqfile){
 #' @return An object of class MFCLLenFreq
 #'
 #' @examples
-#' read.MFCLLenFreq("C://R4MFCL//test_data//skj_ref_case//skj.frq")
+#' read.MFCLLenFreq("C:/R4MFCL/test_data/skj_ref_case/skj.frq")
 #'
 #' @export
 
@@ -212,7 +212,7 @@ read.MFCLLenFreq <- function(frqfile){
 #' @return An object of class MFCLFrq
 #'
 #' @examples
-#' read.MFCLLenFreq(paste(system.file('data', package='FLR4MFCL'), 'skj.frq', sep='//'))
+#' read.MFCLLenFreq(paste(system.file('data', package='FLR4MFCL'), 'skj.frq', sep='/'))
 #'
 #' @export
 
@@ -254,7 +254,7 @@ read.MFCLFrq <- function(frqfile){
 #' @return An object of class MFCLLenFreq
 #'
 #' @examples
-#' read.MFCLLenFreq("C://R4MFCL//test_data//skj_ref_case//skj.frq")
+#' read.MFCLLenFreq("C:/R4MFCL/test_data/skj_ref_case/skj.frq")
 #'
 #' @export
 
@@ -390,7 +390,7 @@ read.MFCLLenFreq2 <- function(frqfile){
 #' @return An object of class MFCLFrq
 #'
 #' @examples
-#' read.MFCLLenFreq(paste(system.file('data', package='FLR4MFCL'), 'skj.frq', sep='//'))
+#' read.MFCLLenFreq(paste(system.file('data', package='FLR4MFCL'), 'skj.frq', sep='/'))
 #'
 #' @export
 
@@ -421,5 +421,5 @@ read.MFCLFrq2 <- function(frqfile){
 
 }
 
-#frqfile <- 'C://R4MFCL//test_data//skj_ref_case//skj.frq'
+#frqfile <- 'C:/R4MFCL/test_data/skj_ref_case/skj.frq'
 

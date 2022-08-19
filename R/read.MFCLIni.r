@@ -7,11 +7,10 @@
 #'
 #' @param inifile:  A character string giving the name and path of the ini file to be read
 #'
-#'
 #' @return An object of class MFCLIni
 #'
 #' @examples
-#' read.MFCLIni("C://R4MFCL//test_data//skj_ref_case//skj.ini")
+#' read.MFCLIni("C:/R4MFCL/test_data/skj_ref_case/skj.ini")
 #' read.MFCLIni("/home/robertsc/skj/HCR/run0/skj.ini")
 #'
 #' @export

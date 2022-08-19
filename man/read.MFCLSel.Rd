@@ -18,6 +18,6 @@ An object of class MFCLSel
 Reads the Selection information from the par file and creates an MFCLSel object
 }
 \examples{
-read.MFCLSel("C://R4MFCL//test_data//skj_ref_case//11.par")
+read.MFCLSel("C:/R4MFCL/test_data/skj_ref_case/11.par")
 
 }

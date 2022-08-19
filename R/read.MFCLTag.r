@@ -11,7 +11,7 @@
 #' @return An object of class character vector
 #'
 #' @examples
-#' read.MFCLTag("C://R4MFCL//test_data//skj_ref_case//skj.tag")
+#' read.MFCLTag("C:/R4MFCL/test_data/skj_ref_case/skj.tag")
 #'
 #' @export
 

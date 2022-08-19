@@ -164,7 +164,7 @@ read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
   return(res)
 }  
 
-#kk <- read.MFCLBiol("C://R4MFCL//test_data//skj_ref_case//11.par")
+#kk <- read.MFCLBiol("C:/R4MFCL/test_data/skj_ref_case/11.par")
 
 
 
@@ -179,7 +179,7 @@ read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
 #' @return An object of class MFCLFlags
 #'
 #' @examples
-#' read.MFCLFlags("C://R4MFCL//test_data//skj_ref_case//11.par")
+#' read.MFCLFlags("C:/R4MFCL/test_data/skj_ref_case/11.par")
 #'
 #' @export
 
@@ -227,7 +227,7 @@ read.MFCLFlags <- function(parfile, parobj=NULL, first.yr=1972) {
   return(res)
 }
 
-#kk <- read.MFCLFlags("C://R4MFCL//test_data//skj_ref_case//11.par")
+#kk <- read.MFCLFlags("C:/R4MFCL/test_data/skj_ref_case/11.par")
 
 
 
@@ -244,7 +244,7 @@ read.MFCLFlags <- function(parfile, parobj=NULL, first.yr=1972) {
 #' @return An object of class MFCLTagRep
 #'
 #' @examples
-#' read.MFCLTagRep("C://R4MFCL//test_data//skj_ref_case//11.par")
+#' read.MFCLTagRep("C:/R4MFCL/test_data/skj_ref_case/11.par")
 #'
 #' @export
 
@@ -289,7 +289,7 @@ read.MFCLTagRep <- function(parfile, parobj=NULL, first.yr=1972) {
   return(res)
 }
 
-#kk <- read.MFCLTagRep("C://R4MFCL//test_data//skj_ref_case//11.par")
+#kk <- read.MFCLTagRep("C:/R4MFCL/test_data/skj_ref_case/11.par")
 
 
 
@@ -306,7 +306,7 @@ read.MFCLTagRep <- function(parfile, parobj=NULL, first.yr=1972) {
 #' @return An object of class MFCLRec
 #'
 #' @examples
-#' read.MFCLRec("C://R4MFCL//test_data//skj_ref_case//11.par")
+#' read.MFCLRec("C:/R4MFCL/test_data/skj_ref_case/11.par")
 #'
 #' @export
 
@@ -392,7 +392,7 @@ read.MFCLRec <- function(parfile, parobj=NULL, first.yr=1972) {
 #' @return An object of class MFCLRec
 #'
 #' @examples
-#' read.MFCLRegion("C://R4MFCL//test_data//skj_ref_case//11.par")
+#' read.MFCLRegion("C:/R4MFCL/test_data/skj_ref_case/11.par")
 #'
 #' @export
 
@@ -492,7 +492,7 @@ read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972) {
 #' @return An object of class MFCLSel
 #'
 #' @examples
-#' read.MFCLSel("C://R4MFCL//test_data//skj_ref_case//11.par")
+#' read.MFCLSel("C:/R4MFCL/test_data/skj_ref_case/11.par")
 #'
 #' @export
 
@@ -601,7 +601,7 @@ read.MFCLSel <- function(parfile, parobj=NULL, first.yr=1972) {
 #' @return An object of class MFCLParBit
 #'
 #' @examples
-#' read.MFCLParBits("C://R4MFCL//test_data//skj_ref_case//11.par")
+#' read.MFCLParBits("C:/R4MFCL/test_data/skj_ref_case/11.par")
 #'
 #' @export
 
@@ -693,7 +693,7 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972) {
 #' @return An object of class MFCLPar
 #'
 #' @examples
-#' read.MFCLPar("C://R4MFCL//test_data//skj_ref_case//11.par")
+#' read.MFCLPar("C:/R4MFCL/test_data/skj_ref_case/11.par")
 #'
 #' @export
 

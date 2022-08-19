@@ -16,6 +16,6 @@ An object of class character vector
 Reads information from the tag file and creates  object
 }
 \examples{
-read.MFCLTag("C://R4MFCL//test_data//skj_ref_case//skj.tag")
+read.MFCLTag("C:/R4MFCL/test_data/skj_ref_case/skj.tag")
 
 }

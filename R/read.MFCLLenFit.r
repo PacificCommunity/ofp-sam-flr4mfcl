@@ -11,11 +11,11 @@
 #' @return An object of class MFCLLenFit
 #'
 #' @examples
-#' read.MFCLLenFit("C://R4MFCL//test_data//skj_ref_case//length.fit")
+#' read.MFCLLenFit("C:/R4MFCL/test_data/skj_ref_case/length.fit")
 #'
 #' @export
 
-# lffile <- "Q://skj//2016//assessment//RefCase//length.fit"
+# lffile <- "Q:/skj/2016/assessment/RefCase/length.fit"
 
 read.MFCLLenFit <- function(lffile) {
   

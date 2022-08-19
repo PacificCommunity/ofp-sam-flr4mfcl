@@ -16,6 +16,6 @@ An object of class MFCLLenFreq
 Extracts the length frequency data from Mufdagr output
 }
 \examples{
-read.MFCLLenFreq("C://R4MFCL//test_data//skj_ref_case//skj.frq")
+read.MFCLLenFreq("C:/R4MFCL/test_data/skj_ref_case/skj.frq")
 
 }

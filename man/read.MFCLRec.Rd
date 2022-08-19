@@ -20,6 +20,6 @@ An object of class MFCLRec
 Reads the recruitment information from the par file and creates an MFCLec object
 }
 \examples{
-read.MFCLRec("C://R4MFCL//test_data//skj_ref_case//11.par")
+read.MFCLRec("C:/R4MFCL/test_data/skj_ref_case/11.par")
 
 }
