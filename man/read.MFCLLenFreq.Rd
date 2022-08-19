@@ -16,6 +16,8 @@ An object of class MFCLLenFreq
 Extracts the length frequency data from the frq file
 }
 \examples{
+\dontrun{
 read.MFCLLenFreq("C:/R4MFCL/test_data/skj_ref_case/skj.frq")
+}
 
 }
