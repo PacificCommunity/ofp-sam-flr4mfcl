@@ -230,21 +230,19 @@ read.MFCLFlags <- function(parfile, parobj=NULL, first.yr=1972) {
 #kk <- read.MFCLFlags("C:/R4MFCL/test_data/skj_ref_case/11.par")
 
 
-
-
-
-
 #' read.MFCLTagRep
 #'
-#' Reads the TAaRep information from the par file and creates an MFCLTagRep object
+#' Reads the TAaRep information from the par file and creates an MFCLTagRep object.
 #'
-#' @param parfile: A character string giving the name and path of the frq file to be read 
-#' @param parobj:  A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file
+#' @param parfile A character string giving the name and path of the frq file to be read.
+#' @param parobj  A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.
 #'
-#' @return An object of class MFCLTagRep
+#' @return An object of class MFCLTagRep.
 #'
 #' @examples
+#' \dontrun{
 #' read.MFCLTagRep("C:/R4MFCL/test_data/skj_ref_case/11.par")
+#' }
 #'
 #' @export
 
