@@ -290,21 +290,20 @@ read.MFCLTagRep <- function(parfile, parobj=NULL, first.yr=1972) {
 #kk <- read.MFCLTagRep("C:/R4MFCL/test_data/skj_ref_case/11.par")
 
 
-
-
-
 #' read.MFCLRec
 #'
-#' Reads the recruitment information from the par file and creates an MFCLec object
+#' Reads the recruitment information from the par file and creates an MFCLec object.
 #'
-#' @param parfile: A character string giving the name and path of the frq file to be read 
-#' @param parobj:  A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file
-#' @param first.yr: The first year of the input data time series (default value 1972)
+#' @param parfile A character string giving the name and path of the frq file to be read.
+#' @param parobj A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.
+#' @param first.yr The first year of the input data time series (default value 1972).
 #'
-#' @return An object of class MFCLRec
+#' @return An object of class MFCLRec.
 #'
 #' @examples
+#' \dontrun{
 #' read.MFCLRec("C:/R4MFCL/test_data/skj_ref_case/11.par")
+#' }
 #'
 #' @export
 
