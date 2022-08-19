@@ -216,7 +216,9 @@ read.MFCLLenFreq <- function(frqfile){
 #' @return An object of class MFCLFrq
 #'
 #' @examples
-#' read.MFCLLenFreq(paste(system.file('data', package='FLR4MFCL'), 'skj.frq', sep='/'))
+#' \dontrun{
+#' read.MFCLFrq(paste(system.file('data', package='FLR4MFCL'), 'skj.frq', sep='/'))
+#' }
 #'
 #' @export
 
