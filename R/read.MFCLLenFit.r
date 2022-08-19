@@ -3,15 +3,16 @@
 
 #' read.MFCLLenFit
 #'
-#' Reads information from the length.fit file and creates an MFCLLenFit object
+#' Reads information from the length.fit file and creates an MFCLLenFit object.
 #'
-#' @param inifile:  A character string giving the name and path of the length.fit file to be read 
-#' 
+#' @param inifile A character string giving the name and path of the length.fit file to be read.
 #'
 #' @return An object of class MFCLLenFit
 #'
 #' @examples
+#' \dontrun{
 #' read.MFCLLenFit("C:/R4MFCL/test_data/skj_ref_case/length.fit")
+#' }
 #'
 #' @export
 
@@ -199,7 +200,3 @@ read.MFCLLenFit2 <- function(lffile, get_lenage = FALSE) {
   slot(obj, 'lenagefits') <- as.data.frame(agelendat) # Force as data frame in case it is NULL (get_lenage==FALSE)
   return(obj)
 }
-
-  
-  
-  
