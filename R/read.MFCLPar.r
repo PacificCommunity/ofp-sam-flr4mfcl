@@ -375,21 +375,20 @@ read.MFCLRec <- function(parfile, parobj=NULL, first.yr=1972) {
 }
 
 
-
-
-
 #' read.MFCLRegion
 #'
-#' Reads the region specific information from the par file and creates an MFCLRegion object
+#' Reads the region specific information from the par file and creates an MFCLRegion object.
 #'
-#' @param parfile: A character string giving the name and path of the frq file to be read 
-#' @param parobj:  A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file
-#' @param first.yr: The first year of the input data time series (default value 1972)
+#' @param parfile A character string giving the name and path of the frq file to be read.
+#' @param parobj A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.
+#' @param first.yr The first year of the input data time series (default value 1972).
 #'
-#' @return An object of class MFCLRec
+#' @return An object of class MFCLRec.
 #'
 #' @examples
+#' \dontrun{
 #' read.MFCLRegion("C:/R4MFCL/test_data/skj_ref_case/11.par")
+#' }
 #'
 #' @export
 
