@@ -584,19 +584,19 @@ read.MFCLSel <- function(parfile, parobj=NULL, first.yr=1972) {
 }
 
 
-
-
 #' read.MFCLParBits
 #'
-#' Reads the remaining information from the par file and creates an MFCLParBits object
+#' Reads the remaining information from the par file and creates an MFCLParBits object.
 #'
-#' @param parfile: A character string giving the name and path of the frq file to be read 
-#' @param parobj:  A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file
+#' @param parfile A character string giving the name and path of the frq file to be read.
+#' @param parobj A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.
 #'
-#' @return An object of class MFCLParBit
+#' @return An object of class MFCLParBit.
 #'
 #' @examples
+#' \dontrun{
 #' read.MFCLParBits("C:/R4MFCL/test_data/skj_ref_case/11.par")
+#' }
 #'
 #' @export
 
