@@ -84,9 +84,9 @@ be used.}
 
 \item{switch}{Optional numeric vector of additional flag settings.}
 
-\item{obj}{An object of class list containing the rep files from the final assessment and each retrospective peel.}
-
 \item{obj:}{An object of class MFCLX.}
+
+\item{obj}{An object of class MFCL*.}
 
 \item{x:}{An object of class MFCLX.}
 
@@ -103,7 +103,7 @@ A numeric value of mohn's rho.
 
 An updated object of the same class.
 
-An updated object of the same class
+An updated object of the same class.
 
 An updated object of the same class
 }
@@ -134,7 +134,9 @@ plot(MFCLFrq())
 trim(MFCLFrq(), year=1990:1995)
 }
 
+\dontrun{
 update(MFCLFrq())
+}
 
 window(MFCLFrq(), start = 1990, end = 1995)
 
