@@ -3,23 +3,24 @@
 
 #' trim
 #'
-#' trim MFCL objects using named dimensions
+#' Trim MFCL objects using named dimensions
 #'
-#' @param x:    An object of class MFCLX.
+#' @param x An object of class MFCL*.
 #'
-#' @param ... Additional argument list that might not ever
-#'  be used.
+#' @param ... Additional argument list that might not ever be used.
 #'
-#' @return An updated object of the same class
+#' @return An updated object of the same class.
 #' 
-#' @seealso \code{\link{MFCLFrq}},  \code{\link{MFCLPar}} and \code{\link{MFCLPar}}
+#' @seealso \code{\link{MFCLFrq}}, \code{\link{MFCLPar}} and \code{\link{MFCLPar}}
 #' 
 #' @export
 #' @docType methods
 #' @rdname mfcl-methods
 #'
 #' @examples
+#' \dontrun{
 #' trim(MFCLFrq(), year=1990:1995)
+#' }
 #'
 #' @aliases mfcl
 

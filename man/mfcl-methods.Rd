@@ -76,6 +76,8 @@ be used.}
 
 \item{depletion_method}{The method for calculating depletion (default SBSBF0).}
 
+\item{x}{An object of class MFCL*.}
+
 \item{object:}{An object of class MFCLPar}
 
 \item{frq:}{The corresponding MFCLFrq for the MFCLPar}
@@ -99,7 +101,7 @@ Creates a text file at the specified location.
 
 A numeric value of mohn's rho.
 
-An updated object of the same class
+An updated object of the same class.
 
 An updated object of the same class
 
@@ -114,7 +116,7 @@ Calculate mohns rho for retrospective analyses
 
 Plot MFCL objects
 
-trim MFCL objects using named dimensions
+Trim MFCL objects using named dimensions
 
 Update MFCL objects with new values
 
@@ -128,7 +130,9 @@ mohns_rho(retros)
 plot(MFCLFrq())
 }
 
+\dontrun{
 trim(MFCLFrq(), year=1990:1995)
+}
 
 update(MFCLFrq())
 
@@ -142,7 +146,7 @@ window(MFCLFrq(), start = 1990, end = 1995)
 
 \code{\link{SBSBF0}} and \code{\link{MFCLRep}}
 
-\code{\link{MFCLFrq}},  \code{\link{MFCLPar}} and \code{\link{MFCLPar}}
+\code{\link{MFCLFrq}}, \code{\link{MFCLPar}} and \code{\link{MFCLPar}}
 
 \code{\link{read.MFCLFrq}} and \code{\link{read.MFCLPar}}
 
