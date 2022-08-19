@@ -13,8 +13,10 @@
 #' @return An object of class MFCLCatch
 #'
 #' @examples
+#' \dontrun{
 #' read.MFCLCatch("C:/R4MFCL/test_data/skj_ref_case/catch.rep", dimensions(par))
 #' read.MFCLCatch("/home/robertsc/skj/HCR/run0/catch.rep", dimensions(par))
+#' }
 #'
 #' @export
 
