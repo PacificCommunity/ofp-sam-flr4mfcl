@@ -1,7 +1,6 @@
 #FLR4MFCL - R4MFCL built with FLR classes
 #Copyright (C) 2018  Rob Scott
 
-
 #' MFCL Frq Statistics
 #'
 #' Extracts the essential ranges and dimensions from the frq file
@@ -16,7 +15,6 @@
 #' }
 #'
 #' @export
-
 
 read.MFCLFrqStats <- function(frqfile){
   
@@ -201,12 +199,6 @@ read.MFCLLenFreq <- function(frqfile){
 }
 
 
-
-
-
-
-
-
 #' MFCL frq file reader
 #'
 #' Reads the entire contents of the frq file
@@ -245,10 +237,6 @@ read.MFCLFrq <- function(frqfile){
   return(res)
     
 }
-
-
-
-
 
 
 #' MFCL Length Frequency2 - MUFDAGR friendly
@@ -388,7 +376,6 @@ read.MFCLLenFreq2 <- function(frqfile){
 }
 
 
-
 #' MFCL frq2 file reader - Mufdagr friendly
 #'
 #' Reads the entire contents of the frq file
@@ -432,4 +419,3 @@ read.MFCLFrq2 <- function(frqfile){
 }
 
 #frqfile <- 'C:/R4MFCL/test_data/skj_ref_case/skj.frq'
-
