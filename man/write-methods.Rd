@@ -47,7 +47,9 @@ Creates a text file at the specified location.
 Writes MFCL objects to a text file
 }
 \examples{
-write(MFCLFrqStats())
+\dontrun{
+write(MFCLFrqStats(), "file.txt")
+}
 }
 \seealso{
 \code{\link{read.MFCLFrq}} and \code{\link{read.MFCLPar}}

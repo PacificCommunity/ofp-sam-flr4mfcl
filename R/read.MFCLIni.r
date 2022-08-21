@@ -3,16 +3,17 @@
 
 #' read.MFCLIni
 #'
-#' Reads information from the ini file and creates an MFCLIni object
+#' Reads information from the ini file and creates an MFCLIni object.
 #'
-#' @param inifile:  A character string giving the name and path of the ini file to be read
+#' @param inifile A character string giving the name and path of the ini file to be read.
 #'
-#'
-#' @return An object of class MFCLIni
+#' @return An object of class MFCLIni.
 #'
 #' @examples
-#' read.MFCLIni("C://R4MFCL//test_data//skj_ref_case//skj.ini")
+#' \dontrun{
+#' read.MFCLIni("C:/R4MFCL/test_data/skj_ref_case/skj.ini")
 #' read.MFCLIni("/home/robertsc/skj/HCR/run0/skj.ini")
+#' }
 #'
 #' @export
 

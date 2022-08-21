@@ -7,7 +7,7 @@
 flagDiff(par1, par2)
 }
 \arguments{
-\item{par}{A object of class MFCLPar}
+\item{par}{An object of class MFCLPar}
 }
 \value{
 A data frame of flag settings for par1 and par2
@@ -16,6 +16,9 @@ A data frame of flag settings for par1 and par2
 flag differences between two par files
 }
 \examples{
-flagDiff(par, par)
+data(par)
+par1 <- par2 <- par
+flags(par2)[20,"value"] <- 12
+flagDiff(par1, par2)
 
 }

@@ -2,14 +2,12 @@
 #'
 #' Runs MFCL with defined inputs
 #'
-#' @param frq:    An object of class MFCLFrq.
-#' @param par:    An object of class MFCLPar.
-#' @param outpar: The name of the output par file
-#' @param switch: Optional numeric vector of additional flag settings
-#' @param spp:    character string with 3 letter species code - optional but required to produce the .cfg file if missing
-#'
-#' @param ... Additional argument list that might not ever
-#'  be used.
+#' @param frq An object of class MFCLFrq.
+#' @param par An object of class MFCLPar.
+#' @param outpar The name of the output par file.
+#' @param switch Optional numeric vector of additional flag settings.
+#' @param spp Character string with 3 letter species code - optional but required to produce the .cfg file if missing.
+#' @param ... Additional argument list that might not ever be used.
 #'
 #' @return Creates a text file at the specified location.
 #' 
@@ -18,10 +16,6 @@
 #' @export
 #' @docType methods
 #' @rdname mfcl-methods
-#'
-#' @examples
-#' write(MFCLFrqStats())
-
 
 check.mfcl.cfg <- function(dir=".", spp){
   
@@ -39,7 +33,6 @@ check.mfcl.cfg <- function(dir=".", spp){
     
     cat(cfg, file=paste(dir,"mfcl.cfg",sep="/"))
   }
-  
 }
 
 
@@ -207,14 +200,15 @@ getMFCLversion <- function(){
 #'
 #' Returns a data.frame of parameters and their gradients in reverse order
 #'
-#' @param grads:  text string of input file name for sorted gradients
-#' @param parnames:  text string of input file name for parameter names
-#' 
+#' @param grads text string of input file name for sorted gradients
+#' @param parnames text string of input file name for parameter names
 #'
 #' @return data.frame of parameter gradients
 #'
 #' @examples
+#' \dontrun{
 #' gradients()
+#' }
 #'
 #' @export
 
@@ -236,6 +230,3 @@ gradients <- function(grads="sorted_gradient.rpt", parnames="xinit.rpt"){
   
   return(df3[rev(order(df3$gradient)),])
 }
-
-
-

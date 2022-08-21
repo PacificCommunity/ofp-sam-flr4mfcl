@@ -23,7 +23,9 @@
 #' @rdname write-methods
 #'
 #' @examples
-#' write(MFCLFrqStats())
+#'\dontrun{
+#' write(MFCLFrqStats(), "file.txt")
+#' }
 
 setGeneric('write', function(x, file, append=F, ...) standardGeneric('write')) 
 
@@ -299,25 +301,23 @@ setMethod('modifyRRini', signature(ini='MFCLIni',tag='MFCLTag',rr='data.frame',P
 
 #' checkUnitDimnames
 #'
-#' Re-orders the unit dimnames in ascending order instead 
+#' Re-orders the unit dimnames in ascending order instead
 #' of default ordering of FLQuant method which uses the year dimension
 #'
 #' @param obj An object of class MFCL eg. MFCLFrq, MFCLPar, etc.
 #' @param nfisheries The number of fisheries in the model
 #'
-#' @param ... Additional argument list that might not ever
-#'  be used.
+#' @param ... Additional argument list that might not ever be used.
 #'
 #' @return Returns an object of the same class but with FLQuant unit dimension
 #' re-ordered as appropriate.
-#' 
-#' 
 #'
 #' @examples
+#' \dontrun{
 #' checkUnitDimnames(MFCLRep())
+#' }
 
-
-checkUnitDimnames <-    function(obj,nfisheries){
+checkUnitDimnames <- function(obj,nfisheries){
       unit_order <- as.character(1:nfisheries)
       # ID FLQs with unit dimensions
       repslots <- getSlots(class(obj))
@@ -331,18 +331,3 @@ checkUnitDimnames <-    function(obj,nfisheries){
       }
       return(obj)
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

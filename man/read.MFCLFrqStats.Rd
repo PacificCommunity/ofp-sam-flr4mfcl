@@ -16,6 +16,8 @@ An object of class MFCLFrqStats
 Extracts the essential ranges and dimensions from the frq file
 }
 \examples{
-read.MFCLFrqStats("C://R4MFCL//test_data//skj_ref_case//skj.frq")
+\dontrun{
+read.MFCLFrqStats("C:/R4MFCL/test_data/skj_ref_case/skj.frq")
+}
 
 }

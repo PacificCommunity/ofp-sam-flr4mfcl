@@ -63,43 +63,46 @@ mohns_rho(object, ...)
 )
 }
 \arguments{
-\item{...}{Additional argument list that might not ever
-be used.}
+\item{frq}{An object of class MFCLFrq.}
+
+\item{...}{Additional argument list that might not ever be used.}
+
+\item{spp}{Character string with 3 letter species code - optional but required to produce the .cfg file if missing.}
+
+\item{par}{An object of class MFCLPar.}
+
+\item{outpar}{The name of the output par file.}
+
+\item{depletion_method}{The method for calculating depletion (default SBSBF0).}
+
+\item{x}{An object of class MFCLX.}
+
+\item{start}{The start time of the period of interest}
+
+\item{end}{The end time of the period of interest.}
+
+\item{extend}{Logical. If true the start and end times can extend the time series. If false any attempt to extend the series prompts a warning and is ignored.}
 
 \item{object:}{An object of class MFCLPar}
 
-\item{frq:}{An object of class MFCLFrq.}
+\item{frq:}{The corresponding MFCLFrq for the MFCLPar}
 
-\item{par:}{An object of class MFCLPar.}
-
-\item{outpar:}{The name of the output par file}
-
-\item{switch:}{Optional numeric vector of additional flag settings}
-
-\item{spp:}{character string with 3 letter species code - optional but required to produce the .cfg file if missing}
-
-\item{depletion_method:}{the method for calculating depletion (default SBSBF0)}
+\item{switch}{Optional numeric vector of additional flag settings.}
 
 \item{obj:}{An object of class MFCLX.}
 
-\item{x:}{An object of class MFCLX.}
-
-\item{start:}{The start time of the period of interest}
-
-\item{end:}{The end time of the period of interest.}
-
-\item{extend:}{logical. If true the start and end times can extend the time series. If false any attempt to extend the series prompts a warning and is ignored.}
+\item{obj}{An object of class MFCL*.}
 }
 \value{
 Creates a text file at the specified location.
 
-A numerric value of mohn's rho
+A numeric value of mohn's rho.
 
-An updated object of the same class
+An updated object of the same class.
 
-An updated object of the same class
+An updated object of the same class.
 
-An updated object of the same class
+An updated object of the same class.
 }
 \description{
 Strip out effort devs from an MFCLPar object including the realisations information from the frq file
@@ -110,22 +113,31 @@ Calculate mohns rho for retrospective analyses
 
 Plot MFCL objects
 
-trim MFCL objects using named dimensions
+Trim MFCL objects using named dimensions
 
 Update MFCL objects with new values
 
-subset MFCL objects between the times start and end.
+Subset MFCL objects between the times start and end.
 }
 \examples{
-write(MFCLFrqStats())
+\dontrun{
 mohns_rho(retros)
+}
+\dontrun{
 plot(MFCLFrq())
+}
 
+\dontrun{
 trim(MFCLFrq(), year=1990:1995)
+}
 
+\dontrun{
 update(MFCLFrq())
+}
 
+\dontrun{
 window(MFCLFrq(), start = 1990, end = 1995)
+}
 
 }
 \seealso{
@@ -135,7 +147,7 @@ window(MFCLFrq(), start = 1990, end = 1995)
 
 \code{\link{SBSBF0}} and \code{\link{MFCLRep}}
 
-\code{\link{MFCLFrq}},  \code{\link{MFCLPar}} and \code{\link{MFCLPar}}
+\code{\link{MFCLFrq}}, \code{\link{MFCLPar}} and \code{\link{MFCLPar}}
 
 \code{\link{read.MFCLFrq}} and \code{\link{read.MFCLPar}}
 

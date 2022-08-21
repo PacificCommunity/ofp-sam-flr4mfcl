@@ -7,16 +7,18 @@
 read.MFCLIni(inifile, nseasons = 4)
 }
 \arguments{
-\item{inifile:}{A character string giving the name and path of the ini file to be read}
+\item{inifile}{A character string giving the name and path of the ini file to be read.}
 }
 \value{
-An object of class MFCLIni
+An object of class MFCLIni.
 }
 \description{
-Reads information from the ini file and creates an MFCLIni object
+Reads information from the ini file and creates an MFCLIni object.
 }
 \examples{
-read.MFCLIni("C://R4MFCL//test_data//skj_ref_case//skj.ini")
+\dontrun{
+read.MFCLIni("C:/R4MFCL/test_data/skj_ref_case/skj.ini")
 read.MFCLIni("/home/robertsc/skj/HCR/run0/skj.ini")
+}
 
 }

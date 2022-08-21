@@ -7,15 +7,16 @@
 qts(quant)
 }
 \arguments{
-\item{quant:}{An FLQuant object}
+\item{quant}{An FLQuant object.}
 }
 \value{
-An object of class FLQuant
+An object of class FLQuant.
 }
 \description{
 Returns a quarterly time series from a seasonally structured FLQuant.
 }
 \examples{
-flq(stock.n(ple4))
+data(ple4)
+qts(stock.n(ple4))
 
 }

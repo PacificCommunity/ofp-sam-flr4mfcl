@@ -1,7 +1,6 @@
 #FLR4MFCL - R4MFCL built with FLR classes
 #Copyright (C) 2018  Rob Scott
 
-
 #' MFCL Frq Statistics
 #'
 #' Extracts the essential ranges and dimensions from the frq file
@@ -11,10 +10,11 @@
 #' @return An object of class MFCLFrqStats
 #'
 #' @examples
-#' read.MFCLFrqStats("C://R4MFCL//test_data//skj_ref_case//skj.frq")
+#' \dontrun{
+#' read.MFCLFrqStats("C:/R4MFCL/test_data/skj_ref_case/skj.frq")
+#' }
 #'
 #' @export
-
 
 read.MFCLFrqStats <- function(frqfile){
   
@@ -85,7 +85,9 @@ read.MFCLFrqStats <- function(frqfile){
 #' @return An object of class MFCLLenFreq
 #'
 #' @examples
-#' read.MFCLLenFreq("C://R4MFCL//test_data//skj_ref_case//skj.frq")
+#' \dontrun{
+#' read.MFCLLenFreq("C:/R4MFCL/test_data/skj_ref_case/skj.frq")
+#' }
 #'
 #' @export
 
@@ -197,12 +199,6 @@ read.MFCLLenFreq <- function(frqfile){
 }
 
 
-
-
-
-
-
-
 #' MFCL frq file reader
 #'
 #' Reads the entire contents of the frq file
@@ -212,7 +208,9 @@ read.MFCLLenFreq <- function(frqfile){
 #' @return An object of class MFCLFrq
 #'
 #' @examples
-#' read.MFCLLenFreq(paste(system.file('data', package='FLR4MFCL'), 'skj.frq', sep='//'))
+#' \dontrun{
+#' read.MFCLFrq(paste(system.file('data', package='FLR4MFCL'), 'skj.frq', sep='/'))
+#' }
 #'
 #' @export
 
@@ -241,10 +239,6 @@ read.MFCLFrq <- function(frqfile){
 }
 
 
-
-
-
-
 #' MFCL Length Frequency2 - MUFDAGR friendly
 #'
 #' Extracts the length frequency data from Mufdagr output
@@ -254,7 +248,9 @@ read.MFCLFrq <- function(frqfile){
 #' @return An object of class MFCLLenFreq
 #'
 #' @examples
-#' read.MFCLLenFreq("C://R4MFCL//test_data//skj_ref_case//skj.frq")
+#' \dontrun{
+#' read.MFCLLenFreq2("C:/R4MFCL/test_data/skj_ref_case/skj.frq")
+#' }
 #'
 #' @export
 
@@ -380,7 +376,6 @@ read.MFCLLenFreq2 <- function(frqfile){
 }
 
 
-
 #' MFCL frq2 file reader - Mufdagr friendly
 #'
 #' Reads the entire contents of the frq file
@@ -390,7 +385,9 @@ read.MFCLLenFreq2 <- function(frqfile){
 #' @return An object of class MFCLFrq
 #'
 #' @examples
-#' read.MFCLLenFreq(paste(system.file('data', package='FLR4MFCL'), 'skj.frq', sep='//'))
+#' \dontrun{
+#' read.MFCLFrq2(paste(system.file('data', package='FLR4MFCL'), 'skj.frq', sep='/'))
+#' }
 #'
 #' @export
 
@@ -421,5 +418,4 @@ read.MFCLFrq2 <- function(frqfile){
 
 }
 
-#frqfile <- 'C://R4MFCL//test_data//skj_ref_case//skj.frq'
-
+#frqfile <- 'C:/R4MFCL/test_data/skj_ref_case/skj.frq'

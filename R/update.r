@@ -5,12 +5,11 @@
 #'
 #' Update MFCL objects with new values
 #'
-#' @param obj:    An object of class MFCLX.
+#' @param obj An object of class MFCL*.
 #'
-#' @param ... Additional argument list that might not ever
-#'  be used.
+#' @param ... Additional argument list that might not ever be used.
 #'
-#' @return An updated object of the same class
+#' @return An updated object of the same class.
 #' 
 #' @seealso \code{\link{read.MFCLFrq}} and \code{\link{read.MFCLPar}}
 #' 
@@ -19,10 +18,13 @@
 #' @rdname mfcl-methods
 #'
 #' @examples
+#' \dontrun{
 #' update(MFCLFrq())
+#' }
 #'
 #' @aliases mfcl
-#setGeneric('update', function(object, ...) standardGeneric('update')) 
+
+#setGeneric('update', function(object, ...) standardGeneric('update'))
 
 setMethod("update", signature(object="MFCLFrq"), function(object, years, fisheries, multiplier, quantity, ...){
             

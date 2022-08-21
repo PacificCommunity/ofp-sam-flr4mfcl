@@ -11,17 +11,18 @@ checkUnitDimnames(obj, nfisheries)
 
 \item{nfisheries}{The number of fisheries in the model}
 
-\item{...}{Additional argument list that might not ever
-be used.}
+\item{...}{Additional argument list that might not ever be used.}
 }
 \value{
 Returns an object of the same class but with FLQuant unit dimension
 re-ordered as appropriate.
 }
 \description{
-Re-orders the unit dimnames in ascending order instead 
+Re-orders the unit dimnames in ascending order instead
 of default ordering of FLQuant method which uses the year dimension
 }
 \examples{
+\dontrun{
 checkUnitDimnames(MFCLRep())
+}
 }

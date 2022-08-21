@@ -7,17 +7,19 @@
 read.MFCLSel(parfile, parobj = NULL, first.yr = 1972)
 }
 \arguments{
-\item{parfile:}{A character string giving the name and path of the frq file to be read}
+\item{parfile}{A character string giving the name and path of the frq file to be read.}
 
-\item{parobj:}{A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file}
+\item{parobj}{A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.}
 }
 \value{
-An object of class MFCLSel
+An object of class MFCLSel.
 }
 \description{
-Reads the Selection information from the par file and creates an MFCLSel object
+Reads the Selection information from the par file and creates an MFCLSel object.
 }
 \examples{
-read.MFCLSel("C://R4MFCL//test_data//skj_ref_case//11.par")
+\dontrun{
+read.MFCLSel("C:/R4MFCL/test_data/skj_ref_case/11.par")
+}
 
 }

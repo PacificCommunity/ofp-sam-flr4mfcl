@@ -1,15 +1,16 @@
 #FLR4MFCL - R4MFCL built with FLR classes
 #Copyright (C) 2018  Rob Scott
 
-#' recruitment peiods
+#' recruitment periods
 #'
 #' Calculates recruitment periods for deterministic and stochastic projection settings
 #'
-#' @param parfile A object of class MFCLPar 
+#' @param parfile An object of class MFCLPar
 #'
 #' @return An object of class numeric vector
 #'
 #' @examples
+#' data(par)
 #' recPeriod(par)
 #'
 #' @export
@@ -62,12 +63,13 @@ recPeriod <- function(par, af199=NULL, af200=NULL, pf232=NULL, pf233=NULL, show=
 #'
 #' flag settings summarised by MFCL User Guide sections
 #'
-#' @param par A object of class MFCLPar 
+#' @param par An object of class MFCLPar
 #' @param type A character string specifying the MFCL User Guide section
 #'
 #' @return A data frame of flag settings
 #'
 #' @examples
+#' data(par)
 #' flagSummary(par, 'projection')
 #'
 #' @export
@@ -93,13 +95,16 @@ flagSummary <- function(par, type){
 #'
 #' flag differences between two par files
 #'
-#' @param par A object of class MFCLPar 
-#' @param par A object of class MFCLPar 
+#' @param par An object of class MFCLPar
+#' @param par An object of class MFCLPar
 #'
 #' @return A data frame of flag settings for par1 and par2
 #'
 #' @examples
-#' flagDiff(par, par)
+#' data(par)
+#' par1 <- par2 <- par
+#' flags(par2)[20,"value"] <- 12
+#' flagDiff(par1, par2)
 #'
 #' @export
 
@@ -111,8 +116,3 @@ flagDiff <- function(par1, par2){
   
   return(res)
 }
-
-
-
-
-

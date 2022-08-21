@@ -1,7 +1,6 @@
 #FLR4MFCL - R4MFCL built with FLR classes
 #Copyright (C) 2018  Rob Scott
 
-
 ############################################
 # history of par file additions
 #
@@ -32,8 +31,6 @@
 #
 #___________________________________________________
 
-
-
 ###############################################
 # unexported function to strip Dave's diagnostic stuff out of the par file.
 
@@ -59,28 +56,25 @@ stripDebugNumbers <- function(fstring){
   return(fstring)
 }
 
-
-
-
-
 #' read.MFCLBiol
 #'
-#' Reads the Biol information from the par file and creates an MFCLBiol object
+#' Reads the Biol information from the par file and creates an MFCLBiol object.
 #' Unfortunately you still need to supply the first year of the time series.
 #' Other dimensions are interpreted from the data blocks so care should be taken to check
 #' that these have been reproduced correctly
 #'
-#' @param parfile:  A character string giving the name and path of the frq file to be read 
-#' @param parobj:   A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file
-#' @param first.yr: The first year of the input data time series (default values 1972)
+#' @param parfile A character string giving the name and path of the frq file to be read.
+#' @param parobj A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.
+#' @param first.yr The first year of the input data time series (default values 1972).
 #'
-#' @return An object of class MFCLBiol
+#' @return An object of class MFCLBiol.
 #'
 #' @examples
-#' read.MFCLBiol("C://R4MFCL//test_data//skj_ref_case//11.par")
+#' \dontrun{
+#' read.MFCLBiol("C:/R4MFCL/test_data/skj_ref_case/11.par")
+#' }
 #'
 #' @export
-
 
 read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
   
@@ -170,9 +164,7 @@ read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
   return(res)
 }  
 
-#kk <- read.MFCLBiol("C://R4MFCL//test_data//skj_ref_case//11.par")
-
-
+#kk <- read.MFCLBiol("C:/R4MFCL/test_data/skj_ref_case/11.par")
 
 
 #' read.MFCLFlags
@@ -185,7 +177,9 @@ read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
 #' @return An object of class MFCLFlags
 #'
 #' @examples
-#' read.MFCLFlags("C://R4MFCL//test_data//skj_ref_case//11.par")
+#' \dontrun{
+#' read.MFCLFlags("C:/R4MFCL/test_data/skj_ref_case/11.par")
+#' }
 #'
 #' @export
 
@@ -233,24 +227,22 @@ read.MFCLFlags <- function(parfile, parobj=NULL, first.yr=1972) {
   return(res)
 }
 
-#kk <- read.MFCLFlags("C://R4MFCL//test_data//skj_ref_case//11.par")
-
-
-
-
+#kk <- read.MFCLFlags("C:/R4MFCL/test_data/skj_ref_case/11.par")
 
 
 #' read.MFCLTagRep
 #'
-#' Reads the TAaRep information from the par file and creates an MFCLTagRep object
+#' Reads the TAaRep information from the par file and creates an MFCLTagRep object.
 #'
-#' @param parfile: A character string giving the name and path of the frq file to be read 
-#' @param parobj:  A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file
+#' @param parfile A character string giving the name and path of the frq file to be read.
+#' @param parobj  A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.
 #'
-#' @return An object of class MFCLTagRep
+#' @return An object of class MFCLTagRep.
 #'
 #' @examples
-#' read.MFCLTagRep("C://R4MFCL//test_data//skj_ref_case//11.par")
+#' \dontrun{
+#' read.MFCLTagRep("C:/R4MFCL/test_data/skj_ref_case/11.par")
+#' }
 #'
 #' @export
 
@@ -295,24 +287,23 @@ read.MFCLTagRep <- function(parfile, parobj=NULL, first.yr=1972) {
   return(res)
 }
 
-#kk <- read.MFCLTagRep("C://R4MFCL//test_data//skj_ref_case//11.par")
-
-
-
+#kk <- read.MFCLTagRep("C:/R4MFCL/test_data/skj_ref_case/11.par")
 
 
 #' read.MFCLRec
 #'
-#' Reads the recruitment information from the par file and creates an MFCLec object
+#' Reads the recruitment information from the par file and creates an MFCLec object.
 #'
-#' @param parfile: A character string giving the name and path of the frq file to be read 
-#' @param parobj:  A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file
-#' @param first.yr: The first year of the input data time series (default value 1972)
+#' @param parfile A character string giving the name and path of the frq file to be read.
+#' @param parobj A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.
+#' @param first.yr The first year of the input data time series (default value 1972).
 #'
-#' @return An object of class MFCLRec
+#' @return An object of class MFCLRec.
 #'
 #' @examples
-#' read.MFCLRec("C://R4MFCL//test_data//skj_ref_case//11.par")
+#' \dontrun{
+#' read.MFCLRec("C:/R4MFCL/test_data/skj_ref_case/11.par")
+#' }
 #'
 #' @export
 
@@ -384,21 +375,20 @@ read.MFCLRec <- function(parfile, parobj=NULL, first.yr=1972) {
 }
 
 
-
-
-
 #' read.MFCLRegion
 #'
-#' Reads the region specific information from the par file and creates an MFCLRegion object
+#' Reads the region specific information from the par file and creates an MFCLRegion object.
 #'
-#' @param parfile: A character string giving the name and path of the frq file to be read 
-#' @param parobj:  A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file
-#' @param first.yr: The first year of the input data time series (default value 1972)
+#' @param parfile A character string giving the name and path of the frq file to be read.
+#' @param parobj A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.
+#' @param first.yr The first year of the input data time series (default value 1972).
 #'
-#' @return An object of class MFCLRec
+#' @return An object of class MFCLRec.
 #'
 #' @examples
-#' read.MFCLRegion("C://R4MFCL//test_data//skj_ref_case//11.par")
+#' \dontrun{
+#' read.MFCLRegion("C:/R4MFCL/test_data/skj_ref_case/11.par")
+#' }
 #'
 #' @export
 
@@ -483,22 +473,21 @@ read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972) {
   
   return(res)
 }
-  
-
-
 
 
 #' read.MFCLSel
 #'
-#' Reads the Selection information from the par file and creates an MFCLSel object
+#' Reads the Selection information from the par file and creates an MFCLSel object.
 #'
-#' @param parfile: A character string giving the name and path of the frq file to be read 
-#' @param parobj:  A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file
+#' @param parfile A character string giving the name and path of the frq file to be read.
+#' @param parobj A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.
 #'
-#' @return An object of class MFCLSel
+#' @return An object of class MFCLSel.
 #'
 #' @examples
-#' read.MFCLSel("C://R4MFCL//test_data//skj_ref_case//11.par")
+#' \dontrun{
+#' read.MFCLSel("C:/R4MFCL/test_data/skj_ref_case/11.par")
+#' }
 #'
 #' @export
 
@@ -595,19 +584,19 @@ read.MFCLSel <- function(parfile, parobj=NULL, first.yr=1972) {
 }
 
 
-
-
 #' read.MFCLParBits
 #'
-#' Reads the remaining information from the par file and creates an MFCLParBits object
+#' Reads the remaining information from the par file and creates an MFCLParBits object.
 #'
-#' @param parfile: A character string giving the name and path of the frq file to be read 
-#' @param parobj:  A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file
+#' @param parfile A character string giving the name and path of the frq file to be read.
+#' @param parobj A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.
 #'
-#' @return An object of class MFCLParBit
+#' @return An object of class MFCLParBit.
 #'
 #' @examples
-#' read.MFCLParBits("C://R4MFCL//test_data//skj_ref_case//11.par")
+#' \dontrun{
+#' read.MFCLParBits("C:/R4MFCL/test_data/skj_ref_case/11.par")
+#' }
 #'
 #' @export
 
@@ -682,24 +671,22 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972) {
   return(res)
 }
 
-
 #parfile <- "Q:/yft/2017/assessment/Model_Runs/Sensitivity_annualSRR_steepness0.65/12.par"
-
-
-
 
 
 #' read.MFCLPar
 #'
-#' Reads information from the par file and creates an MFCLPar object
+#' Reads information from the par file and creates an MFCLPar object.
 #'
-#' @param parfile:  A character string giving the name and path of the frq file to be read 
-#' @param first.yr: The first year of the input data time series (default values 1972)
+#' @param parfile A character string giving the name and path of the frq file to be read.
+#' @param first.yr The first year of the input data time series (default values 1972).
 #'
-#' @return An object of class MFCLPar
+#' @return An object of class MFCLPar.
 #'
 #' @examples
-#' read.MFCLPar("C://R4MFCL//test_data//skj_ref_case//11.par")
+#' \dontrun{
+#' read.MFCLPar("C:/R4MFCL/test_data/skj_ref_case/11.par")
+#' }
 #'
 #' @export
 
@@ -739,15 +726,3 @@ read.MFCLPar <- function(parfile, first.yr=1972) {
 
   return(res)
 }
-
-
-
-
-
-
-
-
-
-
-
-  

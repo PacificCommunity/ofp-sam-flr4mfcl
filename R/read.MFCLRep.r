@@ -3,16 +3,17 @@
 
 #' read.MFCLRep
 #'
-#' Reads information from the .rep file and creates an MFCLRep object
+#' Reads information from the .rep file and creates an MFCLRep object.
 #'
-#' @param inifile:  A character string giving the name and path of the .rep file to be read 
-#' 
+#' @param inifile A character string giving the name and path of the .rep file to be read.
 #'
 #' @return An object of class MFCLRep
 #'
 #' @examples
-#' read.MFCLIni("C://R4MFCL//test_data//skj_ref_case//plot-out.par.rep")
-#' read.MFCLIni("/home/roberts/skj/HCR/run0/plot-out.par.rep")
+#' \dontrun{
+#' read.MFCLRep("C:/R4MFCL/test_data/skj_ref_case/plot-out.par.rep")
+#' read.MFCLRep("/home/roberts/skj/HCR/run0/plot-out.par.rep")
+#' }
 #'
 #' @export
 
@@ -20,7 +21,6 @@ read.MFCLRep <- function(repfile) {
   
   trim.leading  <- function(x) sub("^\\s+", "", x) 
   splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+")) 
-  
   
   res <- new("MFCLRep")
   
@@ -283,4 +283,3 @@ read.SBSBF0 <- function(repfile, sbsbf0 = 'latest', ...) {
   return(returnval)
 
 }
-

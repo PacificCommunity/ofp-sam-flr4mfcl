@@ -16,6 +16,8 @@ An object of class MFCLFrq
 Reads the entire contents of the frq file
 }
 \examples{
-read.MFCLLenFreq(paste(system.file('data', package='FLR4MFCL'), 'skj.frq', sep='//'))
+\dontrun{
+read.MFCLFrq2(paste(system.file('data', package='FLR4MFCL'), 'skj.frq', sep='/'))
+}
 
 }

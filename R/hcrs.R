@@ -196,20 +196,20 @@ hcr_asymptotic_constrained <- function(sbsbf0, params, reference_out){
 #'
 #' @rdname hcr_funcs
 #' @examples
+#' # Without constraint
+#' msectrl <- MFCLMSEControl()
+#' hcr(msectrl) <- "hcr_threshold"
+#' hcr_params(msectrl) <- c(sbsbf0_min=0.1, sbsbf0_max=0.5, out_min=0.0, out_max=1.2)
+#' eval_hcr(msectrl, sbsbf0=0.3) # 0.5
 #'
-#' Without constraint
-#'msectrl <- MFCLMSEControl()
-#'hcr(msectrl) <- "hcr_threshold"
-#'hcr_params(msectrl) <- c(sbsbf0_min=0.1, sbsbf0_max=0.5, out_min=0.0, out_max=1.2)
-#'eval_hcr(msectrl, sbsbf0=0.3) # 0.5
-#'
-#' With a constraint of 15% each way
-#'msectrl2 <- MFCLMSEControl()
-#'hcr(msectrl2) <- "hcr_threshold_constrained"
-#'hcr_params(msectrl2) <- c(sbsbf0_min=0.1, sbsbf0_max=0.5, out_min=0.0, out_max=1.2, max_change_up=1.15, max_change_down=0.85)
-#'eval_hcr(msectrl2, sbsbf0=0.3, reference_out=1.0)
-#'# So that next out cannot change by more 15%
-#'eval_hcr(msectrl2, sbsbf0=0.3, reference_out=0.1)
+#' # With a constraint of 15% each way
+#' msectrl2 <- MFCLMSEControl()
+#' hcr(msectrl2) <- "hcr_threshold_constrained"
+#' hcr_params(msectrl2) <- c(sbsbf0_min=0.1, sbsbf0_max=0.5, out_min=0.0, out_max=1.2, max_change_up=1.15, max_change_down=0.85)
+#' eval_hcr(msectrl2, sbsbf0=0.3, reference_out=1.0)
+#' # So that next out cannot change by more 15%
+#' eval_hcr(msectrl2, sbsbf0=0.3, reference_out=0.1)
+
 hcr_threshold_constrained <- function(sbsbf0, params, reference_out){
   out <- hcr_constrained(sbsbf0=sbsbf0, params=params, reference_out=reference_out, hcr_func="hcr_threshold")
   return(out)

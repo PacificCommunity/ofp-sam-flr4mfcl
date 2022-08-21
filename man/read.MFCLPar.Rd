@@ -7,17 +7,19 @@
 read.MFCLPar(parfile, first.yr = 1972)
 }
 \arguments{
-\item{parfile:}{A character string giving the name and path of the frq file to be read}
+\item{parfile}{A character string giving the name and path of the frq file to be read.}
 
-\item{first.yr:}{The first year of the input data time series (default values 1972)}
+\item{first.yr}{The first year of the input data time series (default values 1972).}
 }
 \value{
-An object of class MFCLPar
+An object of class MFCLPar.
 }
 \description{
-Reads information from the par file and creates an MFCLPar object
+Reads information from the par file and creates an MFCLPar object.
 }
 \examples{
-read.MFCLPar("C://R4MFCL//test_data//skj_ref_case//11.par")
+\dontrun{
+read.MFCLPar("C:/R4MFCL/test_data/skj_ref_case/11.par")
+}
 
 }

@@ -7,15 +7,17 @@
 read.MFCLLenFit(lffile)
 }
 \arguments{
-\item{inifile:}{A character string giving the name and path of the length.fit file to be read}
+\item{inifile}{A character string giving the name and path of the length.fit file to be read.}
 }
 \value{
 An object of class MFCLLenFit
 }
 \description{
-Reads information from the length.fit file and creates an MFCLLenFit object
+Reads information from the length.fit file and creates an MFCLLenFit object.
 }
 \examples{
-read.MFCLLenFit("C://R4MFCL//test_data//skj_ref_case//length.fit")
+\dontrun{
+read.MFCLLenFit("C:/R4MFCL/test_data/skj_ref_case/length.fit")
+}
 
 }

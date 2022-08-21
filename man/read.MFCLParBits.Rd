@@ -7,17 +7,19 @@
 read.MFCLParBits(parfile, parobj = NULL, first.yr = 1972)
 }
 \arguments{
-\item{parfile:}{A character string giving the name and path of the frq file to be read}
+\item{parfile}{A character string giving the name and path of the frq file to be read.}
 
-\item{parobj:}{A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file}
+\item{parobj}{A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.}
 }
 \value{
-An object of class MFCLParBit
+An object of class MFCLParBit.
 }
 \description{
-Reads the remaining information from the par file and creates an MFCLParBits object
+Reads the remaining information from the par file and creates an MFCLParBits object.
 }
 \examples{
-read.MFCLParBits("C://R4MFCL//test_data//skj_ref_case//11.par")
+\dontrun{
+read.MFCLParBits("C:/R4MFCL/test_data/skj_ref_case/11.par")
+}
 
 }

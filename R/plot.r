@@ -15,7 +15,9 @@
 #' @rdname mfcl-methods
 #'
 #' @examples
+#' \dontrun{
 #' plot(MFCLFrq())
+#' }
 #'
 #' @aliases mfcl
 
