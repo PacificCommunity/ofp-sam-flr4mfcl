@@ -1,16 +1,17 @@
 Package: FLR4MFCL
-Title: R functions for taming MULTIFAN-CL
-Version: 1.3.25
-Author: Robert Scott 
-Description: Everything you ever dreamed of. R4MFCL but with S4 classes and FLR compatability
+Version: 1.3.26
+Date: 2022-08-22
+Title: R Functions for Taming Multifan-CL
+Authors@R: c(person("Robert", "Scott", role=c("aut","cre"), email="robertsc@spc.int"),
+             person("Finlay", "Scott", role="aut"),
+             person("Arni", "Magnusson", role="aut"))
 Depends: R (>= 3.5.0), lattice, FLCore
-Imports: methods
-Maintainer: Robert Scott <robertsc@spc.int>
-License: GPL-3
-Date: 2022-07-28
+Imports: methods, utils
 Suggests: mapdata, knitr, rmarkdown
-VignetteBuilder: knitr
-LazyLoad: Yes
+Description: Everything you ever dreamed of. R4MFCL but with S4 classes and FLR
+  compatibility.
+License: GPL-3
 LazyData: No
+VignetteBuilder: knitr
 Encoding: UTF-8
 RoxygenNote: 7.2.1
