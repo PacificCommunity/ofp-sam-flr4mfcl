@@ -2,18 +2,20 @@
 % Please edit documentation in R/flagTools.r
 \name{flagDiff}
 \alias{flagDiff}
-\title{flagDiff}
+\title{Flag Diff}
 \usage{
 flagDiff(par1, par2)
 }
 \arguments{
-\item{par}{An object of class MFCLPar}
+\item{par1}{An object of class MFCLPar.}
+
+\item{par2}{An object of class MFCLPar.}
 }
 \value{
-A data frame of flag settings for par1 and par2
+A data frame of flag settings for par1 and par2.
 }
 \description{
-flag differences between two par files
+Show flag differences between two par objects/files.
 }
 \examples{
 data(par)
