@@ -12,6 +12,8 @@ export(
   "condor_submit_set_iters",
   "corFilter",
   "corLabel",
+  "finalPar",
+  "finalRep",
   "flagSummary",
   "flagDiff",
   "getMFCLversion",
