@@ -8,7 +8,9 @@
 \alias{hcr_constrained}
 \alias{hcr_asymptotic_constrained}
 \alias{hcr_threshold_constrained}
+\alias{hcr_hillary_step_constrained}
 \alias{hcr_asymptotic_hillary_step}
+\alias{hcr_asymptotic_hillary_step_constrained}
 \title{hcr_threshold}
 \usage{
 hcr_threshold(sbsbf0, params)
@@ -25,7 +27,11 @@ hcr_asymptotic_constrained(sbsbf0, params, reference_out)
 
 hcr_threshold_constrained(sbsbf0, params, reference_out)
 
+hcr_hillary_step_constrained(sbsbf0, params, reference_out)
+
 hcr_asymptotic_hillary_step(sbsbf0, params)
+
+hcr_asymptotic_hillary_step_constrained(sbsbf0, params, reference_out)
 }
 \arguments{
 \item{sbsbf0}{Numeric vector of SBSBF0.}
@@ -65,9 +71,17 @@ Like the typical HCR function with the parameters but with a constraint on how m
 Parameters are 'sbsbf0_min', 'sbsbf0_max', 'out_min', 'out_max', 'max_change_up', 'max_change_down'.
 There is an additional argument 'reference_out' that is the reference output, i.e. the value to which to the new output is compared.
 
+Like the typical HCR function with the parameters but with a constraint on how much the output is allowed to change from a reference output.
+Parameters are 'sbsbf0_min', 'sbsbf0_max', 'out_min', 'out_max', 'max_change_up', 'max_change_down'.
+There is an additional argument 'reference_out' that is the reference output, i.e. the value to which to the new output is compared.
+
 Hillary step is basically two thresholds on top of each other, side by side
 Parameters are 'sbsbf0_min', 'sbsbf0_max', 'sbsbf0_step_min', 'sbsbf0_step_max','out_min', 'out_max', 'step_height'.
 Adding 'curve' to allow for asymptotic out_left
+
+Like the typical HCR function with the parameters but with a constraint on how much the output is allowed to change from a reference output.
+Parameters are 'sbsbf0_min', 'sbsbf0_max', 'out_min', 'out_max', 'max_change_up', 'max_change_down'.
+There is an additional argument 'reference_out' that is the reference output, i.e. the value to which to the new output is compared.
 }
 \examples{
 # Without constraint

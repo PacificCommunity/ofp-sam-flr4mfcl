@@ -216,6 +216,22 @@ hcr_threshold_constrained <- function(sbsbf0, params, reference_out){
 }
 
 
+#' hcr_hillary_step_constrained
+#'
+#' Like the typical HCR function with the parameters but with a constraint on how much the output is allowed to change from a reference output.
+#' Parameters are 'sbsbf0_min', 'sbsbf0_max', 'out_min', 'out_max', 'max_change_up', 'max_change_down'.
+#' There is an additional argument 'reference_out' that is the reference output, i.e. the value to which to the new output is compared.
+#'
+#' @param reference_out The reference level that the constraint is applied to.
+#'
+#' @rdname hcr_funcs
+
+hcr_hillary_step_constrained <- function(sbsbf0, params, reference_out){
+  #browser()
+  out <- hcr_constrained(sbsbf0 = sbsbf0, params=params, reference_out=reference_out, hcr_fun="hcr_hillary_step")
+}
+
+
 
 
 #' hcr_asymptotic_hillary_step
@@ -255,5 +271,19 @@ hcr_asymptotic_hillary_step <- function(sbsbf0, params){
   return(out)
 }
 
+
+#' hcr_hillary_step_constrained
+#'
+#' Like the typical HCR function with the parameters but with a constraint on how much the output is allowed to change from a reference output.
+#' Parameters are 'sbsbf0_min', 'sbsbf0_max', 'out_min', 'out_max', 'max_change_up', 'max_change_down'.
+#' There is an additional argument 'reference_out' that is the reference output, i.e. the value to which to the new output is compared.
+#'
+#' @param reference_out The reference level that the constraint is applied to.
+#'
+#' @rdname hcr_funcs
+
+hcr_asymptotic_hillary_step_constrained <- function(sbsbf0, params, reference_out){
+  out <- hcr_constrained(sbsbf0 = sbsbf0, params=params, reference_out=reference_out, hcr_fun="hcr_asymptotic_hillary_step")
+}
 
 
