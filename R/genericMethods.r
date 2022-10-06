@@ -68,9 +68,29 @@ setMethod('adultBiomass', signature(object='FLQuant'), function(object, par){
   }
 )
 
-
-# Get the unique fishing realisations
 #'@export realisations
+#' realisations
+#'
+#' Returns the unique fishery realisations. 
+#' Essentially this is the contents of the \code{freq} slot of an \code{\link{MFCLFrq}} object 
+#' without the replications for each length or weight category.
+#'
+#' @param object An object of class MFCLLenFreq.
+#'
+#' @return An object of class data.frame.
+#' 
+#' @seealso \code{\link{read.MFCLFrq}} 
+#' 
+#' @export
+#' @docType methods
+#' @rdname genericMethods
+#'
+#' @examples
+#'\dontrun{
+#' realisations(frq)
+#' }
+
+
 setGeneric('realisations', function(object,...) standardGeneric('realisations'))
 setMethod('realisations', signature(object='MFCLLenFreq'), 
           function(object){ 
