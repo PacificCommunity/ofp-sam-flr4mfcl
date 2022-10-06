@@ -2,20 +2,20 @@
 % Please edit documentation in R/flagTools.r
 \name{flagSummary}
 \alias{flagSummary}
-\title{flag summary}
+\title{Flag Summary}
 \usage{
 flagSummary(par, type)
 }
 \arguments{
-\item{par}{An object of class MFCLPar}
+\item{par}{An object of class MFCLPar.}
 
-\item{type}{A character string specifying the MFCL User Guide section}
+\item{type}{A character string specifying the MFCL User Guide section.}
 }
 \value{
-A data frame of flag settings
+A data frame of flag settings.
 }
 \description{
-flag settings summarised by MFCL User Guide sections
+Flag settings summarised by MFCL User Guide sections.
 }
 \examples{
 data(par)
