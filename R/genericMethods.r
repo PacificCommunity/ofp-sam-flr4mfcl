@@ -68,7 +68,6 @@ setMethod('adultBiomass', signature(object='FLQuant'), function(object, par){
   }
 )
 
-#'@export realisations
 #' realisations
 #'
 #' Returns the unique fishery realisations. 
@@ -82,6 +81,7 @@ setMethod('adultBiomass', signature(object='FLQuant'), function(object, par){
 #' @seealso \code{\link{read.MFCLFrq}} 
 #' 
 #' @export
+#' @export realisations
 #' @docType methods
 #' @rdname genericMethods
 #'
