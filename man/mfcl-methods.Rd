@@ -63,9 +63,11 @@ mohns_rho(object, ...)
 )
 }
 \arguments{
+\item{object}{An object of class MFCLPar.}
+
 \item{frq}{An object of class MFCLFrq.}
 
-\item{...}{Additional argument list that might not ever be used.}
+\item{\dots}{Additional argument list that might not ever be used.}
 
 \item{spp}{Character string with 3 letter species code - optional but required to produce the .cfg file if missing.}
 
@@ -83,15 +85,11 @@ mohns_rho(object, ...)
 
 \item{extend}{Logical. If true the start and end times can extend the time series. If false any attempt to extend the series prompts a warning and is ignored.}
 
-\item{object:}{An object of class MFCLPar}
-
-\item{frq:}{The corresponding MFCLFrq for the MFCLPar}
-
 \item{switch}{Optional numeric vector of additional flag settings.}
 
-\item{obj:}{An object of class MFCLX.}
-
 \item{obj}{An object of class MFCL*.}
+
+\item{...}{Additional argument list that might not ever be used.}
 }
 \value{
 Creates a text file at the specified location.
@@ -111,7 +109,7 @@ Runs MFCL with defined inputs
 
 Calculate mohns rho for retrospective analyses
 
-Plot MFCL objects
+Plot MFCL objects.
 
 Trim MFCL objects using named dimensions
 

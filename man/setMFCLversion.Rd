@@ -7,15 +7,15 @@
 setMFCLversion(version = "2015_devvsn_1.1.4.3_linux")
 }
 \arguments{
-\item{version:}{Character string specifying the MFCL version}
+\item{version}{Character string specifying the MFCL version.}
 }
 \value{
-Returns Nothing: just sets the MFCL version to the one specified
+Returns Nothing: just sets the MFCL version to the one specified.
 }
 \description{
-Sets the version of MFCL to be activated within the package
-Currently only the 2015 development version of MFCL is available
-The available versions can be obtained from the function availableMFCLversions
+Sets the version of MFCL to be activated within the package.
+Currently only the 2015 development version of MFCL is available.
+The available versions can be obtained from the function availableMFCLversions.
 }
 \examples{
 setMFCLversion("2015_devvsn_1.1.4.3_linux")

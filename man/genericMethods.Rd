@@ -9,6 +9,8 @@ realisations(object, ...)
 }
 \arguments{
 \item{object}{An object of class MFCLLenFreq.}
+
+\item{\dots}{Currently ignored.}
 }
 \value{
 An object of class data.frame.

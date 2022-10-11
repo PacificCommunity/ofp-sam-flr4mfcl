@@ -171,8 +171,9 @@ read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
 #'
 #' Reads the Flag information from the par file and creates an MFCLFlags object
 #'
-#' @param parfile: A character string giving the name and path of the frq file to be read 
-#' @param parobj:  A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file
+#' @param parfile A character string giving the name and path of the frq file to be read.
+#' @param parobj A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.
+#' @param first.yr The first year of the input data time series (default value 1972).
 #'
 #' @return An object of class MFCLFlags
 #'
@@ -235,7 +236,8 @@ read.MFCLFlags <- function(parfile, parobj=NULL, first.yr=1972) {
 #' Reads the TAaRep information from the par file and creates an MFCLTagRep object.
 #'
 #' @param parfile A character string giving the name and path of the frq file to be read.
-#' @param parobj  A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.
+#' @param parobj A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.
+#' @param first.yr The first year of the input data time series (default value 1972).
 #'
 #' @return An object of class MFCLTagRep.
 #'
@@ -481,6 +483,7 @@ read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972) {
 #'
 #' @param parfile A character string giving the name and path of the frq file to be read.
 #' @param parobj A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.
+#' @param first.yr The first year of the input data time series (default value 1972).
 #'
 #' @return An object of class MFCLSel.
 #'
@@ -590,6 +593,7 @@ read.MFCLSel <- function(parfile, parobj=NULL, first.yr=1972) {
 #'
 #' @param parfile A character string giving the name and path of the frq file to be read.
 #' @param parobj A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.
+#' @param first.yr The first year of the input data time series (default value 1972).
 #'
 #' @return An object of class MFCLParBit.
 #'

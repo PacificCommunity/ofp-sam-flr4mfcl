@@ -1,4 +1,9 @@
+importFrom("graphics", "barplot", "layout", "mtext", "par", "points")
+importFrom("grDevices", "gray", "rainbow")
+importFrom("stats", "reshape")
+import("lattice")
 import("methods")
+import("utils")
 import("FLCore")
 export(
   "ats",
@@ -10,6 +15,8 @@ export(
   "condor_submit_set_iters",
   "corFilter",
   "corLabel",
+  "finalPar",
+  "finalRep",
   "flagSummary",
   "flagDiff",
   "getMFCLversion",
@@ -58,7 +65,6 @@ export(
   "read.MFCLCatchN",
   "read.MFCLCor",
   "read.MFCLEffortSim",
-  #"read.MFCLEquilibrium",
   "read.MFCLFlags",
   "read.MFCLFrq",
   "read.MFCLFrqStats",
@@ -202,7 +208,7 @@ exportMethods(
   "diff_coffs_mat",
   "diff_coffs_mat<-",
   "diff_coffs_nl",
-  "diff_coffs_nl<-",  
+  "diff_coffs_nl<-",
   "diff_coffs_nl_priors",
   "diff_coffs_nl_priors<-",
   "diff_coffs_priors",
@@ -223,8 +229,6 @@ exportMethods(
   "effort_sd<-",
   "eq_biomass",
   "eq_biomass<-",
-#  "eq_mult",
-#  "eq_mult<-",
   "eq_yield",
   "eq_yield<-",
   "Eq_calcs",
@@ -473,8 +477,8 @@ exportMethods(
   "season_q_pars<-",
   "sel",
   "sel<-",
-  "sel_dev_coffs2",  
-  "sel_dev_coffs2<-",  
+  "sel_dev_coffs2",
+  "sel_dev_coffs2<-",
   "sel_dev_coffs",
   "sel_dev_coffs<-",
   "sel_dev_corr",
@@ -554,10 +558,5 @@ exportMethods(
   "y2diff_coffs<-",
   "zdiff_coffs",
   "zdiff_coffs<-",
-#  "ypr",
-#  "ypr<-"
   "YPR"
-#  "YPR<-"
 )
-
-

@@ -2,7 +2,7 @@
 % Please edit documentation in R/read.MFCLPseudo.r
 \name{read.MFCLPseudo}
 \alias{read.MFCLPseudo}
-\title{read.MFCLPseudo}
+\title{Read MFCLPseudo}
 \usage{
 read.MFCLPseudo(
   catch = "missing",
@@ -14,13 +14,15 @@ read.MFCLPseudo(
 )
 }
 \arguments{
-\item{catch:}{A character string giving the name and path of the catch.sim file to be read}
+\item{catch}{A character string giving the name and path of the catch.sim file to be read.}
 
-\item{effort:}{A character string giving the name and path of the effort.sim file to be read}
+\item{effort}{A character string giving the name and path of the effort.sim file to be read.}
 
-\item{lw_sim:}{A character string giving the name and path of the lw_sim file to be read}
+\item{lw_sim}{A character string giving the name and path of the lw_sim file to be read.}
 
-\item{range:}{}
+\item{projfrq}{undocumented.}
+
+\item{ctrl}{undocumented.}
 }
 \value{
 An object of class MFCLPseudo

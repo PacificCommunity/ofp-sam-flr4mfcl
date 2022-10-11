@@ -1,9 +1,6 @@
 #FLR4MFCL - R4MFCL built with FLR classes
 #Copyright (C) 2018  Rob Scott
 
-
-
-
 # breaking it all down to much simpler functions
 #
 read.MFCLPseudoCatch <- function(catch="catch_sim", projfrq=projfrq, ctrl="missing", historical=FALSE) {
@@ -30,7 +27,6 @@ read.MFCLPseudoCatch <- function(catch="catch_sim", projfrq=projfrq, ctrl="missi
   
   return(freqdat)
 }
-
 
 
 # breaking it all down to much simpler functions
@@ -67,14 +63,7 @@ read.MFCLPseudoEffort <- function(effort="effort_sim", projfrq=projfrq, ctrl="mi
 }
 
 
-
-
-
-
-
-
-
-#' 'read.MFCLPseudoCatchEffort()' function for FLR4MFCL
+#' Read MFCLPseudo Catch and Effort
 #'
 #' Reads in simulated catch and effort data from the MFCL generated files 'catch_sim' and 'effort_sim' and
 #' returns a partially complete object of MFCLPseudo. The size composition slots of the MFCLPseudo object are not filled.
@@ -85,19 +74,25 @@ read.MFCLPseudoEffort <- function(effort="effort_sim", projfrq=projfrq, ctrl="mi
 #'   \item read.MFCLCatchEffort - only reads in the simulated catch and effort data
 #'   \item read.MFCLPseudoSizeComp - only reads the size comp data from test_lw_sim but works when you have both length and weight data.
 #' }
+#'
 #' @param catch A character string for the 'catch_sim' input file name.
 #' @param effort A character string for the 'effort_sim' input file name.
 #' @param projfrq An \linkS4class{MFCLFrq} object for the projection period over which the pseudo data have been generated.
-#' @param ctrl An \linkS4class{MFCLMSEControl}
+#' @param ctrl An \linkS4class{MFCLMSEControl}.
 #' @param historical Boolean TRUE or FALSE If the simulated data include the historical period or just the projecion period.
+#'
 #' @return An object of class \linkS4class{MFCLPseudo}.
+#'
 #' @export
+#'
 #' @seealso \code{\link{MFCLprojContrl}} \code{\link{MFCLFrq}} \code{\link{MFCLPar}}
+#'
 #' @examples
 #' \dontrun{
 #' # Expanding an MFCLFrq, e.g. that was used from in an assessment
 #' pseudo <- read.MFCLPseudoCatchEffort('catch_sim', 'effort_sim', projfrq, mseCtrl, historical=FALSE)
 #' }
+
 read.MFCLPseudoCatchEffort <- function(catch="catch_sim", effort="effort_sim", projfrq=projfrq, ctrl="missing", historical=FALSE) {
   
   trim.leading  <- function(x) sub("^\\s+", "", x) 
@@ -132,7 +127,7 @@ read.MFCLPseudoCatchEffort <- function(catch="catch_sim", effort="effort_sim", p
 }
 
 
-#' 'read.MFCLPseudoSizeComp()' function for FLR4MFCL
+#' Read MFCLPseudo Size Comp
 #'
 #' Reads in simulated length and weight size composition data from the MFCL generated file 'test_lw_sim' and
 #' returns a partially complete object of MFCLPseudo. The 'catcheff' slot of the MFCLPseudo object is not filled.
@@ -143,18 +138,24 @@ read.MFCLPseudoCatchEffort <- function(catch="catch_sim", effort="effort_sim", p
 #'   \item read.MFCLCatchEffort - only reads in the simulated catch and effort data
 #'   \item read.MFCLPseudoSizeComp - only reads the size comp data from test_lw_sim but works when you have both length and weight data.
 #' }
+#'
 #' @param lw_sim A character string for the input file name.
 #' @param projfrq An \linkS4class{MFCLFrq} object for the projection period over which the pseudo data have been generated.
-#' @param ctrl An \linkS4class{MFCLMSEControl}
+#' @param ctrl An \linkS4class{MFCLMSEControl}.
 #' @param historical Boolean TRUE or FALSE If the simulated data include the historical period or just the projecion period.
+#'
 #' @return An object of class \linkS4class{MFCLPseudo}.
+#'
 #' @export
+#'
 #' @seealso \code{\link{MFCLprojContrl}} \code{\link{MFCLFrq}} \code{\link{MFCLPar}}
+#'
 #' @examples
 #' \dontrun{
 #' # Expanding an MFCLFrq, e.g. that was used from in an assessment
 #' pseudo <- read.MFCLPseudoSizeComp('test_lw_sim', projfrq, mseCtrl, historical=FALSE)
 #' }
+
 read.MFCLPseudoSizeComp <- function(lw_sim='test_lw_sim', projfrq=projfrq, ctrl="missing", historical=FALSE) {
   
   trim.leading  <- function(x) sub("^\\s+", "", x) 
@@ -209,21 +210,16 @@ read.MFCLPseudoSizeComp <- function(lw_sim='test_lw_sim', projfrq=projfrq, ctrl=
 }
 
 
-
-
-
-
-
-#' read.MFCLPseudo
+#' Read MFCLPseudo
 #'
 #' Reads information from the pseudo generation files and creates an MFCLPseudo object.
 #' This method is a complicated mess and really needs to be simplified.
 #'
-#' @param catch:  A character string giving the name and path of the catch.sim file to be read 
-#' @param effort: A character string giving the name and path of the effort.sim file to be read 
-#' @param lw_sim: A character string giving the name and path of the lw_sim file to be read 
-#' @param range: 
-#' 
+#' @param catch A character string giving the name and path of the catch.sim file to be read.
+#' @param effort A character string giving the name and path of the effort.sim file to be read.
+#' @param lw_sim A character string giving the name and path of the lw_sim file to be read.
+#' @param projfrq undocumented.
+#' @param ctrl undocumented.
 #'
 #' @return An object of class MFCLPseudo
 #'
@@ -232,6 +228,7 @@ read.MFCLPseudoSizeComp <- function(lw_sim='test_lw_sim', projfrq=projfrq, ctrl=
 # kk <- read.MFCLPseudo(catch="catch_sim", effort="effort_sim", lw_sim="test_lw_sim", projfrq=projfrq, ctrl=projCtrl)
 
 read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing", projfrq="missing", ctrl="missing", historical=TRUE) {
+
   trim.leading  <- function(x) sub("^\\s+", "", x) 
   splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+")) 
   
@@ -316,7 +313,6 @@ read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing",
   slot(res, "catcheff") <- tempdat[order(tempdat$iter, tempdat$fishery, tempdat$year, tempdat$month, tempdat$week),]
   if(exists('pobs.df'))
     slot(res, "l_frq")    <- pobs.df[order(pobs.df$iter,  pobs.df$fishery, pobs.df$year, pobs.df$month, pobs.df$week, pobs.df$length),]  
-
   
   if(!historical) { # think this is OK !!
     slot(res, "catcheff")[slot(res, "catcheff")$iter>0,]$freq <- slot(res, "l_frq")$freq  
@@ -424,7 +420,6 @@ read.MFCLPseudoAlt <- function(catch="missing", effort="missing", lw_sim="missin
       tempdat$effort[tempdat$iter>0]<- edat
     }
     
-    
   }
   # LENGTH COMPOSITIONS
   if(!missing(lw_sim)){
@@ -484,7 +479,6 @@ read.MFCLPseudoAlt <- function(catch="missing", effort="missing", lw_sim="missin
     #spread_catcheff <- spread_catcheff[order(spread_catcheff$fishery, spread_catcheff$year, spread_catcheff$month, spread_catcheff$week),]
     #ce_itns <- spread_catcheff[rep(seq_len(nrow(spread_catcheff)), lfs[lfs>0]),]
 
-
     # size frequency data in projfrq format
     tmpfreq1 <- cbind(freq(projfrq), mkr=1:nrow(freq(projfrq)))
     tmpfreq  <- rbind(tmpfreq1[!is.na(tmpfreq1$length),], tmpfreq1[is.na(tmpfreq1$length),])
@@ -492,7 +486,6 @@ read.MFCLPseudoAlt <- function(catch="missing", effort="missing", lw_sim="missin
     lf_itns <- tmpfreq$freq
     for(ii in 1:nsims(ctrl))
       lf_itns <- cbind(lf_itns, c(l_frq(res)[l_frq(res)$iter==ii, 'freq'], freq(projfrq)[is.na(freq(projfrq)$length),'freq']))
-
 
     lf_itns <- lf_itns[order(tmpfreq$mkr),]
     colnames(lf_itns) <- paste("freq", 0:nsims(ctrl), sep="_")
@@ -508,19 +501,15 @@ read.MFCLPseudoAlt <- function(catch="missing", effort="missing", lw_sim="missin
 }
 
 
-
-
-
-#' read.MFCLCatchSim
+#' Read MFCL Catch Sim
 #'
 #' Reads information from the pseudo generation catch_sim file and creates a data.frame  object.
 #' The object here is to break down the read.MFCLPseudo function in smaller, more manageable code units.
 #'
-#' @param catch:     A character string giving the name and path of the catch.sim file to be read 
-#' @param projfrq:   The projfrq object used to generate the pseudo data
-#' @param ctrl:      The control object used to generate teh pseudo data
-#' @param historical Boolean flag specifying if historical data included 
-#' 
+#' @param catch A character string giving the name and path of the catch.sim file to be read.
+#' @param projfrq The projfrq object used to generate the pseudo data.
+#' @param ctrl The control object used to generate teh pseudo data.
+#' @param historical Boolean flag specifying if historical data included.
 #'
 #' @return An object of class data.frame that can be subset to freq
 #'
@@ -571,9 +560,10 @@ read.MFCLCatchSim <- function(catch="catch_sim", projfrq="missing", ctrl="missin
 }
 
 
-## Finlays code - stolen from the mixed fishery folder - with modified inputs to be consistent with read.MFCLCatchSim
-##
+## Finlay's code - stolen from the mixed fishery folder - with modified inputs to be consistent with read.MFCLCatchSim
+
 read.MFCLEffortSim <- function(effort="effort_sim", projfrq='missing', ctrl='missing', historical=TRUE){
+
   trim.leading  <- function(x) sub("^\\s+", "", x) 
   splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+")) 
   ee    <- readLines(effort)
@@ -591,5 +581,6 @@ read.MFCLEffortSim <- function(effort="effort_sim", projfrq='missing', ctrl='mis
   tempdat <- cbind(tempdat, iter=rep(0:nsims(ctrl), each=len), effort.seed=rep(c(NA,eseed), each=len), row.names=NULL)
   tempdat <- tempdat[order(tempdat$iter, tempdat$fishery, tempdat$year, tempdat$month),]
   tempdat$effort[tempdat$iter>0] <- edat
+
   return(tempdat)
 }

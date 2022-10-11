@@ -7,10 +7,10 @@
 ats(quant)
 }
 \arguments{
-\item{quant:}{An FLQuant object}
+\item{quant}{An FLQuant object.}
 }
 \value{
-An object of class FLQuant
+An object of class FLQuant.
 }
 \description{
 Converts a quarterly time series object into a 6 dimensional, seasonally structured FLQuant (i.e. the opposite of qts).
