@@ -3,7 +3,7 @@
 \alias{flagval}
 \title{flagval}
 \usage{
-flagval(x, flagtype, flag)
+flagval(x, flagtype, flag, ...)
 }
 \arguments{
 \item{x}{an object of class \linkS4class{MFCLPar}.}
@@ -11,6 +11,8 @@ flagval(x, flagtype, flag)
 \item{flagtype}{Numeric flag type identifier.}
 
 \item{flag}{Numeric flag number.}
+
+\item{\dots}{Currently ignored.}
 }
 \value{
 data.frame of flag settings
