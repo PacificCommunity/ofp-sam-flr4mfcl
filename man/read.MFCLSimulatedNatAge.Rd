@@ -19,11 +19,13 @@ read.MFCLSimulatedNatAge(
 
 \item{dimensions}{numeric vector of dimensions (as returned from dimensions(par)).}
 
-\item{range}{}
+\item{rnge}{undocumented.}
+
+\item{nssns}{undocumented.}
 }
 \value{
-An object of class FLQuant
+An object of class FLQuant.
 }
 \description{
-Reads information from the simulated_numbers_at_age file (terminal N or recruitment) and creates an FLQuant object
+Reads information from the simulated_numbers_at_age file (terminal N or recruitment) and creates an FLQuant object.
 }

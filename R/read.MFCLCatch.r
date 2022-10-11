@@ -5,12 +5,11 @@
 #'
 #' Reads information from the catch.rep file and creates an MFCLCatch object
 #'
-#' @param catchfile A character string giving the name and path of the catch.rep file to be read.
-#' @param dimensions numeric vector of dimensions (as returned from dimensions(par)).
-#' @param range
-#' 
+#' @param catchfile a character string giving the name and path of the catch.rep file to be read.
+#' @param dimensions a numeric vector of dimensions (as returned from dimensions(par)).
+#' @param rnge undocumented.
 #'
-#' @return An object of class MFCLCatch
+#' @return An object of class MFCLCatch.
 #'
 #' @examples
 #' \dontrun{
@@ -21,20 +20,20 @@
 #' @export
 
 read.MFCLCatch <- function(catchfile, dimensions, rnge) {
-  
-  res <- MFCLCatch() 
-  
+
+  res <- MFCLCatch()
+
   if(!file.exists(catchfile))
     stop("Catch.rep file does not exist")
   if(is.na(dimensions['years']))
     stop("Number of years not specified")
   if(is.na(dimensions['fisheries']))
     stop("Number of fisheries not specified")
-  
+
   nsns <- dimensions["seasons"]
   nyrs <- dimensions["years"]/nsns
   nfish<- dimensions["fisheries"]
-  
+
   dmns1 <- list(age="all", year=rnge["minyear"]:rnge["maxyear"], unit="unique", season=1:nsns, area="unique")
   dmns2 <- list(age="all", year=rnge["minyear"]:rnge["maxyear"], unit=1:nfish,  season=1:nsns, area="unique")
 
@@ -51,9 +50,7 @@ read.MFCLCatch <- function(catchfile, dimensions, rnge) {
   slot(res, "total_catch")   <- FLQuant(aperm(array(total_catch,dim=c(nsns,nyrs,1,1,1)), c(3,2,4,1,5)),dimnames=dmns1)
   slot(res, "fishery_catch") <- FLQuant(aperm(array(fishery_catch, dim=c(nsns,nyrs,nfish,1,1)), c(4,2,3,1,5)),dimnames=dmns2)
   slot(res, "range")[] <- c(NA, NA, NA, rnge["minyear"], rnge["maxyear"])
-  
+
   res <- checkUnitDimnames(res, nfisheries=nfish)
   return(res)
 }
-  
-  

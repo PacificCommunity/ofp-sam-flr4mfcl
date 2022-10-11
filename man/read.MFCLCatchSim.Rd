@@ -2,7 +2,7 @@
 % Please edit documentation in R/read.MFCLPseudo.r
 \name{read.MFCLCatchSim}
 \alias{read.MFCLCatchSim}
-\title{read.MFCLCatchSim}
+\title{Read MFCL Catch Sim}
 \usage{
 read.MFCLCatchSim(
   catch = "catch_sim",
