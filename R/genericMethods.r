@@ -75,6 +75,7 @@ setMethod('adultBiomass', signature(object='FLQuant'), function(object, par){
 #' without the replications for each length or weight category.
 #'
 #' @param object An object of class MFCLLenFreq.
+#' @param \dots Currently ignored.
 #'
 #' @return An object of class data.frame.
 #' 
