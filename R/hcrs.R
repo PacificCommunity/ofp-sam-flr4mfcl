@@ -228,7 +228,7 @@ hcr_threshold_constrained <- function(sbsbf0, params, reference_out){
 
 hcr_hillary_step_constrained <- function(sbsbf0, params, reference_out){
   #browser()
-  out <- hcr_constrained(sbsbf0 = sbsbf0, params=params, reference_out=reference_out, hcr_fun="hcr_hillary_step")
+  out <- hcr_constrained(sbsbf0 = sbsbf0, params=params, reference_out=reference_out, hcr_func="hcr_hillary_step")
 }
 
 
@@ -283,7 +283,7 @@ hcr_asymptotic_hillary_step <- function(sbsbf0, params){
 #' @rdname hcr_funcs
 
 hcr_asymptotic_hillary_step_constrained <- function(sbsbf0, params, reference_out){
-  out <- hcr_constrained(sbsbf0 = sbsbf0, params=params, reference_out=reference_out, hcr_fun="hcr_asymptotic_hillary_step")
+  out <- hcr_constrained(sbsbf0 = sbsbf0, params=params, reference_out=reference_out, hcr_func="hcr_asymptotic_hillary_step")
 }
 
 
