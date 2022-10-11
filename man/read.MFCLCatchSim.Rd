@@ -12,13 +12,13 @@ read.MFCLCatchSim(
 )
 }
 \arguments{
-\item{historical}{Boolean flag specifying if historical data included}
+\item{catch}{A character string giving the name and path of the catch.sim file to be read.}
 
-\item{catch:}{A character string giving the name and path of the catch.sim file to be read}
+\item{projfrq}{The projfrq object used to generate the pseudo data.}
 
-\item{projfrq:}{The projfrq object used to generate the pseudo data}
+\item{ctrl}{The control object used to generate teh pseudo data.}
 
-\item{ctrl:}{The control object used to generate teh pseudo data}
+\item{historical}{Boolean flag specifying if historical data included.}
 }
 \value{
 An object of class data.frame that can be subset to freq

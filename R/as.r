@@ -5,17 +5,13 @@
 #'
 #' Convert an MFCLPar object to an MFCLIni object
 #'
-#' @param object:    An object of class MFCLPar
-#'
+#' @param object An object of class MFCLPar.
 #'
 #' @return An MFCLIni object.
-#' 
 #' 
 #' @export
 #' @docType methods
 #' @rdname par-methods
-#'
-
 
 setGeneric('as.MFCLIni', function(object, ...) standardGeneric('as.MFCLIni')) 
 
@@ -39,7 +35,6 @@ setMethod("as.MFCLIni", signature(object="MFCLPar"),
           ini_version(res)      <- ifelse(length(mat_at_length(res))>1, 1003, 1001)  # 17/01/2022 adding version control to as.ini
           return(res)
           })
-
 
 
 ## Matt's convertFreq code - renamed as.MFCLFrq
@@ -120,10 +115,3 @@ setMethod('as.MFCLFrq2',signature(frq="MFCLFrq"), function(frq) {
   return(res)
 }
 )
-
-
-
-
-
-
-

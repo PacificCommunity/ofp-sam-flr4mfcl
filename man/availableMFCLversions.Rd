@@ -7,11 +7,11 @@
 availableMFCLversions()
 }
 \value{
-Returns a list of available MFCL versions
+Returns a list of available MFCL versions.
 }
 \description{
-Returns the available versions of MFCL within the package
-Currently only the 2015 development version of MFCL is available
+Returns the available versions of MFCL within the package.
+Currently only the 2015 development version of MFCL is available.
 }
 \examples{
 availableMFCLversions()

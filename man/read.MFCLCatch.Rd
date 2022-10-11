@@ -7,11 +7,11 @@
 read.MFCLCatch(catchfile, dimensions, rnge)
 }
 \arguments{
-\item{catchfile:}{A character string giving the name and path of the catch.rep file to be read}
+\item{catchfile}{A character string giving the name and path of the catch.rep file to be read.}
 
-\item{dimensioins:}{numeric vector of dimensions (as returned from dimensions(par))}
+\item{dimensions}{numeric vector of dimensions (as returned from dimensions(par)).}
 
-\item{range:}{}
+\item{range}{}
 }
 \value{
 An object of class MFCLCatch

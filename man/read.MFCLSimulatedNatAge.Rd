@@ -13,13 +13,13 @@ read.MFCLSimulatedNatAge(
 )
 }
 \arguments{
-\item{file:}{A character string giving the name and path of the simulated_numbers_at_age file to be read}
+\item{file}{A character string giving the name and path of the simulated_numbers_at_age file to be read.}
 
-\item{data:}{A character (either "N" or "R") to specify whether termninal N values or recruitment values are to be read in.}
+\item{data}{A character (either "N" or "R") to specify whether termninal N values or recruitment values are to be read in.}
 
-\item{dimensioins:}{numeric vector of dimensions (as returned from dimensions(par))}
+\item{dimensions}{numeric vector of dimensions (as returned from dimensions(par)).}
 
-\item{range:}{}
+\item{range}{}
 }
 \value{
 An object of class FLQuant

@@ -219,10 +219,10 @@ read.MFCLPseudoSizeComp <- function(lw_sim='test_lw_sim', projfrq=projfrq, ctrl=
 #' Reads information from the pseudo generation files and creates an MFCLPseudo object.
 #' This method is a complicated mess and really needs to be simplified.
 #'
-#' @param catch:  A character string giving the name and path of the catch.sim file to be read 
-#' @param effort: A character string giving the name and path of the effort.sim file to be read 
-#' @param lw_sim: A character string giving the name and path of the lw_sim file to be read 
-#' @param range: 
+#' @param catch A character string giving the name and path of the catch.sim file to be read 
+#' @param effort A character string giving the name and path of the effort.sim file to be read 
+#' @param lw_sim A character string giving the name and path of the lw_sim file to be read 
+#' @param range
 #' 
 #'
 #' @return An object of class MFCLPseudo
@@ -516,11 +516,10 @@ read.MFCLPseudoAlt <- function(catch="missing", effort="missing", lw_sim="missin
 #' Reads information from the pseudo generation catch_sim file and creates a data.frame  object.
 #' The object here is to break down the read.MFCLPseudo function in smaller, more manageable code units.
 #'
-#' @param catch:     A character string giving the name and path of the catch.sim file to be read 
-#' @param projfrq:   The projfrq object used to generate the pseudo data
-#' @param ctrl:      The control object used to generate teh pseudo data
-#' @param historical Boolean flag specifying if historical data included 
-#' 
+#' @param catch A character string giving the name and path of the catch.sim file to be read.
+#' @param projfrq The projfrq object used to generate the pseudo data.
+#' @param ctrl The control object used to generate teh pseudo data.
+#' @param historical Boolean flag specifying if historical data included.
 #'
 #' @return An object of class data.frame that can be subset to freq
 #'

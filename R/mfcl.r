@@ -107,13 +107,13 @@ setMethod("mfcl", signature(frq="MFCLFrq", par="MFCLIni"),
 
 #' setMFCLversion
 #'
-#' Sets the version of MFCL to be activated within the package
-#' Currently only the 2015 development version of MFCL is available
-#' The available versions can be obtained from the function availableMFCLversions
+#' Sets the version of MFCL to be activated within the package.
+#' Currently only the 2015 development version of MFCL is available.
+#' The available versions can be obtained from the function availableMFCLversions.
 #'
-#' @param version:  Character string specifying the MFCL version
+#' @param version Character string specifying the MFCL version.
 #'
-#' @return Returns Nothing: just sets the MFCL version to the one specified
+#' @return Returns Nothing: just sets the MFCL version to the one specified.
 #'
 #' @examples
 #' setMFCLversion("2015_devvsn_1.1.4.3_linux")
@@ -148,12 +148,10 @@ setMFCLversion <- function(version="2015_devvsn_1.1.4.3_linux"){
 
 #' availableMFCLversions
 #'
-#' Returns the available versions of MFCL within the package
-#' Currently only the 2015 development version of MFCL is available
+#' Returns the available versions of MFCL within the package.
+#' Currently only the 2015 development version of MFCL is available.
 #'
-#' 
-#'
-#' @return Returns a list of available MFCL versions
+#' @return Returns a list of available MFCL versions.
 #'
 #' @examples
 #' availableMFCLversions()
@@ -198,12 +196,12 @@ getMFCLversion <- function(){
 
 #' gradients
 #'
-#' Returns a data.frame of parameters and their gradients in reverse order
+#' Returns a data.frame of parameters and their gradients in reverse order.
 #'
-#' @param grads text string of input file name for sorted gradients
-#' @param parnames text string of input file name for parameter names
+#' @param grads text string of input file name for sorted gradients.
+#' @param parnames text string of input file name for parameter names.
 #'
-#' @return data.frame of parameter gradients
+#' @return data.frame of parameter gradients.
 #'
 #' @examples
 #' \dontrun{

@@ -5,9 +5,9 @@
 #'
 #' Reads information from the catch.rep file and creates an MFCLCatch object
 #'
-#' @param catchfile:  A character string giving the name and path of the catch.rep file to be read 
-#' @param dimensioins: numeric vector of dimensions (as returned from dimensions(par))
-#' @param range: 
+#' @param catchfile A character string giving the name and path of the catch.rep file to be read.
+#' @param dimensions numeric vector of dimensions (as returned from dimensions(par)).
+#' @param range
 #' 
 #'
 #' @return An object of class MFCLCatch

@@ -5,11 +5,10 @@
 #'
 #' Reads information from the simulated_numbers_at_age file (terminal N or recruitment) and creates an FLQuant object
 #'
-#' @param file:  A character string giving the name and path of the simulated_numbers_at_age file to be read 
-#' @param data:  A character (either "N" or "R") to specify whether termninal N values or recruitment values are to be read in.
-#' @param dimensioins: numeric vector of dimensions (as returned from dimensions(par))
-#' @param range: 
-#' 
+#' @param file A character string giving the name and path of the simulated_numbers_at_age file to be read.
+#' @param data A character (either "N" or "R") to specify whether termninal N values or recruitment values are to be read in.
+#' @param dimensions numeric vector of dimensions (as returned from dimensions(par)).
+#' @param range
 #'
 #' @return An object of class FLQuant
 #'
@@ -63,6 +62,3 @@ read.MFCLSimulatedNatAge <- function(file='simulated_numbers_at_age', data="N", 
 
   return(res)                
 }                  
-                     
-  
-  
