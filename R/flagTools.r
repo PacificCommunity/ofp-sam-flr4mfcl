@@ -117,18 +117,24 @@ flagSummary <- function(par, type){
 #'
 #' @export
 
-flagDiff <- function(par1, par2){
-
-  # Read files if user passed filenames
+flagDiff <- function(par1, par2) {
+  # Extract flags
   if(is.character(par1) && file.exists(par1))
     par1 <- read.MFCLFlags(par1)
   if(is.character(par2) && file.exists(par2))
     par2 <- read.MFCLFlags(par2)
+  flags1 <- flags(par1)
+  flags2 <- flags(par2)
+
+  # Combine
+  flags <- merge(flags1, flags2, by=c("flagtype", "flag"), all=TRUE)
+  names(flags) <- c("flagtype", "flag", "par1", "par2")
 
   # Compare
-  res <- flags(par1)[flags(par1)$value != flags(par2)$value,]
-  res <- cbind(res, flags(par2)[flags(par1)$value != flags(par2)$value, "value"])
-  colnames(res) <- c("flagtype", "flag", "par1", "par2")
+  notsame <- is.na(flags$par1) | is.na(flags$par2) | flags$par1 != flags$par2
+  diffs <- flags[notsame,]
+  diffs <- diffs[order(-diffs$flagtype, diffs$flag),]
+  rownames(diffs) <- NULL
 
-  return(res)
+  diffs
 }
