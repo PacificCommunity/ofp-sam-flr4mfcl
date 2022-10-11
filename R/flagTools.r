@@ -57,7 +57,6 @@ recPeriod <- function(par, af199=NULL, af200=NULL, pf232=NULL, pf233=NULL, show=
 }
 
 
-
 #' Flag Summary
 #'
 #' Flag settings summarised by MFCL User Guide sections.
@@ -89,15 +88,21 @@ flagSummary <- function(par, type){
 }
 
 
-
 #' Flag Diff
 #'
-#' Show flag differences between two par objects/files.
+#' Show flag differences between two par files or MFCL objects.
 #'
-#' @param par1 An object of class MFCLPar.
-#' @param par2 An object of class MFCLPar.
+#' @param par1 a filename or object of class \code{MFCLPar} or \code{MFCLFlags}.
+#' @param par2 a filename or object of class \code{MFCLPar} or \code{MFCLFlags}.
 #'
 #' @return A data frame of flag settings for par1 and par2.
+#'
+#' @note
+#' The traditional way to read in a par file is using \code{read.MFCLPar} that imports all parameter values, flags, and a variety of other information.
+#'
+#' For the purposes of comparing flags, \code{read.MFCLFLags} can be more practical, as it takes around 20x less time to import only the flags.
+#'
+#' In both cases, the \code{flags()} method can be used to access the \code{flags} data frame.
 #'
 #' @examples
 #' data(par)
@@ -109,8 +114,15 @@ flagSummary <- function(par, type){
 
 flagDiff <- function(par1, par2){
 
+  # Read files if user passed filenames
+  if(is.character(par1) && file.exists(par1))
+    par1 <- read.MFCLFlags(par1)
+  if(is.character(par2) && file.exists(par2))
+    par2 <- read.MFCLFlags(par2)
+
+  # Compare
   res <- flags(par1)[flags(par1)$value != flags(par2)$value,]
-  res <- cbind(res, flags(par2)[flags(par1)$value != flags(par2)$value, 'value'])
+  res <- cbind(res, flags(par2)[flags(par1)$value != flags(par2)$value, "value"])
   colnames(res) <- c("flagtype", "flag", "par1", "par2")
 
   return(res)

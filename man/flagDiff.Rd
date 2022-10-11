@@ -7,15 +7,22 @@
 flagDiff(par1, par2)
 }
 \arguments{
-\item{par1}{An object of class MFCLPar.}
+\item{par1}{a filename or object of class \code{MFCLPar} or \code{MFCLFlags}.}
 
-\item{par2}{An object of class MFCLPar.}
+\item{par2}{a filename or object of class \code{MFCLPar} or \code{MFCLFlags}.}
 }
 \value{
 A data frame of flag settings for par1 and par2.
 }
 \description{
-Show flag differences between two par objects/files.
+Show flag differences between two par files or MFCL objects.
+}
+\note{
+The traditional way to read in a par file is using \code{read.MFCLPar} that imports all parameter values, flags, and a variety of other information.
+
+For the purposes of comparing flags, \code{read.MFCLFLags} can be more practical, as it takes around 20x less time to import only the flags.
+
+In both cases, the \code{flags()} method can be used to access the \code{flags} data frame.
 }
 \examples{
 data(par)
