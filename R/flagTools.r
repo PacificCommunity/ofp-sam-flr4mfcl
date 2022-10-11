@@ -5,7 +5,12 @@
 #'
 #' Calculate recruitment periods for deterministic and stochastic projection settings.
 #'
-#' @param par An object of class MFCLPar.
+#' @param par an object of class MFCLPar.
+#' @param af199 undocumented.
+#' @param af200 undocumented.
+#' @param pf232 undocumented.
+#' @param pf233 undocumented.
+#' @param show undocumented.
 #'
 #' @return An object of class numeric vector.
 #'
