@@ -11,13 +11,13 @@ subset(x, ...)
 \S4method{subset}{MFCLFrq}(x, ...)
 }
 \arguments{
-\item{...}{Additional argument list}
+\item{x}{An object of class MFCLFrq.}
 
-\item{x:}{An object of class MFCLFrq.}
+\item{...}{Additional argument list.}
 }
 \value{
 A data.frame of the selected information.
 }
 \description{
-subsets a freq(frq) for specific groupings
+Subsets a freq(frq) for specific groupings.
 }
