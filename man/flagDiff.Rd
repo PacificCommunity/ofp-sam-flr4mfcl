@@ -4,12 +4,15 @@
 \alias{flagDiff}
 \title{Flag Diff}
 \usage{
-flagDiff(par1, par2)
+flagDiff(par1, par2, all = TRUE)
 }
 \arguments{
 \item{par1}{a filename or object of class \code{MFCLPar} or \code{MFCLFlags}.}
 
 \item{par2}{a filename or object of class \code{MFCLPar} or \code{MFCLFlags}.}
+
+\item{all}{whether to compare all flags, including those that are not
+specified in both par files.}
 }
 \value{
 A data frame of flag settings for par1 and par2.
@@ -18,16 +21,26 @@ A data frame of flag settings for par1 and par2.
 Show flag differences between two par files or MFCL objects.
 }
 \note{
-The traditional way to read in a par file is using \code{read.MFCLPar} that imports all parameter values, flags, and a variety of other information.
+The traditional way to read in a par file is using \code{read.MFCLPar} that
+imports all parameter values, flags, and a variety of other information.
 
-For the purposes of comparing flags, \code{read.MFCLFLags} can be more practical, as it takes around 20x less time to import only the flags.
+For the purposes of comparing flags, \code{read.MFCLFLags} can be more
+practical, as it takes around 20x less time to import only the flags.
 
-In both cases, the \code{flags()} method can be used to access the \code{flags} data frame.
+In both cases, the \code{flags()} method can be used to access the
+\code{flags} data frame.
 }
 \examples{
 data(par)
 par1 <- par2 <- par
+
+# Different flag value
 flags(par2)[20,"value"] <- 12
 flagDiff(par1, par2)
+
+# Example where flag is specified in par1 but not in par2
+flags(par1) <- rbind(flags(par1), c(-10269, 1, 1))
+flagDiff(par1, par2)             # default is to show par2 as NA
+flagDiff(par1, par2, all=FALSE)  # all=FALSE omits such comparisons
 
 }
