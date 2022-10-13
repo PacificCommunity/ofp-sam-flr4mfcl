@@ -20,8 +20,7 @@ setMethod("n_fisheries", signature(object="MFCLPar"),
           })
 
 #' @rdname par-methods
-#' @aliases laa
-
+## @aliases laa - is already in accesorMethods.r and should not be repeated here
 
 setMethod("laa", signature(object="MFCLBiol"), 
           function(object, ages=NULL, ...){
