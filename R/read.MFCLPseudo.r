@@ -539,6 +539,8 @@ read.MFCLCatchSim <- function(catch="catch_sim", projfrq="missing", ctrl="missin
     cdat  <- matrix(as.numeric(unlist(strsplit(trim.leading(cc[-grep("#", cc)]), split="[[:blank:]]+"))), nrow=2)
     cseed <- as.numeric(unlist(lapply(strsplit(cc[grep("# seed", cc)], split="[[:blank:]]+"), el, 3)))
     
+    edat <- stop("edat is undefined")
+
     if(!historical){
       # MFCL output files will not include historical data
       len     <- nrow(freq(projfrq)[freq(projfrq)$year>=fprojyr(ctrl),])
