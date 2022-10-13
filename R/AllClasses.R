@@ -15,7 +15,8 @@ validMFCLFrqStats <- function(object){
   #Everything is fine
   return(TRUE)
 }
-#' An S4 class : Essesntial dimensions and ranges of the frq file.
+
+#' An S4 class : Essential dimensions and ranges of the frq file.
 #'
 #' @slot n_regions Number of regions
 #' @slot n_fisheries Number of fisheries
@@ -33,7 +34,7 @@ validMFCLFrqStats <- function(object){
 #' @slot n_move_yr Description
 #' @slot move_weeks Description
 #' @slot range Description
-#'
+
 setClass("MFCLFrqStats",
          representation(
            n_regions    = "numeric",
@@ -666,6 +667,8 @@ validMFCLPar <- function(object){
   # Everything is fine
   return(TRUE)
 }
+
+#' An S4 class : Undocumented.
 
 setClass("MFCLPar",
          representation(
