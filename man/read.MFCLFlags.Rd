@@ -14,10 +14,20 @@ read.MFCLFlags(parfile, parobj = NULL, first.yr = 1972)
 \item{first.yr}{The first year of the input data time series (default value 1972).}
 }
 \value{
-An object of class MFCLFlags
+An object of class MFCLFlags.
 }
 \description{
-Reads the Flag information from the par file and creates an MFCLFlags object
+Read the flag information from a par file.
+}
+\note{
+The traditional way to read in a par file is using \code{read.MFCLPar} that
+imports all parameter values, flags, and a variety of other information.
+
+For the purposes of importing flags, \code{read.MFCLFLags} can be more
+practical, being around 20 x faster.
+
+In both cases, the \code{flags()} method can be used to access the
+\code{flags} data frame.
 }
 \examples{
 \dontrun{

@@ -5,7 +5,12 @@
 #'
 #' Calculate recruitment periods for deterministic and stochastic projection settings.
 #'
-#' @param par An object of class MFCLPar.
+#' @param par an object of class MFCLPar.
+#' @param af199 undocumented.
+#' @param af200 undocumented.
+#' @param pf232 undocumented.
+#' @param pf233 undocumented.
+#' @param show undocumented.
 #'
 #' @return An object of class numeric vector.
 #'
@@ -57,7 +62,6 @@ recPeriod <- function(par, af199=NULL, af200=NULL, pf232=NULL, pf233=NULL, show=
 }
 
 
-
 #' Flag Summary
 #'
 #' Flag settings summarised by MFCL User Guide sections.
@@ -82,36 +86,129 @@ flagSummary <- function(par, type){
 
   ffrange <- -(1:dimensions(par)['fisheries'])
   switch(type,
-    "projection"     = rbind(flagval(par, 1, c(142, 231:239)), flagval(par, 2, c(20, 190, 191, 195, 161, 199, 200))),
-    "impact_analysis"= rbind(flagval(par, 2, c(170:176, 190, 191, 193)), flagval(par, ffrange, 55)),
-    "MSY"            = rbind(flagval(par, 2, c(112, 140:141, 145:155, 161:163, 165:169, 194, 199:200)), flagval(par, ffrange, 70))
-  )
+         "projection"     = rbind(flagval(par, 1, c(142, 231:239)), flagval(par, 2, c(20, 190, 191, 195, 161, 199, 200))),
+         "impact_analysis"= rbind(flagval(par, 2, c(170:176, 190, 191, 193)), flagval(par, ffrange, 55)),
+         "MSY"            = rbind(flagval(par, 2, c(112, 140:141, 145:155, 161:163, 165:169, 194, 199:200)), flagval(par, ffrange, 70))
+         )
 }
-
 
 
 #' Flag Diff
 #'
-#' Show flag differences between two par objects/files.
+#' Show flag differences between two par files or MFCL objects.
 #'
-#' @param par1 An object of class MFCLPar.
-#' @param par2 An object of class MFCLPar.
+#' @param par1 a filename or object of class \code{MFCLPar} or \code{MFCLFlags}.
+#' @param par2 a filename or object of class \code{MFCLPar} or \code{MFCLFlags}.
+#' @param all whether to compare all flags, including those that are not
+#'        specified in both par files.
+#' @param flaglist optional filename to use instead of the built-in
+#'        \file{flaglist.csv} lookup table.
 #'
 #' @return A data frame of flag settings for par1 and par2.
+#'
+#' @seealso
+#' \code{\link{read.MFCLFlags}}, \code{\link{flagMeaning}}.
 #'
 #' @examples
 #' data(par)
 #' par1 <- par2 <- par
+#'
+#' # Different flag value
 #' flags(par2)[20,"value"] <- 12
 #' flagDiff(par1, par2)
 #'
+#' # When flag is specified in par1 but not in par2
+#' flags(par1) <- rbind(flags(par1), c(-10269, 1, 1))
+#' flagDiff(par1, par2)             # default is to show par2 as NA
+#' flagDiff(par1, par2, all=FALSE)  # all=FALSE omits such comparisons
+#'
 #' @export
 
-flagDiff <- function(par1, par2){
+flagDiff <- function(par1, par2, all=TRUE, flaglist=NULL) {
 
-  res <- flags(par1)[flags(par1)$value != flags(par2)$value,]
-  res <- cbind(res, flags(par2)[flags(par1)$value != flags(par2)$value, 'value'])
-  colnames(res) <- c("flagtype", "flag", "par1", "par2")
+  # Extract flags
+  if(is.character(par1) && file.exists(par1))
+    par1 <- read.MFCLFlags(par1)
+  if(is.character(par2) && file.exists(par2))
+    par2 <- read.MFCLFlags(par2)
+  flags1 <- flags(par1)
+  flags2 <- flags(par2)
 
-  return(res)
+  # Combine
+  flags <- merge(flags1, flags2, by=c("flagtype", "flag"), all=all)
+  names(flags) <- c("flagtype", "flag", "par1", "par2")
+
+  # Compare
+  notsame <- is.na(flags$par1) | is.na(flags$par2) | flags$par1 != flags$par2
+  diffs <- flags[notsame,]
+  diffs <- diffs[order(-diffs$flagtype, diffs$flag),]
+  rownames(diffs) <- NULL
+
+  # Add column with meaning
+  diffs <- flagMeaning(diffs, flaglist=flaglist)
+
+  diffs
+}
+
+#' Flag Meaning
+#'
+#' Show the meaning of flags, based on a lookup table.
+#'
+#' @param flags is a data frame or object of class \code{MFCLPar} or
+#'        \code{MFCLFlags}.
+#' @param flaglist optional filename to use instead of the built-in
+#'        \file{flaglist.csv} lookup table.
+#'
+#' @return
+#' A data frame with the same columns as \code{flags} plus a column called
+#' \code{meaning}.
+#'
+#' @seealso
+#' \code{\link{read.MFCLFlags}}, \code{\link{flagDiff}}.
+#'
+#' @examples
+#' data(par)
+#' par1 <- par2 <- par
+#'
+#' # Different flag value
+#' flags(par2)[20,"value"] <- 12
+#' flagDiff(par1, par2)
+#'
+#' # Example where flag is specified in par1 but not in par2
+#' flags(par1) <- rbind(flags(par1), c(-10269, 1, 1))
+#' flagDiff(par1, par2)             # default is to show par2 as NA
+#' flagDiff(par1, par2, all=FALSE)  # all=FALSE omits such comparisons
+#'
+#' @export
+
+flagMeaning <- function(flags, flaglist=NULL) {
+
+  # Prepare flag list
+  if(is.character(flaglist))
+    flaglist <- read.csv(flaglist)
+  if(is.null(flaglist))
+    flaglist <- read.csv(system.file(package="FLR4MFCL",
+                                     "flaglist/flaglist.csv"))
+
+  # Look up flag meaning
+  lookup <- function(flagtype, flag, flaglist)
+  {
+    flagtype <- as.integer(flagtype)
+    flag <- as.integer(flag)
+    if(flagtype == 1)
+      flaglist[flag, "parest_flags"]
+    else if(flagtype == 2)
+      flaglist[flag, "age_flags"]
+    else if(flagtype %in% -(1:999))
+      flaglist[flag, "fish_flags"]
+    else
+      ""
+  }
+
+  # Add column with meaning
+  flags$meaning <- ""
+  for(i in seq_len(nrow(flags)))
+    flags$meaning[i] <- lookup(flags$flagtype[i], flags$flag[i], flaglist)
+
+  flags
 }

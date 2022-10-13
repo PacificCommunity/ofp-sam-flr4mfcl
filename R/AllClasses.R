@@ -15,7 +15,8 @@ validMFCLFrqStats <- function(object){
   #Everything is fine
   return(TRUE)
 }
-#' An S4 class : Essesntial dimensions and ranges of the frq file.
+
+#' An S4 class : Essential dimensions and ranges of the frq file.
 #'
 #' @slot n_regions Number of regions
 #' @slot n_fisheries Number of fisheries
@@ -33,7 +34,7 @@ validMFCLFrqStats <- function(object){
 #' @slot n_move_yr Description
 #' @slot move_weeks Description
 #' @slot range Description
-#'
+
 setClass("MFCLFrqStats",
          representation(
            n_regions    = "numeric",
@@ -667,6 +668,8 @@ validMFCLPar <- function(object){
   return(TRUE)
 }
 
+#' An S4 class : Undocumented.
+
 setClass("MFCLPar",
          representation(
            "MFCLBiol",
@@ -1172,11 +1175,24 @@ validMFCLMSEControl <- function(object){
 
 #' An S4 class : Controls the MSE simulations
 #'
-#' @slot itn Description
+#' @slot itn Undocumented.
 #' @slot hcr The name of the HCR function as a character string. This function must exist and have the arguments: sbsbf0 and params. The params argument is taken from the params slot when evaluated.
 #' @slot hcr_params A numeric vector of parameters for the HCR function.
-#' @slot ess_scalar
-#'
+#' @slot ess_scalar Undocumented.
+#' @slot effort_creep Undocumented.
+#' @slot effort_creep_fish Undocumented.
+#' @slot avyrs Undocumented.
+#' @slot catch_sd Undocumented.
+#' @slot controls Undocumented.
+#' @slot doitall Undocumented.
+#' @slot effort_sd Undocumented.
+#' @slot fprojyr Undocumented.
+#' @slot nsims Undocumented.
+#' @slot nyears Undocumented.
+#' @slot random_seeds Undocumented.
+#' @slot tag_controls Undocumented.
+#' @slot tag_fish_rep_rate Undocumented.
+
 setClass("MFCLMSEControl",
          representation(
            "MFCLPseudoControl",

@@ -4,23 +4,39 @@
 \alias{flagDiff}
 \title{Flag Diff}
 \usage{
-flagDiff(par1, par2)
+flagDiff(par1, par2, all = TRUE, flaglist = NULL)
 }
 \arguments{
-\item{par1}{An object of class MFCLPar.}
+\item{par1}{a filename or object of class \code{MFCLPar} or \code{MFCLFlags}.}
 
-\item{par2}{An object of class MFCLPar.}
+\item{par2}{a filename or object of class \code{MFCLPar} or \code{MFCLFlags}.}
+
+\item{all}{whether to compare all flags, including those that are not
+specified in both par files.}
+
+\item{flaglist}{optional filename to use instead of the built-in
+\file{flaglist.csv} lookup table.}
 }
 \value{
 A data frame of flag settings for par1 and par2.
 }
 \description{
-Show flag differences between two par objects/files.
+Show flag differences between two par files or MFCL objects.
 }
 \examples{
 data(par)
 par1 <- par2 <- par
+
+# Different flag value
 flags(par2)[20,"value"] <- 12
 flagDiff(par1, par2)
 
+# When flag is specified in par1 but not in par2
+flags(par1) <- rbind(flags(par1), c(-10269, 1, 1))
+flagDiff(par1, par2)             # default is to show par2 as NA
+flagDiff(par1, par2, all=FALSE)  # all=FALSE omits such comparisons
+
+}
+\seealso{
+\code{\link{read.MFCLFlags}}, \code{\link{flagMeaning}}.
 }

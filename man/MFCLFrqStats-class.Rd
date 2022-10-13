@@ -3,9 +3,9 @@
 \docType{class}
 \name{MFCLFrqStats-class}
 \alias{MFCLFrqStats-class}
-\title{An S4 class : Essesntial dimensions and ranges of the frq file.}
+\title{An S4 class : Essential dimensions and ranges of the frq file.}
 \description{
-An S4 class : Essesntial dimensions and ranges of the frq file.
+An S4 class : Essential dimensions and ranges of the frq file.
 }
 \section{Slots}{
 

@@ -5,7 +5,6 @@
 \alias{as.MFCLIni}
 \alias{n_fisheries,MFCLPar-method}
 \alias{laa,MFCLBiol-method}
-\alias{laa}
 \alias{aal,MFCLBiol-method}
 \alias{aal}
 \alias{waa}
