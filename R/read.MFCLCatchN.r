@@ -6,6 +6,8 @@
                     
 read.MFCLCatchN <- function(file="ests.rep", first.yr=1972){
 
+  splitter2 <- function(...) stop("splitter2 is undefined")
+
   ests <- readLines(file)
   
   nages      <- length(splitter2(ests, "Fishery Realization1"))
