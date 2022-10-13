@@ -86,10 +86,10 @@ flagSummary <- function(par, type){
 
   ffrange <- -(1:dimensions(par)['fisheries'])
   switch(type,
-    "projection"     = rbind(flagval(par, 1, c(142, 231:239)), flagval(par, 2, c(20, 190, 191, 195, 161, 199, 200))),
-    "impact_analysis"= rbind(flagval(par, 2, c(170:176, 190, 191, 193)), flagval(par, ffrange, 55)),
-    "MSY"            = rbind(flagval(par, 2, c(112, 140:141, 145:155, 161:163, 165:169, 194, 199:200)), flagval(par, ffrange, 70))
-  )
+         "projection"     = rbind(flagval(par, 1, c(142, 231:239)), flagval(par, 2, c(20, 190, 191, 195, 161, 199, 200))),
+         "impact_analysis"= rbind(flagval(par, 2, c(170:176, 190, 191, 193)), flagval(par, ffrange, 55)),
+         "MSY"            = rbind(flagval(par, 2, c(112, 140:141, 145:155, 161:163, 165:169, 194, 199:200)), flagval(par, ffrange, 70))
+         )
 }
 
 
@@ -101,18 +101,13 @@ flagSummary <- function(par, type){
 #' @param par2 a filename or object of class \code{MFCLPar} or \code{MFCLFlags}.
 #' @param all whether to compare all flags, including those that are not
 #'        specified in both par files.
+#' @param flaglist optional filename to use instead of the built-in
+#'        \file{flaglist.csv} lookup table.
 #'
 #' @return A data frame of flag settings for par1 and par2.
 #'
-#' @note
-#' The traditional way to read in a par file is using \code{read.MFCLPar} that
-#' imports all parameter values, flags, and a variety of other information.
-#'
-#' For the purposes of comparing flags, \code{read.MFCLFLags} can be more
-#' practical, as it takes around 20x less time to import only the flags.
-#'
-#' In both cases, the \code{flags()} method can be used to access the
-#' \code{flags} data frame.
+#' @seealso
+#' \code{\link{read.MFCLFlags}}, \code{\link{flagMeaning}}.
 #'
 #' @examples
 #' data(par)
@@ -122,14 +117,14 @@ flagSummary <- function(par, type){
 #' flags(par2)[20,"value"] <- 12
 #' flagDiff(par1, par2)
 #'
-#' # Example where flag is specified in par1 but not in par2
+#' # When flag is specified in par1 but not in par2
 #' flags(par1) <- rbind(flags(par1), c(-10269, 1, 1))
 #' flagDiff(par1, par2)             # default is to show par2 as NA
 #' flagDiff(par1, par2, all=FALSE)  # all=FALSE omits such comparisons
 #'
 #' @export
 
-flagDiff <- function(par1, par2, all=TRUE) {
+flagDiff <- function(par1, par2, all=TRUE, flaglist=NULL) {
 
   # Extract flags
   if(is.character(par1) && file.exists(par1))
@@ -149,5 +144,71 @@ flagDiff <- function(par1, par2, all=TRUE) {
   diffs <- diffs[order(-diffs$flagtype, diffs$flag),]
   rownames(diffs) <- NULL
 
+  # Add column with meaning
+  diffs <- flagMeaning(diffs, flaglist=flaglist)
+
   diffs
+}
+
+#' Flag Meaning
+#'
+#' Show the meaning of flags, based on a lookup table.
+#'
+#' @param flags is a data frame or object of class \code{MFCLPar} or
+#'        \code{MFCLFlags}.
+#' @param flaglist optional filename to use instead of the built-in
+#'        \file{flaglist.csv} lookup table.
+#'
+#' @return
+#' A data frame with the same columns as \code{flags} plus a column called
+#' \code{meaning}.
+#'
+#' @seealso
+#' \code{\link{read.MFCLFlags}}, \code{\link{flagDiff}}.
+#'
+#' @examples
+#' data(par)
+#' par1 <- par2 <- par
+#'
+#' # Different flag value
+#' flags(par2)[20,"value"] <- 12
+#' flagDiff(par1, par2)
+#'
+#' # Example where flag is specified in par1 but not in par2
+#' flags(par1) <- rbind(flags(par1), c(-10269, 1, 1))
+#' flagDiff(par1, par2)             # default is to show par2 as NA
+#' flagDiff(par1, par2, all=FALSE)  # all=FALSE omits such comparisons
+#'
+#' @export
+
+flagMeaning <- function(flags, flaglist=NULL) {
+
+  # Prepare flag list
+  if(is.character(flaglist))
+    flaglist <- read.csv(flaglist)
+  if(is.null(flaglist))
+    flaglist <- read.csv(system.file(package="FLR4MFCL",
+                                     "flaglist/flaglist.csv"))
+
+  # Look up flag meaning
+  lookup <- function(flagtype, flag, flaglist)
+  {
+    flagtype <- as.integer(flagtype)
+    flag <- as.integer(flag)
+    if(flagtype == 1)
+      flaglist[flag, "parest_flags"]
+    else if(flagtype == 2)
+      flaglist[flag, "age_flags"]
+    else if(flagtype %in% -(1:999))
+      flaglist[flag, "fish_flags"]
+    else
+      ""
+  }
+
+  # Add column with meaning
+  flags$meaning <- ""
+  for(i in seq_len(nrow(flags)))
+    flags$meaning[i] <- lookup(flags$flagtype[i], flags$flag[i], flaglist)
+
+  flags
 }
