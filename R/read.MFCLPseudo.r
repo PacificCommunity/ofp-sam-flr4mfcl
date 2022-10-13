@@ -533,6 +533,8 @@ read.MFCLCatchSim <- function(catch="catch_sim", projfrq="missing", ctrl="missin
   if(length(fprojyr(ctrl))==0)
     warning("fprojyr(ctrl)==0, object may be incomplete")
     
+  nlbins <- lf_range(projfrq)['LFIntervals']
+
     cc    <- readLines(catch)
     cdat  <- matrix(as.numeric(unlist(strsplit(trim.leading(cc[-grep("#", cc)]), split="[[:blank:]]+"))), nrow=2)
     cseed <- as.numeric(unlist(lapply(strsplit(cc[grep("# seed", cc)], split="[[:blank:]]+"), el, 3)))
