@@ -15,6 +15,7 @@ export(
   "condor_submit_set_iters",
   "corFilter",
   "corLabel",
+  "diffFlags",
   "finalPar",
   "finalRep",
   "flagDiff",

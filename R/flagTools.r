@@ -93,9 +93,9 @@ flagSummary <- function(par, type){
 }
 
 
-#' Flag Diff
+#' Diff Flags
 #'
-#' Show flag differences between two par files or MFCL objects.
+#' Show differences in flag settings between two model runs.
 #'
 #' @param par1 a filename or object of class \code{MFCLPar} or \code{MFCLFlags}.
 #' @param par2 a filename or object of class \code{MFCLPar} or \code{MFCLFlags}.
@@ -103,8 +103,13 @@ flagSummary <- function(par, type){
 #'        specified in both par files.
 #' @param flaglist optional filename to use instead of the built-in
 #'        \file{flaglist.csv} lookup table.
+#' @param \dots passed to \code{diffFlags}.
 #'
 #' @return A data frame of flag settings for par1 and par2.
+#'
+#' @note
+#' \code{flagDiff} is an older name of this function. To support legacy scripts,
+#' a call to the old function is simply forwarded to \code{diffFlags}.
 #'
 #' @seealso
 #' \code{\link{read.MFCLFlags}}, \code{\link{flagMeaning}}.
@@ -115,16 +120,16 @@ flagSummary <- function(par, type){
 #'
 #' # Different flag value
 #' flags(par2)[20,"value"] <- 12
-#' flagDiff(par1, par2)
+#' diffFlags(par1, par2)
 #'
 #' # When flag is specified in par1 but not in par2
 #' flags(par1) <- rbind(flags(par1), c(-10269, 1, 1))
-#' flagDiff(par1, par2)             # default is to show par2 as NA
-#' flagDiff(par1, par2, all=FALSE)  # all=FALSE omits such comparisons
+#' diffFlags(par1, par2)             # default is to show par2 as NA
+#' diffFlags(par1, par2, all=FALSE)  # all=FALSE omits such comparisons
 #'
 #' @export
 
-flagDiff <- function(par1, par2, all=TRUE, flaglist=NULL) {
+diffFlags <- function(par1, par2, all=TRUE, flaglist=NULL) {
 
   # Extract flags
   if(is.character(par1) && file.exists(par1))
@@ -149,6 +154,13 @@ flagDiff <- function(par1, par2, all=TRUE, flaglist=NULL) {
 
   diffs
 }
+
+#' @rdname diffFlags
+
+flagDiff <- function(...) {
+  diffFlags(...)
+}
+
 
 #' Flag Meaning
 #'
