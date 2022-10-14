@@ -10,12 +10,9 @@ diffFlags(par1, par2, all = TRUE, flaglist = NULL)
 flagDiff(...)
 }
 \arguments{
-\item{par1}{a filename or object of class \code{MFCLPar} or \code{MFCLFlags}.}
+\item{par1}{MFCL flags from model run 1.}
 
-\item{par2}{a filename or object of class \code{MFCLPar} or \code{MFCLFlags}.}
-
-\item{all}{whether to compare all flags, including those that are not
-specified in both par files.}
+\item{par2}{MFCL flags from model run 2.}
 
 \item{flaglist}{optional filename to use instead of the built-in
 \file{flaglist.csv} lookup table.}
@@ -23,10 +20,20 @@ specified in both par files.}
 \item{\dots}{passed to \code{diffFlags}.}
 }
 \value{
-A data frame of flag settings for par1 and par2.
+A data frame showing flag settings where par1 and par2 are different, along
+with a column showing the meaning of each flag.
 }
 \description{
 Show differences in flag settings between two model runs.
+}
+\details{
+The \code{par1} and \code{par2} objects can be any of the following:
+\enumerate{
+\item filename pointing to a par file
+\item \code{MFCLPar} object
+\item \code{MFCLFlags} object
+\item \code{data.frame} containing flag settings
+}
 }
 \note{
 \code{flagDiff} is an older name of this function. To support legacy scripts,
@@ -47,5 +54,8 @@ diffFlags(par1, par2, all=FALSE)  # all=FALSE omits such comparisons
 
 }
 \seealso{
-\code{\link{read.MFCLFlags}}, \code{\link{flagMeaning}}.
+This function calls \code{\link{flagMeaning}} to add the column showing the
+meaning of each flag.
+
+\code{\link{read.MFCLFlags}} reads flag settings from a par file.
 }

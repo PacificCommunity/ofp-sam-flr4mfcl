@@ -7,8 +7,7 @@
 flagMeaning(flags, flaglist = NULL)
 }
 \arguments{
-\item{flags}{is a data frame or object of class \code{MFCLPar} or
-\code{MFCLFlags}.}
+\item{flags}{MFCL flags from a model run.}
 
 \item{flaglist}{optional filename to use instead of the built-in
 \file{flaglist.csv} lookup table.}
@@ -20,20 +19,23 @@ A data frame with the same columns as \code{flags} plus a column called
 \description{
 Show the meaning of flags, based on a lookup table.
 }
+\details{
+The \code{flags} object can be any of the following:
+\enumerate{
+\item filename pointing to a par file
+\item \code{MFCLPar} object
+\item \code{MFCLFlags} object
+\item \code{data.frame} containing flag settings
+}
+}
 \examples{
 data(par)
-par1 <- par2 <- par
-
-# Different flag value
-flags(par2)[20,"value"] <- 12
-flagDiff(par1, par2)
-
-# Example where flag is specified in par1 but not in par2
-flags(par1) <- rbind(flags(par1), c(-10269, 1, 1))
-flagDiff(par1, par2)             # default is to show par2 as NA
-flagDiff(par1, par2, all=FALSE)  # all=FALSE omits such comparisons
+flagMeaning(par)
 
 }
 \seealso{
-\code{\link{read.MFCLFlags}}, \code{\link{flagDiff}}.
+\code{\link{diffFlags}} calls this function to show the meaning of flags that
+are different between two model runs.
+
+\code{\link{read.MFCLFlags}} reads flag settings from a par file.
 }

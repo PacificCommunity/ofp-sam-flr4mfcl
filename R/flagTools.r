@@ -97,22 +97,34 @@ flagSummary <- function(par, type){
 #'
 #' Show differences in flag settings between two model runs.
 #'
-#' @param par1 a filename or object of class \code{MFCLPar} or \code{MFCLFlags}.
-#' @param par2 a filename or object of class \code{MFCLPar} or \code{MFCLFlags}.
-#' @param all whether to compare all flags, including those that are not
-#'        specified in both par files.
+#' @param par1 MFCL flags from model run 1.
+#' @param par2 MFCL flags from model run 2.
 #' @param flaglist optional filename to use instead of the built-in
 #'        \file{flaglist.csv} lookup table.
 #' @param \dots passed to \code{diffFlags}.
 #'
-#' @return A data frame of flag settings for par1 and par2.
+#' @details
+#' The \code{par1} and \code{par2} objects can be any of the following:
+#' \enumerate{
+#' \item filename pointing to a par file
+#' \item \code{MFCLPar} object
+#' \item \code{MFCLFlags} object
+#' \item \code{data.frame} containing flag settings
+#' }
+#'
+#' @return
+#' A data frame showing flag settings where par1 and par2 are different, along
+#' with a column showing the meaning of each flag.
 #'
 #' @note
 #' \code{flagDiff} is an older name of this function. To support legacy scripts,
 #' a call to the old function is simply forwarded to \code{diffFlags}.
 #'
 #' @seealso
-#' \code{\link{read.MFCLFlags}}, \code{\link{flagMeaning}}.
+#' This function calls \code{\link{flagMeaning}} to add the column showing the
+#' meaning of each flag.
+#'
+#' \code{\link{read.MFCLFlags}} reads flag settings from a par file.
 #'
 #' @examples
 #' data(par)
@@ -136,8 +148,8 @@ diffFlags <- function(par1, par2, all=TRUE, flaglist=NULL) {
     par1 <- read.MFCLFlags(par1)
   if(is.character(par2) && file.exists(par2))
     par2 <- read.MFCLFlags(par2)
-  flags1 <- flags(par1)
-  flags2 <- flags(par2)
+  flags1 <- if(isS4(par1)) flags(par1) else par1
+  flags2 <- if(isS4(par2)) flags(par2) else par2
 
   # Combine
   flags <- merge(flags1, flags2, by=c("flagtype", "flag"), all=all)
@@ -166,34 +178,42 @@ flagDiff <- function(...) {
 #'
 #' Show the meaning of flags, based on a lookup table.
 #'
-#' @param flags is a data frame or object of class \code{MFCLPar} or
-#'        \code{MFCLFlags}.
+#' @param flags MFCL flags from a model run.
 #' @param flaglist optional filename to use instead of the built-in
 #'        \file{flaglist.csv} lookup table.
+#'
+#' @details
+#' The \code{flags} object can be any of the following:
+#' \enumerate{
+#' \item filename pointing to a par file
+#' \item \code{MFCLPar} object
+#' \item \code{MFCLFlags} object
+#' \item \code{data.frame} containing flag settings
+#' }
 #'
 #' @return
 #' A data frame with the same columns as \code{flags} plus a column called
 #' \code{meaning}.
 #'
 #' @seealso
-#' \code{\link{read.MFCLFlags}}, \code{\link{flagDiff}}.
+#' \code{\link{diffFlags}} calls this function to show the meaning of flags that
+#' are different between two model runs.
+#'
+#' \code{\link{read.MFCLFlags}} reads flag settings from a par file.
 #'
 #' @examples
 #' data(par)
-#' par1 <- par2 <- par
-#'
-#' # Different flag value
-#' flags(par2)[20,"value"] <- 12
-#' flagDiff(par1, par2)
-#'
-#' # Example where flag is specified in par1 but not in par2
-#' flags(par1) <- rbind(flags(par1), c(-10269, 1, 1))
-#' flagDiff(par1, par2)             # default is to show par2 as NA
-#' flagDiff(par1, par2, all=FALSE)  # all=FALSE omits such comparisons
+#' flagMeaning(par)
 #'
 #' @export
 
 flagMeaning <- function(flags, flaglist=NULL) {
+
+  # Extract flags
+  if(is.character(flags) && file.exists(flags))
+    flags <- read.MFCLFlags(flags)
+  if(isS4(flags))
+    flags <- flags(flags)
 
   # Prepare flag list
   if(is.character(flaglist))
