@@ -16,6 +16,7 @@ export(
   "corFilter",
   "corLabel",
   "diffFlags",
+  "diffFlagsStepwise",
   "finalPar",
   "finalRep",
   "flagDiff",

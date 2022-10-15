@@ -134,6 +134,9 @@ flagSummary <- function(par, type){
 #' This function calls \code{\link{flagMeaning}} to add the column showing the
 #' meaning of each flag.
 #'
+#' \code{\link{diffFlagsStepwise}} shows differences in flag settings between
+#' stepwise model runs.
+#'
 #' \code{\link{read.MFCLFlags}} reads flag settings from a par file.
 #'
 #' @examples
@@ -253,4 +256,52 @@ flagMeaning <- function(flags, flaglist=NULL) {
     flags$meaning[i] <- lookup(flags$flagtype[i], flags$flag[i], flaglist)
 
   flags
+}
+
+
+#' Diff Flags Stepwise
+#'
+#' Show differences in flag settings between stepwise model runs.
+#'
+#' @param stepdir is a directory containing model runs in subdirectories.
+#' @param \dots passed to \code{diffFlags}.
+#'
+#' @return
+#' A list of data frames showing differences in flag settings between stepwise
+#' model runs.
+#'
+#' @seealso
+#' \code{\link{diffFlags}} shows differences in flag settings between two model
+#' runs.
+#'
+#' \code{\link{read.MFCLFlags}} reads flag settings from a par file.
+#'
+#' @examples
+#' \dontrun{
+#' diffFlagsStepwise("stepwise")
+#' }
+#'
+#' @export
+
+diffFlagsStepwise <- function(stepdir, ...) {
+
+  # Find models in stepwise folder
+  models <- dir(stepdir, full.names=TRUE)
+  models <- models[dir.exists(models)]  # only directories
+  if(length(models) < 2)
+    stop("fewer than 2 models in stepwise folder, nothing to diff")
+
+  # Import final flags from each model
+  parfiles <- sapply(models, finalPar, quiet=TRUE)
+  parobj <- sapply(parfiles, read.MFCLFlags)
+
+  # Compare flags
+  diffs <- list()
+  for(i in seq_len(length(models)-1))
+  {
+    diffs[[i]] <- diffFlags(parobj[[i]], parobj[[i+1]], ...)
+    names(diffs)[i] <- paste(basename(models)[i], "vs.", basename(models)[i+1])
+  }
+
+  diffs
 }

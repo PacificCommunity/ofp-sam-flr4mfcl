@@ -57,5 +57,8 @@ diffFlags(par1, par2, all=FALSE)  # all=FALSE omits such comparisons
 This function calls \code{\link{flagMeaning}} to add the column showing the
 meaning of each flag.
 
+\code{\link{diffFlagsStepwise}} shows differences in flag settings between
+stepwise model runs.
+
 \code{\link{read.MFCLFlags}} reads flag settings from a par file.
 }
