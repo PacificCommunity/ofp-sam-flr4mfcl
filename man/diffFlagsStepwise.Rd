@@ -21,6 +21,9 @@ Show differences in flag settings between stepwise model runs.
 \examples{
 \dontrun{
 diffFlagsStepwise("stepwise")
+
+# Show number of changed flags in each step
+lapply(diffFlagsStepwise("stepwise"), nrow)
 }
 
 }

@@ -273,6 +273,9 @@ flagMeaning <- function(flags, flaglist=NULL) {
 #' @examples
 #' \dontrun{
 #' diffFlagsStepwise("stepwise")
+#'
+#' # Show number of changed flags in each step
+#' lapply(diffFlagsStepwise("stepwise"), nrow)
 #' }
 #'
 #' @export
