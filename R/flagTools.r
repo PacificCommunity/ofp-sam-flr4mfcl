@@ -3,7 +3,8 @@
 
 #' Recruitment Periods
 #'
-#' Calculate recruitment periods for deterministic and stochastic projection settings.
+#' Calculate recruitment periods for deterministic and stochastic projection
+#' settings.
 #'
 #' @param par an object of class MFCLPar.
 #' @param af199 undocumented.
@@ -20,12 +21,15 @@
 #'
 #' @export
 
-recPeriod <- function(par, af199=NULL, af200=NULL, pf232=NULL, pf233=NULL, show=FALSE){
+recPeriod <- function(par, af199=NULL, af200=NULL, pf232=NULL, pf233=NULL,
+                      show=FALSE){
 
-  mat_d <- matrix(rev(1:dimensions(par)["years"]), ncol=dimensions(par)["seasons"], byrow=TRUE)
+  mat_d <- matrix(rev(1:dimensions(par)["years"]),
+                  ncol=dimensions(par)["seasons"], byrow=TRUE)
   rownames(mat_d) <- as.character(range(par)["minyear"]:range(par)["maxyear"])
 
-  mat_s <- matrix(1:dimensions(par)["years"], ncol=dimensions(par)["seasons"], byrow=TRUE)
+  mat_s <- matrix(1:dimensions(par)["years"], ncol=dimensions(par)["seasons"],
+                  byrow=TRUE)
   rownames(mat_s) <- as.character(range(par)["minyear"]:range(par)["maxyear"])
 
   if(show){
@@ -82,14 +86,20 @@ flagSummary <- function(par, type){
   options <- c('projection', 'impact_analysis', 'MSY')
 
   if(!is.element(type, options))
-    stop(paste("arg 'type' must be one of the following:", paste0(options, collapse="; ")))
+    stop(paste("arg 'type' must be one of the following:",
+               paste0(options, collapse="; ")))
 
   ffrange <- -(1:dimensions(par)['fisheries'])
-  switch(type,
-         "projection"     = rbind(flagval(par, 1, c(142, 231:239)), flagval(par, 2, c(20, 190, 191, 195, 161, 199, 200))),
-         "impact_analysis"= rbind(flagval(par, 2, c(170:176, 190, 191, 193)), flagval(par, ffrange, 55)),
-         "MSY"            = rbind(flagval(par, 2, c(112, 140:141, 145:155, 161:163, 165:169, 194, 199:200)), flagval(par, ffrange, 70))
-         )
+  switch(
+    type,
+    projection=rbind(flagval(par, 1, c(142, 231:239)),
+                     flagval(par, 2, c(20, 190, 191, 195, 161, 199, 200))),
+    impact_analysis=rbind(flagval(par, 2, c(170:176, 190, 191, 193)),
+                          flagval(par, ffrange, 55)),
+    MSY=rbind(
+      flagval(par, 2, c(112, 140:141, 145:155, 161:163, 165:169, 194, 199:200)),
+      flagval(par, ffrange, 70))
+  )
 }
 
 
