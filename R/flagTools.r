@@ -116,7 +116,8 @@ flagSummary <- function(par, type){
 #' @details
 #' The \code{par1} and \code{par2} objects can be any of the following:
 #' \enumerate{
-#' \item filename pointing to a par file
+#' \item folder containing a par file
+#' \item filename of a par file
 #' \item \code{MFCLPar} object
 #' \item \code{MFCLFlags} object
 #' \item \code{data.frame} containing flag settings
@@ -156,13 +157,8 @@ flagSummary <- function(par, type){
 
 diffFlags <- function(par1, par2, all=TRUE, flaglist=NULL) {
 
-  # Extract flags
-  if(is.character(par1) && file.exists(par1))
-    par1 <- read.MFCLFlags(par1)
-  if(is.character(par2) && file.exists(par2))
-    par2 <- read.MFCLFlags(par2)
-  flags1 <- if(isS4(par1)) flags(par1) else par1
-  flags2 <- if(isS4(par2)) flags(par2) else par2
+  flags1 <- flagExtract(par1)
+  flags2 <- flagExtract(par2)
 
   # Combine
   flags <- merge(flags1, flags2, by=c("flagtype", "flag"), all=all)
@@ -198,7 +194,8 @@ flagDiff <- function(...) {
 #' @details
 #' The \code{flags} object can be any of the following:
 #' \enumerate{
-#' \item filename pointing to a par file
+#' \item folder containing a par file
+#' \item filename of a par file
 #' \item \code{MFCLPar} object
 #' \item \code{MFCLFlags} object
 #' \item \code{data.frame} containing flag settings
@@ -223,10 +220,7 @@ flagDiff <- function(...) {
 flagMeaning <- function(flags, flaglist=NULL) {
 
   # Extract flags
-  if(is.character(flags) && file.exists(flags))
-    flags <- read.MFCLFlags(flags)
-  if(isS4(flags))
-    flags <- flags(flags)
+  flags <- flagExtract(flags)
 
   # Prepare flag list
   if(is.character(flaglist))
@@ -291,7 +285,7 @@ diffFlagsStepwise <- function(stepdir, ...) {
   if(length(models) < 2)
     stop("fewer than 2 models in stepwise folder, nothing to diff")
 
-  # Import final flags from each model
+  # Import each model once
   parfiles <- sapply(models, finalPar, quiet=TRUE)
   parobj <- sapply(parfiles, read.MFCLFlags)
 
@@ -304,4 +298,18 @@ diffFlagsStepwise <- function(stepdir, ...) {
   }
 
   diffs
+}
+
+
+# Get flags from anything: folder -> file -> flags -> data.frame
+
+flagExtract <- function(flags) {
+
+  if(is.character(flags) && dir.exists(flags))
+    flags <- finalPar(flags, quiet=TRUE)
+  if(is.character(flags) && file.exists(flags))
+    flags <- read.MFCLFlags(flags)
+  if(isS4(flags))
+    flags <- flags(flags)
+  flags
 }

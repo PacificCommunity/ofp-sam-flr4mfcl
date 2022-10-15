@@ -29,7 +29,8 @@ Show differences in flag settings between two model runs.
 \details{
 The \code{par1} and \code{par2} objects can be any of the following:
 \enumerate{
-\item filename pointing to a par file
+\item folder containing a par file
+\item filename of a par file
 \item \code{MFCLPar} object
 \item \code{MFCLFlags} object
 \item \code{data.frame} containing flag settings

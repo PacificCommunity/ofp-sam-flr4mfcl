@@ -22,7 +22,8 @@ Show the meaning of flags, based on a lookup table.
 \details{
 The \code{flags} object can be any of the following:
 \enumerate{
-\item filename pointing to a par file
+\item folder containing a par file
+\item filename of a par file
 \item \code{MFCLPar} object
 \item \code{MFCLFlags} object
 \item \code{data.frame} containing flag settings
