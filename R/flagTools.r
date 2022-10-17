@@ -258,6 +258,7 @@ flagMeaning <- function(flags, flaglist=NULL) {
 #' Show differences in flag settings between stepwise model runs.
 #'
 #' @param stepdir is a directory containing model runs in subdirectories.
+#' @param quiet whether to suppress the on-screen reporting of reading files.
 #' @param \dots passed to \code{diffFlags}.
 #'
 #' @return
@@ -280,7 +281,7 @@ flagMeaning <- function(flags, flaglist=NULL) {
 #'
 #' @export
 
-diffFlagsStepwise <- function(stepdir, ...) {
+diffFlagsStepwise <- function(stepdir, quiet=FALSE, ...) {
 
   # Find models in stepwise folder
   models <- dir(stepdir, full.names=TRUE)
@@ -289,8 +290,13 @@ diffFlagsStepwise <- function(stepdir, ...) {
     stop("fewer than 2 models in stepwise folder, nothing to diff")
 
   # Import each model once
-  parfiles <- sapply(models, finalPar, quiet=TRUE)
-  parobj <- sapply(parfiles, read.MFCLFlags)
+  parobj <- list()
+  for(i in seq_len(length(models))) {
+    if(!quiet)
+      cat("** Reading ", basename(models[i]), "/", sep="")
+    parfile <- finalPar(models[i], quiet=quiet)
+    parobj[[i]] <- read.MFCLFlags(parfile)
+  }
 
   # Compare flags
   diffs <- list()

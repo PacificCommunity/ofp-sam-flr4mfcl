@@ -4,10 +4,12 @@
 \alias{diffFlagsStepwise}
 \title{Diff Flags Stepwise}
 \usage{
-diffFlagsStepwise(stepdir, ...)
+diffFlagsStepwise(stepdir, quiet = FALSE, ...)
 }
 \arguments{
 \item{stepdir}{is a directory containing model runs in subdirectories.}
+
+\item{quiet}{whether to suppress the on-screen reporting of reading files.}
 
 \item{\dots}{passed to \code{diffFlags}.}
 }
