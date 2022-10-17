@@ -245,7 +245,7 @@ flagMeaning <- function(flags, flaglist=NULL) {
   }
 
   # Add column with meaning
-  flags$meaning <- ""
+  flags$meaning <- character(nrow(flags))
   for(i in seq_len(nrow(flags)))
     flags$meaning[i] <- lookup(flags$flagtype[i], flags$flag[i], flaglist)
 
