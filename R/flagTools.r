@@ -109,6 +109,8 @@ flagSummary <- function(par, type){
 #'
 #' @param par1 MFCL flags from model run 1.
 #' @param par2 MFCL flags from model run 2.
+#' @param all whether to include flags that are only specified in one of the
+#'        model runs.
 #' @param flaglist optional filename to use instead of the built-in
 #'        \file{flaglist.csv} lookup table.
 #' @param \dots passed to \code{diffFlags}.
