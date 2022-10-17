@@ -4,10 +4,22 @@
 \alias{diffFlagsStepwise}
 \title{Diff Flags Stepwise}
 \usage{
-diffFlagsStepwise(stepdir, quiet = FALSE, ...)
+diffFlagsStepwise(
+  stepdir,
+  models = dir(stepdir, full.names = TRUE),
+  labels = basename(models),
+  quiet = FALSE,
+  ...
+)
 }
 \arguments{
-\item{stepdir}{is a directory containing model runs in subdirectories.}
+\item{stepdir}{a directory containing model runs in subdirectories.}
+
+\item{models}{an optional vector of filenames to manually specify stepwise
+models to compare.}
+
+\item{labels}{an optional vector of short labels to describe the stepwise
+models.}
 
 \item{quiet}{whether to suppress the on-screen reporting of reading files.}
 
@@ -20,12 +32,29 @@ model runs.
 \description{
 Show differences in flag settings between stepwise model runs.
 }
+\details{
+Generally, the user only needs to specify \code{stepdir}. If this top
+directory contains stepwise model runs as subdirectories, then the default
+values of \code{models} and \code{labels} will infer the correct paths and
+model names.
+
+If the stepwise model runs are not organized in a straightforward way, the
+\code{models} and \code{labels} arguments can be passed explicitly.
+}
 \examples{
 \dontrun{
-diffFlagsStepwise("stepwise")
+yft_dir <- "//penguin//assessments/yft/2020_review/analysis/stepwise"
+yft_diffs <- diffFlagsStepwise(yft_dir)
+lapply(yft_diffs, nrow)  # show number of flags changed in each step
+lapply(yft_diffs, head)  # peek at the first 6 flags changes in each step
 
-# Show number of changed flags in each step
-lapply(diffFlagsStepwise("stepwise"), nrow)
+# Unusual directory structure of BET 2020 stepwise models
+bet_dir <- "//penguin/assessments/bet/2020/2020_stepwise"
+bet_models <- file.path(dir(bet_dir, full.names=TRUE), "10N")
+bet_labels <- dir(bet_dir)
+bet_diffs <- diffFlagsStepwise(bet_dir, bet_models, bet_labels)
+lapply(bet_diffs, nrow)
+lapply(bet_diffs, head)
 }
 
 }
