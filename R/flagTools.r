@@ -3,7 +3,8 @@
 
 #' Recruitment Periods
 #'
-#' Calculate recruitment periods for deterministic and stochastic projection settings.
+#' Calculate recruitment periods for deterministic and stochastic projection
+#' settings.
 #'
 #' @param par an object of class MFCLPar.
 #' @param af199 undocumented.
@@ -20,12 +21,15 @@
 #'
 #' @export
 
-recPeriod <- function(par, af199=NULL, af200=NULL, pf232=NULL, pf233=NULL, show=FALSE){
+recPeriod <- function(par, af199=NULL, af200=NULL, pf232=NULL, pf233=NULL,
+                      show=FALSE){
 
-  mat_d <- matrix(rev(1:dimensions(par)["years"]), ncol=dimensions(par)["seasons"], byrow=TRUE)
+  mat_d <- matrix(rev(1:dimensions(par)["years"]),
+                  ncol=dimensions(par)["seasons"], byrow=TRUE)
   rownames(mat_d) <- as.character(range(par)["minyear"]:range(par)["maxyear"])
 
-  mat_s <- matrix(1:dimensions(par)["years"], ncol=dimensions(par)["seasons"], byrow=TRUE)
+  mat_s <- matrix(1:dimensions(par)["years"], ncol=dimensions(par)["seasons"],
+                  byrow=TRUE)
   rownames(mat_s) <- as.character(range(par)["minyear"]:range(par)["maxyear"])
 
   if(show){
@@ -82,32 +86,61 @@ flagSummary <- function(par, type){
   options <- c('projection', 'impact_analysis', 'MSY')
 
   if(!is.element(type, options))
-    stop(paste("arg 'type' must be one of the following:", paste0(options, collapse="; ")))
+    stop(paste("arg 'type' must be one of the following:",
+               paste0(options, collapse="; ")))
 
   ffrange <- -(1:dimensions(par)['fisheries'])
-  switch(type,
-         "projection"     = rbind(flagval(par, 1, c(142, 231:239)), flagval(par, 2, c(20, 190, 191, 195, 161, 199, 200))),
-         "impact_analysis"= rbind(flagval(par, 2, c(170:176, 190, 191, 193)), flagval(par, ffrange, 55)),
-         "MSY"            = rbind(flagval(par, 2, c(112, 140:141, 145:155, 161:163, 165:169, 194, 199:200)), flagval(par, ffrange, 70))
-         )
+  switch(
+    type,
+    projection=rbind(flagval(par, 1, c(142, 231:239)),
+                     flagval(par, 2, c(20, 190, 191, 195, 161, 199, 200))),
+    impact_analysis=rbind(flagval(par, 2, c(170:176, 190, 191, 193)),
+                          flagval(par, ffrange, 55)),
+    MSY=rbind(
+      flagval(par, 2, c(112, 140:141, 145:155, 161:163, 165:169, 194, 199:200)),
+      flagval(par, ffrange, 70))
+  )
 }
 
 
-#' Flag Diff
+#' Diff Flags
 #'
-#' Show flag differences between two par files or MFCL objects.
+#' Show differences in flag settings between two model runs.
 #'
-#' @param par1 a filename or object of class \code{MFCLPar} or \code{MFCLFlags}.
-#' @param par2 a filename or object of class \code{MFCLPar} or \code{MFCLFlags}.
-#' @param all whether to compare all flags, including those that are not
-#'        specified in both par files.
+#' @param par1 MFCL flags from model run 1.
+#' @param par2 MFCL flags from model run 2.
+#' @param all whether to include flags that are only specified in one of the
+#'        model runs.
 #' @param flaglist optional filename to use instead of the built-in
 #'        \file{flaglist.csv} lookup table.
+#' @param \dots passed to \code{diffFlags}.
 #'
-#' @return A data frame of flag settings for par1 and par2.
+#' @details
+#' The \code{par1} and \code{par2} objects can be any of the following:
+#' \enumerate{
+#' \item folder containing a par file
+#' \item filename of a par file
+#' \item \code{MFCLPar} object
+#' \item \code{MFCLFlags} object
+#' \item \code{data.frame} containing flag settings
+#' }
+#'
+#' @return
+#' A data frame showing flag settings where par1 and par2 are different, along
+#' with a column showing the meaning of each flag.
+#'
+#' @note
+#' \code{flagDiff} is an older name of this function. To support legacy scripts,
+#' a call to the old function is simply forwarded to \code{diffFlags}.
 #'
 #' @seealso
-#' \code{\link{read.MFCLFlags}}, \code{\link{flagMeaning}}.
+#' This function calls \code{\link{flagMeaning}} to add the column showing the
+#' meaning of each flag.
+#'
+#' \code{\link{diffFlagsStepwise}} shows differences in flag settings between
+#' stepwise model runs.
+#'
+#' \code{\link{read.MFCLFlags}} reads flag settings from a par file.
 #'
 #' @examples
 #' data(par)
@@ -115,24 +148,19 @@ flagSummary <- function(par, type){
 #'
 #' # Different flag value
 #' flags(par2)[20,"value"] <- 12
-#' flagDiff(par1, par2)
+#' diffFlags(par1, par2)
 #'
 #' # When flag is specified in par1 but not in par2
 #' flags(par1) <- rbind(flags(par1), c(-10269, 1, 1))
-#' flagDiff(par1, par2)             # default is to show par2 as NA
-#' flagDiff(par1, par2, all=FALSE)  # all=FALSE omits such comparisons
+#' diffFlags(par1, par2)             # default is to show par2 as NA
+#' diffFlags(par1, par2, all=FALSE)  # all=FALSE omits such comparisons
 #'
 #' @export
 
-flagDiff <- function(par1, par2, all=TRUE, flaglist=NULL) {
+diffFlags <- function(par1, par2, all=TRUE, flaglist=NULL) {
 
-  # Extract flags
-  if(is.character(par1) && file.exists(par1))
-    par1 <- read.MFCLFlags(par1)
-  if(is.character(par2) && file.exists(par2))
-    par2 <- read.MFCLFlags(par2)
-  flags1 <- flags(par1)
-  flags2 <- flags(par2)
+  flags1 <- flagExtract(par1)
+  flags2 <- flagExtract(par2)
 
   # Combine
   flags <- merge(flags1, flags2, by=c("flagtype", "flag"), all=all)
@@ -150,38 +178,51 @@ flagDiff <- function(par1, par2, all=TRUE, flaglist=NULL) {
   diffs
 }
 
+#' @rdname diffFlags
+
+flagDiff <- function(...) {
+  diffFlags(...)
+}
+
+
 #' Flag Meaning
 #'
 #' Show the meaning of flags, based on a lookup table.
 #'
-#' @param flags is a data frame or object of class \code{MFCLPar} or
-#'        \code{MFCLFlags}.
+#' @param flags MFCL flags from a model run.
 #' @param flaglist optional filename to use instead of the built-in
 #'        \file{flaglist.csv} lookup table.
+#'
+#' @details
+#' The \code{flags} object can be any of the following:
+#' \enumerate{
+#' \item folder containing a par file
+#' \item filename of a par file
+#' \item \code{MFCLPar} object
+#' \item \code{MFCLFlags} object
+#' \item \code{data.frame} containing flag settings
+#' }
 #'
 #' @return
 #' A data frame with the same columns as \code{flags} plus a column called
 #' \code{meaning}.
 #'
 #' @seealso
-#' \code{\link{read.MFCLFlags}}, \code{\link{flagDiff}}.
+#' \code{\link{diffFlags}} calls this function to show the meaning of flags that
+#' are different between two model runs.
+#'
+#' \code{\link{read.MFCLFlags}} reads flag settings from a par file.
 #'
 #' @examples
 #' data(par)
-#' par1 <- par2 <- par
-#'
-#' # Different flag value
-#' flags(par2)[20,"value"] <- 12
-#' flagDiff(par1, par2)
-#'
-#' # Example where flag is specified in par1 but not in par2
-#' flags(par1) <- rbind(flags(par1), c(-10269, 1, 1))
-#' flagDiff(par1, par2)             # default is to show par2 as NA
-#' flagDiff(par1, par2, all=FALSE)  # all=FALSE omits such comparisons
+#' flagMeaning(par)
 #'
 #' @export
 
 flagMeaning <- function(flags, flaglist=NULL) {
+
+  # Extract flags
+  flags <- flagExtract(flags)
 
   # Prepare flag list
   if(is.character(flaglist))
@@ -206,9 +247,101 @@ flagMeaning <- function(flags, flaglist=NULL) {
   }
 
   # Add column with meaning
-  flags$meaning <- ""
+  flags$meaning <- character(nrow(flags))
   for(i in seq_len(nrow(flags)))
     flags$meaning[i] <- lookup(flags$flagtype[i], flags$flag[i], flaglist)
 
+  flags
+}
+
+
+#' Diff Flags Stepwise
+#'
+#' Show differences in flag settings between stepwise model runs.
+#'
+#' @param stepdir a directory containing model runs in subdirectories.
+#' @param models an optional vector of filenames to manually specify stepwise
+#'        models to compare.
+#' @param labels an optional vector of short labels to describe the stepwise
+#'        models.
+#' @param quiet whether to suppress the on-screen reporting of reading files.
+#' @param \dots passed to \code{diffFlags}.
+#'
+#' @details
+#' Generally, the user only needs to specify \code{stepdir}. If this top
+#' directory contains stepwise model runs as subdirectories, then the default
+#' values of \code{models} and \code{labels} will infer the correct paths and
+#' model names.
+#'
+#' If the stepwise model runs are not organized in a straightforward way, the
+#' \code{models} and \code{labels} arguments can be passed explicitly.
+#'
+#' @return
+#' A list of data frames showing differences in flag settings between stepwise
+#' model runs.
+#'
+#' @seealso
+#' \code{\link{diffFlags}} shows differences in flag settings between two model
+#' runs.
+#'
+#' \code{\link{read.MFCLFlags}} reads flag settings from a par file.
+#'
+#' @examples
+#' \dontrun{
+#' yft_dir <- "//penguin//assessments/yft/2020_review/analysis/stepwise"
+#' yft_diffs <- diffFlagsStepwise(yft_dir)
+#' lapply(yft_diffs, nrow)  # show number of flags changed in each step
+#' lapply(yft_diffs, head)  # peek at the first 6 flags changes in each step
+#'
+#' # Unusual directory structure of BET 2020 stepwise models
+#' bet_dir <- "//penguin/assessments/bet/2020/2020_stepwise"
+#' bet_models <- file.path(dir(bet_dir, full.names=TRUE), "10N")
+#' bet_labels <- dir(bet_dir)
+#' bet_diffs <- diffFlagsStepwise(bet_dir, bet_models, bet_labels)
+#' lapply(bet_diffs, nrow)
+#' lapply(bet_diffs, head)
+#' }
+#'
+#' @export
+
+diffFlagsStepwise <- function(stepdir, models=dir(stepdir, full.names=TRUE),
+                              labels=basename(models), quiet=FALSE, ...) {
+
+  # Find models in stepwise folder
+  models <- models[dir.exists(models)]  # only directories
+  if(length(models) < 2)
+    stop("fewer than 2 models in stepwise folder, nothing to diff")
+
+  # Import each model once
+  parobj <- list()
+  for(i in seq_len(length(models))) {
+    if(!quiet)
+      cat("** Reading ", basename(models[i]), "/", sep="")
+    parfile <- finalPar(models[i], quiet=quiet)
+    parobj[[i]] <- read.MFCLFlags(parfile)
+  }
+
+  # Compare flags
+  diffs <- list()
+  for(i in seq_len(length(models)-1))
+  {
+    diffs[[i]] <- diffFlags(parobj[[i]], parobj[[i+1]], ...)
+    names(diffs)[i] <- paste(labels[i], "vs.", labels[i+1])
+  }
+
+  diffs
+}
+
+
+# Get flags from anything: folder -> file -> flags -> data.frame
+
+flagExtract <- function(flags) {
+
+  if(is.character(flags) && dir.exists(flags))
+    flags <- finalPar(flags, quiet=TRUE)
+  if(is.character(flags) && file.exists(flags))
+    flags <- read.MFCLFlags(flags)
+  if(isS4(flags))
+    flags <- flags(flags)
   flags
 }

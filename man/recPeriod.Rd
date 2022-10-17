@@ -30,7 +30,8 @@ recPeriod(
 An object of class numeric vector.
 }
 \description{
-Calculate recruitment periods for deterministic and stochastic projection settings.
+Calculate recruitment periods for deterministic and stochastic projection
+settings.
 }
 \examples{
 data(par)
