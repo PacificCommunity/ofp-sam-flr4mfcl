@@ -26,6 +26,7 @@ export(
   "gradients",
   "hcr_constant",
   "hcr_hillary_step",
+  "hcr_hillary_step_constrained",
   "hcr_asymptotic",
   "hcr_asymptotic_constrained",
   "hcr_asymptotic_hillary_step",
