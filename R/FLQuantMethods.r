@@ -121,11 +121,9 @@ qts <- function(quant){
 #'
 #' Converts a quarterly time series object into a 6 dimensional, seasonally structured FLQuant (i.e. the opposite of qts).
 #'
-#' @param quant:  An FLQuant object 
-#' 
+#' @param quant An FLQuant object.
 #'
-#' @return An object of class FLQuant
-#'
+#' @return An object of class FLQuant.
 #'
 #' @export
 

@@ -65,7 +65,7 @@ stripDebugNumbers <- function(fstring){
 #'
 #' @param parfile A character string giving the name and path of the frq file to be read.
 #' @param parobj A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.
-#' @param first.yr The first year of the input data time series (default values 1972).
+#' @param first.yr The first year of the input data time series (default value 1972).
 #'
 #' @return An object of class MFCLBiol.
 #'
@@ -169,12 +169,24 @@ read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
 
 #' read.MFCLFlags
 #'
-#' Reads the Flag information from the par file and creates an MFCLFlags object
+#' Read flag settings from a par file.
 #'
-#' @param parfile: A character string giving the name and path of the frq file to be read 
-#' @param parobj:  A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file
+#' @param parfile A character string giving the name and path of the frq file to be read.
+#' @param parobj A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.
+#' @param first.yr The first year of the input data time series (default value 1972).
 #'
-#' @return An object of class MFCLFlags
+#' @return An object of class MFCLFlags.
+#'
+#' @note
+#' The traditional way to read in a par file is using \code{read.MFCLPar} that
+#' imports all parameter values, flags settings, and a variety of other
+#' information.
+#'
+#' For the purposes of importing flags, \code{read.MFCLFLags} can be more
+#' practical, being around 20 x faster.
+#'
+#' In both cases, the \code{flags()} method can be used to access the
+#' \code{flags} data frame.
 #'
 #' @examples
 #' \dontrun{
@@ -235,7 +247,8 @@ read.MFCLFlags <- function(parfile, parobj=NULL, first.yr=1972) {
 #' Reads the TAaRep information from the par file and creates an MFCLTagRep object.
 #'
 #' @param parfile A character string giving the name and path of the frq file to be read.
-#' @param parobj  A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.
+#' @param parobj A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.
+#' @param first.yr The first year of the input data time series (default value 1972).
 #'
 #' @return An object of class MFCLTagRep.
 #'
@@ -482,6 +495,7 @@ read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972) {
 #'
 #' @param parfile A character string giving the name and path of the frq file to be read.
 #' @param parobj A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.
+#' @param first.yr The first year of the input data time series (default value 1972).
 #'
 #' @return An object of class MFCLSel.
 #'
@@ -591,6 +605,7 @@ read.MFCLSel <- function(parfile, parobj=NULL, first.yr=1972) {
 #'
 #' @param parfile A character string giving the name and path of the frq file to be read.
 #' @param parobj A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.
+#' @param first.yr The first year of the input data time series (default value 1972).
 #'
 #' @return An object of class MFCLParBit.
 #'
@@ -677,12 +692,15 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972) {
 
 #' read.MFCLPar
 #'
-#' Reads information from the par file and creates an MFCLPar object.
+#' Read information from the par file.
 #'
 #' @param parfile A character string giving the name and path of the frq file to be read.
-#' @param first.yr The first year of the input data time series (default values 1972).
+#' @param first.yr The first year of the input data time series (default value 1972).
 #'
-#' @return An object of class MFCLPar.
+#' @return An object of class \code{MFCLPar}.
+#'
+#' @seealso
+#' \code{\link{read.MFCLFlags}}.
 #'
 #' @examples
 #' \dontrun{

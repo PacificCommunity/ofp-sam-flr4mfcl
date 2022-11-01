@@ -5,10 +5,8 @@
 #'
 #' Strip out effort devs from an MFCLPar object including the realisations information from the frq file
 #'
-#' @param object:    An object of class MFCLPar
-#' 
-#' @param frq:    The corresponding MFCLFrq for the MFCLPar
-#' 
+#' @param object An object of class MFCLPar.
+#' @param frq The corresponding MFCLFrq for the MFCLPar.
 #' 
 #' @seealso \code{\link{MFCLFrq}},  \code{\link{MFCLPar}} and \code{\link{MFCLPar}}
 #' 
@@ -34,12 +32,7 @@ setMethod("effort_dev_coffs", signature(object="MFCLPar", frq="MFCLFrq"),
             return(as.FLQuant(effdevs_quant))
           })
 
-
 #par    <- read.MFCLPar('/home/rob/MSE/ofp-sam-mixed-fishery-MSE/BET/assessment/2020/1_TagInt_Hi_20_0.65/09.par')
 #frq    <- read.MFCLFrq('/home/rob/MSE/ofp-sam-mixed-fishery-MSE/BET/assessment/2020/1_TagInt_Hi_20_0.65/bet.frq')
 #effdev <- effort_dev_coffs(par, frq)
-  
 #xyplot(data~year|unit, group=iter, data=qts(effort_dev_coffs(par, frq)), type="l")
-
-
-

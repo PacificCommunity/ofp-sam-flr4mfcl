@@ -7,15 +7,15 @@
 gradients(grads = "sorted_gradient.rpt", parnames = "xinit.rpt")
 }
 \arguments{
-\item{grads}{text string of input file name for sorted gradients}
+\item{grads}{text string of input file name for sorted gradients.}
 
-\item{parnames}{text string of input file name for parameter names}
+\item{parnames}{text string of input file name for parameter names.}
 }
 \value{
-data.frame of parameter gradients
+data.frame of parameter gradients.
 }
 \description{
-Returns a data.frame of parameters and their gradients in reverse order
+Returns a data.frame of parameters and their gradients in reverse order.
 }
 \examples{
 \dontrun{

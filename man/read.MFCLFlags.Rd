@@ -7,15 +7,28 @@
 read.MFCLFlags(parfile, parobj = NULL, first.yr = 1972)
 }
 \arguments{
-\item{parfile:}{A character string giving the name and path of the frq file to be read}
+\item{parfile}{A character string giving the name and path of the frq file to be read.}
 
-\item{parobj:}{A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file}
+\item{parobj}{A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.}
+
+\item{first.yr}{The first year of the input data time series (default value 1972).}
 }
 \value{
-An object of class MFCLFlags
+An object of class MFCLFlags.
 }
 \description{
-Reads the Flag information from the par file and creates an MFCLFlags object
+Read flag settings from a par file.
+}
+\note{
+The traditional way to read in a par file is using \code{read.MFCLPar} that
+imports all parameter values, flags settings, and a variety of other
+information.
+
+For the purposes of importing flags, \code{read.MFCLFLags} can be more
+practical, being around 20 x faster.
+
+In both cases, the \code{flags()} method can be used to access the
+\code{flags} data frame.
 }
 \examples{
 \dontrun{

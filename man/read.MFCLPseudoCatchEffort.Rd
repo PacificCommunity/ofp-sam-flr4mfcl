@@ -2,7 +2,7 @@
 % Please edit documentation in R/read.MFCLPseudo.r
 \name{read.MFCLPseudoCatchEffort}
 \alias{read.MFCLPseudoCatchEffort}
-\title{'read.MFCLPseudoCatchEffort()' function for FLR4MFCL}
+\title{Read MFCLPseudo Catch and Effort}
 \usage{
 read.MFCLPseudoCatchEffort(
   catch = "catch_sim",
@@ -19,7 +19,7 @@ read.MFCLPseudoCatchEffort(
 
 \item{projfrq}{An \linkS4class{MFCLFrq} object for the projection period over which the pseudo data have been generated.}
 
-\item{ctrl}{An \linkS4class{MFCLMSEControl}}
+\item{ctrl}{An \linkS4class{MFCLMSEControl}.}
 
 \item{historical}{Boolean TRUE or FALSE If the simulated data include the historical period or just the projecion period.}
 }

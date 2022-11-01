@@ -14,13 +14,24 @@ recPeriod(
 )
 }
 \arguments{
-\item{par}{An object of class MFCLPar.}
+\item{par}{an object of class MFCLPar.}
+
+\item{af199}{undocumented.}
+
+\item{af200}{undocumented.}
+
+\item{pf232}{undocumented.}
+
+\item{pf233}{undocumented.}
+
+\item{show}{undocumented.}
 }
 \value{
 An object of class numeric vector.
 }
 \description{
-Calculate recruitment periods for deterministic and stochastic projection settings.
+Calculate recruitment periods for deterministic and stochastic projection
+settings.
 }
 \examples{
 data(par)

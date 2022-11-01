@@ -3,12 +3,10 @@
 
 #' plot
 #'
-#' Plot MFCL objects 
+#' Plot MFCL objects.
 #'
-#' @param obj:    An object of class MFCLX.
-#'
-#' @param ... Additional argument list that might not ever
-#'  be used.
+#' @param obj An object of class MFCLX.
+#' @param \dots Additional argument list that might not ever be used.
 #'
 #' @export
 #' @docType methods

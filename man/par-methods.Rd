@@ -5,7 +5,6 @@
 \alias{as.MFCLIni}
 \alias{n_fisheries,MFCLPar-method}
 \alias{laa,MFCLBiol-method}
-\alias{laa}
 \alias{aal,MFCLBiol-method}
 \alias{aal}
 \alias{waa}
@@ -43,11 +42,11 @@ recYears(par, ...)
 \S4method{recYears}{MFCLPar}(par, nrecsyr = 4, ...)
 }
 \arguments{
-\item{rep:}{An object of class MFCLRep}
+\item{object}{An object of class MFCLRep.}
 
-\item{object:}{An object of class MFCLRep}
+\item{par}{An object of class MFCLPar}
 
-\item{par:}{An object of class MFCLPar}
+\item{rep}{An object of class MFCLRep.}
 }
 \value{
 An MFCLIni object.
@@ -69,9 +68,9 @@ Calculates length at age from Von Bertalanffy parameters in the par file
 
 Calculates weight at age from Von Bertalanffy parameters and length weight params in the par file
 
-Calculates spawners per recruit at zero fishing
+Calculates spawners per recruit at zero fishing.
 
 Calculates yield per recruit and spawners per recruit - in kilos
 
-Returns the year range over which the SRR is calculated given the flag settings from af199 and af200
+Returns the year range over which the SRR is calculated given the flag settings from af199 and af200.
 }

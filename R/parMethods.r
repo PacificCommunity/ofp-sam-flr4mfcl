@@ -5,18 +5,13 @@
 #'
 #' Calculates length at age from Von Bertalanffy parameters in the par file
 #'
-#' @param object:    An object of class MFCLPar
-#'
+#' @param object An object of class MFCLPar.
 #'
 #' @return A vector of lengths at age.
-#' 
-#' 
+#'
 #' @export
 #' @docType methods
 #' @rdname par-methods
-#'
-
-
 
 setMethod("n_fisheries", signature(object="MFCLPar"),
           function(object, ...){
@@ -24,11 +19,8 @@ setMethod("n_fisheries", signature(object="MFCLPar"),
             return(length(nfish))
           })
 
-
-
-
 #' @rdname par-methods
-#' @aliases laa
+## @aliases laa - is already in accesorMethods.r and should not be repeated here
 
 setMethod("laa", signature(object="MFCLBiol"), 
           function(object, ages=NULL, ...){
@@ -61,9 +53,9 @@ setGeneric('aal', function(object, ...) standardGeneric('aal'))
 setMethod("aal", signature(object="MFCLBiol"), 
           function(object, lengths=seq(0,108,by=2)){
             
-            L1  <- growth(object)['Lmin','est']
-            LA  <- growth(object)['Lmax','est']
-            K   <- growth(object)['k',   'est']
+            L1 <- growth(object)['Lmin','est']
+            LA <- growth(object)['Lmax','est']
+            K  <- growth(object)['k',   'est']
             ages<- 1:dimensions(object)['agecls']
             
             return(suppressWarnings((log(-(((lengths-L1)/(LA-L1))*(1-exp(-K*(max(ages)-1)))-1))/-K)+1))
@@ -73,17 +65,13 @@ setMethod("aal", signature(object="MFCLBiol"),
 #'
 #' Calculates weight at age from Von Bertalanffy parameters and length weight params in the par file
 #'
-#' @param object:    An object of class MFCLPar
-#'
+#' @param object An object of class MFCLPar.
 #'
 #' @return A vector of weights at age.
-#' 
 #' 
 #' @export
 #' @docType methods
 #' @rdname par-methods
-#'
-
 
 setGeneric('waa', function(object, ...) standardGeneric('waa')) 
 
@@ -98,24 +86,18 @@ setMethod("waa", signature(object="MFCLBiol"),
           })
 
 
-
-
-
 #' SPR0
 #'
-#' Calculates spawners per recruit at zero fishing
+#' Calculates spawners per recruit at zero fishing.
 #'
-#' @param par:    An object of class MFCLPar
-#' @param rep:    An object of class MFCLRep  
+#' @param par An object of class MFCLPar.
+#' @param rep An object of class MFCLRep.
 #'
 #' @return An FLQuant.
-#' 
 #' 
 #' @export
 #' @docType methods
 #' @rdname par-methods
-#'
-
 
 setGeneric('SPR0', function(par, ...) standardGeneric('SPR0')) 
 
@@ -146,17 +128,14 @@ setMethod("SPR0", signature(par="MFCLBiol"),
 #'
 #' Calculates yield per recruit and spawners per recruit - in kilos
 #'
-#' @param object:    An object of class MFCLRep  
-#' @param par:    An object of class MFCLPar
+#' @param object An object of class MFCLRep.
+#' @param par An object of class MFCLPar.
 #'
 #' @return A dataframe.
-#' 
 #' 
 #' @export
 #' @docType methods
 #' @rdname par-methods
-#'
-
 
 setGeneric('YPR', function(object, par, ...) standardGeneric('YPR')) 
 
@@ -245,24 +224,17 @@ setMethod("calc_diff_coffs_age_period", signature(par="MFCLPar", frq="MFCLFrq"),
           })
 
 
-
-
-
-
 #' recYears
 #'
-#' Returns the year range over which the SRR is calculated given the flag settings from af199 and af200
+#' Returns the year range over which the SRR is calculated given the flag settings from af199 and af200.
 #'
-#' @param par:    An object of class MFCLPar
+#' @param par An object of class MFCLPar
 #'
 #' @return A vector.
-#' 
 #' 
 #' @export
 #' @docType methods
 #' @rdname par-methods
-#'
-
 
 setGeneric('recYears', function(par,...) standardGeneric('recYears'))
 
@@ -327,7 +299,3 @@ setMethod("sel", signature(object="MFCLPar"),
             
             return(sel)
           })
-
-
-
-

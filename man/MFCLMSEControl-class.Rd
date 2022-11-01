@@ -10,12 +10,38 @@ An S4 class : Controls the MSE simulations
 \section{Slots}{
 
 \describe{
-\item{\code{itn}}{Description}
+\item{\code{itn}}{Undocumented.}
 
 \item{\code{hcr}}{The name of the HCR function as a character string. This function must exist and have the arguments: sbsbf0 and params. The params argument is taken from the params slot when evaluated.}
 
 \item{\code{hcr_params}}{A numeric vector of parameters for the HCR function.}
 
-\item{\code{ess_scalar}}{}
+\item{\code{ess_scalar}}{Undocumented.}
+
+\item{\code{effort_creep}}{Undocumented.}
+
+\item{\code{effort_creep_fish}}{Undocumented.}
+
+\item{\code{avyrs}}{Undocumented.}
+
+\item{\code{catch_sd}}{Undocumented.}
+
+\item{\code{controls}}{Undocumented.}
+
+\item{\code{doitall}}{Undocumented.}
+
+\item{\code{effort_sd}}{Undocumented.}
+
+\item{\code{fprojyr}}{Undocumented.}
+
+\item{\code{nsims}}{Undocumented.}
+
+\item{\code{nyears}}{Undocumented.}
+
+\item{\code{random_seeds}}{Undocumented.}
+
+\item{\code{tag_controls}}{Undocumented.}
+
+\item{\code{tag_fish_rep_rate}}{Undocumented.}
 }}
 
