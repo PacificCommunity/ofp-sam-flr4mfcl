@@ -1,10 +1,11 @@
 Package: FLR4MFCL
-Version: 1.3.27
+Version: 1.3.28
 Date: 2022-08-22
 Title: R Functions for Taming MULTIFAN-CL
-Authors@R: c(person("Robert", "Scott", role=c("aut","cre"), email="robertsc@spc.int"),
+Author: c(person("Robert", "Scott", role=c("aut","cre"), email="robertsc@spc.int"),
              person("Finlay", "Scott", role="aut"),
              person("Arni", "Magnusson", role="aut"))
+Maintainer: "Robert Scott"	     
 Depends: R (>= 3.5.0), lattice, FLCore
 Imports: methods, utils
 Suggests: mapdata, knitr, rmarkdown

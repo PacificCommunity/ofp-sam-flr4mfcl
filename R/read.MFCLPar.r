@@ -410,7 +410,8 @@ read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972) {
   vsn <- as.numeric(unlist(strsplit(trimws(par[2]), split="[[:blank:]]+")))[200]
   
   nseasons <- length(splitter(par, "# season_flags"))
-  nseasons.mov <- max(c(as.numeric(splitter(par, "# movement map")),1))                                ## RDS 29/02/2020
+  #nseasons.mov <- max(c(as.numeric(splitter(par, "# movement map")),1))                                ## RDS 29/02/2020
+  nseasons.mov <- length(as.numeric(splitter(par, "# movement map")))                                  ## RDS 01/11/2022
   nyears   <- length(splitter(par, "# Cohort specific growth deviations"))/nseasons
   nregions <- length(splitter(par,"# region parameters"))
   nagecls  <- as.numeric(par[grep("# The number of age classes", par)+1])  
