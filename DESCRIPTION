@@ -5,7 +5,7 @@ Title: R Functions for Taming MULTIFAN-CL
 Author: c(person("Robert", "Scott", role=c("aut","cre"), email="robertsc@spc.int"),
              person("Finlay", "Scott", role="aut"),
              person("Arni", "Magnusson", role="aut"))
-Maintainer: "Robert Scott"	     
+Maintainer: Robert Scott <robertsc@spc.int>
 Depends: R (>= 3.5.0), lattice, FLCore
 Imports: methods, utils
 Suggests: mapdata, knitr, rmarkdown
