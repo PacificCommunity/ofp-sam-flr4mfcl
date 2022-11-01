@@ -115,6 +115,10 @@ setMethod("plot", signature(x="MFCLMSEControl"), function(x, y="missing", ...){
   #args <- list(...)
   sbsbf0 <- seq(0, 1, by=0.001)
   
+  # remove the constrained option so you're just looking at the HCR
+  if(grepl('_constrained', hcr(x)))
+    hcr(x) <- gsub('_constrained', '', hcr(x))
+  
   plot(sbsbf0, eval_hcr(x, sbsbf0), type="l", bty='n', xlab="SB/SBF=0", ylab="Scalar", ...)
 })
 
