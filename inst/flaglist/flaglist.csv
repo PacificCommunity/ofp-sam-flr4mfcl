@@ -14,15 +14,15 @@ Index,parest_flags,age_flags,fish_flags
 13,estimate avg size of last age class [4.5.4],,penalty for effort devs [4.5.7]
 14,estimate K [4.5.4],,limit on F per fishing incident [4.5.12]
 15,estimate generic sigma of size at age [4.5.4],,penalty for q-devs [4.5.5]
-16,estimate size dependent sigma [4.5.4],,selectivity shape [4.5.6]
+16,estimate size dependent sigma [4.5.4],,selectivity shape [4.5.7]
 17,,,
 18,,,
 19,,,no. ages for sel dev coffs [4.5.6]
 20,sub-phase number during intial phase of fit,number of simulations in stochastic projections,penalty weight on sel_dev_coffs estimation [4.5.6]
 21,,,seasonal growth – under construction [4.5.4]
 22,,,grouping for sel. bias [4.5.4]
-23,control step size within subphase (maybe not used),,time step for q-devs [4.5.5]
-24,,,grouping for selectivity [4.5.6]
+23,control step size within subphase (maybe not used),,time step for q-devs [4.5.6]
+24,,,grouping for selectivity [4.5.7]
 25,,,
 26,,,length-dependent selectivities [4.5.6]
 27,,,sinusoidal seasonal q [4.5.5]
