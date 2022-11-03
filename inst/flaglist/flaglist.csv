@@ -19,7 +19,7 @@ Index,parest_flags,age_flags,fish_flags
 18,,,
 19,,,no. ages for sel dev coffs [4.5.7]
 20,sub-phase number during intial phase of fit,number of simulations in stochastic projections,penalty weight on sel_dev_coffs estimation [4.5.7]
-21,,,seasonal growth – under construction [4.5.4]
+21,seasonal growth - under construction [4.5.4],,"obsolete, kaput, unused, inactive, idle"
 22,,,grouping for sel. bias [4.5.4]
 23,control step size within subphase (maybe not used),,time step for q-devs [4.5.6]
 24,,,grouping for selectivity [4.5.7]
@@ -172,8 +172,8 @@ Index,parest_flags,age_flags,fish_flags
 171,power term on age [4.5.4],unfished calculations by estimated recruitment or [4.5.16],
 172,,total or adult biomass depletion [4.5.16],
 173,1st n lengths are indep. parameters [4.5.4],first time period for reckoning depletion [4.5.16],
-174,alt. VB growth parameterization – gmlxx,last time period for reckoning depletion [4.5.16],
-175,rel. to age pars(4) (growth devs) – gml,100X target depletion level [4.5.16],
+174,alt. VB growth parameterization - gmlxx,last time period for reckoning depletion [4.5.16],
+175,rel. to age pars(4) (growth devs) - gml,100X target depletion level [4.5.16],
 176,smooths gml & presumably age pars(4),penalty on depletion target [4.5.16],
 177,,scaling totpop,
 178,,,
@@ -186,7 +186,7 @@ Index,parest_flags,age_flags,fish_flags
 185,,,
 186,,,
 187,,,
-188,,,
+188,,convert maturity at length to age [4.5.5],
 189,write size.fit files [4.5.1],,
 190,write .rep files [4.5.1],,
 191,,,
