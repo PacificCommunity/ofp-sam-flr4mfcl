@@ -1,7 +1,7 @@
 Index,parest_flags,age_flags,fish_flags
 1,function evaluation limit,,est. avg. q [4.5.5]
 2,specifies fmc.iprint  for the limited memory Newton minimiser,,
-3,,,1st age of common terminal selectivity [4.5.6]
+3,,,1st age of common terminal selectivity [4.5.7]
 4,,,est. effort devs [4.5.7]
 5,,,
 6,,,
