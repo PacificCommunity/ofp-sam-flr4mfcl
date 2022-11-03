@@ -1,117 +1,117 @@
 Index,parest_flags,age_flags,fish_flags
-1,function evaluation limit,,est. avg. q [4.5.5]
+1,function evaluation limit,,est. avg. q [4.5.6]
 2,specifies fmc.iprint  for the limited memory Newton minimiser,,
 3,,,1st age of common terminal selectivity [4.5.7]
-4,,,est. effort devs [4.5.7]
+4,,,est. effort devs [4.5.8]
 5,,,
 6,,,
 7,,,
 8,,,
 9,,,
-10,,,time series in q [4.5.5]
+10,,,time series in q [4.5.6]
 11,,,"selectivity bias, 1st age [4.5.4]"
 12,estimate avg size of 1st age class [4.5.4,,
-13,estimate avg size of last age class [4.5.4],,penalty for effort devs [4.5.7]
-14,estimate K [4.5.4],,limit on F per fishing incident [4.5.12]
-15,estimate generic sigma of size at age [4.5.4],,penalty for q-devs [4.5.5]
+13,estimate avg size of last age class [4.5.4],,penalty for effort devs [4.5.8]
+14,estimate K [4.5.4],,limit on F per fishing incident [4.5.14]
+15,estimate generic sigma of size at age [4.5.4],,penalty for q-devs [4.5.6]
 16,estimate size dependent sigma [4.5.4],,selectivity shape [4.5.7]
 17,,,
 18,,,
-19,,,no. ages for sel dev coffs [4.5.6]
-20,sub-phase number during intial phase of fit,number of simulations in stochastic projections,penalty weight on sel_dev_coffs estimation [4.5.6]
+19,,,no. ages for sel dev coffs [4.5.7]
+20,sub-phase number during intial phase of fit,number of simulations in stochastic projections,penalty weight on sel_dev_coffs estimation [4.5.7]
 21,,,seasonal growth – under construction [4.5.4]
 22,,,grouping for sel. bias [4.5.4]
 23,control step size within subphase (maybe not used),,time step for q-devs [4.5.6]
 24,,,grouping for selectivity [4.5.7]
 25,,,
-26,,,length-dependent selectivities [4.5.6]
-27,,,sinusoidal seasonal q [4.5.5]
-28,,,grouping for seasonal q [4.5.5]
-29,,,grouping for common catchability deviations[4.5.5]
-30,,est tot recruit [4.5.10],
-31,,est totpop [4.5.10],
-32,define initial control regime (e.g. Kleiber control) [4.5.1],"totpop fixed or not [4.5.1, 4.5.10]",grouping for tag recaptures [4.5.8]
-33,upper bound for tag reporting rate [4.5.8],est. M [4.5.15],est. tag reporting rate [4.5.8]
-34,,est. effort devs [4.5.7],grouping for tag reporting rate [4.5.8]
-35,,max effort devaitions,penalty for tag reporting rate prior [4.5.8]
-36,,max dev also! ,tag reporting rate prior [4.5.8]
-37,,avg. F target [4.5.12],est. time series of tag reporting rate [4.5.8]
-38,,,var for Kalman filt. effort devs [4.5.7]
-39,,penalty on F target [4.5.12],var for Kalman filt. q devs [4.5.5]
+26,,,length-dependent selectivities [4.5.7]
+27,,,sinusoidal seasonal q [4.5.6]
+28,,,grouping for seasonal q [4.5.6]
+29,,,grouping for common catchability deviations [4.5.6]
+30,,est tot recruit [4.5.12],
+31,,est totpop [4.5.12],
+32,define initial control regime (e.g. Kleiber control) [4.5.1],"totpop fixed or not [4.5.1, 4.5.12]",grouping for tag recaptures [4.5.9]
+33,upper bound for tag reporting rate [4.5.9],est. M [4.5.17],est. tag reporting rate [4.5.9]
+34,,est. effort devs [4.5.8],grouping for tag reporting rate [4.5.9]
+35,,max effort devaitions,penalty for tag reporting rate prior [4.5.9]
+36,,max dev also! ,tag reporting rate prior [4.5.9]
+37,,avg. F target [4.5.14],est. time series of tag reporting rate [4.5.9]
+38,,,var for Kalman filt. effort devs [4.5.8]
+39,,penalty on F target [4.5.14],var for Kalman filt. q devs [4.5.6]
 40,,,
-41,tot weight fit only [4.5.1],,penalty weight for second difference selectivity smoothing [4.5.6]
-42,,,penalty weight for third difference selectivity smoothing [4.5.6]
-43,,no. terminal years for F target [4.5.12],"var for neg. bin., see parest flags(111) [4.5.8]"
-44,,annual F target [4.5.12],grouping for neg. bin. [4.5.8]
+41,tot weight fit only [4.5.1],,penalty weight for second difference selectivity smoothing [4.5.7]
+42,,,penalty weight for third difference selectivity smoothing [4.5.7]
+43,,no. terminal years for F target [4.5.14],"var for neg. bin., see parest flags(111) [4.5.9]"
+44,,annual F target [4.5.14],grouping for neg. bin. [4.5.9]
 45,,,fishery specific catch wts [4.5.2]
-46,,,est. of mixture pars in tag likelihood [4.5.8]
-47,,,arbitrary seasonal q [4.5.5]
-48,,,selectivity est. (obsolete??) [4.5.6]
+46,,,est. of mixture pars in tag likelihood [4.5.9]
+47,,,arbitrary seasonal q [4.5.6]
+48,,,selectivity est. (obsolete??) [4.5.7]
 49,,,length sample size [4.5.3]
 50,maximum gradient target [4.5.1],,weight sample size [4.5.3]
-51,,,effect of effort on q [4.5.5]
-52,,,grouping for fish flag 51 [4.5.5]
-53,, movement frequency [4.5.9],effect of abund. on q [4.5.5]
-54,,,grouping for fish flag 53 [4.5.5]
-55,,,turn off fisheries for impact analysis [4.5.14]
-56,,,penalty to make selectivity a non decreasing function of age [4.5.6]
-57,,month doubling [4.5.5 4.5.10],functional form for selectivity [4.5.6]
+51,,,effect of effort on q [4.5.6]
+52,,,grouping for fish flag 51 [4.5.6]
+53,, movement frequency [4.5.11],effect of abund. on q [4.5.6]
+54,,,grouping for fish flag 53 [4.5.6]
+55,,,turn off fisheries for impact analysis [4.5.16]
+56,,,penalty to make selectivity a non decreasing function of age [4.5.7]
+57,,month doubling [4.5.6, 4.5.12],functional form for selectivity [4.5.7]
 58,,,
 59,,,
-60,,,grouping for common initial catchability[4.5.5]
-61,,,number of nodes for cubic spline selectivity [4.5.6]
-62,,,number of nodes for cubic spline selectivity [4.5.6]
+60,,,grouping for common initial catchability [4.5.6]
+61,,,number of nodes for cubic spline selectivity [4.5.7]
+62,,,number of nodes for cubic spline selectivity [4.5.7]
 63,,,
 64,,,
 65,,,eff_devs with fat-tailed Cauchy distribution
 66,,,time-varying effort wt (set internally)
 67,,,estimate SSM-RE log-length N variance
-68,,estimate movement pars [4.5.9],SSM-RE and DM_noRE length parameters fishery grouping [4.5.3]
-69,,activate movement pars [4.5.9],estimate DM_noRE length sample size multiplier [4.5.3]
-70,,activate time series of reg recruitment [4.5.10],
-71,,est time series of reg recruitment [4.5.10],
-72,,recruitment and environment [4.5.10],
-73,,est age-dep M [4.5.15],degrees of polynomial for fm_level:effort fit relationship
+68,,estimate movement pars [4.5.11],SSM-RE and DM_noRE length parameters fishery grouping [4.5.3]
+69,,activate movement pars [4.5.11],estimate DM_noRE length sample size multiplier [4.5.3]
+70,,activate time series of reg recruitment [4.5.12],
+71,,est time series of reg recruitment [4.5.12],
+72,,recruitment and environment [4.5.12],
+73,,est age-dep M [4.5.17],degrees of polynomial for fm_level:effort fit relationship
 74,,,
-75,,,age classes for zero selectivity-at-age [4.5.6]
+75,,,age classes for zero selectivity-at-age [4.5.7]
 76,,,estimate SSM-RE log-weight N variance
-77,,penalty on 2nd derivative of Ma [4.5.15],SSM-RE and DM_noRE weight parameters fishery grouping [4.5.3]
-78,,penalty on 1st derivative of Ma [4.5.15],SSM-RE length rho correlation [4.5.3]
-79,,penalty on sum(Ma-Mbar)^2 [4.5.15],
+77,,penalty on 2nd derivative of Ma [4.5.17],SSM-RE and DM_noRE weight parameters fishery grouping [4.5.3]
+78,,penalty on 1st derivative of Ma [4.5.17],SSM-RE length rho correlation [4.5.3]
+79,,penalty on sum(Ma-Mbar)^2 [4.5.17],
 80,,,Activates estimation of SSM-RE weight rho correlation
-81,,terminal ages with the same M [4.5.15],activate estimation of fish_pars(31) for the robust option in fitting the fm_levels:effort relationship
-82,,target M0 [4.5.15],Activates estimation of SSM-RE log-length variance
-83,,min age in M0 [4.5.15],
-84,,penalty on target M0 [4.5.15],Activates estimation of SSM-RE log-weight variance
-85,,max age in M0 [4.5.15],estimate SSM-RE length sample size covariate
+81,,terminal ages with the same M [4.5.17],activate estimation of fish_pars(31) for the robust option in fitting the fm_levels:effort relationship
+82,,target M0 [4.5.17],Activates estimation of SSM-RE log-length variance
+83,,min age in M0 [4.5.17],
+84,,penalty on target M0 [4.5.17],Activates estimation of SSM-RE log-weight variance
+85,,max age in M0 [4.5.17],estimate SSM-RE length sample size covariate
 86,,,estimate SSM-RE weight sample size covariate
 87,,,estimate DM_noRE weight sample size multiplier [4.5.3]
-88,,activate age-dep movement pars [4.5.9],estimate DM_noRE weight frequency sample size covariate [4.5.3]
-89,,est. age-dep movement pars [4.5.9],estimate DM_noRE length frequency sample size covariate [4.5.3]
-90,,activate non-linear age-dep movement pars [4.5.9],
-91,,est. non-linear age-dep movement pars [4.5.9],
+88,,activate age-dep movement pars [4.5.11],estimate DM_noRE weight frequency sample size covariate [4.5.3]
+89,,est. age-dep movement pars [4.5.11],estimate DM_noRE length frequency sample size covariate [4.5.3]
+90,,activate non-linear age-dep movement pars [4.5.11],
+91,,est. non-linear age-dep movement pars [4.5.11],
 92,,catch conditioning [4.5.1],
 93,,?something to do with initial recs,
-94,,starting pop strategy [4.5.10],
-95,,modifier for age flags(94) [4.5.10],
-96,,tag pooling [4.5.8],
-97,,target biomass ratio [4.5.13],
-98,,penalty on biomass ratio [4.5.13],
-99,,no. inital and final yeas for calc biomass ratio [4.5.13],
-100,,neg. binomial for tag likelihood [4.5.8],
-101,,activate .env file [4.5.10],
-102,,est environmental correlation par [4.5.10],
+94,,starting pop strategy [4.5.12],
+95,,modifier for age flags(94) [4.5.12],
+96,,tag pooling [4.5.9],
+97,,target biomass ratio [4.5.15],
+98,,penalty on biomass ratio [4.5.15],
+99,,no. inital and final yeas for calc biomass ratio [4.5.15],
+100,,neg. binomial for tag likelihood [4.5.9],
+101,,activate .env file [4.5.12],
+102,,est environmental correlation par [4.5.12],
 103,,in code but commented out,
-104,,enable implicit q devs [4.5.5],
+104,,enable implicit q devs [4.5.6],
 105,,,
 106,,,
-107,,penalty on overall exploitation [4.5.12],
-108,,overall exploitation target [4.5.12],
-109,,whether log(M) at age by deviations from mean or direct [4.5.15],
-110,,penalty on region rec diffs [4.5.10],
-111,likelihood type for tags [4.5.8],,
-112,,numbers or biomass for MSY calcs [4.5.11],
-113,,scaling init. pop and rectuitment [4.5.10],
+107,,penalty on overall exploitation [4.5.14],
+108,,overall exploitation target [4.5.14],
+109,,whether log(M) at age by deviations from mean or direct [4.5.17],
+110,,penalty on region rec diffs [4.5.12],
+111,likelihood type for tags [4.5.9],,
+112,,numbers or biomass for MSY calcs [4.5.13],
+113,,scaling init. pop and recruitment [4.5.12],
 114,,,
 115,,SS2-type catch estimation,
 116,,maximum allowable fishing mortality level,
@@ -128,60 +128,60 @@ Index,parest_flags,age_flags,fish_flags
 127,,,
 128,,,
 129,,,
-130,,M/K target [4.5.15],
-131,,age1 for M/K target [4.5.15],
-132,,age2 for M/K target [4.5.15],
-133,,penalty on M/K target [4.5.15],
+130,,M/K target [4.5.17],
+131,,age1 for M/K target [4.5.17],
+132,,age2 for M/K target [4.5.17],
+133,,penalty on M/K target [4.5.17],
 134,,,
 135,,,
 136,,,
 137,,,
 138,,,
 139,Weight frequency likelihood function selection [4.5.3],,
-140,,enable region-specific yield anal. and set Fmult resolution [4.5.11],
+140,,enable region-specific yield anal. and set Fmult resolution [4.5.13],
 141,Length frequency likelihood function selection [4.5.3],default no. Fmult steps in region-specific yiel anal.,
 142,,,
 143,,,
 144,,common wt for catch L to 10000 [4.5.2],
-145,hessian and standard dev. report [4.5.1],penalty on stock-recruit pars [4.5.11],
-146,scale gradient for tot pop. [4.5.1],activate stock-recruit [4.5.11],
-147,,lag betw. spawning and recruitment [4.5.11],
-148,penalty for diff. betw. last 2 recruitments [4.5.10],years from last year for avg. F [4.5.11],
-149,penalty for recruitment devs [4.5.10],yield in wt or numbers [4.5.11],
-150,,penalty for biomass dynamics est [4.5.11],
-151,,activate r in Pella-Tomlilnson [4.5.11],
-152,rescales gradients to 1 [4.5.1] (for if model's getting nowhere),activate K in Pella-Tomlilnson [4.5.11],
-153,,a of beta prior in SRR [4.5.11],
-154,,b of beta prior in SRR [4.5.11],
-155,enable orthogonal polynomial for recruitment [4.5.10],years from last year to omit from avg F [4.5.11],
-156,,use fish pars 7 in model [4.5.5],
-157,density dep. growth [4.5.4],use fish pars 8 in model [4.5.5],
+145,hessian and standard dev. report [4.5.1],penalty on stock-recruit pars [4.5.13],
+146,scale gradient for tot pop. [4.5.1],activate stock-recruit [4.5.13],
+147,,lag betw. spawning and recruitment [4.5.13],
+148,penalty for diff. betw. last 2 recruitments [4.5.12],years from last year for avg. F [4.5.13],
+149,penalty for recruitment devs [4.5.12],yield in wt or numbers [4.5.13],
+150,,penalty for biomass dynamics est [4.5.13],
+151,,activate r in Pella-Tomlinson [4.5.13],
+152,rescales gradients to 1 [4.5.1] (for if model's getting nowhere),activate K in Pella-Tomlinson [4.5.13],
+153,,a of beta prior in SRR [4.5.13],
+154,,b of beta prior in SRR [4.5.13],
+155,enable orthogonal polynomial for recruitment [4.5.12],years from last year to omit from avg F [4.5.13],
+156,,use fish pars 7 in model [4.5.6],
+157,density dep. growth [4.5.4],use fish pars 8 in model [4.5.6],
 158,,was region-specific yield anal. now available for other,
 159,,,
-160,,penalty for fitting to effort in catch conditioned model [4.5.7],
+160,,penalty for fitting to effort in catch conditioned model [4.5.8],
 161,,,
 162,,estimate steepness,
 163,,select alternate parameters for SRR (0 = steepness),
 164,,,
-165,,target for Fmsy/F or B/Bmsy [4.5.11],
-166,,penalty weight for Fmsy/F or B/Bmsy [4.5.11],
-167,,target Fmsy/F or B/Bmsy [4.5.11],
-168,rescale age in growth function [4.5.4],exponent in weighted average for Fmsy/F [4.5.11],
-169,makes the re-scaling a function of length,divisor in weighted average for Fmsy/F [4.5.11],
-170,,enable a biomass depletion target [4.5.14],
-171,power term on age [4.5.4],unfished calculations by estimated recruitment or [4.5.14],
-172,,total or adult biomass depletion [4.5.14],
-173,1st n lengths are indep. parameters [4.5.4],first time period for reckoning depletion [4.5.14],
-174,alt. VB growth parameterization – gmlxx,last time period for reckoning depletion [4.5.14],
-175,rel. to age pars(4) (growth devs) – gml,100X target depletion level [4.5.14],
-176,smooths gml & presumably age pars(4),penalty on depletion target [4.5.14],
+165,,target for Fmsy/F or B/Bmsy [4.5.13],
+166,,penalty weight for Fmsy/F or B/Bmsy [4.5.13],
+167,,target Fmsy/F or B/Bmsy [4.5.13],
+168,rescale age in growth function [4.5.4],exponent in weighted average for Fmsy/F [4.5.13],
+169,makes the re-scaling a function of length,divisor in weighted average for Fmsy/F [4.5.13],
+170,,enable a biomass depletion target [4.5.16],
+171,power term on age [4.5.4],unfished calculations by estimated recruitment or [4.5.16],
+172,,total or adult biomass depletion [4.5.16],
+173,1st n lengths are indep. parameters [4.5.4],first time period for reckoning depletion [4.5.16],
+174,alt. VB growth parameterization – gmlxx,last time period for reckoning depletion [4.5.16],
+175,rel. to age pars(4) (growth devs) – gml,100X target depletion level [4.5.16],
+176,smooths gml & presumably age pars(4),penalty on depletion target [4.5.16],
 177,,scaling totpop,
 178,,,
 179,,,
 180,,,
 181,,seems to be set and used internally,
 182, penalty wt. for length estimation [4.5.4],,
-183,orthog. poly.: years at start [4.5.10],,
+183,orthog. poly.: years at start [4.5.12],,
 184,switch on estimaton of 1st n lengths (see 173),option for movement parameterisation,
 185,,,
 186,,,
@@ -191,32 +191,32 @@ Index,parest_flags,age_flags,fish_flags
 190,write .rep files [4.5.1],,
 191,,,
 192,no. terms in newton minimization [4.5.1],,
-193,,fishery impact analysis [4.5.14],
-194,,include effort devs in yield analysis [4.5.11],
+193,,shared selectivity at length among sexes [4.5.7],
+194,,include effort devs in yield analysis [4.5.13],
 195,,,
 196,,,
 197,new input par file (obsolete) [4.5.1],,
 198,,,
 199,,,
 200,.par file version number,,
-201,orthog. poly.: degree at start [4.5.10],,
-202,orthog. poly.: years at end [4.5.10],,
-203,orthog. poly.: degree at end [4.5.10],,
-204,"orthog. poly.: years at start, regions [4.5.10]",,
-205,"orthog. poly.: degree at start, regions [4.5.10]",,
-206,"orthog. poly.: years at start, seasons [4.5.10]",,
-207,"orthog. poly.: degreeat start, seasons [4.5.10]",,
-208,"orthog. poly.: years at start, regXsea [4.5.10]",,
-209,"orthog. poly.: degree at start, regXsea [4.5.10]",,
-210,"orthog. poly.: years at end, regions [4.5.10]",,
-211,"orthog. poly.: degree at end, regions [4.5.10]",,
-212,"orthog. poly.: years at end, seasons [4.5.10]",,
-213,"orthog. poly.: degree at end, seasons [4.5.10]",,
-214,"orthog. poly.: years at end, regXsea [4.5.10]",,
-215,"orthog. poly.: degree at end, regXsea [4.5.10]",,
-216,"orthog. poly.: degree, regions [4.5.10]",,
-217,"orthog. poly.: degree, seasons [4.5.10]",,
-218,"orthog. poly.: degree, regionsXseasons [4.5.10]",,
+201,orthog. poly.: degree at start [4.5.12],,
+202,orthog. poly.: years at end [4.5.12],,
+203,orthog. poly.: degree at end [4.5.12],,
+204,"orthog. poly.: years at start, regions [4.5.12]",,
+205,"orthog. poly.: degree at start, regions [4.5.12]",,
+206,"orthog. poly.: years at start, seasons [4.5.12]",,
+207,"orthog. poly.: degreeat start, seasons [4.5.12]",,
+208,"orthog. poly.: years at start, regXsea [4.5.12]",,
+209,"orthog. poly.: degree at start, regXsea [4.5.12]",,
+210,"orthog. poly.: years at end, regions [4.5.12]",,
+211,"orthog. poly.: degree at end, regions [4.5.12]",,
+212,"orthog. poly.: years at end, seasons [4.5.12]",,
+213,"orthog. poly.: degree at end, seasons [4.5.12]",,
+214,"orthog. poly.: years at end, regXsea [4.5.12]",,
+215,"orthog. poly.: degree at end, regXsea [4.5.12]",,
+216,"orthog. poly.: degree, regions [4.5.12]",,
+217,"orthog. poly.: degree, seasons [4.5.12]",,
+218,"orthog. poly.: degree, regionsXseasons [4.5.12]",,
 219,,,
 220,,,
 221,,,
