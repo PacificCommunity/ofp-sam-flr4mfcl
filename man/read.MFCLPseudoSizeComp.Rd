@@ -42,5 +42,5 @@ pseudo <- read.MFCLPseudoSizeComp('test_lw_sim', projfrq, mseCtrl, historical=FA
 }
 }
 \seealso{
-\code{\link{MFCLprojContrl}} \code{\link{MFCLFrq}} \code{\link{MFCLPar}}
+\code{\link{MFCLprojControl}} \code{\link{MFCLFrq}} \code{\link{MFCLPar}}
 }

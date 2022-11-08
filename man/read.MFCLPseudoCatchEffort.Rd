@@ -45,5 +45,5 @@ pseudo <- read.MFCLPseudoCatchEffort('catch_sim', 'effort_sim', projfrq, mseCtrl
 }
 }
 \seealso{
-\code{\link{MFCLprojContrl}} \code{\link{MFCLFrq}} \code{\link{MFCLPar}}
+\code{\link{MFCLprojControl}} \code{\link{MFCLFrq}} \code{\link{MFCLPar}}
 }

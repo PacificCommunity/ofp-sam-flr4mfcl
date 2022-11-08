@@ -72,5 +72,5 @@ projpar <- generate(par, projfrq)
 }
 }
 \seealso{
-\code{\link{MFCLprojContrl}} \code{\link{MFCLFrq}} \code{\link{MFCLPar}}
+\code{\link{MFCLprojControl}} \code{\link{MFCLFrq}} \code{\link{MFCLPar}}
 }
