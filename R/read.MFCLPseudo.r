@@ -85,7 +85,7 @@ read.MFCLPseudoEffort <- function(effort="effort_sim", projfrq=projfrq, ctrl="mi
 #'
 #' @export
 #'
-#' @seealso \code{\link{MFCLprojContrl}} \code{\link{MFCLFrq}} \code{\link{MFCLPar}}
+#' @seealso \code{\link{MFCLprojControl}} \code{\link{MFCLFrq}} \code{\link{MFCLPar}}
 #'
 #' @examples
 #' \dontrun{
@@ -148,7 +148,7 @@ read.MFCLPseudoCatchEffort <- function(catch="catch_sim", effort="effort_sim", p
 #'
 #' @export
 #'
-#' @seealso \code{\link{MFCLprojContrl}} \code{\link{MFCLFrq}} \code{\link{MFCLPar}}
+#' @seealso \code{\link{MFCLprojControl}} \code{\link{MFCLFrq}} \code{\link{MFCLPar}}
 #'
 #' @examples
 #' \dontrun{

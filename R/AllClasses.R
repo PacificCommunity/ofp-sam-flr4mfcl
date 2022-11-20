@@ -703,6 +703,9 @@ validMFCLTagProj <- function(object){
   #Everything is fine
   return(TRUE)
 }
+
+#' An S4 class : Undocumented.
+
 setClass("MFCLTagProj",
          representation(
            release_groups_proj = "numeric",
@@ -745,6 +748,9 @@ validMFCLTag <- function(object){
   #Everything is fine
   return(TRUE)
 }
+
+#' An S4 class : Undocumented.
+
 setClass("MFCLTag",
          representation(
            "MFCLTagProj",
@@ -885,6 +891,9 @@ validMFCLprojControl <- function(object){
   #Everything is fine
   return(TRUE)
 }
+
+#' An S4 class : Undocumented.
+
 setClass("MFCLprojControl",
          representation(
            nyears              ="numeric",
@@ -1057,6 +1066,9 @@ validMFCLPseudo <- function(object){
   #Everything is fine
   return(TRUE)
 }
+
+#' An S4 class : Undocumented.
+
 setClass("MFCLPseudo",
          representation(
            "MFCLLenFreq",

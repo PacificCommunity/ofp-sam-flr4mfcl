@@ -65,7 +65,7 @@ generate.ESS<- function(x, ctrl, projdat2, sc_df){
 #' @param ... Additional arguments (currently unused).
 #' @return An object of the same type as the \code{x} argument, expanded and hopefully useable for running projections.
 #' @export
-#' @seealso \code{\link{MFCLprojContrl}} \code{\link{MFCLFrq}} \code{\link{MFCLPar}}
+#' @seealso \code{\link{MFCLprojControl}} \code{\link{MFCLFrq}} \code{\link{MFCLPar}}
 #' @examples
 #' \dontrun{
 #' # Expanding an MFCLFrq, e.g. that was used from in an assessment
