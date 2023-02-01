@@ -40,7 +40,7 @@ recPeriod <- function(par, af199=NULL, af200=NULL, pf232=NULL, pf233=NULL,
 
   # If flag values given as args : calculate corresponding values
   if(!is.null(af199) && is.null(pf232))
-    pf232 <- mat_s[mat_d==af199]
+    pf232 <- mat_s[mat_d==af199]           # bug fix af199 cannot be zero - need to change it to 1 
   if(!is.null(af200) && is.null(pf233))
     pf233 <- mat_s[mat_d==af200]
 
