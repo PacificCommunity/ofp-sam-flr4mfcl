@@ -155,6 +155,7 @@ read.MFCLPseudoSizeComp <- function(lw_sim='test_lw_sim_alt', projfrq=projfrq, c
     }
   }
   
+  freqdat <- realisations(projfrq)
   if(!historical)
     freqdat    <- subset(realisations(projfrq), year>=fprojyr(ctrl))
   
