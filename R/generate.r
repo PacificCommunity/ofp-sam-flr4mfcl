@@ -170,8 +170,8 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLFrq"),
           function(x, y, z, ...){
             
             # set stochastic recruitment flags
-            if(flagval(x, 2, 199)$value == 0)    # value of 0 for af199 sets full range of available years
-              flagval(x, 1, 232)$value <- 1
+            if(flagval(x, 2, 199)$value == 0)    # value of 0 for af199 sets full range of available years - 
+              flagval(x, 2, 199)$value <- 1
             if(flagval(x, 1, 232)$value == 0)
               flagval(x, 1, 232) <- recPeriod(x, af199=flagval(x, 2, 199)$value, af200=flagval(x, 2, 200)$value)['pf232']
             if(flagval(x, 1, 233)$value == 0)
@@ -209,8 +209,8 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLFrq"),
             #effort_dev_coffs(x)   <- lapply(1:dimensions(x)["fisheries"], function(g) c(effort_dev_coffs(x)[[g]], rep(eff_dev_coff_vals[g], eff_dev_coff_incs[g])))
             effort_dev_coffs(x)   <- lapply(1:dimensions(x)["fisheries"], function(g) c(effort_dev_coffs(x)[[g]], rep(0, eff_dev_coff_incs[g])))
             
-            # catch conditioned assessments - not the best check 
-            if(flagval(x, 1, 200)$value<1065){
+            # catch conditioned assessments - 
+            if(flagval(x, 1, 373)$value==1){
             # catch_dev_coffs - gets really messy because you may have zero catch obs in some cases and fishery groupings to worry about.
               catch_dev_coffs(x)    <- lapply(1:length(catch_dev_coffs(x)), 
                                               function(g) c(catch_dev_coffs(x)[[g]], rep(0, length(proj.yrs)*dimensions(x)['seasons'])))
@@ -219,9 +219,10 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLFrq"),
               ncgrp<-length(catch_dev_coffs(x))
               ffl29<-flagval(x,-(1:n_fisheries(x)),29)$value  # Obtain fish flags(29) determining the grouping of catchbility
             
-              test1 <- unique(with(freq(z), paste(year,month,fishery, sep="_")))
-              test2 <- as.data.frame(t(sapply(strsplit(test1, split="_"), "as.numeric",simplify = T)))
-              test3 <- data.frame(V1=paste(test2$V1, test2$V2, sep="_"), V2=test2$V3)
+              #test1 <- unique(with(freq(z), paste(year,month,fishery, sep="_")))
+              #test2 <- as.data.frame(t(sapply(strsplit(test1, split="_"), "as.numeric",simplify = T)))
+              #test3 <- data.frame(V1=paste(test2$V1, test2$V2, sep="_"), V2=test2$V3)
+              test3 <- data.frame(V1=with(realisations(z), paste(year,month, sep="_")),  V2=realisations(z)$fishery)
             
               nElemByGrp<-vector(mode="numeric",length=length(unique(ffl29)))
             
@@ -231,7 +232,35 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLFrq"),
                 catch_dev_coffs(x)[[grp]]<-c(catch_dev_coffs(x)[[grp]],rep(0,nElemFuture))
               }
             }
-            # region_rec_var
+
+            # catch errors assessments
+            if(flagval(x, 1, 373)$value==0){
+              ncgrp<-length(catch_dev_coffs(x))
+              ffl29<-flagval(x,-(1:n_fisheries(x)),29)$value  # Obtain fish flags(29) determining the grouping of catchability
+              
+              groupmap      <- data.frame(fishery=1:n_fisheries(z), group=ffl29, ssns=0)          # map the catchability grouping
+              fshssns       <- table(subset(realisations(z), year==range(z)['maxyear'])$fishery)  # how many seasons for each fishery
+              groupmap$ssns[groupmap$fishery%in%names(fshssns)] <- fshssns  
+              # assuming that the grouped fisheries take the max number of seasons present in the group
+              groupmapnew   <- data.frame(group=unique(groupmap$group), ssns=tapply(groupmap$ssns, groupmap$group, max))
+              
+              catch_dev_coffs(x)    <- lapply(1:length(catch_dev_coffs(x)), 
+                                              function(g) c(catch_dev_coffs(x)[[g]], rep(0, length(proj.yrs)*groupmapnew$ssns[g])))
+              
+              test3 <- data.frame(V1=with(realisations(z), paste(year,month, sep="_")),  V2=realisations(z)$fishery)
+              
+              nElemByGrp<-vector(mode="numeric",length=length(unique(ffl29)))
+              
+              # is this really necessary? I think this has already been covered by the code above
+              for(grp in sort(unique(ffl29))){
+                nElemByGrp[grp] <- length(unique(test3[test3$V2 %in% which(ffl29==grp),'V1']))
+                nElemFuture<- nElemByGrp[grp]-length(catch_dev_coffs(x)[[grp]])-1 
+                catch_dev_coffs(x)[[grp]]<-c(catch_dev_coffs(x)[[grp]],rep(0,nElemFuture))
+              }
+
+            }
+
+	    # region_rec_var
             region_rec_var(x)     <- window(region_rec_var(x), start=range(x)['minyear'], end=range(y)['maxyear'])
             region_rec_var(x)[is.na(region_rec_var(x))] <- 0
             
