@@ -99,12 +99,16 @@ write.len <- function(x, file, append=T, ...){
     noobs  <- noobs[,-8]
     wfwide <- wfwide[, -8]
   }
-    
+  # if you have neither length freq or weigth freq data then you need to put a -1 back in - annoyingly
+  if(nrow(wfwide)==0 & nrow(lfwide)==0 & nrow(lwfwide)==0){
+    noobs <- cbind(noobs, length=-1)
+  }
+  
   # Convert to character strings, put them all together, sort them and write it out
   char_all <- unlist(lapply(list(noobs, lfwide, wfwide, lwfwide), function(x){apply(x,1,'paste',collapse=" ")}))
   char_all <- paste(char_all, '\n')
   
-  char_ord  <- rbind(noobs[,c(1:7)], lfwide[,c(1:7)], wfwide[,c(1:7)], lwfwide[,c(1:7)])
+  char_ord  <- rbind(noobs[,c(1:4)], lfwide[,c(1:4)], wfwide[,c(1:4)], lwfwide[,c(1:4)])  # get the order based on the first 4 columns
   char_ord  <- order(char_ord$fishery, char_ord$year, char_ord$month)
   
   cat(char_all[char_ord], file=file, append=T, sep="")
