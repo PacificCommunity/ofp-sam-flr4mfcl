@@ -218,6 +218,7 @@ read.MFCLPseudoCatchEffort <- function(catch="catch_sim", effort="effort_sim", p
   effortdat <- read.MFCLPseudoEffort(effort, projfrq, ctrl, historical)
   
   freqdat  <- realisations(projfrq)
+  freqdat  <- freqdat[order(freqdat$fishery, freqdat$year, freqdat$month),]
   
   if(!historical)
     freqdat    <- subset(realisations(projfrq), year>=fprojyr(ctrl))
