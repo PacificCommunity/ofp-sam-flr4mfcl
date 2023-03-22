@@ -30,7 +30,7 @@ setMethod("laa", signature(object="MFCLBiol"),
             L1  <- growth(object)['Lmin','est']
             LA  <- growth(object)['Lmax','est']
             K   <- growth(object)['k',   'est']
-            beta<- richards(object)
+            beta<- ifelse(length(richards(object))>0, richards(object), 0)     # fix to allow function to run on MFCLIni objects that don't have a richards slot
             maxage<- dimensions(object)['agecls']
             
             if(is.null(ages))
