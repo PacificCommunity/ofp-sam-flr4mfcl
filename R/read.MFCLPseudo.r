@@ -241,6 +241,52 @@ read.MFCLPseudoCatchEffort <- function(catch="catch_sim", effort="effort_sim", p
   return(res)
 }
 
+## 24 March 2023 - pretty messy function to create a freq object from pseudo data for a specified iteration.
+fillfreq <- function(res, projfrq, ctrl, historical=TRUE, ii=1){
+  
+  if(class(res) != "MFCLPseudo")
+    stop('Error: invalid MFCLPseudo object')
+  
+
+  # things to know - there is a threshold on the minimum sample size so not all historical size comps will have corresponding pseudo data - therefore arrays not the same size!
+  # first - order the dataframes (iteration, fishery, year, month)
+  freq(res) <- realisations(projfrq)[order(realisations(projfrq)$fishery, realisations(projfrq)$year, realisations(projfrq)$month), c('year','month','week','fishery','penalty')]
+  
+  if(!historical)
+    freq(res) <- freq(res)[freq(res)$year >= fprojyr(ctrl),]
+    
+  catcheff(res) <- catcheff(res)[order(catcheff(res)$iter, catcheff(res)$fishery, catcheff(res)$year, catcheff(res)$month),]
+  catcheff(res) <- subset(catcheff(res), iter==ii)
+    
+  # add unique ids (year month week fishery) to enable checking later
+  freq(res)$id     <- paste(freq(res)$year, freq(res)$month, freq(res)$week, freq(res)$fishery, sep="_")
+  catcheff(res)$id <- paste(catcheff(res)$year, catcheff(res)$month, catcheff(res)$week, catcheff(res)$fishery, sep="_")
+    
+  # add pseudo catch and effort to new freq object
+  freq(res) <- merge(freq(res), subset(catcheff(res), iter==ii)[,c('year','month','week','fishery','catch','effort')])
+  # add pseudo length and weight comps to new freq object
+  if(nrow(l_frq(res)) > 0)
+    freq(res) <- merge(freq(res), subset(l_frq(res), iter==ii))
+  if(nrow(w_frq(res)) > 0)
+    freq(res) <- merge(freq(res), subset(w_frq(res), iter==ii))  # this hasn't been tested properly
+    
+  # re-order the columns of freq object
+  freq(res) <- freq(res)[, c('year','month','week','fishery','catch','effort','penalty','id','length','weight','freq','iter')]
+    
+  # add the rows that don't have size comps
+  freq(res) <- rbind(freq(res), cbind(catcheff(res)[!(catcheff(res)$id %in% freq(res)$id),c('year','month','week','fishery','catch','effort','penalty','id')], 
+                                        length=NA, weight=NA, freq=-1, iter=ii))
+  
+  # finally reorder the new freq object and chop out the unnecessary columns
+  freq(res) <- freq(res)[order(freq(res)$fishery,freq(res)$year,freq(res)$month), c('year','month','week','fishery','catch','effort','penalty','length','weight','freq')]
+  
+  if(!historical)
+    freq(res) <- rbind(freq(projfrq)[freq(projfrq)$year < fprojyr(ctrl),], freq(res))
+  
+  return(res)
+}
+
+
 
 
 
@@ -261,7 +307,7 @@ read.MFCLPseudoCatchEffort <- function(catch="catch_sim", effort="effort_sim", p
 
 # kk <- read.MFCLPseudo(catch="catch_sim", effort="effort_sim", lw_sim="test_lw_sim", projfrq=projfrq, ctrl=projCtrl)
 
-read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing", projfrq="missing", ctrl="missing", historical=TRUE) {
+read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing", projfrq="missing", ctrl="missing", historical=TRUE, ii=1) {
   
   res <- MFCLPseudo() 
   
@@ -293,6 +339,8 @@ read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing",
   age_nage(res) <- age_nage(res_sc)
   
   #slot(res, 'range') <- slot(res_sc, 'range')
+  
+  res <- fillfreq(res, projfrq, ctrl, historical = historical, ii=ii)
   
   return(res)
   
