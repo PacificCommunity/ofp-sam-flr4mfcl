@@ -254,7 +254,8 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLFrq"),
               # is this really necessary? I think this has already been covered by the code above
               for(grp in sort(unique(ffl29))){
                 nElemByGrp[grp] <- length(unique(test3[test3$V2 %in% which(ffl29==grp),'V1']))
-                nElemFuture<- nElemByGrp[grp]-length(catch_dev_coffs(x)[[grp]])-1 
+                nElemFuture<- nElemByGrp[grp]-length(catch_dev_coffs(x)[[grp]])-1  
+                nElemFuture<- max(nElemFuture, 0)                                         # RDS bug fix to stop nElemFuture from going negative 06/04/23
                 catch_dev_coffs(x)[[grp]]<-c(catch_dev_coffs(x)[[grp]],rep(0,nElemFuture))
               }
 
