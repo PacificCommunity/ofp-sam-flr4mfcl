@@ -1,10 +1,18 @@
+# FLR4MFCL 1.4.3 (2023-03-27)
+
+-
+
+# FLR4MFCL 1.4.2 (2023-03-22)
+
+-
+
 # FLR4MFCL 1.4.1 (2023-02-02)
 
-(No new exports.)
+-
 
 # FLR4MFCL 1.4.0 (2023-02-02)
 
-(No new exports.)
+-
 
 # FLR4MFCL 1.3.28 (2022-11-20)
 
@@ -14,7 +22,7 @@ As at January 2023 - latest version in repository following adoption of skipjack
 
 # FLR4MFCL 1.3.27 (2022-10-06)
 
-(No new exports.)
+-
 
 # FLR4MFCL 1.3.26 (2022-10-06)
 
@@ -22,11 +30,11 @@ As at January 2023 - latest version in repository following adoption of skipjack
 
 # FLR4MFCL 1.3.25 (2022-08-21)
 
-(No new exports.)
+-
 
 # FLR4MFCL 1.3.24 (2022-08-10)
 
-(No new exports.)
+-
 
 # FLR4MFCL 1.3.23 (2022-07-30)
 
@@ -40,7 +48,7 @@ As at January 2023 - latest version in repository following adoption of skipjack
 
 # FLR4MFCL 1.3.21 (2022-05-28)
 
-(No new exports.)
+-
 
 # FLR4MFCL 1.3.20 (2022-05-22)
 
@@ -52,19 +60,19 @@ As at January 2023 - latest version in repository following adoption of skipjack
 
 # FLR4MFCL 1.3.18 (2022-05-04)
 
-(No new exports.)
+-
 
 # FLR4MFCL 1.3.17 (2022-04-29)
 
-(No new exports.)
+-
 
 # FLR4MFCL 1.3.16 (2022-04-29)
 
-(No new exports.)
+-
 
 # FLR4MFCL 1.3.15 (2022-04-22)
 
-(No new exports.)
+-
 
 # FLR4MFCL 1.3.13 (2022-03-10)
 
@@ -72,11 +80,11 @@ As at January 2023 - latest version in repository following adoption of skipjack
 
 # FLR4MFCL 1.3.12 (2022-03-03)
 
-(No new exports.)
+-
 
 # FLR4MFCL 1.3.11 (2022-03-03)
 
-(No new exports.)
+-
 
 # FLR4MFCL 1.3.10 (2022-03-03)
 
@@ -86,19 +94,19 @@ As at January 2023 - latest version in repository following adoption of skipjack
 
 # FLR4MFCL 1.3.8 (2022-02-15)
 
-(No new exports.)
+-
 
 # FLR4MFCL 1.3.7 (2022-02-05)
 
-(No new exports.)
+-
 
 # FLR4MFCL 1.3.6 (2022-01-17)
 
-(No new exports.)
+-
 
 # FLR4MFCL 1.3.5 (2022-01-11)
 
-(No new exports.)
+-
 
 # FLR4MFCL 1.3.4 (2021-11-08)
 
@@ -120,7 +128,7 @@ As at January 2023 - latest version in repository following adoption of skipjack
 
 # FLR4MFCL 1.2.7 (2021-03-29)
 
-(No new exports.)
+-
 
 # FLR4MFCL 1.2.6 (2021-02-04)
 
@@ -130,7 +138,7 @@ As at January 2023 - latest version in repository following adoption of skipjack
 
 # FLR4MFCL 1.2.5 (2020-12-15)
 
-(No new exports.)
+-
 
 # FLR4MFCL 1.2.4 (2020-10-29)
 
@@ -224,4 +232,10 @@ As at January 2023 - latest version in repository following adoption of skipjack
 
 # FLR4MFCL 0.0.1 (2015-03-17)
 
-* New functions: read.MFCLVitalStats
+* New functions: read.MFCLVitalStats.
+
+---
+
+General note: The above news entries are based on changes in the `NAMESPACE`
+file between versions, specifically exported functions, classes, and methods. A
+simple '-' indicates that no new exports were introduced in that version.
