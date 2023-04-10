@@ -2,7 +2,7 @@
 % Please edit documentation in R/AllClasses.R
 \name{MFCLLikelihood}
 \alias{MFCLLikelihood}
-\title{MFCLLenFit}
+\title{MFCLLikelihood}
 \usage{
 MFCLLikelihood()
 }

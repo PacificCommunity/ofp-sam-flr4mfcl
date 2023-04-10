@@ -12,5 +12,5 @@ MFCLEMControl(
 )
 }
 \description{
-Basic constructor for MFCLPseudo class
+Basic constructor for MFCLEMControl class
 }

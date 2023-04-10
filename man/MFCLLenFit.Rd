@@ -7,5 +7,5 @@
 MFCLLenFit()
 }
 \description{
-Basic constructor for MFCLCatch class
+Basic constructor for MFCLLenFit class
 }
