@@ -550,6 +550,8 @@ exportMethods(
   "w_frq",
   "w_frq<-",
   "waa",
+  "weight_fish",
+  "weight_fish<-",
   "window",
   "write",
   "wtfrq",
