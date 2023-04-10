@@ -166,7 +166,7 @@ setMethod("summary", signature(object="MFCLLikelihood"),
                                            sum(unlist(weight_fish(obj))),
                                            sum(unlist(tag_rel_fish(obj))),
                                            0))
-            res[7,"likelihood"] <- abs(sum(res[,"likelihood"]))
+            res$likelihood[res$component == "total"] <- sum(res$likelihood)
             return(res)
           }
 ) # }}}
