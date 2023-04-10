@@ -5,7 +5,7 @@
 \title{Read MFCLPseudo Size Comp}
 \usage{
 read.MFCLPseudoSizeComp(
-  lw_sim = "test_lw_sim",
+  lw_sim = "test_lw_sim_alt",
   projfrq = projfrq,
   ctrl = "missing",
   historical = FALSE
@@ -24,7 +24,7 @@ read.MFCLPseudoSizeComp(
 An object of class \linkS4class{MFCLPseudo}.
 }
 \description{
-Reads in simulated length and weight size composition data from the MFCL generated file 'test_lw_sim' and
+Reads in simulated length and weight size composition data from the MFCL generated file 'test_lw_sim' (or 'test_lw_sim_alt') and
 returns a partially complete object of MFCLPseudo. The 'catcheff' slot of the MFCLPseudo object is not filled.
 }
 \details{
