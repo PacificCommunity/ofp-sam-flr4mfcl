@@ -154,6 +154,23 @@ setMethod("iter", signature(obj="MFCLPseudo"),
 
 
 
+#' Summary MFCLLikelihood
+#'
+#' Produce a summary of likelihood components.
+#'
+#' @param object An object of class MFCLLikelihood.
+#'
+#' @return Data frame containing aggregated likelihood components.
+#'
+#' @seealso
+#' \code{\link{read.MFCLLikelihood}}, \code{\link{MFCLLikelihood-class}}.
+#'
+#' @examples
+#' \dontrun{
+#' ll <- read.MFCLLikelihood()
+#' summary(ll)
+#' }
+
 # summary {{{
 setMethod("summary", signature(object="MFCLLikelihood"),
           function(object) {
