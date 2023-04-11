@@ -5,7 +5,7 @@
 * Improved read.MFCLLikelihood() so it reads in age_length likelihood.
 
 * Improved summary(MFCLLikelihood) so it reports neglogL instead of abs(neglogL)
-  and includes a cpue component.
+  and includes cpue and age components.
 
 # FLR4MFCL 1.4.3 (2023-03-27)
 
