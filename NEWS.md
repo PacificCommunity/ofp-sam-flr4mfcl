@@ -1,6 +1,6 @@
 # FLR4MFCL 1.4.4 (devel)
 
-* New methods: weight_fish.
+* New methods: age_length, weight_fish.
 
 * Improved summary(MFCLLikelihoods) so it reports neglogL instead of
   abs(neglogL) and includes a survey_index component.

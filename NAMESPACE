@@ -136,6 +136,8 @@ exportMethods(
   "adultBiomass<-",
   "adultBiomass_nofish",
   "adultBiomass_nofish<-",
+  "age_length",
+  "age_length<-",
   "age_nage",
   "age_nage<-",
   "age_pars",

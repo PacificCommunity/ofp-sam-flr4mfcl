@@ -52,6 +52,7 @@ read.MFCLLikelihood <- function(tpofile="test_plot_output"){
   slot(res, 'catch_fish')         <- n_catch_fsh
   slot(res, 'tag_rel_fish')       <- tag_likelihood
   slot(res, 'survey_index')       <- as.numeric(splitter(tpo, "Survey_index_like_by_group"))                 ## 10/03/2022
+  slot(res, 'age_length')         <- as.numeric(splitter(tpo, "age length likelihood"))
   slot(res, 'dimensions')          <- unlist(list(agecls=as.numeric(NA), years=NA, seasons=NA, regions=NA, 
                                                   fisheries=length(n_catch_fsh_marker), taggrps=length(tag_likelihood)))
   return(res)

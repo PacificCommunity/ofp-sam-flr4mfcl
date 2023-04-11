@@ -1022,6 +1022,7 @@ setClass("MFCLLikelihood",
            catch_fish          ="list",
            tag_rel_fish        ="list",
            survey_index        ='numeric',
+           age_length          ="numeric",
            dimensions          ="numeric"
          ),
          prototype=prototype(
@@ -1037,6 +1038,7 @@ setClass("MFCLLikelihood",
            catch_fish          =list(),
            tag_rel_fish        =list(), # or maybe a data.frame
            survey_index        =numeric(),
+           age_length          =numeric(),
            dimensions          =unlist(list(agecls=as.numeric(NA), years=NA, seasons=NA, regions=NA, fisheries=NA, taggrps=NA))
          ),
          validity=validMFCLLikelihood
