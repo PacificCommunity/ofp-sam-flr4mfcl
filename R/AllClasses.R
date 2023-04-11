@@ -1008,6 +1008,24 @@ validMFCLLikelihood <- function(object){
   #Everything is fine
   return(TRUE)
 }
+
+#' An S4 class : Likelihood components.
+#'
+#' @slot bh_steep_contrib Likelihood component
+#' @slot effort_dev_penalty  Likelihood component
+#' @slot q_dev_pen_fish Likelihood component
+#' @slot q_dev_pen_fish_grp Likelihood component
+#' @slot total_length_fish Likelihood component
+#' @slot length_fish Likelihood component
+#' @slot total_weight_fish Likelihood component
+#' @slot weight_fish Likelihood component
+#' @slot total_catch_fish Likelihood component
+#' @slot catch_fish Likelihood component
+#' @slot tag_rel_fish Likelihood component
+#' @slot survey_index Likelihood component
+#' @slot age_length Likelihood component
+#' @slot dimensions Model dimensions
+
 setClass("MFCLLikelihood",
          representation(
            bh_steep_contrib    ="numeric",
@@ -1022,6 +1040,7 @@ setClass("MFCLLikelihood",
            catch_fish          ="list",
            tag_rel_fish        ="list",
            survey_index        ='numeric',
+           age_length          ="numeric",
            dimensions          ="numeric"
          ),
          prototype=prototype(
@@ -1037,6 +1056,7 @@ setClass("MFCLLikelihood",
            catch_fish          =list(),
            tag_rel_fish        =list(), # or maybe a data.frame
            survey_index        =numeric(),
+           age_length          =numeric(),
            dimensions          =unlist(list(agecls=as.numeric(NA), years=NA, seasons=NA, regions=NA, fisheries=NA, taggrps=NA))
          ),
          validity=validMFCLLikelihood

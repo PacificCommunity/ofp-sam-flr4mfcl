@@ -1903,6 +1903,16 @@ setReplaceMethod('survey_index', signature(object='MFCLLikelihood', value=unname
                  function(object, value){slot(object, 'survey_index') <- value; return(object)})
 
 #' @rdname accessor-methods
+setGeneric('age_length', function(object, ...) standardGeneric('age_length'))
+#' @rdname accessor-methods
+setMethod('age_length', signature(object='MFCLLikelihood'), function(object) return(slot(object, 'age_length')))
+#' @rdname accessor-methods
+setGeneric('age_length<-', function(object, ..., value) standardGeneric('age_length<-'))
+#' @rdname accessor-methods
+setReplaceMethod('age_length', signature(object='MFCLLikelihood', value=unname(getSlots('MFCLLikelihood')['age_length'])),
+                 function(object, value){slot(object, 'age_length') <- value; return(object)})
+
+#' @rdname accessor-methods
 setMethod('dimensions', signature(object='MFCLLikelihood'), function(object) return(slot(object, 'dimensions')))
 #' @rdname accessor-methods
 setReplaceMethod('dimensions', signature(object='MFCLLikelihood', value=unname(getSlots('MFCLLikelihood')['dimensions'])), 

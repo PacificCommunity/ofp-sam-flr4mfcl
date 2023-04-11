@@ -154,18 +154,36 @@ setMethod("iter", signature(obj="MFCLPseudo"),
 
 
 
+#' Summary MFCLLikelihood
+#'
+#' Produce a summary of likelihood components.
+#'
+#' @param object An object of class MFCLLikelihood.
+#'
+#' @return Data frame containing aggregated likelihood components.
+#'
+#' @seealso
+#' \code{\link{read.MFCLLikelihood}}, \code{\link{MFCLLikelihood-class}}.
+#'
+#' @examples
+#' \dontrun{
+#' ll <- read.MFCLLikelihood()
+#' summary(ll)
+#' }
+
 # summary {{{
 setMethod("summary", signature(object="MFCLLikelihood"),
           function(object) {
             obj <- object
-            res <- data.frame(component=c("bhsteep","effort_dev","catchability_dev","length_comp","weight_comp","tag_data","cpue","total"),
+            res <- data.frame(component=c("bhsteep","effort_dev","catchability_dev","length_comp","weight_comp","tag_data","cpue","age","total"),
                               likelihood=c(bh_steep_contrib(obj),
                                            sum(effort_dev_penalty(obj)),
                                            sum(q_dev_pen_fish_grp(obj)),
                                            sum(unlist(length_fish(obj))),
                                            sum(unlist(weight_fish(obj))),
                                            sum(unlist(tag_rel_fish(obj))),
-                                           sum(survey_index(obj), na.rm=TRUE),
+                                           sum(survey_index(obj)),
+                                           sum(age_length(obj)),
                                            0))
             res$likelihood[res$component == "total"] <- sum(res$likelihood)
             return(res)

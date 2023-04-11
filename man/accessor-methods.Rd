@@ -769,6 +769,10 @@
 \alias{survey_index,MFCLLikelihood-method}
 \alias{survey_index<-}
 \alias{survey_index<-,MFCLLikelihood,numeric-method}
+\alias{age_length}
+\alias{age_length,MFCLLikelihood-method}
+\alias{age_length<-}
+\alias{age_length<-,MFCLLikelihood,numeric-method}
 \alias{dimensions,MFCLLikelihood-method}
 \alias{dimensions<-,MFCLLikelihood,numeric-method}
 \alias{catcheff}
@@ -2373,6 +2377,14 @@ survey_index(object, ...)
 survey_index(object, ...) <- value
 
 \S4method{survey_index}{MFCLLikelihood,numeric}(object) <- value
+
+age_length(object, ...)
+
+\S4method{age_length}{MFCLLikelihood}(object)
+
+age_length(object, ...) <- value
+
+\S4method{age_length}{MFCLLikelihood,numeric}(object) <- value
 
 \S4method{dimensions}{MFCLLikelihood}(object)
 
