@@ -1,3 +1,10 @@
+# FLR4MFCL 1.4.4 (devel)
+
+* New methods: weight_fish.
+
+* Improved summary(MFCLLikelihoods) so it reports neglogL instead of
+  abs(neglogL) and includes a survey_index component.
+
 # FLR4MFCL 1.4.3 (2023-03-27)
 
 -
@@ -236,6 +243,7 @@ As at January 2023 - latest version in repository following adoption of skipjack
 
 ---
 
-General note: The above news entries are based on changes in the `NAMESPACE`
-file between versions, specifically exported functions, classes, and methods. A
-simple '-' indicates that no new exports were introduced in that version.
+General note: Unless specific news entries were written, the above entries are
+based on changes in the `NAMESPACE` file between versions, specifically exported
+functions, classes, and methods. A simple '-' indicates that no new exports were
+introduced in that version.
