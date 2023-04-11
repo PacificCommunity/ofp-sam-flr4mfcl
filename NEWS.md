@@ -2,8 +2,10 @@
 
 * New methods: age_length, weight_fish.
 
-* Improved summary(MFCLLikelihoods) so it reports neglogL instead of
-  abs(neglogL) and includes a survey_index component.
+* Improved read.MFCLLikelihood() so it reads in age_length likelihood.
+
+* Improved summary(MFCLLikelihood) so it reports neglogL instead of abs(neglogL)
+  and includes a cpue component.
 
 # FLR4MFCL 1.4.3 (2023-03-27)
 
