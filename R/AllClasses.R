@@ -725,7 +725,7 @@ setValidity("MFCLTagProj", validMFCLTagProj)
 remove(validMFCLTagProj)
 #'MFCLTagProj
 #'
-#'Basic constructor for MFCLTag class
+#'Basic constructor for MFCLTagProj class
 #'@export
 MFCLTagProj <- function(ptd=NULL, reprate=NULL) {
   res <- new("MFCLTagProj")
@@ -913,9 +913,9 @@ setClass("MFCLprojControl",
 )
 setValidity("MFCLprojControl", validMFCLprojControl)
 remove(validMFCLprojControl)
-#'projControl
+#'MFCLprojControl
 #'
-#'Basic constructor for projControl class
+#'Basic constructor for MFCLprojControl class
 #'@export
 MFCLprojControl <- function(nyears=as.numeric(NULL), nsims=as.numeric(NULL), avyrs='', fprojyr=as.numeric(NULL), controls=data.frame(name=NULL, region=NULL, caeff=NULL, scaler=NULL, ess=NULL)) {
   
@@ -996,7 +996,7 @@ setValidity("MFCLLenFit", validMFCLLenFit)
 remove(validMFCLLenFit)
 #'MFCLLenFit
 #'
-#'Basic constructor for MFCLCatch class
+#'Basic constructor for MFCLLenFit class
 #'@export
 MFCLLenFit <- function() {return(new("MFCLLenFit"))}
 
@@ -1043,7 +1043,7 @@ setClass("MFCLLikelihood",
 )
 setValidity("MFCLLikelihood", validMFCLLikelihood)
 remove(validMFCLLikelihood)
-#'MFCLLenFit
+#'MFCLLikelihood
 #'
 #'Basic constructor for MFCLLikelihood class
 #'@export
@@ -1132,7 +1132,7 @@ setValidity("MFCLPseudoControl", validMFCLPseudoControl)
 remove(validMFCLPseudoControl)
 #'MFCLPseudoControl
 #'
-#'Basic constructor for MFCLPseudo class
+#'Basic constructor for MFCLPseudoControl class
 #'@export
 MFCLPseudoControl <- function(catch_sd=20, effort_sd=20, tag_fish_rep_rate=0.9, catch_seed=16001, effort_seed=17001, length_seed=18001, weight_seed=19001, tag_seed=20001) {
   
@@ -1166,7 +1166,7 @@ setValidity("MFCLEMControl", validMFCLEMControl)
 remove(validMFCLEMControl)
 #'MFCLEMControl
 #'
-#'Basic constructor for MFCLPseudo class
+#'Basic constructor for MFCLEMControl class
 #'@export
 MFCLEMControl <- function(doitall=function(){}, tag_fish_rep_rate=0.9,...) {
   

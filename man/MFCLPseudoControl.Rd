@@ -16,5 +16,5 @@ MFCLPseudoControl(
 )
 }
 \description{
-Basic constructor for MFCLPseudo class
+Basic constructor for MFCLPseudoControl class
 }

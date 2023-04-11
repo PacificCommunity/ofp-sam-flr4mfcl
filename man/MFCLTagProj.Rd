@@ -7,5 +7,5 @@
 MFCLTagProj(ptd = NULL, reprate = NULL)
 }
 \description{
-Basic constructor for MFCLTag class
+Basic constructor for MFCLTagProj class
 }

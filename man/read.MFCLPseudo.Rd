@@ -10,7 +10,8 @@ read.MFCLPseudo(
   lw_sim = "missing",
   projfrq = "missing",
   ctrl = "missing",
-  historical = TRUE
+  historical = TRUE,
+  ii = 1
 )
 }
 \arguments{
@@ -18,16 +19,15 @@ read.MFCLPseudo(
 
 \item{effort}{A character string giving the name and path of the effort.sim file to be read.}
 
-\item{lw_sim}{A character string giving the name and path of the lw_sim file to be read.}
+\item{lw_sim}{A character string giving the name and path of the test_lw_sim (or test_lw_sim_alt) file to be read.}
 
-\item{projfrq}{undocumented.}
+\item{projfrq}{The projection *.frq object from which the pseudo data were generated.}
 
-\item{ctrl}{undocumented.}
+\item{ctrl}{The corresponding projection control object.}
 }
 \value{
 An object of class MFCLPseudo
 }
 \description{
 Reads information from the pseudo generation files and creates an MFCLPseudo object.
-This method is a complicated mess and really needs to be simplified.
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/AllClasses.R
 \name{MFCLprojControl}
 \alias{MFCLprojControl}
-\title{projControl}
+\title{MFCLprojControl}
 \usage{
 MFCLprojControl(
   nyears = as.numeric(NULL),
@@ -14,5 +14,5 @@ MFCLprojControl(
 )
 }
 \description{
-Basic constructor for projControl class
+Basic constructor for MFCLprojControl class
 }

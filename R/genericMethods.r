@@ -158,15 +158,16 @@ setMethod("iter", signature(obj="MFCLPseudo"),
 setMethod("summary", signature(object="MFCLLikelihood"),
           function(object) {
             obj <- object
-            res <- data.frame(component=c("bhsteep","effort_dev","catchability_dev","length_comp","weight_comp","tag_data", "total"),
+            res <- data.frame(component=c("bhsteep","effort_dev","catchability_dev","length_comp","weight_comp","tag_data","cpue","total"),
                               likelihood=c(bh_steep_contrib(obj),
                                            sum(effort_dev_penalty(obj)),
                                            sum(q_dev_pen_fish_grp(obj)),
                                            sum(unlist(length_fish(obj))),
                                            sum(unlist(weight_fish(obj))),
                                            sum(unlist(tag_rel_fish(obj))),
+                                           sum(survey_index(obj), na.rm=TRUE),
                                            0))
-            res[7,"likelihood"] <- abs(sum(res[,"likelihood"]))
+            res$likelihood[res$component == "total"] <- sum(res$likelihood)
             return(res)
           }
 ) # }}}
