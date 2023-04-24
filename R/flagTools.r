@@ -345,3 +345,51 @@ flagExtract <- function(flags) {
     flags <- flags(flags)
   flags
 }
+
+
+#' Flag Sort
+#'
+#' Sort flags by flagtype and flagnumber
+#'
+#' @param flags dataframe of MFCL flags from MFCLPar object.
+#'
+#' @details
+#'
+#' @return
+#' A data frame of sorted flag settings
+#'
+#' @seealso
+#' \code{\link{diffFlags}} calls this function to show the meaning of flags that
+#' are different between two model runs.
+#'
+#' \code{\link{read.MFCLFlags}} reads flag settings from a par file.
+#'
+#' @examples
+#' data(par)
+#' flagSort(flags(par))
+#'
+#' @export
+
+flagSort <- function(flags){
+  
+  if(!is.data.frame(flags))
+    stop("flags is not a data frame")
+  
+  #ftypes      <- unique(flags$flagtype)
+  sortedparestflags <- subset(flags, flagtype==1)[order(subset(flags, flagtype==1)$flag),]
+  sortedageflags    <- subset(flags, flagtype==2)[order(subset(flags, flagtype==2)$flag),]
+  sortedfishflags   <- subset(flags, flagtype%in%c(-1:-999))[order(abs(subset(flags, flagtype%in%c(-1:-999))$flagtype), 
+                                                                       subset(flags, flagtype%in%c(-1:-999))$flag),]
+  sortedtagflags    <- subset(flags, flagtype%in%c(-10000:-99999))[order(abs(subset(flags, flagtype%in%c(-10000:-99999))$flagtype), 
+                                                                              subset(flags, flagtype%in%c(-10000:-99999))$flag),]
+  sortedregionflags <- subset(flags, flagtype%in%c(-100000:-999999))[order(abs(subset(flags, flagtype%in%c(-100000:-999999))$flagtype), 
+                                                                         subset(flags, flagtype%in%c(-100000:-999999))$flag),]
+  
+  sortedflags <- rbind(sortedparestflags, sortedageflags, sortedfishflags, sortedtagflags, sortedregionflags)
+  return(sortedflags)
+}
+
+
+
+
+
