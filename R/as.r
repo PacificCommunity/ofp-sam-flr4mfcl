@@ -31,6 +31,7 @@ setMethod("as.MFCLIni", signature(object="MFCLPar"),
           rec_dist(res)         <- rep(1/dimensions(object)['regions'], dimensions(object)['regions'])
           sd_length_at_age(res) <- c(5,1,9)
           sd_length_dep(res)    <- c(0.5,0,3)
+          lw_params(res)        <- lw_params(object)
           
           ini_version(res)      <- ifelse(length(mat_at_length(res))>1, 1003, 1001)  # 17/01/2022 adding version control to as.ini
           return(res)
