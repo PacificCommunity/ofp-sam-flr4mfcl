@@ -21,6 +21,7 @@ export(
   "finalRep",
   "flagDiff",
   "flagMeaning",
+  "flagSort",
   "flagSummary",
   "getMFCLversion",
   "gradients",
