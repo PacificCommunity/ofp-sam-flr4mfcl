@@ -88,6 +88,9 @@ read.MFCLLenFit <- function(lffile) {
   return(lf.obj)
 }  
   
+
+
+#  kk <- read.MFCLLenFit2("/media/sf_assessments/bet/2023/model_runs/stepwise/02PreCatchCond/B06CatchCond4/length.fit")
   
 # Speedier version of the original read.MFCLLenFit2
 # With option not to get the predicted age-length data.frame (as it is huge)
@@ -130,6 +133,9 @@ read.MFCLLenFit2 <- function(lffile, get_lenage = FALSE) {
   out2 <- list()
 
   for (fishery in 1:nfisheries){
+    if(fsh_nobs[fishery] == 0)
+      next
+      
     fishery_start <- fishery_blocks[fishery]
     # Get year and month of each sample block in each fishery
     time_ids_posns <- fishery_start + seq(from = 1, to = sample_size * fsh_nobs[fishery], by=sample_size)
@@ -188,7 +194,8 @@ read.MFCLLenFit2 <- function(lffile, get_lenage = FALSE) {
   # Get range
   range <- c(ages[1], ages[length(ages)], NA, min(lendat$year), max(lendat$year))
   # Get length-at-age - in the fishery blocks but same for each fishery
-  laa <- lff[fishery_blocks[1] + 4]
+  
+  laa <- lff[grep(paste0("# fishery ", which(fsh_nobs>0)[1]), lff) + 4]
   laa <- as.numeric(unlist(strsplit(trim.leading(laa), split="[[:blank:]]+")))
   laa <- FLQuant(laa, dimnames=list(age=as.character(ages), year="all", unit="unique", season="all", area="unique"))
   
