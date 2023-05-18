@@ -1,5 +1,5 @@
 Package: FLR4MFCL
-Version: 1.4.6
+Version: 1.4.7
 Date: 2023-02-02
 Title: R Functions for Taming MULTIFAN-CL
 Author: c(person("Robert", "Scott", role=c("aut","cre"), email="robertsc@spc.int"),
