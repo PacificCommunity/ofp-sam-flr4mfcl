@@ -2,18 +2,27 @@
 % Please edit documentation in R/read.MFCLLenFit.r
 \name{read.MFCLLenFit}
 \alias{read.MFCLLenFit}
+\alias{read.MFCLLenFit2}
 \title{read.MFCLLenFit}
 \usage{
-read.MFCLLenFit(lffile)
+read.MFCLLenFit(lffile, get_lenage = FALSE)
 }
 \arguments{
-\item{inifile}{A character string giving the name and path of the length.fit file to be read.}
+\item{lffile}{a character string giving the name and path of the
+\verb{length.fit} file to be read.}
+
+\item{get_lenage}{whether to import the predicted \code{lenagefits} data
+frame, which is very large.}
 }
 \value{
-An object of class MFCLLenFit
+An object of class MFCLLenFit.
 }
 \description{
-Reads information from the length.fit file and creates an MFCLLenFit object.
+Reads information from the \verb{length.fit} file and creates an
+\code{MFCLLenFit} object.
+}
+\note{
+\code{read.MFCLLenFit2} is an equivalent alias for \code{read.MFCLLenFit}.
 }
 \examples{
 \dontrun{
