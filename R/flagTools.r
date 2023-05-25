@@ -353,7 +353,6 @@ flagExtract <- function(flags) {
 #'
 #' @param flags dataframe of MFCL flags from MFCLPar object.
 #'
-#' @details
 #'
 #' @return
 #' A data frame of sorted flag settings
