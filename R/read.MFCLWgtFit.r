@@ -17,19 +17,10 @@
 #' @export
 
 # wffile <- "/media/sf_assessments/yft/2023/model_runs/stepwise/03_PreCatchCond/03j_No_Effort_Projections/weight.fit"
-
-read.MFCLWgtFit <- function(wffile, get_wtage=FALSE) {
+#  kk <- read.MFCLWgtFit("/media/sf_assessments/bet/2023/model_runs/stepwise/02PreCatchCond/B06CatchCond4/weight.fit")
   
-  return(read.MFCLWgtFit2(wffile, get_wtage))
-}  
-  
-
-
-#  kk <- read.MFCLWgtFit2("/media/sf_assessments/bet/2023/model_runs/stepwise/02PreCatchCond/B06CatchCond4/weight.fit")
-  
-# Speedier version of the original read.MFCLLenFit2
 # With option not to get the predicted age-length data.frame (as it is huge)
-read.MFCLWgtFit2 <- function(wffile, get_wgtage = FALSE) {
+read.MFCLWgtFit <- function(wffile, get_wgtage = FALSE) {
 
   # Helper function to clean up character strings
   trim.leading  <- function(x) sub("^\\s+", "", x) 
@@ -147,3 +138,5 @@ read.MFCLWgtFit2 <- function(wffile, get_wgtage = FALSE) {
   slot(obj, 'wgtagefits') <- as.data.frame(agewgtdat) # Force as data frame in case it is NULL (get_lenage==FALSE)
   return(obj)
 }
+
+
