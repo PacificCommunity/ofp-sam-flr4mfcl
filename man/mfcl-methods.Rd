@@ -12,7 +12,7 @@
 \alias{mohns_rho,list-method}
 \alias{plot,MFCLLenFreq,ANY-method}
 \alias{trim,MFCLFrqStats-method}
-\alias{trim,MFCLRep-method}
+\alias{trim}
 \alias{update,MFCLFrq-method}
 \alias{window,MFCLFrq-method}
 \title{effort_dev_coffs}
@@ -49,8 +49,6 @@ mohns_rho(object, ...)
 \S4method{plot}{MFCLLenFreq,ANY}(x, y = "missing", ...)
 
 \S4method{trim}{MFCLFrqStats}(x, ...)
-
-\S4method{trim}{MFCLRep}(x, ...)
 
 \S4method{update}{MFCLFrq}(object, years, fisheries, multiplier, quantity, ...)
 
@@ -96,7 +94,7 @@ Creates a text file at the specified location.
 
 A numeric value of mohn's rho.
 
-An updated object of the same class.
+An updated object of the same class trimmed to the new dimensions.
 
 An updated object of the same class.
 
@@ -111,11 +109,20 @@ Calculate mohns rho for retrospective analyses
 
 Plot MFCL objects.
 
-Trim MFCL objects using named dimensions
+Trims an object to a new set of smaller dimensions eg. a reduced year range.
 
 Update MFCL objects with new values
 
 Subset MFCL objects between the times start and end.
+}
+\details{
+Trim MFCL objects using named dimensions
+
+The dimensions over which an object can be trimmed will depend on the object itself. 
+For example an FLQuant object can be trimmed over the 6 dimensions of an FLQuant (quant/age, year, unit, season, area, iter).
+Objects having additional factor levels may allow additional functionality for 'trim'. For example MFCLLenFit() objects 
+ma be trimmed on age, length, fishery, year and/or month. Note that where MFCLLenfit objects are trimmed on both age and length
+the most restrictive condition is applied.
 }
 \examples{
 \dontrun{
@@ -145,7 +152,7 @@ window(MFCLFrq(), start = 1990, end = 1995)
 
 \code{\link{SBSBF0}} and \code{\link{MFCLRep}}
 
-\code{\link{MFCLFrq}}, \code{\link{MFCLPar}} and \code{\link{MFCLPar}}
+\code{\link{MFCLFrq}}, \code{\link{MFCLPar}} and \code{\link{MFCLPar} and \code{\link{MFCLLenFit}}}
 
 \code{\link{read.MFCLFrq}} and \code{\link{read.MFCLPar}}
 

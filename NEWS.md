@@ -1,11 +1,30 @@
-# FLR4MFCL 1.4.4 (devel)
+# FLR4MFCL 1.5.0 (2023-05-25)
 
-* New methods: age_length, weight_fish.
+* read.MFCLLenFit() and read.MFCLLenFit2() are now the same function. In recent
+  versions of FLR4MFCL, read.MFCLLenFit2() was working and read.MFCLLenFit() was
+  obsolete and broken. As of version 1.5.0, users can pick whichever feels
+  right, as they are the same.
+
+# FLR4MFCL 1.4.7 (2023-05-18)
+
+-
+
+# FLR4MFCL 1.4.6 (2023-04-24)
+
+* New functions: flagSort().
+
+# FLR4MFCL 1.4.5 (2023-04-12)
+
+* New methods: age_length.
 
 * Improved read.MFCLLikelihood() so it reads in age_length likelihood.
 
 * Improved summary(MFCLLikelihood) so it reports neglogL instead of abs(neglogL)
   and includes cpue and age components.
+
+# FLR4MFCL 1.4.4 (2023-04-06)
+
+* New methods: weight_fish.
 
 # FLR4MFCL 1.4.3 (2023-03-27)
 
