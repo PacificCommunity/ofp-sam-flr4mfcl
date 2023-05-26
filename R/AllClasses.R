@@ -1001,6 +1001,37 @@ remove(validMFCLLenFit)
 MFCLLenFit <- function() {return(new("MFCLLenFit"))}
 
 
+###### CLASSS MFCLWgtFit
+
+validMFCLWgtFit <- function(object){
+  #Everything is fine
+  return(TRUE)
+}
+setClass("MFCLWgtFit",
+         representation(
+           waa                 ="FLQuant",
+           wgtfits             ="data.frame",
+           wgtagefits          ="data.frame",
+           range               ="numeric"
+         ),
+         prototype=prototype(
+           waa                 =FLQuant(),
+           wgtfits             =data.frame(fishery=NULL, year=NULL, month=NULL, length=NULL, obs=NULL, pred=NULL),
+           wgtagefits          =data.frame(fishery=NULL, year=NULL, month=NULL, length=NULL, age=NULL, pred=NULL), 
+           range               =unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
+         ),
+         validity=validMFCLWgtFit
+)
+setValidity("MFCLWgtFit", validMFCLWgtFit)
+remove(validMFCLWgtFit)
+#'MFCLWgtFit
+#'
+#'Basic constructor for MFCLWgtFit class
+#'@export
+MFCLWgtFit <- function() {return(new("MFCLWgtFit"))}
+
+
+
 
 ###### CLASSS MFCLLikelihood
 
@@ -1298,6 +1329,42 @@ remove(validMFCLEquilibrium)
 #'Basic constructor for MFCLEquilibrium class
 #'@export
 MFCLEquilibrium <- function() {return(new("MFCLEquilibrium"))}
+
+
+
+
+###### CLASSS MFCLALK
+
+validMFCLALK <- function(object){
+  #Everything is fine
+  return(TRUE)
+}
+#' An S4 class : Size frequency information from the frq file.
+#'
+#' @slot Eq_calcs Description
+#' @slot YPR Description
+#'
+setClass("MFCLALK",
+         representation(
+           ALK        ="data.frame",
+           ESS        ="numeric",
+           range      ="numeric"
+         ),
+         prototype=prototype(
+           ALK        =data.frame(),
+           ESS        =numeric(),
+           range      =unlist(list(minage=NA,maxage=NA,plusgroup=NA,minlength=NA,maxlength=NA,minyear=1,maxyear=1))
+         ),
+         validity=validMFCLALK
+)
+setValidity("MFCLALK", validMFCLALK)
+remove(validMFCLALK)
+
+#'MFCLALK
+#'
+#'Basic constructor for MFCLALK class
+#'@export
+MFCLALK <- function() {return(new("MFCLALK"))}
 
 
 
