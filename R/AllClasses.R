@@ -977,6 +977,14 @@ validMFCLLenFit <- function(object){
   #Everything is fine
   return(TRUE)
 }
+
+#' An S4 class : Length composition fits from a \file{length.fit} file.
+#'
+#' @slot laa Description
+#' @slot lenfits Description
+#' @slot lenagefits Description
+#' @slot range Description
+
 setClass("MFCLLenFit",
          representation(
            laa                 ="FLQuant",
@@ -987,7 +995,7 @@ setClass("MFCLLenFit",
          prototype=prototype(
            laa                 =FLQuant(),
            lenfits             =data.frame(fishery=NULL, year=NULL, month=NULL, length=NULL, obs=NULL, pred=NULL),
-           lenagefits          =data.frame(fishery=NULL, year=NULL, month=NULL, length=NULL, age=NULL, pred=NULL), 
+           lenagefits          =data.frame(fishery=NULL, year=NULL, month=NULL, length=NULL, age=NULL, pred=NULL),
            range               =unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
          ),
          validity=validMFCLLenFit

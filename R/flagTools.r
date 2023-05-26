@@ -40,7 +40,7 @@ recPeriod <- function(par, af199=NULL, af200=NULL, pf232=NULL, pf233=NULL,
 
   # If flag values given as args : calculate corresponding values
   if(!is.null(af199) && is.null(pf232))
-    pf232 <- mat_s[mat_d==af199]           # bug fix af199 cannot be zero - need to change it to 1 
+    pf232 <- mat_s[mat_d==af199]           # bug fix af199 cannot be zero - need to change it to 1
   if(!is.null(af200) && is.null(pf233))
     pf233 <- mat_s[mat_d==af200]
 
@@ -353,7 +353,6 @@ flagExtract <- function(flags) {
 #'
 #' @param flags dataframe of MFCL flags from MFCLPar object.
 #'
-#'
 #' @return
 #' A data frame of sorted flag settings
 #'
@@ -370,25 +369,20 @@ flagExtract <- function(flags) {
 #' @export
 
 flagSort <- function(flags){
-  
+
   if(!is.data.frame(flags))
     stop("flags is not a data frame")
-  
-  #ftypes      <- unique(flags$flagtype)
+
+  # ftypes <- unique(flags$flagtype)
   sortedparestflags <- subset(flags, flagtype==1)[order(subset(flags, flagtype==1)$flag),]
   sortedageflags    <- subset(flags, flagtype==2)[order(subset(flags, flagtype==2)$flag),]
-  sortedfishflags   <- subset(flags, flagtype%in%c(-1:-999))[order(abs(subset(flags, flagtype%in%c(-1:-999))$flagtype), 
-                                                                       subset(flags, flagtype%in%c(-1:-999))$flag),]
-  sortedtagflags    <- subset(flags, flagtype%in%c(-10000:-99999))[order(abs(subset(flags, flagtype%in%c(-10000:-99999))$flagtype), 
-                                                                              subset(flags, flagtype%in%c(-10000:-99999))$flag),]
-  sortedregionflags <- subset(flags, flagtype%in%c(-100000:-999999))[order(abs(subset(flags, flagtype%in%c(-100000:-999999))$flagtype), 
-                                                                         subset(flags, flagtype%in%c(-100000:-999999))$flag),]
-  
+  sortedfishflags   <- subset(flags, flagtype%in%c(-1:-999))[order(abs(subset(flags, flagtype%in%c(-1:-999))$flagtype),
+                                                                   subset(flags, flagtype%in%c(-1:-999))$flag),]
+  sortedtagflags    <- subset(flags, flagtype%in%c(-10000:-99999))[order(abs(subset(flags, flagtype%in%c(-10000:-99999))$flagtype),
+                                                                         subset(flags, flagtype%in%c(-10000:-99999))$flag),]
+  sortedregionflags <- subset(flags, flagtype%in%c(-100000:-999999))[order(abs(subset(flags, flagtype%in%c(-100000:-999999))$flagtype),
+                                                                           subset(flags, flagtype%in%c(-100000:-999999))$flag),]
+
   sortedflags <- rbind(sortedparestflags, sortedageflags, sortedfishflags, sortedtagflags, sortedregionflags)
   return(sortedflags)
 }
-
-
-
-
-
