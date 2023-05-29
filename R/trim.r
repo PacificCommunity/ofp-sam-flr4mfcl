@@ -132,8 +132,52 @@ setMethod("trim", signature(x="MFCLLenFit"), function(x, ...){
     slot(obj, 'lenagefits') <- subset(lenagefits(obj), fishery%in%args[['fishery']] & year%in%args[['year']] & month%in%args[['month']] & 
                                         age%in%args[['age']] & length%in%args[['length']])
   
-  range(obj) <- c(min=min(as.numeric(dimnames(laa(lfit))$age)), max=max(as.numeric(dimnames(laa(lfit))$age)), plusgroup=NA, 
+  range(obj) <- c(min=min(as.numeric(dimnames(laa(obj))$age)), max=max(as.numeric(dimnames(laa(obj))$age)), plusgroup=NA, 
                   minyear=min(lenfits(obj)$year), maxyear=max(lenfits(obj)$year))
+  
+  return(obj)
+})
+
+
+#' @export
+#' 
+setMethod("trim", signature(x="MFCLWgtFit"), function(x, ...){
+  #browser()
+  args      <- list(...)
+  argnames  <- names(args)
+  
+  if(!is.element("age", argnames))
+    args$age <- sort(unique(wgtagefits(x)$age))
+  if(!is.element("weight", argnames))
+    args$weight <- seq(0, max(wgtfits(x)$weight))
+  if(!is.element("fishery", argnames))
+    args$fishery <- sort(unique(wgtfits(x)$fishery))
+  if(!is.element("year", argnames))
+    args$year <- sort(unique(wgtfits(x)$year))
+  if(!is.element("month", argnames))
+    args$month <- sort(unique(wgtfits(x)$month))
+  
+  # Add warning if not correct trim call
+  if(!(all(names(args) %in% c("age", "weight", "fishery", "year", "month")))){
+    warning("trim() for MFCLWgtFit only works on 'age', 'weight', 'fishery', 'year' and 'month'. Other dimensions are ignored")
+  }
+  
+  obj <- x
+  
+  # trim waa for age first and then length
+  slot(obj, 'waa')  <- trim(slot(obj,'waa'), age=args[["age"]])
+  slot(obj, 'waa')  <- slot(obj,'waa')[floor(slot(obj,'waa'))%in%args[["weight"]]]
+  
+  # trim wgtfits
+  slot(obj, 'wgtfits')    <- subset(wgtfits(obj), fishery%in%args[['fishery']] & year%in%args[['year']] & month%in%args[['month']] & 
+                                      weight%in%args[['weight']])
+  # trim wgtagefits if present
+  if(nrow(wgtagefits(obj))>1)
+    slot(obj, 'wgtagefits') <- subset(wgtagefits(obj), fishery%in%args[['fishery']] & year%in%args[['year']] & month%in%args[['month']] & 
+                                        age%in%args[['age']] & weight%in%args[['weight']])
+  
+  range(obj) <- c(min=min(as.numeric(dimnames(slot(obj, 'waa'))$age)), max=max(as.numeric(dimnames(slot(obj,'waa'))$age)), plusgroup=NA, 
+                  minyear=min(wgtfits(obj)$year), maxyear=max(wgtfits(obj)$year))
   
   return(obj)
 })

@@ -1781,6 +1781,47 @@ setReplaceMethod('range', signature(x='MFCLLenFit', i="missing", value=unname(ge
 
 
 #############################################################################################################
+# class  MFCLWgtFit
+#' @rdname accessor-methods
+setGeneric('waa', function(object, ...) standardGeneric('waa'))
+#' @rdname accessor-methods
+setMethod('waa', signature(object='MFCLWgtFit'), function(object) return(slot(object, 'waa')))
+#' @rdname accessor-methods
+setGeneric('waa<-', function(object, ..., value) standardGeneric('waa<-'))
+#' @rdname accessor-methods
+setReplaceMethod('waa', signature(object='MFCLWgtFit', value=unname(getSlots('MFCLWgtFit')['waa'])), 
+                 function(object, value){slot(object, 'waa') <- value; return(object)})
+
+#' @rdname accessor-methods
+setGeneric('wgtfits', function(object, ...) standardGeneric('wgtfits'))
+#' @rdname accessor-methods
+setMethod('wgtfits', signature(object='MFCLWgtFit'), function(object) return(slot(object, 'wgtfits')))
+#' @rdname accessor-methods
+setGeneric('wgtfits<-', function(object, ..., value) standardGeneric('wgtfits<-'))
+#' @rdname accessor-methods
+setReplaceMethod('wgtfits', signature(object='MFCLWgtFit', value=unname(getSlots('MFCLWgtFit')['wgtfits'])), 
+                 function(object, value){slot(object, 'wgtfits') <- value; return(object)})
+
+#' @rdname accessor-methods
+setGeneric('wgtagefits', function(object, ...) standardGeneric('wgtagefits'))
+#' @rdname accessor-methods
+setMethod('wgtagefits', signature(object='MFCLWgtFit'), function(object) return(slot(object, 'wgtagefits')))
+#' @rdname accessor-methods
+setGeneric('wgtagefits<-', function(object, ..., value) standardGeneric('wgtagefits<-'))
+#' @rdname accessor-methods
+setReplaceMethod('wgtagefits', signature(object='MFCLWgtFit', value=unname(getSlots('MFCLWgtFit')['wgtagefits'])), 
+                 function(object, value){slot(object, 'wgtagefits') <- value; return(object)})
+
+#' @rdname accessor-methods
+setMethod('range', signature(x='MFCLWgtFit'),function(x) return(slot(x,'range'))) 
+#' @rdname accessor-methods
+setReplaceMethod('range', signature(x='MFCLWgtFit', i="missing", value=unname(getSlots('MFCLWgtFit')['range'])),
+                 function(x, value){slot(x, 'range') <- value; return(x)}) 
+
+
+
+
+#############################################################################################################
 # class  MFCLLikelihood
 #' @rdname accessor-methods
 setGeneric('bh_steep_contrib', function(object, ...) standardGeneric('bh_steep_contrib'))
@@ -2083,6 +2124,35 @@ setGeneric('effort_creep_fish<-', function(object, ..., value) standardGeneric('
 #' @rdname accessor-methods
 setReplaceMethod('effort_creep_fish', signature(object='MFCLMSEControl', value=unname(getSlots('MFCLMSEControl')['effort_creep_fish'])), 
                  function(object, value){slot(object, 'effort_creep_fish') <- value; return(object)})
+
+
+#############################################################################################################
+# class  MFCLALK
+#' @rdname accessor-methods
+setGeneric('ALK', function(object, ...) standardGeneric('ALK'))
+#' @rdname accessor-methods
+setMethod('ALK', signature(object='MFCLALK'), function(object) return(slot(object, 'ALK')))
+#' @rdname accessor-methods
+setGeneric('ALK<-', function(object, ..., value) standardGeneric('ALK<-'))
+#' @rdname accessor-methods
+setReplaceMethod('ALK', signature(object='MFCLALK', value=unname(getSlots('MFCLALK')['ALK'])), 
+                 function(object, value){slot(object, 'ALK') <- value; return(object)})
+
+#' @rdname accessor-methods
+setGeneric('ESS', function(object, ...) standardGeneric('ESS'))
+#' @rdname accessor-methods
+setMethod('ESS', signature(object='MFCLALK'), function(object) return(slot(object, 'ESS')))
+#' @rdname accessor-methods
+setGeneric('ESS<-', function(object, ..., value) standardGeneric('ESS<-'))
+#' @rdname accessor-methods
+setReplaceMethod('ESS', signature(object='MFCLALK', value=unname(getSlots('MFCLALK')['ESS'])), 
+                 function(object, value){slot(object, 'ESS') <- value; return(object)})
+
+#' @rdname accessor-methods
+setMethod('range', signature(x='MFCLALK'),function(x) return(slot(x,'range'))) 
+#' @rdname accessor-methods
+setReplaceMethod('range', signature(x='MFCLALK', i="missing", value=unname(getSlots('MFCLALK')['range'])),
+                 function(x, value){slot(x, 'range') <- value; return(x)}) 
 
 
 
