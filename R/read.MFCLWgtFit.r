@@ -21,7 +21,7 @@
   
 # With option not to get the predicted age-length data.frame (as it is huge)
 read.MFCLWgtFit <- function(wffile, get_wgtage = FALSE) {
-
+  #browser()
   # Helper function to clean up character strings
   trim.leading  <- function(x) sub("^\\s+", "", x) 
   
@@ -35,8 +35,10 @@ read.MFCLWgtFit <- function(wffile, get_wgtage = FALSE) {
   }
   
   # remove comments to make similar format to length.fit
-  wff <- wff[-grep("#wghtsum", wff)]
-  wff <- wff[-grep("#wghtfrq", wff)]
+  if(length(grep("#wghtsum", wff))>0)
+    wff <- wff[-grep("#wghtsum", wff)]
+  if(length(grep("#wghtfrq", wff))>0)
+    wff <- wff[-grep("#wghtfrq", wff)]
   
   # Next line is data for drawing histograms in the viewer and can be ignored (see MFCL manual)
   # Then there are the length bins
@@ -66,7 +68,7 @@ read.MFCLWgtFit <- function(wffile, get_wgtage = FALSE) {
   for (fishery in 1:nfisheries){
     if(fsh_nobs[fishery] == 0)
       next
-      
+    #browser()  
     fishery_start <- fishery_blocks[fishery]
     # Get year and month of each sample block in each fishery
     time_ids_posns <- fishery_start + seq(from = 1, to = sample_size * fsh_nobs[fishery], by=sample_size)
@@ -102,6 +104,7 @@ read.MFCLWgtFit <- function(wffile, get_wgtage = FALSE) {
       # The huge matrix of predicted props by age and length
       # Each matrix has nages rows, and length(lbins) columns
       # Each sample block has a matrix
+      #browser()
       matrix_starts <- fishery_start + seq(from = 10, to=sample_size * fsh_nobs[fishery], by=sample_size)
       # From each start read in nages lines
       matrix_posns <- unlist(lapply(matrix_starts, function(x) return(x:(x+nages-1))))

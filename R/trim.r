@@ -57,7 +57,7 @@ setMethod("trim", signature(x="MFCLFrqStats"), function(x, ...){
 })
 
 
-
+#' @export
 
 setMethod("trim", signature(x="MFCLRep"), function(x, ...){
 
@@ -95,7 +95,8 @@ setMethod("trim", signature(x="MFCLRep"), function(x, ...){
 })
 
 
-
+#' @export
+#' 
 setMethod("trim", signature(x="MFCLLenFit"), function(x, ...){
   #browser()
   args      <- list(...)
@@ -138,4 +139,37 @@ setMethod("trim", signature(x="MFCLLenFit"), function(x, ...){
 })
 
 
+#' @export
 
+setMethod("trim", signature(x="MFCLALK"), function(x, ...){
+  #browser()
+  args      <- list(...)
+  argnames  <- names(args)
+  
+  if(!is.element("age", argnames))
+    args$age <- sort(unique(ALK(x)$age))
+  if(!is.element("length", argnames))
+    args$length <- seq(0, max(ALK(x)$length))
+  if(!is.element("fishery", argnames))
+    args$fishery <- sort(unique(ALK(x)$fishery))
+  if(!is.element("year", argnames))
+    args$year <- sort(unique(ALK(x)$year))
+  if(!is.element("month", argnames))
+    args$month <- sort(unique(ALK(x)$month))
+  
+  # Add warning if not correct trim call
+  if(!(all(names(args) %in% c("age", "length", "fishery", "year", "month")))){
+    warning("trim() for MFCLALK only works on 'age', 'length', 'fishery', 'year' and 'month'. Other dimensions are ignored")
+  }
+  
+  obj <- x
+  
+  # trim lenfits
+  slot(obj, 'ALK')    <- subset(ALK(obj), age%in%args[['age']] & fishery%in%args[['fishery']] & year%in%args[['year']] & month%in%args[['month']] & 
+                                      length%in%args[['length']])
+  
+  range(obj) <- c(minage=min(ALK(obj)$age), maxage=max(ALK(obj)$age), plusgroup=NA, minlength=min(ALK(obj)$length), maxlength=max(ALK(obj)$length),
+                  minyear=min(ALK(obj)$year, maxyear=max(ALK(obj)$year)))
+  
+  return(obj)
+})
