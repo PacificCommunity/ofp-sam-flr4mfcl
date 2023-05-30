@@ -31,7 +31,7 @@ finalPar <- function(folder, pattern="^[0-9][0-9]\\.par$", full=TRUE,
   # Find all par files matching pattern
   parfile <- dir(folder, pattern=pattern, full.names=full)
   if(length(parfile) == 0)
-    stop("no par files match 'pattern'")
+    stop("no par files found that match 'pattern'")
 
   # Find last one (in alphabetical order)
   parfile <- max(parfile)
@@ -78,7 +78,7 @@ finalRep <- function(folder, pattern="^plot-[0-9][0-9]\\.par.rep$", full=TRUE,
   # Find all rep files matching pattern
   repfile <- dir(folder, pattern=pattern, full.names=full)
   if(length(repfile) == 0)
-    stop("no rep files match 'pattern'")
+    stop("no rep files found that match 'pattern'")
 
   # Find last one (in alphabetical order)
   repfile <- max(repfile)
