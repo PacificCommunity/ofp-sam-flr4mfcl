@@ -73,7 +73,7 @@ setMethod("aal", signature(object="MFCLBiol"),
 #' @docType methods
 #' @rdname par-methods
 
-setGeneric('waa', function(object, ...) standardGeneric('waa')) 
+#setGeneric('waa', function(object, ...) standardGeneric('waa'))  - already set as slot accessor for MFCLWgtFit
 
 #' @rdname par-methods
 #' @aliases waa

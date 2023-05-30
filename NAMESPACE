@@ -63,6 +63,7 @@ export(
   "MFCLprojControl",
   "MFCLCatch",
   "MFCLLenFit",
+  "MFCLWgtFit",
   "qts",
   "read.MFCLALK",
   "read.MFCLBiol",
@@ -132,6 +133,7 @@ exportClasses(
   "MFCLprojControl",
   'MFCLCatch',
   'MFCLLenFit',
+  "MFCLWgtFit",
   'MFCLLikelihood'
 )
 exportMethods(
