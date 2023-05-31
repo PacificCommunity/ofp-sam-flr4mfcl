@@ -721,6 +721,20 @@
 \alias{lenagefits<-,MFCLLenFit,data.frame-method}
 \alias{range,MFCLLenFit-method}
 \alias{range<-,MFCLLenFit,missing,numeric-method}
+\alias{waa}
+\alias{waa,MFCLWgtFit-method}
+\alias{waa<-}
+\alias{waa<-,MFCLWgtFit,FLQuant-method}
+\alias{wgtfits}
+\alias{wgtfits,MFCLWgtFit-method}
+\alias{wgtfits<-}
+\alias{wgtfits<-,MFCLWgtFit,data.frame-method}
+\alias{wgtagefits}
+\alias{wgtagefits,MFCLWgtFit-method}
+\alias{wgtagefits<-}
+\alias{wgtagefits<-,MFCLWgtFit,data.frame-method}
+\alias{range,MFCLWgtFit-method}
+\alias{range<-,MFCLWgtFit,missing,numeric-method}
 \alias{bh_steep_contrib}
 \alias{bh_steep_contrib,MFCLLikelihood-method}
 \alias{bh_steep_contrib<-}
@@ -830,6 +844,16 @@
 \alias{effort_creep_fish,MFCLMSEControl-method}
 \alias{effort_creep_fish<-}
 \alias{effort_creep_fish<-,MFCLMSEControl,numeric-method}
+\alias{ALK}
+\alias{ALK,MFCLALK-method}
+\alias{ALK<-}
+\alias{ALK<-,MFCLALK,data.frame-method}
+\alias{ESS}
+\alias{ESS,MFCLALK-method}
+\alias{ESS<-}
+\alias{ESS<-,MFCLALK,numeric-method}
+\alias{range,MFCLALK-method}
+\alias{range<-,MFCLALK,missing,numeric-method}
 \alias{Eq_calcs}
 \alias{Eq_calcs,MFCLEquilibrium-method}
 \alias{Eq_calcs<-}
@@ -2282,6 +2306,34 @@ lenagefits(object, ...) <- value
 
 \S4method{range}{MFCLLenFit,missing,numeric}(x) <- value
 
+waa(object, ...)
+
+\S4method{waa}{MFCLWgtFit}(object)
+
+waa(object, ...) <- value
+
+\S4method{waa}{MFCLWgtFit,FLQuant}(object) <- value
+
+wgtfits(object, ...)
+
+\S4method{wgtfits}{MFCLWgtFit}(object)
+
+wgtfits(object, ...) <- value
+
+\S4method{wgtfits}{MFCLWgtFit,data.frame}(object) <- value
+
+wgtagefits(object, ...)
+
+\S4method{wgtagefits}{MFCLWgtFit}(object)
+
+wgtagefits(object, ...) <- value
+
+\S4method{wgtagefits}{MFCLWgtFit,data.frame}(object) <- value
+
+\S4method{range}{MFCLWgtFit}(x)
+
+\S4method{range}{MFCLWgtFit,missing,numeric}(x) <- value
+
 bh_steep_contrib(object, ...)
 
 \S4method{bh_steep_contrib}{MFCLLikelihood}(object)
@@ -2499,6 +2551,26 @@ effort_creep_fish(object, ...)
 effort_creep_fish(object, ...) <- value
 
 \S4method{effort_creep_fish}{MFCLMSEControl,numeric}(object) <- value
+
+ALK(object, ...)
+
+\S4method{ALK}{MFCLALK}(object)
+
+ALK(object, ...) <- value
+
+\S4method{ALK}{MFCLALK,data.frame}(object) <- value
+
+ESS(object, ...)
+
+\S4method{ESS}{MFCLALK}(object)
+
+ESS(object, ...) <- value
+
+\S4method{ESS}{MFCLALK,numeric}(object) <- value
+
+\S4method{range}{MFCLALK}(x)
+
+\S4method{range}{MFCLALK,missing,numeric}(x) <- value
 
 Eq_calcs(object, ...)
 
