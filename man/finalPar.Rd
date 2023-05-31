@@ -4,7 +4,7 @@
 \alias{finalPar}
 \title{Final Par File}
 \usage{
-finalPar(folder, pattern = "^[0-9][0-9]\\\\.par$", full = TRUE, quiet = FALSE)
+finalPar(folder, pattern = "^[0-9][0-9]\\\\.par$", full = TRUE, quiet = TRUE)
 }
 \arguments{
 \item{folder}{model run directory name.}

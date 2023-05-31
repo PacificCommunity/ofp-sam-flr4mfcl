@@ -8,7 +8,7 @@ finalRep(
   folder,
   pattern = "^plot-[0-9][0-9]\\\\.par.rep$",
   full = TRUE,
-  quiet = FALSE
+  quiet = TRUE
 )
 }
 \arguments{

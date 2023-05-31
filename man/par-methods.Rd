@@ -7,7 +7,6 @@
 \alias{laa,MFCLBiol-method}
 \alias{aal,MFCLBiol-method}
 \alias{aal}
-\alias{waa}
 \alias{waa,MFCLBiol-method}
 \alias{SPR0}
 \alias{SPR0,MFCLBiol-method}
@@ -24,8 +23,6 @@ as.MFCLIni(object, ...)
 \S4method{laa}{MFCLBiol}(object, ages = NULL, ...)
 
 \S4method{aal}{MFCLBiol}(object, lengths = seq(0, 108, by = 2))
-
-waa(object, ...)
 
 \S4method{waa}{MFCLBiol}(object, ...)
 

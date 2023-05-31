@@ -26,7 +26,7 @@
 #' @export
 
 finalPar <- function(folder, pattern="^[0-9][0-9]\\.par$", full=TRUE,
-                     quiet=FALSE)
+                     quiet=TRUE)
 {
   # Find all par files matching pattern
   parfile <- dir(folder, pattern=pattern, full.names=full)
@@ -73,7 +73,7 @@ finalPar <- function(folder, pattern="^[0-9][0-9]\\.par$", full=TRUE,
 #' @export
 
 finalRep <- function(folder, pattern="^plot-[0-9][0-9]\\.par.rep$", full=TRUE,
-                     quiet=FALSE)
+                     quiet=TRUE)
 {
   # Find all rep files matching pattern
   repfile <- dir(folder, pattern=pattern, full.names=full)
