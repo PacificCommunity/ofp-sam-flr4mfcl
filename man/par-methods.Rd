@@ -8,7 +8,6 @@
 \alias{aal,MFCLBiol-method}
 \alias{aal}
 \alias{waa,MFCLBiol-method}
-\alias{waa}
 \alias{SPR0}
 \alias{SPR0,MFCLBiol-method}
 \alias{YPR}

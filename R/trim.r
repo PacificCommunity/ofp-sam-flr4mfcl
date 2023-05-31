@@ -19,7 +19,7 @@
 #' ma be trimmed on age, length, fishery, year and/or month. Note that where MFCLLenfit objects are trimmed on both age and length
 #' the most restrictive condition is applied.
 #' 
-#' @seealso \code{\link{MFCLFrq}}, \code{\link{MFCLPar}} and \code{\link{MFCLPar} and \code{\link{MFCLLenFit}}}
+#' @seealso \code{\link{MFCLFrq}}, \code{\link{MFCLPar}} and \code{\link{MFCLPar}} and \code{\link{MFCLLenFit}}
 #' 
 #' @export
 #' @docType methods

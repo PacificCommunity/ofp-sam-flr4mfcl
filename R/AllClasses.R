@@ -1349,8 +1349,9 @@ validMFCLALK <- function(object){
 }
 #' An S4 class : Size frequency information from the frq file.
 #'
-#' @slot Eq_calcs Description
-#' @slot YPR Description
+#' @slot ALK Description
+#' @slot ESS Description
+#' @slot range Description
 #'
 setClass("MFCLALK",
          representation(

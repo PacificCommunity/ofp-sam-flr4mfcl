@@ -152,7 +152,7 @@ window(MFCLFrq(), start = 1990, end = 1995)
 
 \code{\link{SBSBF0}} and \code{\link{MFCLRep}}
 
-\code{\link{MFCLFrq}}, \code{\link{MFCLPar}} and \code{\link{MFCLPar} and \code{\link{MFCLLenFit}}}
+\code{\link{MFCLFrq}}, \code{\link{MFCLPar}} and \code{\link{MFCLPar}} and \code{\link{MFCLLenFit}}
 
 \code{\link{read.MFCLFrq}} and \code{\link{read.MFCLPar}}
 

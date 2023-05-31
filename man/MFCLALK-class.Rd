@@ -10,8 +10,10 @@ An S4 class : Size frequency information from the frq file.
 \section{Slots}{
 
 \describe{
-\item{\code{Eq_calcs}}{Description}
+\item{\code{ALK}}{Description}
 
-\item{\code{YPR}}{Description}
+\item{\code{ESS}}{Description}
+
+\item{\code{range}}{Description}
 }}
 
