@@ -75,10 +75,20 @@ setMethod("aal", signature(object="MFCLBiol"),
 
 #setGeneric('waa', function(object, ...) standardGeneric('waa'))  - already set as slot accessor for MFCLWgtFit
 
+
+
 setMethod("waa", signature(object="MFCLBiol"), 
           function(object, ...){
+            #browser()
+            args <- list(...)
             
-            return(lw_params(object)[1]*laa(object)^lw_params(object)[2])
+            ages <- 1:dimensions(object)['agecls']
+            
+            if(length(args)>0)
+              if(is.element(names(args), 'ages'))
+                ages <- args$ages
+            
+            return(lw_params(object)[1]*laa(object, ages)^lw_params(object)[2])
             
           })
 
