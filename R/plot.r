@@ -17,7 +17,7 @@
 #' plot(MFCLFrq())
 #' }
 #'
-#' @aliases mfcl
+#' @aliases mfcl-plots
 
 setMethod("plot", signature(x="MFCLLenFreq"), function(x, y="missing", ...){
   
@@ -34,6 +34,8 @@ setMethod("plot", signature(x="MFCLLenFreq"), function(x, y="missing", ...){
 })
 
 
+#' @export
+#' @aliases mfcl-plots
 
 setMethod("plot", signature(x="MFCLLenFreq", y="MFCLprojControl"), function(x, y, fleets='all', ...){
   
@@ -73,6 +75,9 @@ setMethod("plot", signature(x="MFCLLenFreq", y="MFCLprojControl"), function(x, y
 
 
 
+#' @export
+#' @aliases mfcl-plots
+
 setMethod("plot", signature(x="MFCLRep", y="MFCLPar"), function(x, y, ...){
   
   rec_range <- range(y)['maxyear']-(recPeriod(y)[c(1,2)]/4)
@@ -88,6 +93,9 @@ setMethod("plot", signature(x="MFCLRep", y="MFCLPar"), function(x, y, ...){
 })
 
 
+
+#' @export
+#' @aliases mfcl-plots
 
 setMethod("plot", signature(x="array"), function(x,...){
   
@@ -108,6 +116,9 @@ setMethod("plot", signature(x="array"), function(x,...){
 })
 
 
+#' @export
+#' @aliases mfcl-plots
+
 setMethod("plot", signature(x="MFCLMSEControl"), function(x, y="missing", ...){
   
   #args <- list(...)
@@ -121,5 +132,61 @@ setMethod("plot", signature(x="MFCLMSEControl"), function(x, y="missing", ...){
 })
 
 
+#' @export
+#' @aliases mfcl-plots
+#' 
+#lfityft <- read.MFCLLenFit2('/media/sf_assessments/yft/2023/model_runs/stepwise/03_PreCatchCond/03j_No_Effort_Projections/length.fit', get_lenage=F)
+setMethod("plot", signature(x="MFCLLenFit"),
+          function(x,y,..., col=c('orange2','steelblue4')){
+            
+            sd_dat <- aggregate(lenfits(x)$obs, by=list(lenfits(x)$month, lenfits(x)$year, lenfits(x)$fishery), sd)
+            colnames(sd_dat) <- c('month', 'year', 'fishery', 'sd')
+            
+            lenfits(x)$yrqtr <- lenfits(x)$year+lenfits(x)$month/12
+            lenfits(x) <- merge(lenfits(x), sd_dat)   
+            lenfits(x)$pearson <- (lenfits(x)$obs - lenfits(x)$pred)/lenfits(x)$sd
+            llx <<- lenfits(x)
+            
+            pfun <- function(x,y, cexdat, ...){
+              cex <- subset(cexdat, fishery==unique(cexdat$fishery)[panel.number()])$pearson
+              cols <- rep(col[2], length(cex))
+              cols[cex<0] <- col[1]
+              scalar <- max(cex)/max(cexdat$pearson)
+              panel.xyplot(x,y,..., type='p', cex=abs(cex)*scalar, col=cols)
+            }
+            xyplot(length~yrqtr|as.factor(fishery), data=lenfits(x), xlab='YrQtr', ylab="Length", panel=pfun, cexdat=lenfits(x))
+            #xyplot(length~year|as.factor(month)*as.factor(fishery), data=lenfits(x), xlab='YrQtr', ylab="Length", panel=pfun, cexdat=lenfits(x))
+            
+          })
+
+
+#' @export
+#' @aliases mfcl-plots
+
+# wfityft <- read.MFCLWgtFit('/media/sf_assessments/yft/2023/model_runs/stepwise/03_PreCatchCond/03j_No_Effort_Projections/weight.fit')
+
+setMethod("plot", signature(x="MFCLWgtFit"),
+          function(x,y,..., col=c('tomato', 'steelblue4')){
+            
+            sd_dat <- aggregate(wgtfits(x)$obs, by=list(wgtfits(x)$month, wgtfits(x)$year, wgtfits(x)$fishery), sd)
+            colnames(sd_dat) <- c('month', 'year', 'fishery', 'sd')
+            
+            wgtfits(x)$yrqtr   <- wgtfits(x)$year+wgtfits(x)$month/12
+            wgtfits(x)         <- merge(wgtfits(x), sd_dat)   
+            wgtfits(x)$pearson <- (wgtfits(x)$obs - wgtfits(x)$pred)/wgtfits(x)$sd
+            wwx <<- wgtfits(x)
+            
+            pfun <- function(x,y, cexdat, ...){
+              #browser()
+              cex <- subset(cexdat, fishery==unique(cexdat$fishery)[panel.number()])$pearson
+              cols <- rep(col[2], length(cex))
+              cols[cex<0] <- col[1]
+              scalar <- max(cex)/max(cexdat$pearson)
+              panel.xyplot(x,y,..., type='p', cex=abs(cex)*scalar, col=cols)
+            }
+            xyplot(weight~yrqtr|as.factor(fishery), data=wgtfits(x), xlab='YrQtr', ylab="Weight", panel=pfun, cexdat=wgtfits(x))
+            #xyplot(length~year|as.factor(month)*as.factor(fishery), data=lenfits(x), xlab='YrQtr', ylab="Length", panel=pfun, cexdat=lenfits(x))
+            
+          })
 
 
