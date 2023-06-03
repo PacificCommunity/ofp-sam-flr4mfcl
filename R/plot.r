@@ -138,23 +138,27 @@ setMethod("plot", signature(x="MFCLMSEControl"), function(x, y="missing", ...){
 #lfityft <- read.MFCLLenFit2('/media/sf_assessments/yft/2023/model_runs/stepwise/03_PreCatchCond/03j_No_Effort_Projections/length.fit', get_lenage=F)
 setMethod("plot", signature(x="MFCLLenFit"),
           function(x,y,..., col=c('orange2','steelblue4')){
-            
+            #browser()
             sd_dat <- aggregate(lenfits(x)$obs, by=list(lenfits(x)$month, lenfits(x)$year, lenfits(x)$fishery), sd)
             colnames(sd_dat) <- c('month', 'year', 'fishery', 'sd')
             
             lenfits(x)$yrqtr <- lenfits(x)$year+lenfits(x)$month/12
             lenfits(x) <- merge(lenfits(x), sd_dat)   
             lenfits(x)$pearson <- (lenfits(x)$obs - lenfits(x)$pred)/lenfits(x)$sd
-            llx <<- lenfits(x)
+            if(!('names' %in% colnames(lenfits(x))))
+              lenfits(x)$names <-  lenfits(x)$fishery
+              
+            #llx <<- lenfits(x)
             
             pfun <- function(x,y, cexdat, ...){
+              #browser()
               cex <- subset(cexdat, fishery==unique(cexdat$fishery)[panel.number()])$pearson
               cols <- rep(col[2], length(cex))
               cols[cex<0] <- col[1]
               scalar <- max(cex)/max(cexdat$pearson)
               panel.xyplot(x,y,..., type='p', cex=abs(cex)*scalar, col=cols)
             }
-            xyplot(length~yrqtr|as.factor(fishery), data=lenfits(x), xlab='YrQtr', ylab="Length", panel=pfun, cexdat=lenfits(x))
+            xyplot(length~yrqtr|as.factor(names), data=lenfits(x), xlab='YrQtr', ylab="Length", panel=pfun, cexdat=lenfits(x))
             #xyplot(length~year|as.factor(month)*as.factor(fishery), data=lenfits(x), xlab='YrQtr', ylab="Length", panel=pfun, cexdat=lenfits(x))
             
           })
@@ -174,7 +178,9 @@ setMethod("plot", signature(x="MFCLWgtFit"),
             wgtfits(x)$yrqtr   <- wgtfits(x)$year+wgtfits(x)$month/12
             wgtfits(x)         <- merge(wgtfits(x), sd_dat)   
             wgtfits(x)$pearson <- (wgtfits(x)$obs - wgtfits(x)$pred)/wgtfits(x)$sd
-            wwx <<- wgtfits(x)
+            if(!('names' %in% colnames(wgtfits(x))))
+              wgtfits(x)$names <-  wgtfits(x)$fishery
+            #wwx <<- wgtfits(x)
             
             pfun <- function(x,y, cexdat, ...){
               #browser()
@@ -184,7 +190,7 @@ setMethod("plot", signature(x="MFCLWgtFit"),
               scalar <- max(cex)/max(cexdat$pearson)
               panel.xyplot(x,y,..., type='p', cex=abs(cex)*scalar, col=cols)
             }
-            xyplot(weight~yrqtr|as.factor(fishery), data=wgtfits(x), xlab='YrQtr', ylab="Weight", panel=pfun, cexdat=wgtfits(x))
+            xyplot(weight~yrqtr|as.factor(names), data=wgtfits(x), xlab='YrQtr', ylab="Weight", panel=pfun, cexdat=wgtfits(x))
             #xyplot(length~year|as.factor(month)*as.factor(fishery), data=lenfits(x), xlab='YrQtr', ylab="Length", panel=pfun, cexdat=lenfits(x))
             
           })

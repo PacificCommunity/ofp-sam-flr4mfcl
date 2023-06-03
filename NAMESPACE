@@ -34,6 +34,7 @@ export(
   "hcr_threshold",
   "hcr_threshold_constrained",
   "hcr_constrained",
+  "labels",
   "mat2MFCLCor",
   "MFCLBase",
   "MFCLBiol",
