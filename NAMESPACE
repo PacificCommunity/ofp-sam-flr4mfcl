@@ -23,6 +23,7 @@ export(
   "flagMeaning",
   "flagSort",
   "flagSummary",
+  "fnames",
   "getMFCLversion",
   "gradients",
   "hcr_constant",
