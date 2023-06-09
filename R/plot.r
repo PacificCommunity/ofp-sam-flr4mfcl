@@ -196,3 +196,49 @@ setMethod("plot", signature(x="MFCLWgtFit"),
           })
 
 
+
+
+#tag <- read.MFCLTag('/media/sf_assessments/yft/2023/model_runs/diagnostic/yft.tag')
+#ttr <- read.temporary_tag_report('/media/sf_assessments/yft/2023/model_runs/diagnostic/temporary_tag_report', year1 = 1952)
+
+#' @export
+#' @aliases mfcl-plots
+
+#tag <- read.MFCLTag('/media/sf_assessments/yft/2023/model_runs/diagnostic/yft.tag')
+#ttr <- read.temporary_tag_report('/media/sf_assessments/yft/2023/model_runs/diagnostic/temporary_tag_report', year1 = 1952)
+
+
+setMethod("plot", signature(x="MFCLTag", y="data.frame"),
+          function(x,y,..., col=c('steelblue4', 'tomato'), program=NA){
+
+            if(!is.element(program, c("NA", unique(releases(tag)$program))))
+              stop(paste("program must be one of ", paste(c("NA", unique(releases(tag)$program)), collapse=" ")))
+               
+            tagdat <- merge(ttr, recaptures(tag)[,c('rel.group', 'region', 'year', 'month', 'program')])
+            tagdat <- tagdat[!duplicated(tagdat),]
+
+            tagdat$recap.obs[tagdat$recap.obs==0] <- NA
+            tagdat$logResid <- log(tagdat$recap.obs)-log(tagdat$recap.pred)
+            tagdat$tlib     <- (tagdat$recap.year+tagdat$recap.month/12) - (tagdat$year+tagdat$month/12)
+
+            tagdat2    <- tagdat[!is.na(tagdat$logResid),]
+            if(!is.na(program))
+              tagdat2 <- tagdat2[tagdat2$program==program ,]
+
+            pfun.tagresids <- function(x,y,...){
+              panel.xyplot(x,y,...)
+              panel.abline(h=1, col="grey")
+              if(length(x)>3){
+                if(summary(lm(y~x))$coefficients[2,4] < 0.05){
+                  panel.abline(lm(y~x), col=col[2])
+                  panel.lines(seq(0,3,by=0.1), predict(lm(y~x), newdata=list(x=seq(0, 3, by=0.1)), interval="confidence")[,'lwr'], col="grey")
+                  panel.lines(seq(0,3,by=0.1), predict(lm(y~x), newdata=list(x=seq(0, 3, by=0.1)), interval="confidence")[,'upr'], col="grey")
+                }
+              }
+            } 
+
+            xyplot(logResid~tlib|as.factor(rel.group), data=tagdat2, col=col[1], panel=pfun.tagresids, 
+                    xlab="Time at Liberty (years)", ylab="log(ObsRec) - log(PredRec)")
+})
+
+
