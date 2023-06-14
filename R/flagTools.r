@@ -386,3 +386,165 @@ flagSort <- function(flags){
   sortedflags <- rbind(sortedparestflags, sortedageflags, sortedfishflags, sortedtagflags, sortedregionflags)
   return(sortedflags)
 }
+
+
+
+
+#' parestflag
+#'
+#' get parest flag settings
+#'
+#' @param par object of class MFCLFlag()
+#' @param flags numeric vector of parest flag number(s).
+#'
+#' @description 
+#' A simple wrapper function for \code{\link{flagval}}
+#' 
+#' @return
+#' A data frame of sorted flag settings
+#'
+#' @seealso
+#' \code{\link{flagval}} calls this function to retrieve flag settings.
+#'
+#' \code{\link{read.MFCLFlags}} reads flag settings from a par file.
+#'
+#' @examples
+#' data(par)
+#' parestflag(par, c(1,20))
+#'
+#' @export
+
+setGeneric('parestflag', function(x, flags, ...) standardGeneric('parestflag')) 
+setMethod('parestflag', signature(x='MFCLFlags'),function(x, flags){ flagval(x, 1, flags)})
+          
+
+#' ageflag
+#'
+#' get age flag settings
+#'
+#' @param par object of class MFCLFlag()
+#' @param flags numeric vector of age flag number(s).
+#'
+#' @description 
+#' A simple wrapper function for \code{\link{flagval}}
+#' 
+#' @return
+#' A data frame of sorted flag settings
+#'
+#' @seealso
+#' \code{\link{flagval}} calls this function to retrieve flag settings.
+#'
+#' \code{\link{read.MFCLFlags}} reads flag settings from a par file.
+#'
+#' @examples
+#' data(par)
+#' ageflag(par, c(32,92))
+#'
+#' @export
+
+setGeneric('ageflag', function(x, flags, ...) standardGeneric('ageflag')) 
+setMethod('ageflag', signature(x='MFCLFlags'),function(x, flags){ flagval(x, 1, flags)})
+
+
+
+#' fishflag
+#'
+#' get fish flag settings
+#'
+#' @param par object of class MFCLFlag()
+#' @param flags numeric vector of fish flag number(s).
+#'
+#' @description 
+#' A simple wrapper function for \code{\link{flagval}}
+#' 
+#' @return
+#' A data frame of sorted flag settings
+#'
+#' @seealso
+#' \code{\link{flagval}} calls this function to retrieve flag settings.
+#'
+#' \code{\link{read.MFCLFlags}} reads flag settings from a par file.
+#'
+#' @examples
+#' data(par)
+#' fishflag(par, c(1,15))
+#'
+#' @export
+
+setGeneric('fishflag', function(x, flags, ...) standardGeneric('fishflag')) 
+
+setMethod('fishflag', signature(x='MFCLFlags'),
+          function(x, flags){ 
+            ff <- sort(unique(subset(flags(x), flagtype<0 & flagtype>-9999)$flagtype), decreasing = TRUE)
+            flagval(x, ff, flags)
+            })
+
+
+#' tagflag
+#'
+#' get region flag settings
+#'
+#' @param par object of class MFCLFlag()
+#' @param flags numeric vector of tag flag number(s).
+#'
+#' @description 
+#' A simple wrapper function for \code{\link{flagval}}
+#' 
+#' @return
+#' A data frame of sorted flag settings
+#'
+#' @seealso
+#' \code{\link{flagval}} calls this function to retrieve flag settings.
+#'
+#' \code{\link{read.MFCLFlags}} reads flag settings from a par file.
+#'
+#' @examples
+#' data(par)
+#' tagflag(par, c(1))
+#'
+#' @export
+
+setGeneric('tagflag', function(x, flags, ...) standardGeneric('tagflag')) 
+
+setMethod('tagflag', signature(x='MFCLFlags'),
+          function(x, flags){ 
+            ff <- sort(unique(subset(flags(x), flagtype<= -9999 & flagtype> -99999)$flagtype), decreasing = TRUE)
+            flagval(x, ff, flags)
+          })
+
+
+
+
+#' regionflag
+#'
+#' get region flag settings
+#'
+#' @param par object of class MFCLFlag()
+#' @param flags numeric vector of region flag number(s).
+#'
+#' @description 
+#' A simple wrapper function for \code{\link{flagval}}
+#' 
+#' @return
+#' A data frame of sorted flag settings
+#'
+#' @seealso
+#' \code{\link{flagval}} calls this function to retrieve flag settings.
+#'
+#' \code{\link{read.MFCLFlags}} reads flag settings from a par file.
+#'
+#' @examples
+#' data(par)
+#' regionflag(par, c(1))
+#'
+#' @export
+
+setGeneric('regionflag', function(x, flags, ...) standardGeneric('regionflag')) 
+
+setMethod('regionflag', signature(x='MFCLFlags'),
+          function(x, flags){ 
+            ff <- sort(unique(subset(flags(x), flagtype<= -99999)$flagtype), decreasing = TRUE)
+            flagval(x, ff, flags)
+          })
+
+
