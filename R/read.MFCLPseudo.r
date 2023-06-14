@@ -224,7 +224,8 @@ read.MFCLPseudoCatchEffort <- function(catch="catch_sim", effort="effort_sim", p
     freqdat    <- subset(realisations(projfrq), year>=fprojyr(ctrl))
   
   
-  freqdat2        <- cbind(freqdat, iter=rep(0:nsims(mseCtrl), each=nrow(freqdat)), row.names=NULL)
+  nsims <- length(unique(catchdat$iter))
+  freqdat2        <- cbind(freqdat, iter=rep(0:nsims, each=nrow(freqdat)), row.names=NULL)
   freqdat2$catch  <- c(freqdat$catch,  catchdat$catch_sim)
   freqdat2$effort <- c(freqdat$effort, effortdat$effort_sim)
   freqdat2$cseed[freqdat2$iter>0]  <- catchdat$cseed
