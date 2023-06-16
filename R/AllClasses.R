@@ -392,7 +392,7 @@ setClass("MFCLRec",
            rec_standard_dim    ="numeric",
            rec_standard        ="FLQuant",
            rec_orthogonal      ="FLQuant",
-           orth_coffs          ="numeric",
+           orth_coffs          ="matrix",
            new_orth_coffs      ="numeric",
            range               ="numeric"
          ),
@@ -406,7 +406,7 @@ setClass("MFCLRec",
            rec_standard_dim    =numeric(),
            rec_standard        =FLQuant(),
            rec_orthogonal      =FLQuant(),
-           orth_coffs          =numeric(),
+           orth_coffs          =matrix(),
            new_orth_coffs      =numeric(),
            range               =unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
          ),
@@ -1211,6 +1211,11 @@ validMFCLEMControl <- function(object){
   #Everything is fine
   return(TRUE)
 }
+#' An S4 class : Control object for estimation model.
+#'
+#' @slot doitall Description
+#' @slot tag_fish_rep_rate Description
+#'
 setClass("MFCLEMControl",
          representation(
            doitall             ='function',

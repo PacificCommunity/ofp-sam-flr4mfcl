@@ -1,6 +1,19 @@
 #FLR4MFCL - R4MFCL built with FLR classes
 #Copyright (C) 2018  Rob Scott
 
+
+# a bunch of functions to read in pseudo generated data
+#
+# read.MFCLPseudoCatch          - breaking down functions to smaller chunks
+# read.MFCLPseudoEffort         - breaking down functions to smaller chunks
+# read.MFCLPseudoSizeComp       - the main workhorse at the moment
+# read.MFCLPseudoCatchEffort    - the main workhorse at the moment
+# fillfreq
+# read.MFCLPseudo               - calls read.MFCLPseudoCatchEffort and read.MFCLPseudoSizeComp
+# read.MFCLPseudoAlt            - Not used for much at the moment
+# read.MFCLCatchSim
+# read.MFCLEffortSim
+
 # breaking it all down to much simpler functions
 #
 read.MFCLPseudoCatch <- function(catch="catch_sim", projfrq=projfrq, ctrl="missing", historical=FALSE) {
