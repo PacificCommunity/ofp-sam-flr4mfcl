@@ -273,8 +273,8 @@ write.par <- function(x, file, append=F, ...){
   }
   
   if(version(x)>=1055)
-    cat(paste("\n# new orthogonal coefficients     \n", orth_coffs(x)),  file=file, append=T)
-
+    cat(paste("\n# new orthogonal coefficients  \n",   new_orth_coffs(x)), file=file, append=T)
+  
   cat(paste("\n# The number of mean constraints     \n", n_mean_constraints(x)),  file=file, append=T)
 
   cat("\n# The diffusion coefficients  \n",   file=file, append=T)

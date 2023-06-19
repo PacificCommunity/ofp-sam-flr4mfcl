@@ -358,9 +358,11 @@ read.MFCLRec <- function(parfile, parobj=NULL, first.yr=1972) {
   # orth poly levels determined year, region, season and region*season interaction by parest flags 155, 221, 216-218
   # orth poly levels = sum(1, nregions-1, nseasons-1, ...)
   parflags <- as.numeric(unlist(strsplit(trim.leading(par[2]), split="[[:blank:]]+")))
-  orth_poly_levels <- c((parflags[155]/parflags[221])>0 , parflags[216]>0, parflags[217]>0, parflags[218]>0)
-  orth_poly_rows   <- sum(c(parflags[155]/parflags[221], nregions-1, nseasons-1, (nregions-1)*(nseasons-1))[orth_poly_levels])
-  
+  orth_poly_rows <- 1
+  if(parflags[155] != 0){
+    orth_poly_levels <- c((parflags[155]/parflags[221])>0 , parflags[216]>0, parflags[217]>0, parflags[218]>0)
+    orth_poly_rows   <- sum(c(parflags[155]/parflags[221], nregions-1, nseasons-1, (nregions-1)*(nseasons-1))[orth_poly_levels])
+  }
   #rel_rec <- array(     as.numeric(splitter(par, "# relative recruitment")),dim=c(nseasons, nyears/nseasons, 1,1,1,1))
   rel_rec <- array(c(NA, as.numeric(splitter(par, "# relative recruitment"))),dim=c(nseasons, nyears/nseasons, 1,1,1,1))
   
@@ -379,6 +381,8 @@ read.MFCLRec <- function(parfile, parobj=NULL, first.yr=1972) {
     #slot(res, "orth_coffs")        <- as.numeric(par[grep("# new orthogonal coefficients", par)+1])
     slot(res, "orth_coffs")       <- matrix(as.numeric(splitter(par, "# orthogonal poly coffs for relative recruitment", 1:orth_poly_rows)),
                                             nrow=orth_poly_rows, byrow = TRUE)
+    slot(res, "new_orth_coffs")   <- as.numeric(par[grep("# new orthogonal coefficients", par)+1])
+      
   
   if(vsn>=1064){
     slot(res, "rec_standard_dim")  <-       as.numeric(splitter(par, "#Recruitment standard"))
