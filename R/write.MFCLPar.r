@@ -83,6 +83,14 @@ write.par <- function(x, file, append=F, ...){
   cat("\n# availability coffs \n# \n",   file=file, append=T)
   cat(as.vector(aperm(availability_coffs(x), c(4,1,2,3,5,6))), file=file, append=T)
 
+  if(flagval(x, 1, 155)$value > 0){
+    cat("\n \n# annual coffs for relative recruitment \n \n",   file=file, append=T)
+    write.table(float(orth_coffs(x)), file=file, append=T, col.names=F, row.names=F, quote=F)  
+    
+    cat("\n \n# orthogonal poly coffs for relative recruitment \n \n",   file=file, append=T)
+    write.table(float(orth_coffs(x)), file=file, append=T, col.names=F, row.names=F, quote=F)  
+  }
+  
   cat("\n \n# relative initial population \n \n",   file=file, append=T)
   write.table(float(rel_ini_pop(x)), file=file, append=T, col.names=F, row.names=F,quote=F)
 

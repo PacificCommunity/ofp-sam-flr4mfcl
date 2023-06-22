@@ -382,7 +382,10 @@ read.MFCLRec <- function(parfile, parobj=NULL, first.yr=1972) {
     slot(res, "orth_coffs")       <- matrix(as.numeric(splitter(par, "# orthogonal poly coffs for relative recruitment", 1:orth_poly_rows)),
                                             nrow=orth_poly_rows, byrow = TRUE)
     slot(res, "new_orth_coffs")   <- as.numeric(par[grep("# new orthogonal coefficients", par)+1])
-      
+  
+  if(as.numeric(unlist(strsplit(trimws(par[2]), split="[[:blank:]]+")))[155]>0)
+    slot(res, "annual_rel_rec_coffs") <- matrix(as.numeric(splitter(par, '# annual coffs for relative recruitment', 1:orth_poly_rows)),
+                                                nrow=orth_poly_rows, byrow = TRUE)
   
   if(vsn>=1064){
     slot(res, "rec_standard_dim")  <-       as.numeric(splitter(par, "#Recruitment standard"))

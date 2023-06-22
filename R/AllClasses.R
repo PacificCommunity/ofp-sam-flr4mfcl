@@ -394,6 +394,7 @@ setClass("MFCLRec",
            rec_orthogonal      ="FLQuant",
            orth_coffs          ="matrix",
            new_orth_coffs      ="numeric",
+           annual_rel_rec_coffs="matrix",
            range               ="numeric"
          ),
          prototype=prototype(
@@ -408,6 +409,7 @@ setClass("MFCLRec",
            rec_orthogonal      =FLQuant(),
            orth_coffs          =matrix(),
            new_orth_coffs      =numeric(),
+           annual_rel_rec_coffs=matrix(),
            range               =unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
          ),
          validity=validMFCLRec

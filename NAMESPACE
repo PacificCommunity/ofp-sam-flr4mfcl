@@ -153,6 +153,8 @@ exportMethods(
   "AggregateF",
   "AggregateF<-",
   "ALK",
+  "annual_rel_rec_coffs",
+  "annual_rel_rec_coffs<-",
   "as.MFCLIni",
   "as.MFCLLenFreq",
   "as.MFCLFrq",

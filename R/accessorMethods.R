@@ -607,6 +607,15 @@ setGeneric('rec_standard<-', function(object, ..., value) standardGeneric('rec_s
 #' @rdname accessor-methods
 setReplaceMethod('rec_standard', signature(object='MFCLRec', value=unname(getSlots('MFCLRec')['rec_standard'])),
                  function(object, value){slot(object, 'rec_standard') <- value; return(object)}) 
+#' @rdname accessor-methods
+setGeneric('annual_rel_rec_coffs', function(object, ...) standardGeneric('annual_rel_rec_coffs')) 
+#' @rdname accessor-methods
+setMethod('annual_rel_rec_coffs', signature(object='MFCLRec'),function(object) return(slot(object, 'annual_rel_rec_coffs'))) 
+#' @rdname accessor-methods
+setGeneric('annual_rel_rec_coffs<-', function(object, ..., value) standardGeneric('annual_rel_rec_coffs<-')) 
+#' @rdname accessor-methods
+setReplaceMethod('annual_rel_rec_coffs', signature(object='MFCLRec', value=unname(getSlots('MFCLRec')['annual_rel_rec_coffs'])),
+                 function(object, value){slot(object, 'annual_rel_rec_coffs') <- value; return(object)}) 
 
 #' @rdname accessor-methods
 setMethod('range', signature(x='MFCLRec'),function(x) return(slot(x,'range'))) 
