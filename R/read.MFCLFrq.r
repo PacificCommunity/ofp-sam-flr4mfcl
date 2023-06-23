@@ -22,7 +22,7 @@ read.MFCLFrqStats <- function(frqfile){
   splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+")) 
   
   res <- new("MFCLFrqStats")
-  
+  #browser()
   quiet=TRUE
   tt <- scan(frqfile, nlines=100, comment.char='#', quiet=quiet)
   
@@ -39,7 +39,7 @@ read.MFCLFrqStats <- function(frqfile){
   frq  <- readLines(frqfile)  
   
   line <- grep("Relative Region Size", frq)+1
-  dat  <- as.numeric(unlist(strsplit(frq[line], split=" ")))
+  dat  <- as.numeric(unlist(strsplit(frq[line], split="[[:blank:]]+")))
   res@region_size <- FLQuant(dat[!is.na(dat)], 
                              dimnames=list(len='all',year='all',unit='unique',
                                            season='all',area=as.character(1:res@n_regions)))
@@ -106,6 +106,7 @@ read.MFCLLenFreq <- function(frqfile){
   }
   
   build.df <- function(lffrq, arr.rows, nfields, frqlen=NA, frqwt=NA, inc=0, inc2=0, inc3=0){    
+    #browser()
     mat  <- matrix(as.numeric(unlist(strsplit(lffrq[nfields==arr.rows], split="[[:blank:]]+"))), ncol=arr.rows, byrow=T)
     df   <- apply(mat[,1:7],2,rep,each=arr.rows-(7+inc))
     colnames(df) <- c("year", "month", "week", "fishery", "catch", "effort", "penalty")    
@@ -190,7 +191,7 @@ read.MFCLLenFreq <- function(frqfile){
       dfall <- rbind(df1, dfL, dfW, dfLW) 
     }
   }
-  
+  #browser()
   res@freq <- dfall
   res@freq <- res@freq[order(res@freq$fish, res@freq$year, res@freq$month),]
   
