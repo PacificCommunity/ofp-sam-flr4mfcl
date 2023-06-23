@@ -85,7 +85,7 @@ write.par <- function(x, file, append=F, ...){
 
   if(flagval(x, 1, 155)$value > 0){
     cat("\n \n# annual coffs for relative recruitment \n \n",   file=file, append=T)
-    write.table(float(orth_coffs(x)), file=file, append=T, col.names=F, row.names=F, quote=F)  
+    write.table(float(annual_rel_rec_coffs(x)), file=file, append=T, col.names=F, row.names=F, quote=F)  
     
     cat("\n \n# orthogonal poly coffs for relative recruitment \n \n",   file=file, append=T)
     write.table(float(orth_coffs(x)), file=file, append=T, col.names=F, row.names=F, quote=F)  
