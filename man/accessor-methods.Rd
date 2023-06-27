@@ -225,7 +225,7 @@
 \alias{orth_coffs}
 \alias{orth_coffs,MFCLRec-method}
 \alias{orth_coffs<-}
-\alias{orth_coffs<-,MFCLRec,numeric-method}
+\alias{orth_coffs<-,MFCLRec,matrix-method}
 \alias{new_orth_coffs}
 \alias{new_orth_coffs,MFCLRec-method}
 \alias{new_orth_coffs<-}
@@ -242,6 +242,10 @@
 \alias{rec_standard,MFCLRec-method}
 \alias{rec_standard<-}
 \alias{rec_standard<-,MFCLRec,FLQuant-method}
+\alias{annual_rel_rec_coffs}
+\alias{annual_rel_rec_coffs,MFCLRec-method}
+\alias{annual_rel_rec_coffs<-}
+\alias{annual_rel_rec_coffs<-,MFCLRec,matrix-method}
 \alias{range,MFCLRec-method}
 \alias{range<-,MFCLRec,missing,numeric-method}
 \alias{control_flags}
@@ -1306,7 +1310,7 @@ orth_coffs(object, ...)
 
 orth_coffs(object, ...) <- value
 
-\S4method{orth_coffs}{MFCLRec,numeric}(object) <- value
+\S4method{orth_coffs}{MFCLRec,matrix}(object) <- value
 
 new_orth_coffs(object, ...)
 
@@ -1339,6 +1343,14 @@ rec_standard(object, ...)
 rec_standard(object, ...) <- value
 
 \S4method{rec_standard}{MFCLRec,FLQuant}(object) <- value
+
+annual_rel_rec_coffs(object, ...)
+
+\S4method{annual_rel_rec_coffs}{MFCLRec}(object)
+
+annual_rel_rec_coffs(object, ...) <- value
+
+\S4method{annual_rel_rec_coffs}{MFCLRec,matrix}(object) <- value
 
 \S4method{range}{MFCLRec}(x)
 
