@@ -4,7 +4,10 @@
 \alias{getMFCLversion}
 \title{getMFCLversion}
 \usage{
-getMFCLversion()
+getMFCLversion(file)
+}
+\arguments{
+\item{file}{name of a file to get the MFCL version from.}
 }
 \value{
 the mfcl version
@@ -12,7 +15,16 @@ the mfcl version
 \description{
 Returns the version of MFCL to be used for this session
 }
+\details{
+The value of \code{file} should be either (1) a path to an MFCL executable
+such as \file{mfclo64}, or (2) a path to an MFCL \verb{rep} file such as
+\file{plot-10.par.rep}.
+
+The default value of \code{file} looks for \verb{mfclo64} inside the FLR4MFCL
+package installation directory.
+}
 \examples{
-getMFCLversion()
+repfile <- system.file(package="FLR4MFCL", "extdata/plot-07.par.rep")
+getMFCLversion(repfile)
 
 }

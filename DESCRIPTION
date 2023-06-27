@@ -6,7 +6,7 @@ Authors@R: c(person("Robert", "Scott", role=c("aut","cre"), email="robertsc@spc.
              person("Finlay", "Scott", role="aut"),
              person("Arni", "Magnusson", role="aut"))
 Depends: R (>= 3.5.0), lattice, FLCore
-Imports: methods, utils
+Imports: methods, tools, utils
 Suggests: mapdata, knitr, rmarkdown
 Description: Everything you ever dreamed of. R4MFCL but with S4 classes and FLR
   compatibility.
