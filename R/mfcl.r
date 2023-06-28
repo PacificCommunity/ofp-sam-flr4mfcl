@@ -172,22 +172,48 @@ availableMFCLversions <- function(){
 #'
 #' Returns the version of MFCL to be used for this session
 #'
-#' 
+#' @param file name of a file to get the MFCL version from.
+#'
+#' @details
+#' The value of \code{file} should be either (1) a path to an MFCL executable
+#' such as \file{mfclo64}, or (2) a path to an MFCL \verb{rep} file such as
+#' \file{plot-10.par.rep}.
+#'
+#' The default value of \code{file} looks for \verb{mfclo64} inside the FLR4MFCL
+#' package installation directory.
 #'
 #' @return the mfcl version
 #'
 #' @examples
-#' getMFCLversion()
+#' repfile <- system.file(package="FLR4MFCL", "extdata/plot-07.par.rep")
+#' getMFCLversion(repfile)
+#'
+#' @importFrom tools file_ext
 #'
 #' @export
 
-getMFCLversion <- function(){
-  
-  opsys<- rev(unlist(strsplit(packageDescription("FLR4MFCL")$Built, split=" ")))[1]
-  path <- system.file("extdata",package="FLR4MFCL")
-  
-  system(paste(path, "/mfclo64 --version", sep=""))
-  
+getMFCLversion <- function(file)
+{
+  if(missing(file)) {
+    file <- file.path(system.file(package="FLR4MFCL"), "extdata/mfclo64")
+  }
+  if(!file.exists(file)){
+    warning("file '", file, "' does not exist")
+    return(invisible(NULL))  # exit with warning, consistent with old function
+  }
+
+  # Read rep file or run executable
+  if(file_ext(file) == "rep") {
+    ver <- readLines(file)
+    ver <- grep("MULTIFAN-CL version number", ver, value=TRUE)
+    ver <- gsub(".*: ", "", ver)
+  } else {
+    ver <- system(paste(file, "--version"), intern=TRUE)
+    ver <- grep("Version number", ver, value=TRUE)
+    ver <- gsub(".*: ", "", ver)
+  }
+
+  ver
 }
 
 
