@@ -33,7 +33,7 @@ Index,parest_flags,age_flags,fish_flags
 32,define initial control regime (e.g. Kleiber control) [4.5.1],"totpop fixed or not [4.5.1, 4.5.12]",grouping for tag recaptures [4.5.9]
 33,upper bound for tag reporting rate [4.5.9],est. M [4.5.17],est. tag reporting rate [4.5.9]
 34,,est. effort devs [4.5.8],grouping for tag reporting rate [4.5.9]
-35,,max effort devaitions,penalty for tag reporting rate prior [4.5.9]
+35,,max effort deviations,penalty for tag reporting rate prior [4.5.9]
 36,,max dev also! ,tag reporting rate prior [4.5.9]
 37,,avg. F target [4.5.14],est. time series of tag reporting rate [4.5.9]
 38,,,var for Kalman filt. effort devs [4.5.8]
@@ -55,7 +55,7 @@ Index,parest_flags,age_flags,fish_flags
 54,,,grouping for fish flag 53 [4.5.6]
 55,,,turn off fisheries for impact analysis [4.5.16]
 56,,,penalty to make selectivity a non decreasing function of age [4.5.7]
-57,,month doubling [4.5.6, 4.5.12],functional form for selectivity [4.5.7]
+57,,"month doubling [4.5.6, 4.5.12]",functional form for selectivity [4.5.7]
 58,,,
 59,,,
 60,,,grouping for common initial catchability [4.5.6]
