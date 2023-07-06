@@ -24,5 +24,5 @@ read.MFCLPar("C:/R4MFCL/test_data/skj_ref_case/11.par")
 
 }
 \seealso{
-\code{\link{read.MFCLFlags}}.
+\code{\link{read.MFCLFlags}}, \code{\link{firstYear}}.
 }

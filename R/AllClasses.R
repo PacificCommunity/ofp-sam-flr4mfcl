@@ -165,7 +165,7 @@ MFCLLenFreq2 <- function() {return(new("MFCLLenFreq2"))}
 ###### CLASSS MFCLFrq
 
 validMFCLFrq <- function(object){
-  
+
   # Everything is fine
   return(TRUE)
 }
@@ -248,7 +248,7 @@ setClass("MFCLBase",
 #'
 #'Basic constructor for MFCLBase class
 #'@export
-MFCLBase <- function() {return(new("MFCLBase"))}         
+MFCLBase <- function() {return(new("MFCLBase"))}
 
 
 
@@ -611,7 +611,7 @@ setClass("MFCLIniBits",
            sd_length_dep       ='numeric'
          ),
          prototype=prototype(
-           ini_version		       =numeric(),
+           ini_version                 =numeric(),
            region_flags        =matrix(),
            age_pars            =matrix(),
            rec_dist            =numeric(),
@@ -665,7 +665,7 @@ MFCLIni <- function() {return(new("MFCLIni"))}
 ###### CLASSS MFCLPar
 
 validMFCLPar <- function(object){
-  
+
   # Everything is fine
   return(TRUE)
 }
@@ -796,6 +796,46 @@ validMFCLRep <- function(object){
   return(TRUE)
 }
 
+#' An S4 class : Model information from the rep file.
+#'
+#' @slot fishery_realizations Description
+#' @slot mean_laa Mean length at age
+#' @slot mean_waa Mean weight at age
+#' @slot sd_laa Standard deviation of length at age
+#' @slot m_at_age Natural mortality
+#' @slot sel Selectivity
+#' @slot q_fishery Description
+#' @slot q_effdev Description
+#' @slot fm Fishing mortality
+#' @slot fm_aggregated Fishing mortality aggregated
+#' @slot popN Population numbers
+#' @slot rec_region Description
+#' @slot totalBiomass Total biomass
+#' @slot totalBiomass_nofish Description
+#' @slot adultBiomass Description
+#' @slot adultBiomass_nofish Description
+#' @slot vulnBiomass Vulnerable biomass
+#' @slot srr Description
+#' @slot eq_ssb Equilibrium SSB
+#' @slot eq_ssb_obs Description
+#' @slot eq_rec Equilibrium recruitment
+#' @slot eq_rec_obs Description
+#' @slot catch_obs Observed catches
+#' @slot catch_pred Predicted catches
+#' @slot cpue_obs Observed CPUE
+#' @slot cpue_pred Predicted CPUE
+#' @slot eq_biomass Equilibrium biomass
+#' @slot eq_yield Equilibrium yield
+#' @slot MSY MSY
+#' @slot FMSY Fmsy
+#' @slot BMSY Bmsy
+#' @slot ABBMSY_ts Description
+#' @slot FFMSY_ts Description
+#' @slot ABBMSY Description
+#' @slot TBBMSY Description
+#' @slot Fmult Description
+#' @slot AggregateF Description
+
 setClass("MFCLRep",
          representation(
            "MFCLBase",
@@ -809,7 +849,7 @@ setClass("MFCLRep",
            q_effdev            ='FLQuant',
            fm                  ='FLQuant',
            fm_aggregated       ="FLQuant",
-           popN                 ='FLQuant',
+           popN                ='FLQuant',
            rec_region          ='FLQuant',
            totalBiomass        ='FLQuant',
            totalBiomass_nofish ='FLQuant',
@@ -817,10 +857,10 @@ setClass("MFCLRep",
            adultBiomass_nofish ='FLQuant',
            vulnBiomass         ='FLQuant',
            srr                 ='FLPar',
-           eq_ssb                 ='FLQuant',
-           eq_ssb_obs             ='FLQuant',
-           eq_rec                 ='FLQuant',
-           eq_rec_obs             ='FLQuant',
+           eq_ssb              ='FLQuant',
+           eq_ssb_obs          ='FLQuant',
+           eq_rec              ='FLQuant',
+           eq_rec_obs          ='FLQuant',
            catch_obs           ='FLQuant',
            catch_pred          ='FLQuant',
            cpue_obs            ='FLQuant',
@@ -830,8 +870,8 @@ setClass("MFCLRep",
            MSY                 ="numeric",
            FMSY                ='numeric',
            BMSY                ='numeric',
-           ABBMSY_ts               ='FLQuant',
-           FFMSY_ts               ='FLQuant',
+           ABBMSY_ts           ='FLQuant',
+           FFMSY_ts            ='FLQuant',
            ABBMSY              ='numeric',
            TBBMSY              ='numeric',
            Fmult               ='numeric',
@@ -920,14 +960,14 @@ remove(validMFCLprojControl)
 #'Basic constructor for MFCLprojControl class
 #'@export
 MFCLprojControl <- function(nyears=as.numeric(NULL), nsims=as.numeric(NULL), avyrs='', fprojyr=as.numeric(NULL), controls=data.frame(name=NULL, region=NULL, caeff=NULL, scaler=NULL, ess=NULL)) {
-  
+
   res <- new("MFCLprojControl")
   slot(res, 'nyears') <- nyears
   slot(res, 'nsims')  <- nsims
   slot(res, 'avyrs')  <- avyrs
   slot(res, 'fprojyr') <- fprojyr
   slot(res, 'controls')  <- controls
-  
+
   return(res)
 }
 #pp <- MFCLprojControl(nyears=3, nsims=200, avyrs='2012', caeff=1, scaler=1)
@@ -1027,7 +1067,7 @@ setClass("MFCLWgtFit",
          prototype=prototype(
            waa                 =FLQuant(),
            wgtfits             =data.frame(fishery=NULL, year=NULL, month=NULL, length=NULL, obs=NULL, pred=NULL),
-           wgtagefits          =data.frame(fishery=NULL, year=NULL, month=NULL, length=NULL, age=NULL, pred=NULL), 
+           wgtagefits          =data.frame(fishery=NULL, year=NULL, month=NULL, length=NULL, age=NULL, pred=NULL),
            range               =unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
          ),
          validity=validMFCLWgtFit
@@ -1162,7 +1202,7 @@ MFCLPseudo <- function(catcheff =data.frame(year=NULL, month=NULL, fishery=NULL,
   slot(res, "l_frq") <- l_frq
   slot(res, "w_frq") <- w_frq
   slot(res, "range") <- unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1))
-  
+
   return(res)
 }
 
@@ -1196,14 +1236,14 @@ remove(validMFCLPseudoControl)
 #'Basic constructor for MFCLPseudoControl class
 #'@export
 MFCLPseudoControl <- function(catch_sd=20, effort_sd=20, tag_fish_rep_rate=0.9, catch_seed=16001, effort_seed=17001, length_seed=18001, weight_seed=19001, tag_seed=20001) {
-  
+
   pc <- new("MFCLPseudoControl")
-  
+
   slot(pc, 'catch_sd') <- catch_sd
   slot(pc, 'effort_sd') <- effort_sd
   slot(pc, 'tag_fish_rep_rate') <- tag_fish_rep_rate
   slot(pc, 'random_seeds') <- unlist(list(catch=catch_seed, effort=effort_seed, length=length_seed, weight=weight_seed, tag=tag_seed))
-  
+
   return(pc)
 }
 
@@ -1235,12 +1275,12 @@ remove(validMFCLEMControl)
 #'Basic constructor for MFCLEMControl class
 #'@export
 MFCLEMControl <- function(doitall=function(){}, tag_fish_rep_rate=0.9,...) {
-  
+
   emc <- new("MFCLEMControl")
-  
+
   slot(emc, 'doitall') <- doitall
   slot(emc, 'tag_fish_rep_rate') <- tag_fish_rep_rate
-  
+
   return(emc)
 }
 
@@ -1301,14 +1341,14 @@ remove(validMFCLMSEControl)
 #' Basic constructor for MFCLMSEControl class
 #' @export
 MFCLMSEControl <- function(hcr="hcr_threshold", hcr_params=c(sbsbf0_min = 0.2, sbsbf0_max = 0.5, out_min = 0.2, out_max = 1.0), itn=1, ess_scalar=1, ...) {
-  
+
   msec <- new("MFCLMSEControl")
-  
+
   slot(msec, 'hcr') <- hcr
   slot(msec, 'hcr_params') <- hcr_params
   slot(msec, 'itn') <- itn
   slot(msec, 'ess_scalar') <- ess_scalar
-  
+
   return(msec)
 }
 

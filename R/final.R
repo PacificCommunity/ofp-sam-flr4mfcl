@@ -87,3 +87,49 @@ finalRep <- function(folder, pattern="^plot-[0-9][0-9]\\.par.rep$", full=TRUE,
 
   repfile
 }
+
+
+
+
+#' First Year
+#'
+#' Read the first year in the model from the \verb{.rep} file.
+#'
+#' @param folder is a folder containing at least one \verb{.rep} file.
+#'
+#' @return First year as an integer.
+#'
+#' @note
+#' Can be useful to find a suitable \code{first.yr} argument for
+#' \code{read.MFCLPar}.
+#'
+#' @seealso
+#' \code{\link{read.MFCLPar}}.
+#'
+#' @examples
+#' \dontrun{
+#' first.yr <- firstYear("modelrun")
+#' parfile <- finalPar("modelrun")
+#' par <- read.MFCLPar(parfile, first.yr)
+#' }
+#'
+#' @export
+
+firstYear <- function(folder)
+{
+  # Read rep file
+  repfile <- finalRep(folder)
+  txt <- readLines(repfile)
+
+  # Look for label
+  line <- which(txt == "# Year 1") + 1
+  if(length(line) == 0)
+    stop("label '# Year 1' not found in .rep file")
+  if(length(line) > 1)
+    stop("multiple labels '# Year 1' found in .rep file")
+
+  # Read first year
+  first.yr <- as.integer(txt[line])
+
+  first.yr
+}
