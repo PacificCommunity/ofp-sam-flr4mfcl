@@ -716,7 +716,7 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972) {
 #' @return An object of class \code{MFCLPar}.
 #'
 #' @seealso
-#' \code{\link{read.MFCLFlags}}.
+#' \code{\link{read.MFCLFlags}}, \code{\link{firstYear}}.
 #'
 #' @examples
 #' \dontrun{

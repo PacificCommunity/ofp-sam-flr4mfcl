@@ -1,3 +1,7 @@
+# FLR4MFCL 1.6.7 (development)
+
+* New functions: firstYear().
+
 # FLR4MFCL 1.5.0 (2023-05-25)
 
 * read.MFCLLenFit() and read.MFCLLenFit2() are now the same function. In recent
