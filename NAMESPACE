@@ -1,6 +1,6 @@
 importFrom("graphics", "barplot", "layout", "mtext", "par", "points")
 importFrom("grDevices", "gray", "rainbow")
-importFrom("stats", "reshape")
+importFrom("stats", "aggregate", "lm", "reshape")
 importFrom("tools", "file_ext")
 import("lattice")
 import("methods")
