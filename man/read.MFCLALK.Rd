@@ -7,7 +7,7 @@
 read.MFCLALK(alfile, lenfit = NULL)
 }
 \arguments{
-\item{inifile}{A character string giving the name and path of the conditional age length input file to be read.}
+\item{alfile}{A character string giving the name and path of the conditional age length input file to be read.}
 }
 \value{
 An object of class MFCLALK

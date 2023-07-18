@@ -5,7 +5,7 @@
 #'
 #' Reads information from the .rep file and creates an MFCLRep object.
 #'
-#' @param inifile A character string giving the name and path of the .rep file to be read.
+#' @param repfile A character string giving the name and path of the .rep file to be read.
 #'
 #' @return An object of class MFCLRep
 #'
