@@ -637,6 +637,60 @@ validMFCLIni <- function(object){
   #Everything is fine
   return(TRUE)
 }
+
+#' An S4 class : Model information from the ini file.
+#'
+#' @slot dimensions Description
+#' @slot range Description
+#' @slot tag_shed_rate Description
+#' @slot tag_fish_rep_rate Description
+#' @slot tag_fish_rep_grp Description
+#' @slot tag_fish_rep_flags Description
+#' @slot tag_fish_rep_target Description
+#' @slot tag_fish_rep_pen Description
+#' @slot rep_rate_dev_coffs Description
+#' @slot m Description
+#' @slot m_devs_age Description
+#' @slot log_m Description
+#' @slot mat Description
+#' @slot mat_at_length Description
+#' @slot growth Description
+#' @slot richards Description
+#' @slot growth_var_pars Description
+#' @slot n_mean_constraints Description
+#' @slot growth_devs_age Description
+#' @slot growth_curve_devs Description
+#' @slot growth_devs_cohort Description
+#' @slot season_growth_pars Description
+#' @slot len_bias_pars Description
+#' @slot common_len_bias_pars Description
+#' @slot common_len_bias_coffs Description
+#' @slot control_flags Description
+#' @slot move_map Description
+#' @slot diff_coffs Description
+#' @slot xdiff_coffs Description
+#' @slot y1diff_coffs Description
+#' @slot y2diff_coffs Description
+#' @slot zdiff_coffs Description
+#' @slot diff_coffs_mat Description
+#' @slot diff_coffs_age_ssn Description
+#' @slot diff_coffs_age_period Description
+#' @slot diff_coffs_age Description
+#' @slot diff_coffs_nl Description
+#' @slot diff_coffs_priors Description
+#' @slot diff_coffs_age_priors Description
+#' @slot diff_coffs_nl_priors Description
+#' @slot region_rec_var Description
+#' @slot region_pars Description
+#' @slot ini_version Description
+#' @slot region_flags Description
+#' @slot age_pars Description
+#' @slot rec_dist Description
+#' @slot lw_params Description
+#' @slot sv Description
+#' @slot sd_length_at_age Description
+#' @slot sd_length_dep Description
+
 setClass("MFCLIni",
          representation(
            "MFCLBase",
