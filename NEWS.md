@@ -1,6 +1,6 @@
 # FLR4MFCL 1.6.7 (development)
 
-* New functions: firstYear().
+* New functions: diffIniStepwise(), firstYear(), summary_ini().
 
 # FLR4MFCL 1.5.0 (2023-05-25)
 
