@@ -28,5 +28,5 @@ ageflag(par, c(32,92))
 \seealso{
 \code{\link{flagval}} calls this function to retrieve flag settings.
 
-\code{\link{read.MFCLFlags}} reads flag settings from a par file.
+\code{\link{read.MFCLFlags}} reads flag settings from a \verb{par} file.
 }

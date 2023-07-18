@@ -13,12 +13,12 @@ diffFlagsStepwise(
 )
 }
 \arguments{
-\item{stepdir}{a directory containing model runs in subdirectories.}
+\item{stepdir}{directory containing model runs in subdirectories.}
 
-\item{models}{an optional vector of filenames to manually specify stepwise
+\item{models}{optional vector of directory names to manually specify stepwise
 models to compare.}
 
-\item{labels}{an optional vector of short labels to describe the stepwise
+\item{labels}{optional vector of short labels to describe the stepwise
 models.}
 
 \item{quiet}{whether to suppress the on-screen reporting of reading files.}
@@ -62,5 +62,5 @@ lapply(bet_diffs, head)
 \code{\link{diffFlags}} shows differences in flag settings between two model
 runs.
 
-\code{\link{read.MFCLFlags}} reads flag settings from a par file.
+\code{\link{read.MFCLFlags}} reads flag settings from a \verb{par} file.
 }

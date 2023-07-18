@@ -118,8 +118,8 @@ flagSummary <- function(par, type){
 #' @details
 #' The \code{par1} and \code{par2} objects can be any of the following:
 #' \enumerate{
-#' \item folder containing a par file
-#' \item filename of a par file
+#' \item folder containing a \verb{par} file
+#' \item filename of a \verb{par} file
 #' \item \code{MFCLPar} object
 #' \item \code{MFCLFlags} object
 #' \item \code{data.frame} containing flag settings
@@ -140,7 +140,7 @@ flagSummary <- function(par, type){
 #' \code{\link{diffFlagsStepwise}} shows differences in flag settings between
 #' stepwise model runs.
 #'
-#' \code{\link{read.MFCLFlags}} reads flag settings from a par file.
+#' \code{\link{read.MFCLFlags}} reads flag settings from a \verb{par} file.
 #'
 #' @examples
 #' data(par)
@@ -196,8 +196,8 @@ flagDiff <- function(...) {
 #' @details
 #' The \code{flags} object can be any of the following:
 #' \enumerate{
-#' \item folder containing a par file
-#' \item filename of a par file
+#' \item folder containing a \verb{par} file
+#' \item filename of a \verb{par} file
 #' \item \code{MFCLPar} object
 #' \item \code{MFCLFlags} object
 #' \item \code{data.frame} containing flag settings
@@ -211,7 +211,7 @@ flagDiff <- function(...) {
 #' \code{\link{diffFlags}} calls this function to show the meaning of flags that
 #' are different between two model runs.
 #'
-#' \code{\link{read.MFCLFlags}} reads flag settings from a par file.
+#' \code{\link{read.MFCLFlags}} reads flag settings from a \verb{par} file.
 #'
 #' @examples
 #' data(par)
@@ -259,10 +259,10 @@ flagMeaning <- function(flags, flaglist=NULL) {
 #'
 #' Show differences in flag settings between stepwise model runs.
 #'
-#' @param stepdir a directory containing model runs in subdirectories.
-#' @param models an optional vector of filenames to manually specify stepwise
+#' @param stepdir directory containing model runs in subdirectories.
+#' @param models optional vector of directory names to manually specify stepwise
 #'        models to compare.
-#' @param labels an optional vector of short labels to describe the stepwise
+#' @param labels optional vector of short labels to describe the stepwise
 #'        models.
 #' @param quiet whether to suppress the on-screen reporting of reading files.
 #' @param \dots passed to \code{diffFlags}.
@@ -284,7 +284,7 @@ flagMeaning <- function(flags, flaglist=NULL) {
 #' \code{\link{diffFlags}} shows differences in flag settings between two model
 #' runs.
 #'
-#' \code{\link{read.MFCLFlags}} reads flag settings from a par file.
+#' \code{\link{read.MFCLFlags}} reads flag settings from a \verb{par} file.
 #'
 #' @examples
 #' \dontrun{
@@ -360,7 +360,7 @@ flagExtract <- function(flags) {
 #' \code{\link{diffFlags}} calls this function to show the meaning of flags that
 #' are different between two model runs.
 #'
-#' \code{\link{read.MFCLFlags}} reads flag settings from a par file.
+#' \code{\link{read.MFCLFlags}} reads flag settings from a \verb{par} file.
 #'
 #' @examples
 #' data(par)
@@ -406,7 +406,7 @@ flagSort <- function(flags){
 #' @seealso
 #' \code{\link{flagval}} calls this function to retrieve flag settings.
 #'
-#' \code{\link{read.MFCLFlags}} reads flag settings from a par file.
+#' \code{\link{read.MFCLFlags}} reads flag settings from a \verb{par} file.
 #'
 #' @examples
 #' data(par)
@@ -434,7 +434,7 @@ setMethod('parestflag', signature(x='MFCLFlags'),function(x, flags){ flagval(x, 
 #' @seealso
 #' \code{\link{flagval}} calls this function to retrieve flag settings.
 #'
-#' \code{\link{read.MFCLFlags}} reads flag settings from a par file.
+#' \code{\link{read.MFCLFlags}} reads flag settings from a \verb{par} file.
 #'
 #' @examples
 #' data(par)
@@ -463,7 +463,7 @@ setMethod('ageflag', signature(x='MFCLFlags'),function(x, flags){ flagval(x, 1, 
 #' @seealso
 #' \code{\link{flagval}} calls this function to retrieve flag settings.
 #'
-#' \code{\link{read.MFCLFlags}} reads flag settings from a par file.
+#' \code{\link{read.MFCLFlags}} reads flag settings from a \verb{par} file.
 #'
 #' @examples
 #' data(par)
@@ -496,7 +496,7 @@ setMethod('fishflag', signature(x='MFCLFlags'),
 #' @seealso
 #' \code{\link{flagval}} calls this function to retrieve flag settings.
 #'
-#' \code{\link{read.MFCLFlags}} reads flag settings from a par file.
+#' \code{\link{read.MFCLFlags}} reads flag settings from a \verb{par} file.
 #'
 #' @examples
 #' data(par)
@@ -531,7 +531,7 @@ setMethod('tagflag', signature(x='MFCLFlags'),
 #' @seealso
 #' \code{\link{flagval}} calls this function to retrieve flag settings.
 #'
-#' \code{\link{read.MFCLFlags}} reads flag settings from a par file.
+#' \code{\link{read.MFCLFlags}} reads flag settings from a \verb{par} file.
 #'
 #' @examples
 #' data(par)
