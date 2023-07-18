@@ -31,13 +31,14 @@
 #' \dontrun{
 #' yft_dir <- "//penguin/assessments/yft/2020_review/analysis/stepwise"
 #' yft_diffs <- diffIniStepwise(yft_dir)
-#' summary_ini(inifile)
+#' yft_diffs
 #'
 #' # Unusual directory structure of BET 2020 stepwise models
 #' bet_dir <- "//penguin/assessments/bet/2020/2020_stepwise"
 #' bet_models <- file.path(dir(bet_dir, full.names=TRUE), "10N")
 #' bet_labels <- dir(bet_dir)
 #' bet_diffs <- diffIniStepwise(bet_dir, bet_models, bet_labels)
+#' bet_diffs
 #' }
 #'
 #' @export
