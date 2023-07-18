@@ -7,7 +7,9 @@
 read.MFCLIni(inifile, nseasons = 4)
 }
 \arguments{
-\item{inifile}{A character string giving the name and path of the ini file to be read.}
+\item{inifile}{\verb{ini} filename.}
+
+\item{nseasons}{number of seasons.}
 }
 \value{
 An object of class MFCLIni.

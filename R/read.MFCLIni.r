@@ -5,7 +5,8 @@
 #'
 #' Reads information from the ini file and creates an MFCLIni object.
 #'
-#' @param inifile A character string giving the name and path of the ini file to be read.
+#' @param inifile \verb{ini} filename.
+#' @param nseasons number of seasons.
 #'
 #' @return An object of class MFCLIni.
 #'
