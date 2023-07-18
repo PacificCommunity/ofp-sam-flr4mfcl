@@ -355,7 +355,7 @@ read.MFCLRec <- function(parfile, parobj=NULL, first.yr=1972) {
   dims3       <- dims
   dims3$area  <- as.character(1:nregions)
   
-  # orth poly levels determined year, region, season and region*season interaction by parest flags 155, 221, 216-218
+  # orth poly levels determined by year, region, season and region*season interaction by parest flags 155, 221, 216-218
   # orth poly levels = sum(1, nregions-1, nseasons-1, ...)
   parflags <- as.numeric(unlist(strsplit(trim.leading(par[2]), split="[[:blank:]]+")))
   orth_poly_rows <- 1
@@ -378,7 +378,6 @@ read.MFCLRec <- function(parfile, parobj=NULL, first.yr=1972) {
   
 
   if(vsn>=1055)
-    #slot(res, "orth_coffs")        <- as.numeric(par[grep("# new orthogonal coefficients", par)+1])
     slot(res, "orth_coffs")       <- matrix(as.numeric(splitter(par, "# orthogonal poly coffs for relative recruitment", 1:orth_poly_rows)),
                                             nrow=orth_poly_rows, byrow = TRUE)
     slot(res, "new_orth_coffs")   <- as.numeric(par[grep("# new orthogonal coefficients", par)+1])
@@ -523,7 +522,7 @@ read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972) {
 #' @export
 
 read.MFCLSel <- function(parfile, parobj=NULL, first.yr=1972) {
-
+#browser()
   trim.leading  <- function(x) sub("^\\s+", "", x)
   trim.trailing <- function(x) sub("\\s+$", "", x) 
   splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+"))      
