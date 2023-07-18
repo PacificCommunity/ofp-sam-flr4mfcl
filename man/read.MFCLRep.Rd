@@ -7,7 +7,7 @@
 read.MFCLRep(repfile)
 }
 \arguments{
-\item{inifile}{A character string giving the name and path of the .rep file to be read.}
+\item{repfile}{A character string giving the name and path of the .rep file to be read.}
 }
 \value{
 An object of class MFCLRep

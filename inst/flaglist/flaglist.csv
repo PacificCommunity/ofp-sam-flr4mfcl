@@ -10,7 +10,7 @@ Index,parest_flags,age_flags,fish_flags
 9,,,
 10,,,time series in q [4.5.6]
 11,,,"selectivity bias, 1st age [4.5.4]"
-12,estimate avg size of 1st age class [4.5.4,,
+12,estimate avg size of 1st age class [4.5.4],,
 13,estimate avg size of last age class [4.5.4],,penalty for effort devs [4.5.8]
 14,estimate K [4.5.4],,limit on F per fishing incident [4.5.14]
 15,estimate generic sigma of size at age [4.5.4],,penalty for q-devs [4.5.6]
@@ -32,7 +32,7 @@ Index,parest_flags,age_flags,fish_flags
 31,,est totpop [4.5.12],
 32,define initial control regime (e.g. Kleiber control) [4.5.1],"totpop fixed or not [4.5.1, 4.5.12]",grouping for tag recaptures [4.5.9]
 33,upper bound for tag reporting rate [4.5.9],est. M [4.5.17],est. tag reporting rate [4.5.9]
-34,,est. effort devs [4.5.8],grouping for tag reporting rate [4.5.9]
+34,parametrization of SD of length-at-age (MFCL >= 2.2.0.0),est. effort devs [4.5.8],grouping for tag reporting rate [4.5.9]
 35,,max effort deviations,penalty for tag reporting rate prior [4.5.9]
 36,,max dev also! ,tag reporting rate prior [4.5.9]
 37,,avg. F target [4.5.14],est. time series of tag reporting rate [4.5.9]

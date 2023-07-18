@@ -24,5 +24,5 @@ flagSort(flags(par))
 \code{\link{diffFlags}} calls this function to show the meaning of flags that
 are different between two model runs.
 
-\code{\link{read.MFCLFlags}} reads flag settings from a par file.
+\code{\link{read.MFCLFlags}} reads flag settings from a \verb{par} file.
 }
