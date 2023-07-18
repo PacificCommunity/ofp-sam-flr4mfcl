@@ -7,7 +7,7 @@
 read.MFCLWgtFit(wffile, get_wgtage = FALSE)
 }
 \arguments{
-\item{inifile}{A character string giving the name and path of the weight.fit file to be read.}
+\item{wffile}{A character string giving the name and path of the weight.fit file to be read.}
 }
 \value{
 An object of class MFCLWgtFit

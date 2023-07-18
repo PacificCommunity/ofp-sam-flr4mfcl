@@ -5,7 +5,7 @@
 #'
 #' Reads information from the weight.fit file and creates an MFCLWgtFit object.
 #'
-#' @param inifile A character string giving the name and path of the weight.fit file to be read.
+#' @param wffile A character string giving the name and path of the weight.fit file to be read.
 #'
 #' @return An object of class MFCLWgtFit
 #'

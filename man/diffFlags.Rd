@@ -32,8 +32,8 @@ Show differences in flag settings between two model runs.
 \details{
 The \code{par1} and \code{par2} objects can be any of the following:
 \enumerate{
-\item folder containing a par file
-\item filename of a par file
+\item folder containing a \verb{par} file
+\item filename of a \verb{par} file
 \item \code{MFCLPar} object
 \item \code{MFCLFlags} object
 \item \code{data.frame} containing flag settings
@@ -64,5 +64,5 @@ meaning of each flag.
 \code{\link{diffFlagsStepwise}} shows differences in flag settings between
 stepwise model runs.
 
-\code{\link{read.MFCLFlags}} reads flag settings from a par file.
+\code{\link{read.MFCLFlags}} reads flag settings from a \verb{par} file.
 }

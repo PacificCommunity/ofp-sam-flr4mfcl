@@ -5,7 +5,7 @@
 #'
 #' Reads information from the conditional age length input file and creates an MFCLALK object.
 #'
-#' @param inifile A character string giving the name and path of the conditional age length input file to be read.
+#' @param alfile A character string giving the name and path of the conditional age length input file to be read.
 #'
 #' @return An object of class MFCLALK
 #'
