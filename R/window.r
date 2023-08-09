@@ -146,3 +146,26 @@ setMethod("window", signature(x="MFCLTagProj"),
             return(x)
             
           })
+
+
+setMethod("window", signature(x="MFCLALK"), 
+          function(x, start=range(x)['minyear'], end=range(x)['maxyear'], extend=FALSE, ...){
+            
+            if(start < range(x)['minyear'] | end > range(x)['maxyear'])
+              stop("Error: This method does not yet allow the extension of MFCL objects beyond their current year range")
+            
+            slot(x, 'ALK') <- subset(ALK(x), year>=start & year<=end)
+            
+            n_records <- length(unique(paste(ALK(x)$year, ALK(x)$month, ALK(x)$fishery, ALK(x)$species, sep = '_')))
+            
+            if(length(unique(ESS(x))) >1)
+              stop("ESS values are not the same for all records - I can't handle that")
+            
+            slot(x, 'ESS') <- ESS(x)[1:n_records]
+            
+            slot(x, 'range')[c('minyear','maxyear')] <- range(ALK(x)$year)
+            
+            return(x)
+            
+          })
+
