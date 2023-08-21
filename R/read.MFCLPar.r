@@ -669,10 +669,11 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972) {
 
   slot(res, 'fm_level_regression_pars') <- matrix(as.numeric(splitter(par, "# fsh.implicit_fm_level_regression_pars", 1:nfish)), byrow=T, nrow=nfish)
     
-  slot(res, 'obj_fun')  <- as.numeric(splitter(par, "# Objective function value"))
-  slot(res, 'n_pars')   <- as.numeric(splitter(par, "# The number of parameters"))
-  slot(res, 'tag_lik')  <- as.numeric(taglik[length(taglik)])
-  slot(res, 'max_grad') <- as.numeric(splitter(par, "# Maximum magnitude gradient value"))
+  slot(res, 'obj_fun')   <- as.numeric(splitter(par, "# Objective function value"))
+  slot(res, 'n_pars')    <- as.numeric(splitter(par, "# The number of parameters"))
+  slot(res, 'tag_lik')   <- as.numeric(taglik[length(taglik)])
+  slot(res, 'max_grad')  <- as.numeric(splitter(par, "# Maximum magnitude gradient value"))
+  slot(res, 'first_year')<- as.numeric(splitter(par, "# First year in model"))
   slot(res, 'mn_len_pen')        <- as.numeric(mn_l_p[length(mn_l_p)])
   slot(res, 'av_fish_mort_inst') <- as.numeric(av_f_i[length(av_f_i)])
   slot(res, 'av_fish_mort_year') <- as.numeric(av_f_y[length(av_f_y)])
@@ -692,10 +693,12 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972) {
     ## Need to keep an eye on this as dimensions may be off !!
     slot(res, 'kludged_eq_coffs') <- t(array(as.numeric(splitter(par, "# kludged_equilib_coffs", 1:(nseasons*nregions))), 
                                              dim=c(nagecls,nseasons*nregions))) 
-    
     slot(res, 'kludged_eq_level_coffs') <- as.numeric(splitter(par, "# kludged_equilib_level_coffs"))
   }
   
+  if(vsn>=1066)
+    slot(res, 'first_year')<- as.numeric(splitter(par, "# First year in model"))
+    
   if(length(grep("# Historical_flags", par))>0)
     slot(res, 'historic_flags') <- par[(grep("# Historical_flags", par)+1):length(par)]
     

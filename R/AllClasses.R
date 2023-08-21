@@ -562,7 +562,8 @@ setClass("MFCLParBits",
            kludged_eq_coffs     = "array",
            kludged_eq_level_coffs = "numeric",
            range                = "numeric",
-           historic_flags       = "character"
+           historic_flags       = "character",
+           first_year           = 'numeric'
          ),
          prototype=prototype(
            fm_level_devs        = character(),
@@ -580,7 +581,8 @@ setClass("MFCLParBits",
            kludged_eq_coffs     = array(),
            kludged_eq_level_coffs = numeric(),
            range                = unlist(list(min=NA,max=NA,plusgroup=NA,minyear=1,maxyear=1)),
-           historic_flags       = character()
+           historic_flags       = character(),
+           first_year           = numeric()
          ),
          validity=validMFCLParBits
 )

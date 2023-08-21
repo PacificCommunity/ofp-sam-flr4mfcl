@@ -1065,10 +1065,20 @@ setGeneric('kludged_eq_level_coffs<-', function(object, ..., value) standardGene
 setReplaceMethod('kludged_eq_level_coffs', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['kludged_eq_level_coffs'])),
                  function(object, value){slot(object, 'kludged_eq_level_coffs') <- value; return(object)}) 
 #' @rdname accessor-methods
+setGeneric('first_year', function(object, ...) standardGeneric('first_year')) 
+#' @rdname accessor-methods
+setMethod('first_year', signature(object='MFCLParBits'),function(object) return(slot(object, 'first_year'))) 
+#' @rdname accessor-methods
+setGeneric('first_year<-', function(object, ..., value) standardGeneric('first_year<-')) 
+#' @rdname accessor-methods
+setReplaceMethod('first_year', signature(object='MFCLParBits', value=unname(getSlots('MFCLParBits')['first_year'])),
+                 function(object, value){slot(object, 'first_year') <- value; return(object)}) 
+
+#' @rdname accessor-methods
 setMethod('range', signature(x='MFCLParBits'),function(x) return(slot(x,'range'))) 
 #' @rdname accessor-methods
 setReplaceMethod('range', signature(x='MFCLParBits', i="missing", value=unname(getSlots('MFCLParBits')['range'])),
-                                function(x, value){slot(x, 'range') <- value; return(x)}) 
+                                function(x, value){slot(x, 'range') <- value; return(x)})
 
 #############################################################################################################
 # class  MFCLIniBits 

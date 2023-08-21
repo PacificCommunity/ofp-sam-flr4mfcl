@@ -288,6 +288,8 @@ write.par <- function(x, file, append=F, ...){
   cat("\n# The diffusion coefficients  \n",   file=file, append=T)
   write.table(diff_coffs_mat(x),  col.names=F, row.names=F, file=file, append=T)
 
+  cat(paste("\n# First year in model \n", first_year(x)), file=file, append=T)
+  
   cat(paste("\n# The grouped_catch_dev_coffs flag \n", catch_dev_coffs_flag(x)),  file=file, append=T)
 
   if(!all(is.na(catch_dev_coffs(x)))){
