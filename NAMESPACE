@@ -257,6 +257,8 @@ exportMethods(
   "ESS",
   "ess",
   "ess<-",
+  "first_year",
+  "first_year<-",
   "fishflag",
   "fish_params",
   "fish_params<-",

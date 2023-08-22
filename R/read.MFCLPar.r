@@ -728,7 +728,7 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972) {
 #' @export
 
 read.MFCLPar <- function(parfile, first.yr=1972) {
-  
+  #browser()
   trim.trailing <- function(x) sub("\\s+$", "", x) 
   
   slotcopy <- function(from, to){
@@ -746,13 +746,15 @@ read.MFCLPar <- function(parfile, first.yr=1972) {
   
   vsn <- as.numeric(unlist(strsplit(trimws(par[2]), split="[[:blank:]]+")))[200]
   
-  res <- slotcopy(read.MFCLBiol(parfile,  par, first.yr), res)
-  res <- slotcopy(read.MFCLFlags(parfile, par, first.yr), res)
-  res <- slotcopy(read.MFCLTagRep(parfile,par, first.yr), res)
-  res <- slotcopy(read.MFCLRec(parfile,   par, first.yr), res)
-  res <- slotcopy(read.MFCLRegion(parfile,par, first.yr), res)
-  res <- slotcopy(read.MFCLSel(parfile,   par, first.yr), res)
-  res <- slotcopy(read.MFCLParBits(parfile,par,first.yr), res)
+  res <- slotcopy(read.MFCLParBits(parfile,par, first.yr), res)
+  if(!is.na(first_year(res)))
+    first.yr <- first_year(res)
+  res <- slotcopy(read.MFCLBiol(parfile,   par, first.yr), res)
+  res <- slotcopy(read.MFCLFlags(parfile,  par, first.yr), res)
+  res <- slotcopy(read.MFCLTagRep(parfile, par, first.yr), res)
+  res <- slotcopy(read.MFCLRec(parfile,    par, first.yr), res)
+  res <- slotcopy(read.MFCLRegion(parfile, par, first.yr), res)
+  res <- slotcopy(read.MFCLSel(parfile,    par, first.yr), res)
   
   slot(res, 'range') <- c(min=0, max=max(as.numeric(unlist(dimnames(fishery_sel(res))['age']))), 
                           plusgroup=NA, 
