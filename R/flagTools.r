@@ -83,13 +83,22 @@ recPeriod <- function(par, af199=NULL, af200=NULL, pf232=NULL, pf233=NULL,
 
 flagSummary <- function(par, type){
 
-  options <- c('projection', 'impact_analysis', 'MSY')
+  options <- c('projection', 'impact_analysis', 'MSY', 'CC', 'catch_err', 'fml_effort_rel', 'catchability', 
+               'selectivity', 'tag', 'movement')
 
   if(!is.element(type, options))
-    stop(paste("arg 'type' must be one of the following:",
-               paste0(options, collapse="; ")))
-
-  ffrange <- -(1:dimensions(par)['fisheries'])
+    stop(paste("arg 'type' must be one of the following:", paste0(options, collapse="; ")))
+  
+  ffrange <- 1:dimensions(par)['fisheries']
+  #ttrange <- 1:dimensions(par)['taggrps']  # dimensions(taggrps) not currently working - 16/08/23
+  ttrange <- (unique(subset(flags(par), flagtype%in%-9999:-99999)$flagtype)*-1)-10000
+  
+  catchability_fshflags   <- sort(c(1,10,15,23,27,47,28,29))
+  selectivity_fshflags    <- sort(c(48,3,16,19,20,21,24,26,56,57,61,71,74,72,75))
+  fml_effort_rel_fshflags <- sort(c(27,29,73,81,93))
+  tag_fshflags            <- sort(c(32, 33, 34, 35, 36, 37, 43, 44, 45, 46))
+  
+  #browser()
   switch(
     type,
     projection=rbind(flagval(par, 1, c(142, 231:239)),
@@ -98,8 +107,41 @@ flagSummary <- function(par, type){
                           flagval(par, ffrange, 55)),
     MSY=rbind(
       flagval(par, 2, c(112, 140:141, 145:155, 161:163, 165:169, 194, 199:200)),
-      flagval(par, ffrange, 70))
-  )
+      flagval(par, ffrange, 70)),
+    CC=rbind(
+      flagval(par, 1, c(373, 382)),
+      flagval(par, 2, c(92, 116, 189))),
+    catch_err=list(
+      flagval(par, 2, c(34, 35, 144)),
+      matrix(flagval(par, -(ffrange), c(1, 4, 10, 13, 15, 23, 45, 47))$value, 
+             nrow=length(ffrange), byrow=T, 
+             dimnames=list(paste('fsh', ffrange),paste('flag', c(1, 4, 10, 13, 15, 23, 45, 47))))),
+    fml_effort_rel=list(
+      flagval(par, 1, c(378, 377, 383, 362)),
+      fish_flags=matrix(flagval(par, -(ffrange), fml_effort_rel_fshflags)$value,
+             nrow=length(ffrange), byrow=T,
+             dimnames = list(paste('fsh', ffrange), paste('flag', fml_effort_rel_fshflags)))),
+    catchability=list(
+      flagval(par, 2, c(57, 104, 125, 126, 127, 156)),
+      fish_flags=matrix(flagval(par, -(ffrange), catchability_fshflags)$value,
+             nrow=length(ffrange), byrow=T,
+             dimnames = list(paste('fsh', ffrange), paste('flag', catchability_fshflags)))),
+    selectivity=list(
+      rbind(flagval(par, 1, c(323, 74)), 
+            flagval(par, 2, c(36, 193))),
+      fish_flags=matrix(flagval(par, -(ffrange), selectivity_fshflags)$value,
+             nrow=length(ffrange), byrow=T,
+             dimnames = list(paste('fsh', ffrange), paste('flag', selectivity_fshflags)))),
+    tag=list(
+      rbind(flagval(par, 1, c(111, 305, 306, 358, 325, 326, 33)), 
+            flagval(par, 2, c(96,100,198))),
+      fish_flags=matrix(flagval(par, -(ffrange), tag_fshflags)$value,
+                        nrow=length(ffrange), byrow=T,
+                        dimnames = list(paste('fsh', ffrange), paste('flag', tag_fshflags))),
+      tag_flags=matrix(flagval(par, -(10000 + ttrange), 1:10)$value,
+                       nrow=length(ttrange), byrow=T,
+                       dimnames = list(paste('fsh', ttrange), paste('flag', 1:10))))
+      )
 }
 
 
