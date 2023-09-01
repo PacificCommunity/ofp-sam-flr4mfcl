@@ -440,6 +440,10 @@
 \alias{kludged_eq_level_coffs,MFCLParBits-method}
 \alias{kludged_eq_level_coffs<-}
 \alias{kludged_eq_level_coffs<-,MFCLParBits,numeric-method}
+\alias{first_year}
+\alias{first_year,MFCLParBits-method}
+\alias{first_year<-}
+\alias{first_year<-,MFCLParBits,numeric-method}
 \alias{range,MFCLParBits-method}
 \alias{range<-,MFCLParBits,missing,numeric-method}
 \alias{age_pars}
@@ -1739,6 +1743,14 @@ kludged_eq_level_coffs(object, ...)
 kludged_eq_level_coffs(object, ...) <- value
 
 \S4method{kludged_eq_level_coffs}{MFCLParBits,numeric}(object) <- value
+
+first_year(object, ...)
+
+\S4method{first_year}{MFCLParBits}(object)
+
+first_year(object, ...) <- value
+
+\S4method{first_year}{MFCLParBits,numeric}(object) <- value
 
 \S4method{range}{MFCLParBits}(x)
 
