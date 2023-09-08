@@ -167,18 +167,22 @@ setMethod("generate", signature(x="MFCLFrq", y="MFCLprojControl"),
 
 #' @rdname generate
 setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLFrq"), 
-          function(x, y, z, ...){
+          function(x, y, z, ..., projection=TRUE){
             
             # set stochastic recruitment flags
-            if(flagval(x, 2, 199)$value == 0)    # value of 0 for af199 sets full range of available years - 
-              flagval(x, 2, 199)$value <- 1
-            if(flagval(x, 1, 232)$value == 0)
-              flagval(x, 1, 232) <- recPeriod(x, af199=flagval(x, 2, 199)$value, af200=flagval(x, 2, 200)$value)['pf232']
-            if(flagval(x, 1, 233)$value == 0)
-              flagval(x, 1, 233) <- recPeriod(x, af199=flagval(x, 2, 199)$value, af200=flagval(x, 2, 200)$value)['pf233']
+            if(projection){
+              if(flagval(x, 2, 199)$value == 0)    # value of 0 for af199 sets full range of available years - 
+                flagval(x, 2, 199)$value <- 1
+              if(flagval(x, 1, 232)$value == 0)
+                flagval(x, 1, 232) <- recPeriod(x, af199=flagval(x, 2, 199)$value, af200=flagval(x, 2, 200)$value)['pf232']
+              if(flagval(x, 1, 233)$value == 0)
+                flagval(x, 1, 233) <- recPeriod(x, af199=flagval(x, 2, 199)$value, af200=flagval(x, 2, 200)$value)['pf233']
+            }
+            #browser()
             
-            #proj.yrs <- dimnames(rel_rec(y))[[2]][!is.element(dimnames(rel_rec(y))[[2]], dimnames(rel_rec(x))[[2]])]
-            proj.yrs <- seq(range(x)['maxyear']+1, range(x)['maxyear']+(dimensions(y)[2]-dimensions(x)[2])/dimensions(x)[3])
+            proj.yrs <- NA
+            if(projection)
+              proj.yrs <- seq(range(x)['maxyear']+1, range(x)['maxyear']+(dimensions(y)[2]-dimensions(x)[2])/dimensions(x)[3])
             
             # zero filled objects that you can just copy across   
             rep_rate_dev_coffs(x) <- rep_rate_dev_coffs(y)
@@ -203,37 +207,49 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLFrq"),
               lagrangian(x) <- lagrangian(x)[1:(grep("Other lambdas", lagrangian(x))-1)]
             
             # non-zero filled objects that you need to append zeroes to 
-            eff_dev_coff_incs     <- unlist(lapply(effort_dev_coffs(y),length)) - unlist(lapply(effort_dev_coffs(x),length))
-            eff_dev_coff_vals     <- unlist(lapply(effort_dev_coffs(x), mean))
-
-            #effort_dev_coffs(x)   <- lapply(1:dimensions(x)["fisheries"], function(g) c(effort_dev_coffs(x)[[g]], rep(eff_dev_coff_vals[g], eff_dev_coff_incs[g])))
-            effort_dev_coffs(x)   <- lapply(1:dimensions(x)["fisheries"], function(g) c(effort_dev_coffs(x)[[g]], rep(0, eff_dev_coff_incs[g])))
-            
-            # catch conditioned assessments - 
-            if(flagval(x, 1, 373)$value==1){
-            # catch_dev_coffs - gets really messy because you may have zero catch obs in some cases and fishery groupings to worry about.
-              catch_dev_coffs(x)    <- lapply(1:length(catch_dev_coffs(x)), 
-                                              function(g) c(catch_dev_coffs(x)[[g]], rep(0, length(proj.yrs)*dimensions(x)['seasons'])))
-            
-              ## YUKIO's CODE - hacked by RDS to remove dependencies on tidyr and magrittr
-              ncgrp<-length(catch_dev_coffs(x))
-              ffl29<-flagval(x,-(1:n_fisheries(x)),29)$value  # Obtain fish flags(29) determining the grouping of catchbility
-            
-              #test1 <- unique(with(freq(z), paste(year,month,fishery, sep="_")))
-              #test2 <- as.data.frame(t(sapply(strsplit(test1, split="_"), "as.numeric",simplify = T)))
-              #test3 <- data.frame(V1=paste(test2$V1, test2$V2, sep="_"), V2=test2$V3)
-              test3 <- data.frame(V1=with(realisations(z), paste(year,month, sep="_")),  V2=realisations(z)$fishery)
-            
-              nElemByGrp<-vector(mode="numeric",length=length(unique(ffl29)))
-            
-              for(grp in sort(unique(ffl29))){
-                nElemByGrp[grp] <- length(unique(test3[test3$V2 %in% which(ffl29==grp),'V1']))
-                nElemFuture<- nElemByGrp[grp]-length(catch_dev_coffs(x)[[grp]])-1 #
-                catch_dev_coffs(x)[[grp]]<-c(catch_dev_coffs(x)[[grp]],rep(0,nElemFuture))
+            if(projection){
+              eff_dev_coff_incs     <- unlist(lapply(effort_dev_coffs(y),length)) - unlist(lapply(effort_dev_coffs(x),length))
+              eff_dev_coff_vals     <- unlist(lapply(effort_dev_coffs(x), mean))
+              #browser()
+              # dodgy hack to fix effort_dev_coffs when you have fewer realisations in projpar than in refpar (ie. -ve eff_dev_coff_incs)
+              # simply truncates effort_dev_coffs and then sets eff_dev_incs to zero
+              for(edci in 1:length(eff_dev_coff_incs)){
+                if(eff_dev_coff_incs[edci]<0){
+                  warning(paste('truncating effort_dev_coffs for fishery', edci))
+                  effort_dev_coffs(x)[[edci]] <- effort_dev_coffs(x)[[edci]][1:(length(effort_dev_coffs(x)[[edci]]))-eff_dev_coff_incs[edci]]
+                  eff_dev_coff_incs[edci]     <- 0
+                }
               }
+              #effort_dev_coffs(x)   <- lapply(1:dimensions(x)["fisheries"], function(g) c(effort_dev_coffs(x)[[g]], rep(eff_dev_coff_vals[g], eff_dev_coff_incs[g])))
+              effort_dev_coffs(x)   <- lapply(1:dimensions(x)["fisheries"], function(g) c(effort_dev_coffs(x)[[g]], rep(0, eff_dev_coff_incs[g])))
+            
+              # catch conditioned assessments - 
+              if(flagval(x, 1, 373)$value==0){  #0=catch errors 1=catch conditioned
+              # catch_dev_coffs - gets really messy because you may have zero catch obs in some cases and fishery groupings to worry about.
+                catch_dev_coffs(x)    <- lapply(1:length(catch_dev_coffs(x)), 
+                                                function(g) c(catch_dev_coffs(x)[[g]], rep(0, length(proj.yrs)*dimensions(x)['seasons'])))
+            
+                ## YUKIO's CODE - hacked by RDS to remove dependencies on tidyr and magrittr
+                ncgrp<-length(catch_dev_coffs(x))
+                ffl29<-flagval(x,-(1:n_fisheries(x)),29)$value  # Obtain fish flags(29) determining the grouping of catchbility
+            
+                test3 <- data.frame(V1=with(realisations(z), paste(year,month, sep="_")),  V2=realisations(z)$fishery)
+            
+                nElemByGrp<-vector(mode="numeric",length=length(unique(ffl29)))
+            
+                for(grp in sort(unique(ffl29))){
+                  nElemByGrp[grp] <- length(unique(test3[test3$V2 %in% which(ffl29==grp),'V1']))
+                  nElemFuture<- nElemByGrp[grp]-length(catch_dev_coffs(x)[[grp]])-1 #
+                  catch_dev_coffs(x)[[grp]]<-c(catch_dev_coffs(x)[[grp]],rep(0,nElemFuture))
+                }
+              }
+            } # close if(projection)
+            if(!projection){
+              effort_dev_coffs(x) <- effort_dev_coffs(y)
+              catch_dev_coffs(x)  <- catch_dev_coffs(y)
             }
-
-            # catch errors assessments
+            
+            # catch errors assessments - not changed for !projection option because catch errors is history now.
             if(flagval(x, 1, 373)$value==0){
               ncgrp<-length(catch_dev_coffs(x))
               ffl29<-flagval(x,-(1:n_fisheries(x)),29)$value  # Obtain fish flags(29) determining the grouping of catchability
@@ -262,17 +278,18 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLFrq"),
             }
 
 	    # region_rec_var
-            region_rec_var(x)     <- window(region_rec_var(x), start=range(x)['minyear'], end=range(y)['maxyear'])
-            region_rec_var(x)[is.na(region_rec_var(x))] <- 0
+            if(projection){
+              region_rec_var(x)     <- window(region_rec_var(x), start=range(x)['minyear'], end=range(y)['maxyear'])
+              region_rec_var(x)[is.na(region_rec_var(x))] <- 0
             
-            # set the rec vars to the average of the historical time series
-            # I don't think this makes a difference for projections as these values are not used for projections 
-            # but they may make a difference for re-estimating an extended model
-            region_rec_var(x)[,as.character(range(x)['maxyear']:(range(y)['maxyear']-1))] <- apply(region_rec_var(x)[,as.character(range(x)['minyear']:(range(x)['maxyear']-1))], c(1,3,4,5,6), mean)
+              # set the rec vars to the average of the historical time series
+              # Makes no difference for projections as these values are not used for projections - but they may make a difference for re-estimating an extended model
+              region_rec_var(x)[,as.character(range(x)['maxyear']:(range(y)['maxyear']-1))] <- apply(region_rec_var(x)[,as.character(range(x)['minyear']:(range(x)['maxyear']-1))], c(1,3,4,5,6), mean)
             
-            rel_rec(x) <- window(rel_rec(x), start=range(x)['minyear'], end=range(y)['maxyear'])
-            rel_rec(x)[,as.character(proj.yrs)] <- rel_rec(y)[,as.character(proj.yrs)] 
-            
+              rel_rec(x) <- window(rel_rec(x), start=range(x)['minyear'], end=range(y)['maxyear'])
+              rel_rec(x)[,as.character(proj.yrs)] <- rel_rec(y)[,as.character(proj.yrs)] 
+            }
+          
             dimensions(x)         <- dimensions(y)
             range(x)              <- range(y)
             
