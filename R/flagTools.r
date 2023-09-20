@@ -489,18 +489,16 @@ setMethod('ageflag', signature(x='MFCLFlags'),function(x, flags){ flagval(x, 1, 
 
 
 
-#' fishflag
+#' Get Fish Flag Settings
 #'
-#' get fish flag settings
+#' A simple wrapper function for \code{\link{flagval}}.
 #'
-#' @param par object of class MFCLFlag()
+#' @param x object of class \code{MFCLFlags}.
 #' @param flags numeric vector of fish flag number(s).
+#' @param \dots currently ignored.
 #'
-#' @description 
-#' A simple wrapper function for \code{\link{flagval}}
-#' 
 #' @return
-#' A data frame of sorted flag settings
+#' A data frame of sorted flag settings.
 #'
 #' @seealso
 #' \code{\link{flagval}} calls this function to retrieve flag settings.
@@ -514,6 +512,8 @@ setMethod('ageflag', signature(x='MFCLFlags'),function(x, flags){ flagval(x, 1, 
 #' @export
 
 setGeneric('fishflag', function(x, flags, ...) standardGeneric('fishflag')) 
+
+#' @rdname fishflag
 
 setMethod('fishflag', signature(x='MFCLFlags'),
           function(x, flags){ 

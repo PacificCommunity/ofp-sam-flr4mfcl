@@ -2,23 +2,25 @@
 % Please edit documentation in R/flagTools.r
 \name{fishflag}
 \alias{fishflag}
-\title{fishflag}
+\alias{fishflag,MFCLFlags-method}
+\title{Get Fish Flag Settings}
 \usage{
 fishflag(x, flags, ...)
+
+\S4method{fishflag}{MFCLFlags}(x, flags)
 }
 \arguments{
+\item{x}{object of class \code{MFCLFlags}.}
+
 \item{flags}{numeric vector of fish flag number(s).}
 
-\item{par}{object of class MFCLFlag()}
+\item{\dots}{currently ignored.}
 }
 \value{
-A data frame of sorted flag settings
+A data frame of sorted flag settings.
 }
 \description{
-A simple wrapper function for \code{\link{flagval}}
-}
-\details{
-get fish flag settings
+A simple wrapper function for \code{\link{flagval}}.
 }
 \examples{
 data(par)
