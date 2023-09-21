@@ -62,7 +62,7 @@ setMethod("fnames", signature(object="MFCLLenFit"),
                  stop("names dataframe must have colums 'fishery' and 'name' ")
             
             if(is.vector(names))
-              names <- data.frame(fishery=uniqe(lenfits(object)$fishery), names=names)
+              names <- data.frame(fishery=unique(lenfits(object)$fishery), names=names)
             
             lenfits(object)    <- merge(lenfits(object), names)
             lenagefits(object) <- merge(lenagefits(object), names)
@@ -82,7 +82,7 @@ setMethod("fnames", signature(object="MFCLWgtFit"),
                 stop("names dataframe must have colums 'fishery' and 'name' ")
             
             if(is.vector(names))
-              names <- data.frame(fishery=uniqe(wgtfits(object)$fishery), names=names)
+              names <- data.frame(fishery=unique(wgtfits(object)$fishery), names=names)
             
             wgtfits(object)    <- merge(wgtfits(object), names)
             wgtagefits(object) <- merge(wgtagefits(object), names)

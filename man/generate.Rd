@@ -15,7 +15,7 @@ generate(x, y, z, ...)
 
 \S4method{generate}{MFCLFrq,MFCLprojControl,ANY}(x, y, z, ...)
 
-\S4method{generate}{MFCLPar,MFCLPar,MFCLFrq}(x, y, z, ...)
+\S4method{generate}{MFCLPar,MFCLPar,MFCLFrq}(x, y, z, ..., projection = TRUE)
 
 \S4method{generate}{MFCLPar,MFCLFrq,ANY}(x, y, z, ...)
 

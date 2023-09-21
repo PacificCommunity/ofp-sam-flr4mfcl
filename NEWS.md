@@ -1,6 +1,54 @@
-# FLR4MFCL 1.6.7 (development)
+# Development version
 
-* New functions: diffIniStepwise(), firstYear(), read.MFCLVar(), summary_ini().
+New function: read.MFCLVar.
+
+# FLR4MFCL 1.6.9 (2023-09-08)
+
+New methods: first_year, first_year<-.
+
+# FLR4MFCL 1.6.8 (2023-08-22)
+
+New functions: diffIniStepwise, firstYear, summary_ini.
+
+# FLR4MFCL 1.6.7 (2023-06-22)
+
+New methods: annual_rel_rec_coffs, annual_rel_rec_coffs<-.
+
+# FLR4MFCL 1.6.6 (2023-06-16)
+
+-
+
+# FLR4MFCL 1.6.5 (2023-06-15)
+
+New methods: ageflag, fishflag, parestflag, regionflag, tagflag.
+
+# FLR4MFCL 1.6.4 (2023-06-09)
+
+New methods: fnames.
+
+# FLR4MFCL 1.6.3 (2023-06-03)
+
+New functions: labels.
+
+# FLR4MFCL 1.6.2 (2023-06-03)
+
+New functions: MFCLWgtFit.
+
+New classes: MFCLWgtFit.
+
+New methods: wgtfits<-, wgtagefits<-.
+
+# FLR4MFCL 1.6.1 (2023-05-30)
+
+New functions: read.MFCLALK, read.MFCLWgtFit.
+
+New classes: MFCLALK.
+
+New methods: ALK, ESS, waa<-, wgtfits, wgtagefits.
+
+# FLR4MFCL 1.6.0 (2023-05-27)
+
+-
 
 # FLR4MFCL 1.5.0 (2023-05-25)
 
@@ -15,11 +63,11 @@
 
 # FLR4MFCL 1.4.6 (2023-04-24)
 
-* New functions: flagSort().
+* New functions: flagSort.
 
 # FLR4MFCL 1.4.5 (2023-04-12)
 
-* New methods: age_length.
+* New methods: age_length, weight_fish.
 
 * Improved read.MFCLLikelihood() so it reads in age_length likelihood.
 
@@ -28,7 +76,7 @@
 
 # FLR4MFCL 1.4.4 (2023-04-06)
 
-* New methods: weight_fish.
+-
 
 # FLR4MFCL 1.4.3 (2023-03-27)
 
@@ -88,7 +136,7 @@ As at January 2023 - latest version in repository following adoption of skipjack
 
 # FLR4MFCL 1.3.19 (2022-05-11)
 
-* New function: catchWfromcatchN.
+* New functions: catchWfromcatchN.
 
 # FLR4MFCL 1.3.18 (2022-05-04)
 
