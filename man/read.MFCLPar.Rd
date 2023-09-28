@@ -4,12 +4,12 @@
 \alias{read.MFCLPar}
 \title{read.MFCLPar}
 \usage{
-read.MFCLPar(parfile, first.yr = 1972)
+read.MFCLPar(parfile, first.yr = NA)
 }
 \arguments{
 \item{parfile}{A character string giving the name and path of the frq file to be read.}
 
-\item{first.yr}{The first year of the input data time series (default value 1972).}
+\item{first.yr}{The first year of the input data time series (default value NA).}
 }
 \value{
 An object of class \code{MFCLPar}.
