@@ -17,9 +17,19 @@ An object of class \code{MFCLPar}.
 \description{
 Read information from the par file.
 }
+\details{
+The \code{first.yr} argument is ignored when reading par files from MFCL
+version 2.2.2.0 (2023-07-07) and later, since the correct first year is now
+embedded in the par file.
+
+For older par files that do not contain the first year, the user is required
+to pass an appropriate value as \code{first.yr}. The \code{\link{firstYear}}
+function can be helpful when working with old model runs.
+}
 \examples{
 \dontrun{
-read.MFCLPar("C:/R4MFCL/test_data/skj_ref_case/11.par")
+read.MFCLPar("yft/2020/11.par", first.yr=1952)  # old MFCL, must specify year
+read.MFCLPar("yft/2023/11.par")                 # new MFCL, automatic year
 }
 
 }
