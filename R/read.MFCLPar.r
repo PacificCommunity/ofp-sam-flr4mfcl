@@ -65,7 +65,7 @@ stripDebugNumbers <- function(fstring){
 #'
 #' @param parfile A character string giving the name and path of the frq file to be read.
 #' @param parobj A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.
-#' @param first.yr The first year of the input data time series (default value 1972).
+#' @param first.yr The first year of the input data time series (default value NA).
 #'
 #' @return An object of class MFCLBiol.
 #'
@@ -76,7 +76,7 @@ stripDebugNumbers <- function(fstring){
 #'
 #' @export
 
-read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
+read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=NA){
   
   trim.leading  <- function(x) sub("^\\s+", "", x)
   trim.trailing <- function(x) sub("\\s+$", "", x) 
@@ -173,7 +173,7 @@ read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
 #'
 #' @param parfile A character string giving the name and path of the frq file to be read.
 #' @param parobj A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.
-#' @param first.yr The first year of the input data time series (default value 1972).
+#' @param first.yr The first year of the input data time series (default value NA).
 #'
 #' @return An object of class MFCLFlags.
 #'
@@ -195,7 +195,7 @@ read.MFCLBiol <- function(parfile, parobj=NULL, first.yr=1972){
 #'
 #' @export
 
-read.MFCLFlags <- function(parfile, parobj=NULL, first.yr=1972) {
+read.MFCLFlags <- function(parfile, parobj=NULL, first.yr=NA) {
 
   trim.leading  <- function(x) sub("^\\s+", "", x)
   splitter      <- function(ff, tt, ll=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[1]+ll]),split="[[:blank:]]+"))
@@ -248,7 +248,7 @@ read.MFCLFlags <- function(parfile, parobj=NULL, first.yr=1972) {
 #'
 #' @param parfile A character string giving the name and path of the frq file to be read.
 #' @param parobj A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.
-#' @param first.yr The first year of the input data time series (default value 1972).
+#' @param first.yr The first year of the input data time series (default value NA).
 #'
 #' @return An object of class MFCLTagRep.
 #'
@@ -259,7 +259,7 @@ read.MFCLFlags <- function(parfile, parobj=NULL, first.yr=1972) {
 #'
 #' @export
 
-read.MFCLTagRep <- function(parfile, parobj=NULL, first.yr=1972) {
+read.MFCLTagRep <- function(parfile, parobj=NULL, first.yr=NA) {
   
   trim.leading  <- function(x) sub("^\\s+", "", x)
   splitter      <- function(ff, tt, ll=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[1]+ll]),split="[[:blank:]]+"))  
@@ -309,7 +309,7 @@ read.MFCLTagRep <- function(parfile, parobj=NULL, first.yr=1972) {
 #'
 #' @param parfile A character string giving the name and path of the frq file to be read.
 #' @param parobj A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.
-#' @param first.yr The first year of the input data time series (default value 1972).
+#' @param first.yr The first year of the input data time series (default value NA).
 #'
 #' @return An object of class MFCLRec.
 #'
@@ -320,7 +320,7 @@ read.MFCLTagRep <- function(parfile, parobj=NULL, first.yr=1972) {
 #'
 #' @export
 
-read.MFCLRec <- function(parfile, parobj=NULL, first.yr=1972) {
+read.MFCLRec <- function(parfile, parobj=NULL, first.yr=NA) {
 
   trim.leading  <- function(x) sub("^\\s+", "", x)
   splitter      <- function(ff, tt, ll=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[1]+ll]),split="[[:blank:]]+"))  
@@ -409,7 +409,7 @@ read.MFCLRec <- function(parfile, parobj=NULL, first.yr=1972) {
 #'
 #' @param parfile A character string giving the name and path of the frq file to be read.
 #' @param parobj A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.
-#' @param first.yr The first year of the input data time series (default value 1972).
+#' @param first.yr The first year of the input data time series (default value NA).
 #'
 #' @return An object of class MFCLRec.
 #'
@@ -420,7 +420,7 @@ read.MFCLRec <- function(parfile, parobj=NULL, first.yr=1972) {
 #'
 #' @export
 
-read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972) {
+read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=NA) {
 
   trim.leading  <- function(x) sub("^\\s+", "", x)
   splitter      <- function(ff, tt, ll=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[1]+ll]),split="[[:blank:]]+"))    
@@ -510,7 +510,7 @@ read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972) {
 #'
 #' @param parfile A character string giving the name and path of the frq file to be read.
 #' @param parobj A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.
-#' @param first.yr The first year of the input data time series (default value 1972).
+#' @param first.yr The first year of the input data time series (default value NA).
 #'
 #' @return An object of class MFCLSel.
 #'
@@ -521,7 +521,7 @@ read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=1972) {
 #'
 #' @export
 
-read.MFCLSel <- function(parfile, parobj=NULL, first.yr=1972) {
+read.MFCLSel <- function(parfile, parobj=NULL, first.yr=NA) {
 #browser()
   trim.leading  <- function(x) sub("^\\s+", "", x)
   trim.trailing <- function(x) sub("\\s+$", "", x) 
@@ -620,7 +620,7 @@ read.MFCLSel <- function(parfile, parobj=NULL, first.yr=1972) {
 #'
 #' @param parfile A character string giving the name and path of the frq file to be read.
 #' @param parobj A character string containing the par file. If parobj is NULL the function uses parfile to read in the par file.
-#' @param first.yr The first year of the input data time series (default value 1972).
+#' @param first.yr The first year of the input data time series (default value NA).
 #'
 #' @return An object of class MFCLParBit.
 #'
@@ -631,7 +631,7 @@ read.MFCLSel <- function(parfile, parobj=NULL, first.yr=1972) {
 #'
 #' @export
 
-read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972) {
+read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=NA) {
 
   trim.leading  <- function(x) sub("^\\s+", "", x)
   splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+"))    
@@ -673,7 +673,13 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972) {
   slot(res, 'n_pars')    <- as.numeric(splitter(par, "# The number of parameters"))
   slot(res, 'tag_lik')   <- as.numeric(taglik[length(taglik)])
   slot(res, 'max_grad')  <- as.numeric(splitter(par, "# Maximum magnitude gradient value"))
-  slot(res, 'first_year')<- as.numeric(splitter(par, "# First year in model"))
+  
+  slot(res, 'first_year')<- as.numeric(first.yr)
+  if(length(grep('# First year in model', par))>0)
+    slot(res, 'first_year')<- as.numeric(splitter(par, "# First year in model"))
+  if(is.na(slot(res, 'first_year')))
+    stop("First year has not been set: use the 'first.yr' arg to set the first year")
+  
   slot(res, 'mn_len_pen')        <- as.numeric(mn_l_p[length(mn_l_p)])
   slot(res, 'av_fish_mort_inst') <- as.numeric(av_f_i[length(av_f_i)])
   slot(res, 'av_fish_mort_year') <- as.numeric(av_f_y[length(av_f_y)])
@@ -713,7 +719,7 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972) {
 #' Read information from the par file.
 #'
 #' @param parfile A character string giving the name and path of the frq file to be read.
-#' @param first.yr The first year of the input data time series (default value 1972).
+#' @param first.yr The first year of the input data time series (default value NA).
 #'
 #' @return An object of class \code{MFCLPar}.
 #'
@@ -727,7 +733,7 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=1972) {
 #'
 #' @export
 
-read.MFCLPar <- function(parfile, first.yr=1972) {
+read.MFCLPar <- function(parfile, first.yr=NA) {
   #browser()
   trim.trailing <- function(x) sub("\\s+$", "", x) 
   
