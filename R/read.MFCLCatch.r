@@ -38,11 +38,11 @@ read.MFCLCatch <- function(catchfile, dimensions, rnge) {
   dmns2 <- list(age="all", year=rnge["minyear"]:rnge["maxyear"], unit=1:nfish,  season=1:nsns, area="unique")
 
   # Read in vectors and check dimensions
-  total_catch <- scan(catchfile, skip=1, nlines=1)
+  total_catch <- scan(catchfile, skip=1, nlines=1, quiet=TRUE)
   if(length(total_catch) != dimensions["years"]){
     stop("Length of total_catch vector does not equal 'years' element of dimensions argument\n")
   }
-  fishery_catch <- scan(catchfile, skip=3, nlines=nfish)
+  fishery_catch <- scan(catchfile, skip=3, nlines=nfish, quiet=TRUE)
   if(length(fishery_catch) != (dimensions["years"] * dimensions["fisheries"])){
     stop("Length of fishery_catch vector does not equal product of 'years' and 'fisheries' elements of dimensions argument\n")
   }
