@@ -1,18 +1,26 @@
 # Development version
 
-New function: read.MFCLVar.
+* read.MFCL() returns reference point estimates and standard errors.
+
+# FLR4MFCL 1.6.11 (2023-09-28)
+
+-
+
+# FLR4MFCL 1.6.10 (2023-09-21)
+
+* New function: read.MFCLVar.
 
 # FLR4MFCL 1.6.9 (2023-09-08)
 
-New methods: first_year, first_year<-.
+* New methods: first_year, first_year<-.
 
 # FLR4MFCL 1.6.8 (2023-08-22)
 
-New functions: diffIniStepwise, firstYear, summary_ini.
+* New functions: diffIniStepwise, firstYear, summary_ini.
 
 # FLR4MFCL 1.6.7 (2023-06-22)
 
-New methods: annual_rel_rec_coffs, annual_rel_rec_coffs<-.
+* New methods: annual_rel_rec_coffs, annual_rel_rec_coffs<-.
 
 # FLR4MFCL 1.6.6 (2023-06-16)
 
@@ -20,31 +28,31 @@ New methods: annual_rel_rec_coffs, annual_rel_rec_coffs<-.
 
 # FLR4MFCL 1.6.5 (2023-06-15)
 
-New methods: ageflag, fishflag, parestflag, regionflag, tagflag.
+* New methods: ageflag, fishflag, parestflag, regionflag, tagflag.
 
 # FLR4MFCL 1.6.4 (2023-06-09)
 
-New methods: fnames.
+* New methods: fnames.
 
 # FLR4MFCL 1.6.3 (2023-06-03)
 
-New functions: labels.
+* New functions: labels.
 
 # FLR4MFCL 1.6.2 (2023-06-03)
 
-New functions: MFCLWgtFit.
+* New functions: MFCLWgtFit.
 
-New classes: MFCLWgtFit.
+* New classes: MFCLWgtFit.
 
-New methods: wgtfits<-, wgtagefits<-.
+* New methods: wgtfits<-, wgtagefits<-.
 
 # FLR4MFCL 1.6.1 (2023-05-30)
 
-New functions: read.MFCLALK, read.MFCLWgtFit.
+* New functions: read.MFCLALK, read.MFCLWgtFit.
 
-New classes: MFCLALK.
+* New classes: MFCLALK.
 
-New methods: ALK, ESS, waa<-, wgtfits, wgtagefits.
+* New methods: ALK, ESS, waa<-, wgtfits, wgtagefits.
 
 # FLR4MFCL 1.6.0 (2023-05-27)
 

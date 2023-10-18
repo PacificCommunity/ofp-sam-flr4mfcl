@@ -10,7 +10,7 @@ read.MFCLVar(varfile)
 \item{varfile}{filename ending with \verb{.var}.}
 }
 \value{
-Vector of reference point estimates.
+Vector of reference point estimates, including standard errors.
 }
 \description{
 Read reference point estimates from the \verb{.var} file.
