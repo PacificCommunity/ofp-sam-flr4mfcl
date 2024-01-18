@@ -713,10 +713,10 @@ read.MFCLCatchSim <- function(catch="catch_sim", projfrq="missing", ctrl="missin
 }
 
 
-## Finlay's code - stolen from the mixed fishery folder - with modified inputs to be consistent with read.MFCLCatchSim
+## Finlay's code - stolen from the mixed fishery folder
 
-read.MFCLEffortSim <- function(effort="effort_sim", projfrq='missing', ctrl='missing', historical=TRUE){
-
+#read.MFCLEffortSim <- function(effort="effort_sim", projfrq='missing', ctrl='missing', historical=TRUE){
+read.MFCLEffortSim <- function(effort="effort_sim", projfrq, fprojyr='missing', historical=TRUE){
   trim.leading  <- function(x) sub("^\\s+", "", x) 
   splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+")) 
   ee    <- readLines(effort)
@@ -726,12 +726,20 @@ read.MFCLEffortSim <- function(effort="effort_sim", projfrq='missing', ctrl='mis
   realprojfrq <- realisations(projfrq)
   # I don't know if this works yet
   if (!historical){
-    realprojfrq <- subset(realprojfrq, year>= fprojyr(ctrl))
+    # Add check for ctrl argument - if missing throw error - or fprojyr argument?
+    #realprojfrq <- subset(realprojfrq, year>= fprojyr(ctrl))
+    if(missing(fprojyr)){
+      stop("If historical argument is FALSE you need to pass in fprojyr\n")
+    }
+    realprojfrq <- subset(realprojfrq, year>= fprojyr)
   }
   
   tempdat <- realprojfrq
   len <- dim(tempdat)[1] 
-  tempdat <- cbind(tempdat, iter=rep(0:nsims(ctrl), each=len), effort.seed=rep(c(NA,eseed), each=len), row.names=NULL)
+  # Have a reckon at the number of iters
+  nsims <- length(edat) / len
+  #tempdat <- cbind(tempdat, iter=rep(0:nsims(ctrl), each=len), effort.seed=rep(c(NA,eseed), each=len), row.names=NULL)
+  tempdat <- cbind(tempdat, iter=rep(0:nsims, each=len), effort.seed=rep(c(NA,eseed), each=len), row.names=NULL)
   tempdat <- tempdat[order(tempdat$iter, tempdat$fishery, tempdat$year, tempdat$month),]
   tempdat$effort[tempdat$iter>0] <- edat
 

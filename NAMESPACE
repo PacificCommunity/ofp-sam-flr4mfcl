@@ -69,6 +69,7 @@ export(
   "MFCLLenFit",
   "MFCLWgtFit",
   "qts",
+  "read.fishmort",
   "read.MFCLALK",
   "read.MFCLBiol",
   "read.MFCLCatch",

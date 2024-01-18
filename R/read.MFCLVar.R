@@ -4,7 +4,7 @@
 #'
 #' @param varfile filename ending with \verb{.var}.
 #'
-#' @return Vector of reference point estimates.
+#' @return Vector of reference point estimates, including standard errors.
 #'
 #' @note
 #' The \verb{.var} file is produced by MFCL as a result of delta-method
@@ -34,11 +34,25 @@
 read.MFCLVar <- function(varfile)
 {
   txt <- readLines(varfile)  # read file once, in case we're looping on network
+
+  # F / Fmsy
   ffmsy <- scan(text=grep("F/Fmsy", txt, value=TRUE), n=3, quiet=TRUE)[3]
-  sbsbmsy <- scan(text=grep("SB/SBmsy", txt, value=TRUE), n=3, quiet=TRUE)[3]
+  ffmsy.se <- scan(text=grep("F/Fmsy", txt, value=TRUE), n=3, quiet=TRUE)[2]
+
+  # SB / SBF0
   pattern <- "adult_rbio(recent) - average_adult_rbio_noeff(40_periods)"
-  sbsbfo <- exp(scan(text=grep(pattern, txt, fixed=TRUE, value=TRUE), n=3,
-                     quiet=TRUE)[3])
-  out <- c(ffmsy=ffmsy, sbsbfo=sbsbfo, sbsbmsy=sbsbmsy)
+  log.sbsbfo <- scan(text=grep(pattern, txt, fixed=TRUE, value=TRUE), n=3,
+                     quiet=TRUE)[3]
+  log.sbsbfo.se <- scan(text=grep(pattern, txt, fixed=TRUE, value=TRUE), n=3,
+                        quiet=TRUE)[2]
+  sbsbfo <- exp(log.sbsbfo)
+
+  # SB / SBmsy
+  sbsbmsy <- scan(text=grep("SB/SBmsy", txt, value=TRUE), n=3, quiet=TRUE)[3]
+  sbsbmsy.se <- scan(text=grep("SB/SBmsy", txt, value=TRUE), n=3, quiet=TRUE)[2]
+
+  out <- c(ffmsy=ffmsy, ffmsy.se=ffmsy.se,
+           log.sbsbfo=log.sbsbfo, log.sbsbfo.se=log.sbsbfo.se, sbsbfo=sbsbfo,
+           sbsbmsy=sbsbmsy, sbsbmsy.se=sbsbmsy.se)
   out
 }

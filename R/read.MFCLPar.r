@@ -722,6 +722,15 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=NA) {
 #' @param parfile A character string giving the name and path of the frq file to be read.
 #' @param first.yr The first year of the input data time series (default value NA).
 #'
+#' @details
+#' The \code{first.yr} argument is ignored when reading par files from MFCL
+#' version 2.2.2.0 (2023-07-07) and later, since the correct first year is now
+#' embedded in the par file.
+#'
+#' For older par files that do not contain the first year, the user is required
+#' to pass an appropriate value as \code{first.yr}. The \code{\link{firstYear}}
+#' function can be helpful when working with old model runs.
+#'
 #' @return An object of class \code{MFCLPar}.
 #'
 #' @seealso
@@ -729,7 +738,8 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=NA) {
 #'
 #' @examples
 #' \dontrun{
-#' read.MFCLPar("C:/R4MFCL/test_data/skj_ref_case/11.par")
+#' read.MFCLPar("yft/2020/11.par", first.yr=1952)  # old MFCL, must specify year
+#' read.MFCLPar("yft/2023/11.par")                 # new MFCL, automatic year
 #' }
 #'
 #' @export
