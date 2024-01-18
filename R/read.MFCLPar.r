@@ -660,12 +660,13 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=NA) {
   av_f_a <- unlist(strsplit(trim.leading(par[grep("# Average fish mort per year by age class",par)+1]), split="[[:blank:]]+"))
   
   mm <- as.numeric(unlist(strsplit(par[grep("# movement map",par)+1], split="[[:blank:]]+")))
-  
+
   # changed this to 1051 (from 1053) - not sure why it was 1053 but it seems to be breaking the skj code - rds 28/11/2018
   # I suspect the if conditions here are ot quite right - need to check this cos it breaks for striped marlin. !!!
   #if(any(mm[!is.na(mm)]>0) & vsn >= 1051) 
     if(length(grep("# fm_level_devs", par))>0)  # YFT - no missing catch in yft.frq and therefore no fm_level_devs produced in par file - need to find better approach !!!
-      slot(res, 'fm_level_devs') <- par[(grep("# fm_level_devs", par)+1):(grep("# movement map", par)-1)]
+      if((grep("# movement map", par) - grep("# fm_level_devs", par)) >1)
+        slot(res, 'fm_level_devs') <- par[(grep("# fm_level_devs", par)+1):(grep("# movement map", par)-1)]
 
   slot(res, 'fm_level_regression_pars') <- matrix(as.numeric(splitter(par, "# fsh.implicit_fm_level_regression_pars", 1:nfish)), byrow=T, nrow=nfish)
     
@@ -753,6 +754,8 @@ read.MFCLPar <- function(parfile, first.yr=NA) {
   vsn <- as.numeric(unlist(strsplit(trimws(par[2]), split="[[:blank:]]+")))[200]
   
   res <- slotcopy(read.MFCLParBits(parfile,par, first.yr), res)
+  if(is.na(first_year(res)))
+    first_year(res) <- first.yr
   if(!is.na(first_year(res)))
     first.yr <- first_year(res)
   res <- slotcopy(read.MFCLBiol(parfile,   par, first.yr), res)
