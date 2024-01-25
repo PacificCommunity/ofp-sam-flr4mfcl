@@ -31,6 +31,19 @@ setMethod("plot", signature(x="MFCLLenFreq"), function(x, y="missing", ...){
   barplot(catch, main="catch")
   barplot(effort, main='effort')
   
+  par(mfrow=c(1,1))
+  lff <- unique(subset(freq(x), !is.na(length) & freq>0)[,c('year','month','fishery')])
+  lff$year <- lff$year + (lff$month+1)/12-0.125
+  
+  wff <- unique(subset(freq(x), !is.na(weight) & freq>0)[,c('year','month','fishery')])
+  wff$year <- wff$year + (wff$month+1)/12-0.125
+  
+  plot(lff$year, lff$fishery, pch=3, col='red', 
+       ylim=c(0, max(c(lff$fishery, wff$fishery))),
+       xlab="Year", ylab="Fishery", main="Available Length and Weight Frequency Data")
+  abline(h=1:max(c(lff$fishery, wff$fishery)), col="grey")
+  
+  points(wff$year, wff$fishery, pch=1, col="blue")
 })
 
 
