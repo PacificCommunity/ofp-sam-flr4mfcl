@@ -224,6 +224,7 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLFrq"),
               effort_dev_coffs(x)   <- lapply(1:dimensions(x)["fisheries"], function(g) c(effort_dev_coffs(x)[[g]], rep(0, eff_dev_coff_incs[g])))
             
               # catch conditioned assessments - 
+              #browser()
               if(flagval(x, 1, 373)$value==0){  #0=catch errors 1=catch conditioned
               # catch_dev_coffs - gets really messy because you may have zero catch obs in some cases and fishery groupings to worry about.
                 catch_dev_coffs(x)    <- lapply(1:length(catch_dev_coffs(x)), 
@@ -240,6 +241,7 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLFrq"),
                 for(grp in sort(unique(ffl29))){
                   nElemByGrp[grp] <- length(unique(test3[test3$V2 %in% which(ffl29==grp),'V1']))
                   nElemFuture<- nElemByGrp[grp]-length(catch_dev_coffs(x)[[grp]])-1 #
+                  nElemFuture<- max(nElemFuture, 0) 
                   catch_dev_coffs(x)[[grp]]<-c(catch_dev_coffs(x)[[grp]],rep(0,nElemFuture))
                 }
               }
