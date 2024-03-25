@@ -845,6 +845,7 @@ MFCLTag <- function() {return(new("MFCLTag"))}
 
 
 
+
 ###### CLASSS MFCLRep
 
 validMFCLRep <- function(object){
@@ -891,6 +892,7 @@ validMFCLRep <- function(object){
 #' @slot TBBMSY Description
 #' @slot Fmult Description
 #' @slot AggregateF Description
+
 
 setClass("MFCLRep",
          representation(
@@ -979,6 +981,9 @@ remove(validMFCLRep)
 #'Basic constructor for MFCLRep class
 #'@export
 MFCLRep <- function() {return(new("MFCLRep"))}
+
+
+
 
 
 
