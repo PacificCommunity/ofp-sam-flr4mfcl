@@ -567,6 +567,13 @@ read.MFCLSel <- function(parfile, parobj=NULL, first.yr=NA) {
 # rds 19/02/20 - checks to see if selectivity blocks are specified (xfish) and reads in extra selection parameters  
   slot(res, 'fishery_sel')        <- FLQuant(aperm(array(as.numeric(splitter(par,"# fishery selectivity",1:(nfish+xfish))), 
                                                          dim=c(nseasons, nagecls/nseasons,nfish+xfish,1,1)),c(2,4,3,1,5)), dimnames=dims2a)
+  # Need to find someway of dealing with selectivity blocks AND seasonal selectivity, i.e. a fishery may have both
+  # How to fit them into the FLQuant?
+  # At the moment just read each line as a separate fishery, i.e. there are 64 'fishery_sel' lines in the par
+  # But only 22 fisheries, some are annual sels, some have seasonal sels, some have sel blocks, some have seasonal and selblocks
+  # This should read in as a quant with 64 units
+  
+  
   slot(res, 'fishery_sel_age_comp')<-FLQuant(aperm(array(as.numeric(splitter(par,"# age-dependent component of fishery selectivity", 1:nfish)), 
                                                    dim=c(nseasons, nagecls/nseasons,nfish,1,1)),c(2,4,3,1,5)), dimnames=dims2)
   
