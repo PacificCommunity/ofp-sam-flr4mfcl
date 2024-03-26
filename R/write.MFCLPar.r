@@ -94,10 +94,17 @@ write.par <- function(x, file, append=F, ...){
   cat("\n \n# relative initial population \n \n",   file=file, append=T)
   write.table(float(rel_ini_pop(x)), file=file, append=T, col.names=F, row.names=F,quote=F)
 
+  # Faffing about with fishery sel
+  # fs - 25/03/2024
+  # Need to find someway of dealing with selectivity blocks AND seasonal selectivity, i.e. a fishery may have both
+  # How to fit them into the FLQuant?
+  # Hacky solution applied here - just write each selectivity (seasonal, time block or otherwise) as a separate line
+  # So an FLQ with 64 units should produce 64 lines
   cat("# fishery selectivity \n",   file=file, append=T)
-  write.table(float(t(array(aperm(fishery_sel(x), c(4,1,5,2,3,6)), dim=c(dimensions(x)['agecls'],dimensions(x)['fisheries']+xfish))),"0"),   # RDS 27/02/20
-              file=file, append=T, col.names=F, row.names=F,quote=F)
-
+  #write.table(float(t(array(aperm(fishery_sel(x), c(4,1,5,2,3,6)), dim=c(dimensions(x)['agecls'],dimensions(x)['fisheries']+xfish))),"0"),   # RDS 27/02/20
+  #            file=file, append=T, col.names=F, row.names=F,quote=F)
+  write.table(float(t(array(aperm(fishery_sel(x), c(4,1,5,2,3,6)),dim=dim(fishery_sel(x))[c(1,3)]))), file=file, append=T, col.names=F, row.names=F,quote=F)
+  
   cat("# age-dependent component of fishery selectivity  \n",   file=file, append=T)
   write.table(t(array(aperm(fishery_sel_age_comp(x), c(4,1,5,2,3,6)), dim=c(dimensions(x)['agecls'],dimensions(x)['fisheries']))),
               file=file, append=T, col.names=F, row.names=F,quote=F)

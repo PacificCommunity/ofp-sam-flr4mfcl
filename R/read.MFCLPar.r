@@ -562,16 +562,32 @@ read.MFCLSel <- function(parfile, parobj=NULL, first.yr=NA) {
     
   slot(res, 'availability_coffs') <- FLQuant(aperm(array(as.numeric(splitter(par,"# availability coffs")), 
                                                    dim=c(nseasons, nagecls/nseasons,1,1,1)),c(2,3,4,1,5)), dimnames=dims1)
+  # Faffing about with fishery sel
+  # fs - 25/03/2024
 #  slot(res, 'fishery_sel')        <- FLQuant(aperm(array(as.numeric(splitter(par,"# fishery selectivity",1:(nfish))), 
 #                                                   dim=c(nseasons, nagecls/nseasons,nfish,1,1)),c(2,4,3,1,5)), dimnames=dims2)
 # rds 19/02/20 - checks to see if selectivity blocks are specified (xfish) and reads in extra selection parameters  
-  slot(res, 'fishery_sel')        <- FLQuant(aperm(array(as.numeric(splitter(par,"# fishery selectivity",1:(nfish+xfish))), 
-                                                         dim=c(nseasons, nagecls/nseasons,nfish+xfish,1,1)),c(2,4,3,1,5)), dimnames=dims2a)
+  #slot(res, 'fishery_sel')        <- FLQuant(aperm(array(as.numeric(splitter(par,"# fishery selectivity",1:(nfish+xfish))), 
+  #                                                       dim=c(nseasons, nagecls/nseasons,nfish+xfish,1,1)),c(2,4,3,1,5)), dimnames=dims2a)
   # Need to find someway of dealing with selectivity blocks AND seasonal selectivity, i.e. a fishery may have both
   # How to fit them into the FLQuant?
-  # At the moment just read each line as a separate fishery, i.e. there are 64 'fishery_sel' lines in the par
+  # Hacky solution applied here - just read each line as a separate fishery, i.e. there are 64 'fishery_sel' lines in the par
   # But only 22 fisheries, some are annual sels, some have seasonal sels, some have sel blocks, some have seasonal and selblocks
-  # This should read in as a quant with 64 units
+  # Reading in as a quant with 64 units
+  fish_flags  <- matrix(as.numeric(splitter(par, "# fish flags", ll=1:nfish, inst=1)), ncol=nfish)
+  # FF 71 time blocked sel. where n is no. of breaks
+  # FF 74 seasonal selectivity - n is no. sel. patterns per year
+  no_sel_block_breaks <- fish_flags[71,]
+  no_sel_seasons <- fish_flags[74,]
+  no_rows_in_fishery_sel_block <- sum(no_sel_block_breaks * no_sel_seasons) + sum(no_sel_seasons)
+  dims3a   <- dims2
+  dims3a$unit <- as.character(1:no_rows_in_fishery_sel_block)
+  slot(res, 'fishery_sel')        <- FLQuant(aperm(array(as.numeric(splitter(par,"# fishery selectivity",1:no_rows_in_fishery_sel_block)), 
+                                                         #dim=c(nseasons, nagecls/nseasons, nfish+xfish,1,1)),
+                                                         dim=c(1, nagecls/nseasons, no_rows_in_fishery_sel_block, 1, 1)), 
+                                                         c(2,4,3,1,5)), dimnames=dims3a)
+  
+  
   
   
   slot(res, 'fishery_sel_age_comp')<-FLQuant(aperm(array(as.numeric(splitter(par,"# age-dependent component of fishery selectivity", 1:nfish)), 
