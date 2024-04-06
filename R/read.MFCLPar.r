@@ -355,13 +355,13 @@ read.MFCLRec <- function(parfile, parobj=NULL, first.yr=NA) {
   dims3       <- dims
   dims3$area  <- as.character(1:nregions)
   
-  # orth poly levels determined by year, region, season and region*season interaction by parest flags 155, 221, 216-218
-  # orth poly levels = sum(1, nregions-1, nseasons-1, ...)
+  # orth poly levels determined by year, region, season and region*season interaction by parest flags 155, 216-218
+  # orth poly rows = sum(1, nregions-1, nseasons-1, ...)
   parflags <- as.numeric(unlist(strsplit(trim.leading(par[2]), split="[[:blank:]]+")))
   orth_poly_rows <- 1
   if(parflags[155] != 0){
-    orth_poly_levels <- c((parflags[155]/parflags[221])>0 , parflags[216]>0, parflags[217]>0, parflags[218]>0)
-    orth_poly_rows   <- sum(c(parflags[155]/parflags[221], nregions-1, nseasons-1, (nregions-1)*(nseasons-1))[orth_poly_levels])
+    orth_poly_levels <- c((parflags[155])>0 , parflags[216]>0, parflags[217]>0, parflags[218]>0)
+    orth_poly_rows   <- sum(c(1, nregions-1, nseasons-1, (nregions-1)*(nseasons-1))[orth_poly_levels])
   }
   #rel_rec <- array(     as.numeric(splitter(par, "# relative recruitment")),dim=c(nseasons, nyears/nseasons, 1,1,1,1))
   rel_rec <- array(c(NA, as.numeric(splitter(par, "# relative recruitment"))),dim=c(nseasons, nyears/nseasons, 1,1,1,1))
