@@ -462,18 +462,18 @@ read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=NA) {
   slot(res, 'move_map')      <- as.numeric(splitter(par, "# movement map"))
 
   if(vsn<1064)
-    slot(res, 'diff_coffs')    <- matrix(as.numeric(splitter(par,"# movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons, byrow=T)  
+    slot(res, 'diff_coffs')    <- matrix(as.numeric(splitter(par,"# movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons.mov, byrow=T)  
 
   if(vsn>=1059 & vsn<1064)
-    slot(res, 'xdiff_coffs')    <- matrix(as.numeric(splitter(par,"# xmovement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons, byrow=T)  
+    slot(res, 'xdiff_coffs')    <- matrix(as.numeric(splitter(par,"# xmovement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons.mov, byrow=T)  
   
   if(vsn>=1064){
     if(nregions>1){
-      slot(res, 'diff_coffs')    <- matrix(as.numeric(splitter(par,"# diff_coffs movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons, byrow=T)  
-      slot(res, 'xdiff_coffs')   <- matrix(as.numeric(splitter(par,"# xdiff_coffs movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons, byrow=T)  
-      slot(res, 'y1diff_coffs')  <- matrix(as.numeric(splitter(par,"# y1diff_coffs movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons, byrow=T)  
-      slot(res, 'y2diff_coffs')  <- matrix(as.numeric(splitter(par,"# y2diff_coffs movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons, byrow=T)  
-      slot(res, 'zdiff_coffs')   <- matrix(as.numeric(splitter(par,"# zdiff_coffs movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons, byrow=T)  
+      slot(res, 'diff_coffs')    <- matrix(as.numeric(splitter(par,"# diff_coffs movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons.mov, byrow=T)  
+      slot(res, 'xdiff_coffs')   <- matrix(as.numeric(splitter(par,"# xdiff_coffs movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons.mov, byrow=T)  
+      slot(res, 'y1diff_coffs')  <- matrix(as.numeric(splitter(par,"# y1diff_coffs movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons.mov, byrow=T)  
+      slot(res, 'y2diff_coffs')  <- matrix(as.numeric(splitter(par,"# y2diff_coffs movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons.mov, byrow=T)  
+      slot(res, 'zdiff_coffs')   <- matrix(as.numeric(splitter(par,"# zdiff_coffs movement coefficients",1:length(slot(res, 'move_map')))), nrow=nseasons.mov, byrow=T)  
     }
   }
   
@@ -522,7 +522,6 @@ read.MFCLRegion <- function(parfile, parobj=NULL, first.yr=NA) {
 #' @export
 
 read.MFCLSel <- function(parfile, parobj=NULL, first.yr=NA) {
-#browser()
   trim.leading  <- function(x) sub("^\\s+", "", x)
   trim.trailing <- function(x) sub("\\s+$", "", x) 
   splitter      <- function(ff, tt, ll=1, inst=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[inst]+ll]),split="[[:blank:]]+"))      
@@ -768,7 +767,6 @@ read.MFCLParBits <- function(parfile, parobj=NULL, first.yr=NA) {
 #' @export
 
 read.MFCLPar <- function(parfile, first.yr=NA) {
-  #browser()
   trim.trailing <- function(x) sub("\\s+$", "", x) 
   
   slotcopy <- function(from, to){
