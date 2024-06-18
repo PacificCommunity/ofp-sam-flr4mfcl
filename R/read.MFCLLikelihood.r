@@ -31,13 +31,13 @@ read.MFCLLikelihood <- function(tpofile="test_plot_output") {
   tpo <- readLines(tpofile)
   
   n_len_samp_fsh_marker <- grep("length-sample components of likelihood for fishery", tpo)
-  n_len_samp_fsh        <- lapply(strsplit(tpo[n_len_samp_fsh_marker+1], split="[[:blank:]]+"), as.numeric)
+  n_len_samp_fsh        <- lapply(strsplit(trim.leading(tpo[n_len_samp_fsh_marker+1]), split="[[:blank:]]+"), as.numeric)
 
   n_wgt_samp_fsh_marker <- grep("weight-sample components of likelihood for fishery", tpo)
-  n_wgt_samp_fsh        <- lapply(strsplit(tpo[n_wgt_samp_fsh_marker+1], split="[[:blank:]]+"), as.numeric)    
+  n_wgt_samp_fsh        <- lapply(strsplit(trim.leading(tpo[n_wgt_samp_fsh_marker+1]), split="[[:blank:]]+"), as.numeric)    
 
   n_catch_fsh_marker <- grep("total catch components of likelihood for fishery", tpo)
-  n_catch_fsh        <- lapply(strsplit(tpo[n_catch_fsh_marker+1], split="[[:blank:]]+"), as.numeric)    
+  n_catch_fsh        <- lapply(strsplit(trim.leading(tpo[n_catch_fsh_marker+1]), split="[[:blank:]]+"), as.numeric)    
   
   n_tag_rel_marker <- grep("# tag release", tpo)
   if(length(n_tag_rel_marker) > 0)
