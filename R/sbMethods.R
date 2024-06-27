@@ -65,6 +65,57 @@ rolling_mean_and_lagging <- function(flq, mean_nyears, lag_nyears){
 
 
 #------------------------------------------------------------------------
+# FLQuant methods
+
+#---------------- FLQuant methods ---------------------------
+setGeneric('SB',function(rep, mean_nyears, lag_nyears, ...) standardGeneric('SB')) 
+
+# This is the main method that the other SB() methods call
+#' @rdname SBmethods
+#' @export
+setMethod("SB", signature(rep="FLQuant",mean_nyears="numeric", lag_nyears="numeric"),
+          function(rep, mean_nyears, lag_nyears, combine_areas=TRUE, season_means=TRUE){
+            
+            out <- rep
+            if(season_means==TRUE){
+              out <- seasonMeans(out)
+            }
+            if(combine_areas==TRUE){
+              out <- areaSums(out)
+            }
+            out <- rolling_mean_and_lagging(flq=out, mean_nyears=mean_nyears, lag_nyears=lag_nyears)
+            return(out)
+          }
+)
+
+#' @rdname SBmethods
+#' @export
+setMethod("SB", signature(rep="FLQuant",mean_nyears="missing", lag_nyears="missing"),
+          function(rep, ...){
+            return(SB(rep=rep, mean_nyears=1, lag_nyears=0, ...))
+          }
+)
+
+#' @rdname SBmethods
+#' @export
+setMethod("SB", signature(rep="FLQuant",mean_nyears="numeric", lag_nyears="missing"),
+          function(rep, mean_nyears, ...){
+            return(SB(rep=rep, mean_nyears=mean_nyears, lag_nyears=0, ...))
+          }
+)
+
+#' @rdname SBmethods
+#' @export
+setMethod("SB", signature(rep="FLQuant",mean_nyears="missing", lag_nyears="numeric"),
+          function(rep, lag_nyears, ...){
+            return(SB(rep=rep, mean_nyears=1, lag_nyears=lag_nyears, ...))
+          }
+)
+
+
+#---------------- MFCLRep methods ---------------------------
+
+#------------------------------------------------------------------------
 # Single rep methods
 
 # SB methods
@@ -129,7 +180,7 @@ rolling_mean_and_lagging <- function(flq, mean_nyears, lag_nyears){
 #' @export
  
 #---------------- SBF0 methods ---------------------------
-setGeneric('SB',function(rep, mean_nyears, lag_nyears, ...) standardGeneric('SB')) 
+
 
 # This is the main method that the other SB() methods call
 #' @rdname SBmethods
