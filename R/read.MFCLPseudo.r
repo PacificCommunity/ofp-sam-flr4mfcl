@@ -20,7 +20,7 @@ read.MFCLPseudoCatch <- function(catch="catch_sim", projfrq=projfrq, ctrl="missi
   
   # read in pseudo catch data and grab some dimensions stuff
   cc    <- readLines(catch)
-  
+  #browser()
   nsims <- as.numeric(unlist(lapply(strsplit(cc[grep("# projection", cc)], split="[[:blank:]]+"), el, 3)))
   seeds <- as.numeric(unlist(lapply(strsplit(cc[grep("# seed",       cc)], split="[[:blank:]]+"), el, 3)))
   nfish <- unique(as.numeric(unlist(lapply(strsplit(cc[grep("# fishery",    cc)], split="[[:blank:]]+"), el, 3))))
@@ -49,19 +49,23 @@ read.MFCLPseudoEffort <- function(effort="effort_sim", projfrq=projfrq, ctrl="mi
   
   trim.leading  <- function(x) sub("^\\s+", "", x) 
   
-  # read in pseudo catch data and grab some dimensions stuff
   ee    <- readLines(effort)
+  ee    <- ee[!grepl("Simulated", ee)]  # removes lines from cpue_sim
+  ee    <- sub("Fishery:", "", ee)      # removes text from cpue_sim
   
   nsims <- as.numeric(unlist(lapply(strsplit(ee[grep("# projection", ee)], split="[[:blank:]]+"), el, 3)))
   seeds <- as.numeric(unlist(lapply(strsplit(ee[grep("# seed",       ee)], split="[[:blank:]]+"), el, 3)))
   
-  edat     <- strsplit(trim.leading(readLines(effort)), split="[[:blank:]]+")
-  projfish <- unique(as.numeric(unlist(lapply(edat[-c(grep('#', edat))], el, 1))))   # projected fisheries - not all of them are projected
+  edat     <- strsplit(trim.leading(ee), split="[[:blank:]]+")
+  #projfish <- unique(as.numeric(unlist(lapply(edat[-c(grep('#', edat))], el, 1))))   # projected fisheries - not all of them are projected
   
   edat     <- edat[-c(grep('#', edat))]           # drop the header information
+  
+  projfish <- unique(as.numeric(unlist(lapply(edat[lapply(edat, length)>1], el, 1))))
+  
   edat     <- lapply(edat, function(x){x[-1]})    # drop the fishery identifier
   
-  freqdat  <- realisations(projfrq)
+  freqdat  <- subset(realisations(projfrq), fishery%in%projfish)
   
   if(!historical)
     freqdat    <- subset(realisations(projfrq), year>=fprojyr(ctrl))
@@ -75,6 +79,9 @@ read.MFCLPseudoEffort <- function(effort="effort_sim", projfrq=projfrq, ctrl="mi
   return(freqdat)
   
 }
+
+
+
 
 
 
@@ -343,15 +350,15 @@ read.MFCLPseudo <- function(catch="missing", effort="missing", lw_sim="missing",
     res <- read.MFCLPseudoCatchEffort(catch=catch, effort=effort, projfrq=projfrq, ctrl=ctrl, historical=historical)
   
   # SIZE COMP
-  if(!missing(lw_sim))
+  if(!missing(lw_sim)){
     res_sc <- read.MFCLPseudoSizeComp(lw_sim=lw_sim, projfrq = projfrq, ctrl = ctrl, historical = historical)
   
-  l_frq(res)    <- l_frq(res_sc)
-  w_frq(res)    <- w_frq(res_sc)
+    l_frq(res)    <- l_frq(res_sc)
+    w_frq(res)    <- w_frq(res_sc)
   
-  lf_range(res) <- lf_range(res_sc)
-  age_nage(res) <- age_nage(res_sc)
-  
+    lf_range(res) <- lf_range(res_sc)
+    age_nage(res) <- age_nage(res_sc)
+  }
   #slot(res, 'range') <- slot(res_sc, 'range')
   
   res <- fillfreq(res, projfrq, ctrl, historical = historical, ii=ii)
