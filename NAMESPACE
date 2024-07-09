@@ -89,6 +89,8 @@ export(
   "read.MFCLParBits",
   "read.MFCLPseudo",
   "read.MFCLPseudoAlt",
+  "read.MFCLPseudoCatch",
+  "read.MFCLPseudoEffort",
   "read.MFCLPseudoCatchEffort",
   "read.MFCLPseudoSizeComp",
   "read.MFCLRec",
