@@ -8,18 +8,18 @@
 # Not exported
 # This function fuels all the other methods here.
 rolling_mean_and_lagging <- function(flq, mean_nyears, lag_nyears){
-    if((mean_nyears < 1) | (lag_nyears < 0)){
-      stop("mean_nyears >= 1 and lag_nyears must >= 0")
-    }
-    # Take a rolling mean over mean_nyears
-    flq <- apply(flq, c(1,3,4,5,6), function(x, n, sides){stats::filter(c(x),rep(1/n,n), sides=sides)}, n=mean_nyears, sides=1)
-    # Shunt everything up by lag_nyears and backfill with NAs
-    if(lag_nyears > 0){
-      lagged_flq <- flq[,1:(dim(flq)[2] - lag_nyears)]
-      flq[,(lag_nyears + 1) :dim(flq)[2]] <- lagged_flq
-      flq[,1:lag_nyears] <- NA
-    }
-    return(flq)
+  if((mean_nyears < 1) | (lag_nyears < 0)){
+    stop("mean_nyears >= 1 and lag_nyears must >= 0")
+  }
+  # Take a rolling mean over mean_nyears
+  flq <- apply(flq, c(1,3,4,5,6), function(x, n, sides){stats::filter(c(x),rep(1/n,n), sides=sides)}, n=mean_nyears, sides=1)
+  # Shunt everything up by lag_nyears and backfill with NAs
+  if(lag_nyears > 0){
+    lagged_flq <- flq[,1:(dim(flq)[2] - lag_nyears)]
+    flq[,(lag_nyears + 1) :dim(flq)[2]] <- lagged_flq
+    flq[,1:lag_nyears] <- NA
+  }
+  return(flq)
 }
 
 # # Tests if you need them
@@ -63,6 +63,57 @@ rolling_mean_and_lagging <- function(flq, mean_nyears, lag_nyears){
 # }
 
 
+
+#------------------------------------------------------------------------
+# FLQuant methods
+
+#---------------- FLQuant methods ---------------------------
+setGeneric('SB',function(rep, mean_nyears, lag_nyears, ...) standardGeneric('SB')) 
+
+# This is the main method that the other SB() methods call
+#' @rdname SBmethods
+#' @export
+setMethod("SB", signature(rep="FLQuant",mean_nyears="numeric", lag_nyears="numeric"),
+          function(rep, mean_nyears, lag_nyears, combine_areas=TRUE, season_means=TRUE){
+            
+            out <- rep
+            if(season_means==TRUE){
+              out <- seasonMeans(out)
+            }
+            if(combine_areas==TRUE){
+              out <- areaSums(out)
+            }
+            out <- rolling_mean_and_lagging(flq=out, mean_nyears=mean_nyears, lag_nyears=lag_nyears)
+            return(out)
+          }
+)
+
+#' @rdname SBmethods
+#' @export
+setMethod("SB", signature(rep="FLQuant",mean_nyears="missing", lag_nyears="missing"),
+          function(rep, ...){
+            return(SB(rep=rep, mean_nyears=1, lag_nyears=0, ...))
+          }
+)
+
+#' @rdname SBmethods
+#' @export
+setMethod("SB", signature(rep="FLQuant",mean_nyears="numeric", lag_nyears="missing"),
+          function(rep, mean_nyears, ...){
+            return(SB(rep=rep, mean_nyears=mean_nyears, lag_nyears=0, ...))
+          }
+)
+
+#' @rdname SBmethods
+#' @export
+setMethod("SB", signature(rep="FLQuant",mean_nyears="missing", lag_nyears="numeric"),
+          function(rep, lag_nyears, ...){
+            return(SB(rep=rep, mean_nyears=1, lag_nyears=lag_nyears, ...))
+          }
+)
+
+
+#---------------- MFCLRep methods ---------------------------
 
 #------------------------------------------------------------------------
 # Single rep methods
@@ -127,87 +178,87 @@ rolling_mean_and_lagging <- function(flq, mean_nyears, lag_nyears){
 #' SBSBF0recent(rep)
 #' } 
 #' @export
- 
+
 #---------------- SBF0 methods ---------------------------
-setGeneric('SB',function(rep, mean_nyears, lag_nyears, ...) standardGeneric('SB')) 
+
 
 # This is the main method that the other SB() methods call
 #' @rdname SBmethods
 #' @export
 setMethod("SB", signature(rep="MFCLRep",mean_nyears="numeric", lag_nyears="numeric"),
-  function(rep, mean_nyears, lag_nyears, combine_areas=TRUE, season_means=TRUE){
-    
-    out <- adultBiomass(rep)
-    if(season_means==TRUE){
-      out <- seasonMeans(out)
-    }
-    if(combine_areas==TRUE){
-      out <- areaSums(out)
-    }
-    out <- rolling_mean_and_lagging(flq=out, mean_nyears=mean_nyears, lag_nyears=lag_nyears)
-    return(out)
-  }
+          function(rep, mean_nyears, lag_nyears, combine_areas=TRUE, season_means=TRUE){
+            
+            out <- adultBiomass(rep)
+            if(season_means==TRUE){
+              out <- seasonMeans(out)
+            }
+            if(combine_areas==TRUE){
+              out <- areaSums(out)
+            }
+            out <- rolling_mean_and_lagging(flq=out, mean_nyears=mean_nyears, lag_nyears=lag_nyears)
+            return(out)
+          }
 )
 
 #' @rdname SBmethods
 #' @export
 setMethod("SB", signature(rep="MFCLRep",mean_nyears="missing", lag_nyears="missing"),
-  function(rep, ...){
-    return(SB(rep=rep, mean_nyears=1, lag_nyears=0, ...))
-  }
+          function(rep, ...){
+            return(SB(rep=rep, mean_nyears=1, lag_nyears=0, ...))
+          }
 )
 
 #' @rdname SBmethods
 #' @export
 setMethod("SB", signature(rep="MFCLRep",mean_nyears="numeric", lag_nyears="missing"),
-  function(rep, mean_nyears, ...){
-    return(SB(rep=rep, mean_nyears=mean_nyears, lag_nyears=0, ...))
-  }
+          function(rep, mean_nyears, ...){
+            return(SB(rep=rep, mean_nyears=mean_nyears, lag_nyears=0, ...))
+          }
 )
 
 #' @rdname SBmethods
 #' @export
 setMethod("SB", signature(rep="MFCLRep",mean_nyears="missing", lag_nyears="numeric"),
-  function(rep, lag_nyears, ...){
-    return(SB(rep=rep, mean_nyears=1, lag_nyears=lag_nyears, ...))
-  }
+          function(rep, lag_nyears, ...){
+            return(SB(rep=rep, mean_nyears=1, lag_nyears=lag_nyears, ...))
+          }
 )
 
 #' @rdname SBmethods
 #' @export
 setMethod("SB", signature(rep="list",mean_nyears="numeric", lag_nyears="numeric"),
-  function(rep, mean_nyears, lag_nyears, combine_areas=TRUE, season_means=TRUE){
-    guts <- unlist(lapply(rep, function(x){class(x)=="MFCLRep"}))
-    if(!all(guts==TRUE)){
-      stop("All elements in the list must be of class 'MFCLRep'")
-    }
-    out <- lapply(rep, SB, mean_nyears=mean_nyears, lag_nyears=lag_nyears, combine_areas=combine_areas, season_means=season_means)
-    return(out)
-  }
+          function(rep, mean_nyears, lag_nyears, combine_areas=TRUE, season_means=TRUE){
+            guts <- unlist(lapply(rep, function(x){class(x)=="MFCLRep"}))
+            if(!all(guts==TRUE)){
+              stop("All elements in the list must be of class 'MFCLRep'")
+            }
+            out <- lapply(rep, SB, mean_nyears=mean_nyears, lag_nyears=lag_nyears, combine_areas=combine_areas, season_means=season_means)
+            return(out)
+          }
 )
 
 #' @rdname SBmethods
 #' @export
 setMethod("SB", signature(rep="list",mean_nyears="missing", lag_nyears="missing"),
-  function(rep, ...){
-    return(lapply(rep, SB, mean_nyears=1, lag_nyears=0, ...))
-  }
+          function(rep, ...){
+            return(lapply(rep, SB, mean_nyears=1, lag_nyears=0, ...))
+          }
 )
 
 #' @rdname SBmethods
 #' @export
 setMethod("SB", signature(rep="list",mean_nyears="numeric", lag_nyears="missing"),
-  function(rep, mean_nyears, ...){
-    return(lapply(rep, SB, mean_nyears=mean_nyears, lag_nyears=0, ...))
-  }
+          function(rep, mean_nyears, ...){
+            return(lapply(rep, SB, mean_nyears=mean_nyears, lag_nyears=0, ...))
+          }
 )
 
 #' @rdname SBmethods
 #' @export
 setMethod("SB", signature(rep="list",mean_nyears="missing", lag_nyears="numeric"),
-  function(rep, lag_nyears, ...){
-    return(lapply(rep, SB, mean_nyears=1, lag_nyears=lag_nyears, ...))
-  }
+          function(rep, lag_nyears, ...){
+            return(lapply(rep, SB, mean_nyears=1, lag_nyears=lag_nyears, ...))
+          }
 )
 
 #---------------- SBF0 methods ---------------------------
@@ -219,79 +270,79 @@ setGeneric('SBF0',function(rep, mean_nyears, lag_nyears, ...) standardGeneric('S
 #' @rdname SBmethods
 #' @export
 setMethod("SBF0", signature(rep="MFCLRep",mean_nyears="numeric", lag_nyears="numeric"),
-  function(rep, mean_nyears, lag_nyears, combine_areas=TRUE, season_means=TRUE){
-    out <- adultBiomass_nofish(rep)
-    if(season_means==TRUE){
-      out <- seasonMeans(out)
-    }
-    if(combine_areas==TRUE){
-      out <- areaSums(out)
-    }
-    out <- rolling_mean_and_lagging(flq=out, mean_nyears=mean_nyears, lag_nyears=lag_nyears)
-    return(out)
-  }
+          function(rep, mean_nyears, lag_nyears, combine_areas=TRUE, season_means=TRUE){
+            out <- adultBiomass_nofish(rep)
+            if(season_means==TRUE){
+              out <- seasonMeans(out)
+            }
+            if(combine_areas==TRUE){
+              out <- areaSums(out)
+            }
+            out <- rolling_mean_and_lagging(flq=out, mean_nyears=mean_nyears, lag_nyears=lag_nyears)
+            return(out)
+          }
 )
 
 #' @rdname SBmethods
 #' @export
 # Default methods
 setMethod("SBF0", signature(rep="MFCLRep",mean_nyears="missing", lag_nyears="missing"),
-  function(rep, ...){
-    return(SBF0(rep=rep, mean_nyears=1, lag_nyears=0, ...))
-  }
+          function(rep, ...){
+            return(SBF0(rep=rep, mean_nyears=1, lag_nyears=0, ...))
+          }
 )
 
 #' @rdname SBmethods
 #' @export
 setMethod("SBF0", signature(rep="MFCLRep",mean_nyears="numeric", lag_nyears="missing"),
-  function(rep, mean_nyears, ...){
-    return(SBF0(rep=rep, mean_nyears=mean_nyears, lag_nyears=0, ...))
-  }
+          function(rep, mean_nyears, ...){
+            return(SBF0(rep=rep, mean_nyears=mean_nyears, lag_nyears=0, ...))
+          }
 )
 
 #' @rdname SBmethods
 #' @export
 setMethod("SBF0", signature(rep="MFCLRep",mean_nyears="missing", lag_nyears="numeric"),
-  function(rep, lag_nyears, ...){
-    return(SBF0(rep=rep, mean_nyears=1, lag_nyears=lag_nyears, ...))
-  }
+          function(rep, lag_nyears, ...){
+            return(SBF0(rep=rep, mean_nyears=1, lag_nyears=lag_nyears, ...))
+          }
 )
 
 #' @rdname SBmethods
 #' @export
 setMethod("SBF0", signature(rep="list",mean_nyears="numeric", lag_nyears="numeric"),
-  function(rep, mean_nyears, lag_nyears, combine_areas=TRUE, season_means=TRUE){
-    guts <- unlist(lapply(rep, function(x){class(x)=="MFCLRep"}))
-    if(!all(guts==TRUE)){
-      stop("All elements in the list must be of class 'MFCLRep'")
-    }
-    out <- lapply(rep, SBF0, mean_nyears=mean_nyears, lag_nyears=lag_nyears, combine_areas=combine_areas, season_means=season_means)
-    return(out)
-  }
+          function(rep, mean_nyears, lag_nyears, combine_areas=TRUE, season_means=TRUE){
+            guts <- unlist(lapply(rep, function(x){class(x)=="MFCLRep"}))
+            if(!all(guts==TRUE)){
+              stop("All elements in the list must be of class 'MFCLRep'")
+            }
+            out <- lapply(rep, SBF0, mean_nyears=mean_nyears, lag_nyears=lag_nyears, combine_areas=combine_areas, season_means=season_means)
+            return(out)
+          }
 )
 
 #' @rdname SBmethods
 #' @export
 setMethod("SBF0", signature(rep="list",mean_nyears="missing", lag_nyears="missing"),
-  function(rep, ...){
-    return(lapply(rep, SBF0, mean_nyears=1, lag_nyears=0, ...))
-  }
+          function(rep, ...){
+            return(lapply(rep, SBF0, mean_nyears=1, lag_nyears=0, ...))
+          }
 )
 
 #' @rdname SBmethods
 #' @export
 setMethod("SBF0", signature(rep="list",mean_nyears="numeric", lag_nyears="missing"),
-  function(rep, mean_nyears, ...){
-    return(lapply(rep, SBF0, mean_nyears=mean_nyears, lag_nyears=0, ...))
-  }
+          function(rep, mean_nyears, ...){
+            return(lapply(rep, SBF0, mean_nyears=mean_nyears, lag_nyears=0, ...))
+          }
 )
 
 #' @rdname SBmethods
 #' @export
 setMethod("SBF0", signature(rep="list",mean_nyears="missing", lag_nyears="numeric"),
-  function(rep, lag_nyears, ...){
-    return(lapply(rep, SBF0, mean_nyears=1, lag_nyears=lag_nyears, ...))
-  }
+          function(rep, lag_nyears, ...){
+            return(lapply(rep, SBF0, mean_nyears=1, lag_nyears=lag_nyears, ...))
+          }
 )
 
 #---------------- SBSBF0 methods ---------------------------
@@ -303,39 +354,39 @@ setGeneric('SBSBF0',function(rep, sb_mean_nyears, sb_lag_nyears, sbf0_mean_nyear
 #' @rdname SBmethods
 #' @export
 setMethod("SBSBF0", signature(rep="MFCLRep", sb_mean_nyears="numeric", sb_lag_nyears="numeric", sbf0_mean_nyears="numeric", sbf0_lag_nyears="numeric"),
-  function(rep, sb_mean_nyears, sb_lag_nyears, sbf0_mean_nyears, sbf0_lag_nyears, ...){
-    sbf0 <- SBF0(rep=rep, mean_nyears=sbf0_mean_nyears, lag_nyears=sbf0_lag_nyears, ...)
-    sb <- SB(rep=rep, mean_nyears=sb_mean_nyears, lag_nyears=sb_lag_nyears, ...)
-    out <- sb/sbf0
-    return(out)
-  }
+          function(rep, sb_mean_nyears, sb_lag_nyears, sbf0_mean_nyears, sbf0_lag_nyears, ...){
+            sbf0 <- SBF0(rep=rep, mean_nyears=sbf0_mean_nyears, lag_nyears=sbf0_lag_nyears, ...)
+            sb <- SB(rep=rep, mean_nyears=sb_mean_nyears, lag_nyears=sb_lag_nyears, ...)
+            out <- sb/sbf0
+            return(out)
+          }
 )
 
 #' @rdname SBmethods
 #' @export
 setMethod("SBSBF0", signature(rep="MFCLRep",sb_mean_nyears="missing", sb_lag_nyears="missing", sbf0_mean_nyears="missing", sbf0_lag_nyears="missing"),
-  function(rep, ...){
-    return(SBSBF0(rep=rep, sb_mean_nyears=1, sb_lag_nyears=0, sbf0_mean_nyears=1, sbf0_lag_nyears=0, ...))
-  }
+          function(rep, ...){
+            return(SBSBF0(rep=rep, sb_mean_nyears=1, sb_lag_nyears=0, sbf0_mean_nyears=1, sbf0_lag_nyears=0, ...))
+          }
 )
 
 #' @rdname SBmethods
 #' @export
 setMethod("SBSBF0", signature(rep="list", sb_mean_nyears="numeric", sb_lag_nyears="numeric", sbf0_mean_nyears="numeric", sbf0_lag_nyears="numeric"),
-  function(rep, sb_mean_nyears, sb_lag_nyears, sbf0_mean_nyears, sbf0_lag_nyears, ...){
-    sbf0 <- SBF0(rep=rep, mean_nyears=sbf0_mean_nyears, lag_nyears=sbf0_lag_nyears, ...)
-    sb <- SB(rep=rep, mean_nyears=sb_mean_nyears, lag_nyears=sb_lag_nyears, ...)
-    out <- mapply(FUN = `/`, sb, sbf0, SIMPLIFY = FALSE)
-    return(out)
-  }
+          function(rep, sb_mean_nyears, sb_lag_nyears, sbf0_mean_nyears, sbf0_lag_nyears, ...){
+            sbf0 <- SBF0(rep=rep, mean_nyears=sbf0_mean_nyears, lag_nyears=sbf0_lag_nyears, ...)
+            sb <- SB(rep=rep, mean_nyears=sb_mean_nyears, lag_nyears=sb_lag_nyears, ...)
+            out <- mapply(FUN = `/`, sb, sbf0, SIMPLIFY = FALSE)
+            return(out)
+          }
 )
 
 #' @rdname SBmethods
 #' @export
 setMethod("SBSBF0", signature(rep="list",sb_mean_nyears="missing", sb_lag_nyears="missing", sbf0_mean_nyears="missing", sbf0_lag_nyears="missing"),
-  function(rep, ...){
-    return(lapply(rep, SBSBF0, sb_mean_nyears=1, sb_lag_nyears=0, sbf0_mean_nyears=1, sbf0_lag_nyears=0, ...))
-  }
+          function(rep, ...){
+            return(lapply(rep, SBSBF0, sb_mean_nyears=1, sb_lag_nyears=0, sbf0_mean_nyears=1, sbf0_lag_nyears=0, ...))
+          }
 )
 
 #---------------- Shortcut methods ---------------------------
@@ -347,17 +398,17 @@ setGeneric('SBrecent',function(rep, ...) standardGeneric('SBrecent'))
 #' @rdname SBmethods
 #' @export
 setMethod("SBrecent", signature(rep="MFCLRep"),
-  function(rep, ...){
-    return(SB(rep=rep, mean_nyears=4, lag_nyears=0, ...))
-  }
+          function(rep, ...){
+            return(SB(rep=rep, mean_nyears=4, lag_nyears=0, ...))
+          }
 )
 
 #' @rdname SBmethods
 #' @export
 setMethod("SBrecent", signature(rep="list"),
-  function(rep, ...){
-    return(lapply(rep, SBrecent, ...))
-  }
+          function(rep, ...){
+            return(lapply(rep, SBrecent, ...))
+          }
 )
 
 #' @rdname SBmethods
@@ -367,17 +418,17 @@ setGeneric('SBlatest',function(rep, ...) standardGeneric('SBlatest'))
 #' @rdname SBmethods
 #' @export
 setMethod("SBlatest", signature(rep="MFCLRep"),
-  function(rep, ...){
-    return(SB(rep=rep, mean_nyears=1, lag_nyears=0, ...))
-  }
+          function(rep, ...){
+            return(SB(rep=rep, mean_nyears=1, lag_nyears=0, ...))
+          }
 )
 
 #' @rdname SBmethods
 #' @export
 setMethod("SBlatest", signature(rep="list"),
-  function(rep, ...){
-    return(lapply(rep, SBlatest, ...))
-  }
+          function(rep, ...){
+            return(lapply(rep, SBlatest, ...))
+          }
 )
 
 #' @rdname SBmethods
@@ -387,17 +438,17 @@ setGeneric('SBF0recent',function(rep, ...) standardGeneric('SBF0recent'))
 #' @rdname SBmethods
 #' @export
 setMethod("SBF0recent", signature(rep="MFCLRep"),
-  function(rep, ...){
-    return(SBF0(rep=rep, mean_nyears=10, lag_nyears=1, ...))
-  }
+          function(rep, ...){
+            return(SBF0(rep=rep, mean_nyears=10, lag_nyears=1, ...))
+          }
 )
 
 #' @rdname SBmethods
 #' @export
 setMethod("SBF0recent", signature(rep="list"),
-  function(rep, ...){
-    return(lapply(rep, SBF0recent, ...))
-  }
+          function(rep, ...){
+            return(lapply(rep, SBF0recent, ...))
+          }
 )
 
 #' @rdname SBmethods
@@ -407,17 +458,17 @@ setGeneric('SBSBF0recent',function(rep, ...) standardGeneric('SBSBF0recent'))
 #' @rdname SBmethods
 #' @export
 setMethod("SBSBF0recent", signature(rep="MFCLRep"),
-  function(rep, ...){
-    return(SBSBF0(rep=rep, sb_mean_nyears=4, sb_lag_nyears=0, sbf0_mean_nyears=10, sbf0_lag_nyears=1, ...))
-  }
+          function(rep, ...){
+            return(SBSBF0(rep=rep, sb_mean_nyears=4, sb_lag_nyears=0, sbf0_mean_nyears=10, sbf0_lag_nyears=1, ...))
+          }
 )
 
 #' @rdname SBmethods
 #' @export
 setMethod("SBSBF0recent", signature(rep="list"),
-  function(rep, ...){
-    return(lapply(rep, SBSBF0recent, ...))
-  }
+          function(rep, ...){
+            return(lapply(rep, SBSBF0recent, ...))
+          }
 )
 
 #' @rdname SBmethods
@@ -427,17 +478,16 @@ setGeneric('SBSBF0latest',function(rep, ...) standardGeneric('SBSBF0latest'))
 #' @rdname SBmethods
 #' @export
 setMethod("SBSBF0latest", signature(rep="MFCLRep"),
-  function(rep, ...){
-    return(SBSBF0(rep=rep, sb_mean_nyears=1, sb_lag_nyears=0, sbf0_mean_nyears=10, sbf0_lag_nyears=1, ...))
-  }
+          function(rep, ...){
+            return(SBSBF0(rep=rep, sb_mean_nyears=1, sb_lag_nyears=0, sbf0_mean_nyears=10, sbf0_lag_nyears=1, ...))
+          }
 )
 
 #' @rdname SBmethods
 #' @export
 setMethod("SBSBF0latest", signature(rep="list"),
-  function(rep, ...){
-    return(lapply(rep, SBSBF0latest, ...))
-  }
+          function(rep, ...){
+            return(lapply(rep, SBSBF0latest, ...))
+          }
 )
-
 
