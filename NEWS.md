@@ -1,6 +1,6 @@
 # Development version
 
-* read.MFCL() returns reference point estimates and standard errors.
+* read.MFCLVar() returns reference point estimates and standard errors.
 
 # FLR4MFCL 1.6.11 (2023-09-28)
 
