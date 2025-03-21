@@ -892,6 +892,7 @@ validMFCLRep <- function(object){
 #' @slot TBBMSY Description
 #' @slot Fmult Description
 #' @slot AggregateF Description
+#' @slot q_implicit Description
 
 
 setClass("MFCLRep",
@@ -933,7 +934,8 @@ setClass("MFCLRep",
            ABBMSY              ='numeric',
            TBBMSY              ='numeric',
            Fmult               ='numeric',
-           AggregateF          ='FLQuant'
+           AggregateF          ='FLQuant',
+           q_implicit          ='FLQuant'
          ),
          prototype=prototype(
            fishery_realizations=FLQuant(),
@@ -970,7 +972,8 @@ setClass("MFCLRep",
            BBMSY               =FLQuant(),
            FFMSY               =FLQuant(),
            Fmult               =numeric(),
-           AggregateF          =FLQuant()
+           AggregateF          =FLQuant(),
+           q_implicit          =FLQuant()
          ),
          validity=validMFCLRep
 )

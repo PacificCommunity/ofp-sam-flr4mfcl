@@ -1486,6 +1486,7 @@ setGeneric('AggregateF<-', function(object, ..., value) standardGeneric('Aggrega
 setReplaceMethod('AggregateF', signature(object='MFCLRep', value=unname(getSlots('MFCLRep')['AggregateF'])),
                  function(object, value){slot(object, 'AggregateF') <- value; return(object)}) 
 
+
 #' @rdname accessor-methods
 setMethod('dimensions', signature(object='MFCLRep'),function(object) return(slot(object, 'dimensions'))) 
 #' @rdname accessor-methods

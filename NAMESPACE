@@ -424,6 +424,7 @@ exportMethods(
   "random_seeds<-",
   "range",
   "range<-",
+  "read.MFCLfishmort",
   "realisations",
   "eq_rec",
   "eq_rec<-",

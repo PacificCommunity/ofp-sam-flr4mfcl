@@ -39,6 +39,7 @@ read.fishmort <- function(file="fishmort", realisations=NULL, fishery_region=NUL
   if(is.null(nages)){
     stop("You need to pass a nages argument")
   }
+  
   # Make a data.frame of fishing morts with the right structure
   fmort <- realisations[,c("year", "month", "fishery")]
   fmort <- merge(fmort, fishery_region)
@@ -79,3 +80,57 @@ read.fishmort <- function(file="fishmort", realisations=NULL, fishery_region=NUL
   
   return(out)
 }
+
+
+
+#' read.MFCLfishmort
+#'
+#' A wrapper for read.fishmort
+#' Reads the fishing mortality from the fishmort file that is output by Multifan-CL.
+#' The fishing mortality in the fishmort file is by region, time period, fishing incident and age.
+#' This function returns the fishing mortality by region, year, season, fishery and age.
+#' The fishmort file provides fishing mortality on a log scale. The read.MFCLfishmort() function transforms them to
+#' 'normal' scale (or whatever it's called).
+#' Note that summing these fishing mortalities by region, time and age period yields the same values 
+#' as reported in the 'fm' slot of an MFCLRep object. But summing by time and age does not yield the same values 
+#' as in the 'fm_aggregated' slot which seems to be something to do with the yield analysis.
+#'
+#' @param file A character string giving the name and path of the fishmort file to be read in.
+#' @param frq  An MFCLFrq object.
+#' @param rep  An MFCLRep object.
+#' @param \dots Currently ignored.
+#'
+#' @return An object of class data.frame.
+#' 
+#' @seealso \code{\link{read.MFCLFrq}, \link{read.MFCLRep}} 
+#' 
+#' @export
+#' @export read.MFCLfishmort
+#' @docType methods
+#' @rdname genericMethods
+#'
+#' @examples
+#'\dontrun{
+#' read.MFCLfishmort('path/to/fishmort', frq, rep)
+#' }
+
+
+setGeneric('read.MFCLfishmort', function(file, frq, rep, ...) standardGeneric('read.MFCLfishmort'))
+
+setMethod('read.MFCLfishmort', signature(file='character', frq='MFCLFrq', rep='MFCLRep'), 
+          function(file, frq, rep, ...){ 
+            
+            fishery_region_df <- data.frame(fishery=1:n_fisheries(frq), region=c(region_fish(frq)))
+            
+            res <- read.fishmort(file=file, realisations = realisations(frq), fishery_region=fishery_region_df, nages=dimensions(rep)['agecls'])
+            return(res)})
+
+
+
+
+
+
+
+
+
+

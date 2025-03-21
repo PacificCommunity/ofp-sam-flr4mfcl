@@ -83,5 +83,7 @@ An S4 class : Model information from the rep file.
 \item{\code{Fmult}}{Description}
 
 \item{\code{AggregateF}}{Description}
+
+\item{\code{q_implicit}}{Description}
 }}
 
