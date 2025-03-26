@@ -286,9 +286,11 @@ fillfreq <- function(res, projfrq, ctrl, historical=TRUE, ii=1){
     
   # re-order the columns of freq object
   freq(res) <- freq(res)[, c('year','month','week','fishery','catch','effort','penalty','id','length','weight','freq','iter')]
+  #freq(res) <- freq(res)[order(freq(res)$fishery, freq(res)$year, freq(res)$month, freq(res)$length),]
     
   # add the rows that don't have size comps
-  freq(res) <- rbind(freq(res), cbind(catcheff(res)[!(catcheff(res)$id %in% freq(res)$id),c('year','month','week','fishery','catch','effort','penalty','id')], 
+  if(nrow(catcheff(res)[!(catcheff(res)$id %in% freq(res)$id),c('year','month','week','fishery','catch','effort','penalty','id')])>0)
+    freq(res) <- rbind(freq(res), cbind(catcheff(res)[!(catcheff(res)$id %in% freq(res)$id),c('year','month','week','fishery','catch','effort','penalty','id')], 
                                         length=NA, weight=NA, freq=-1, iter=ii))
   
   # finally reorder the new freq object and chop out the unnecessary columns

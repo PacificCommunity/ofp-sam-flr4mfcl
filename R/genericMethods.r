@@ -146,7 +146,7 @@ setMethod("iter", signature(obj="MFCLPseudo"),
                 slot(obj, ss) <- slot(obj, ss)[slot(obj, ss)$iter==iter ,]
             }
             
-            slot(obj, 'freq') <- slot(obj,'freq')[,c('year','month','week','fishery',paste0('catch_',iter), paste0('effort_',iter),'penalty','length','weight',paste0('freq_',iter))]
+            #slot(obj, 'freq') <- slot(obj,'freq')[,c('year','month','week','fishery',paste0('catch_',iter), paste0('effort_',iter),'penalty','length','weight',paste0('freq_',iter))]
             colnames(slot(obj, 'freq')) <- c('year','month','week','fishery','catch','effort','penalty','length','weight','freq')
             return(obj)
           }
@@ -233,7 +233,7 @@ setMethod("+", signature(e1="MFCLFrq", e2="MFCLPseudo"),
             
             # add future pseudo data to the original FRQ
             if(any(range(e1)[c("minyear","maxyear")] != slot(e2, 'range')[c("minyear","maxyear")]))
-              freq(e1) <- rbind(freq(e1), freq(e2))                                                      #catcheff(e2)[,1:10])
+              freq(e1) <- rbind(freq(e1), subset(freq(e2), year>=slot(e2,'range')['minyear']))         # subset the freq object because sometimes the freq has the full time series.
             
             # add historical pseudo data to the PROJFRQ
             if(all(range(e1)[c("minyear","maxyear")] == slot(e2, 'range')[c("minyear","maxyear")]))
