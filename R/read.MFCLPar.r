@@ -279,8 +279,10 @@ read.MFCLTagRep <- function(parfile, parobj=NULL, first.yr=NA) {
   if(length(grep("# tag fish rep", par))==0)  # if there's no tag data just return without doing anything
     return(res)
   
-  vsn      <- as.numeric(unlist(strsplit(trimws(par[2]), split="[[:blank:]]+")))[200]  
-  nfish    <- length(splitter(par, '# tag fish rep', 1))
+  vsn        <- as.numeric(unlist(strsplit(trimws(par[2]), split="[[:blank:]]+")))[200]  
+  nfish      <- length(splitter(par, '# tag fish rep', 1))
+  # 2025 fix becuase an odd number of rep rate dev coffs appear in the skj par file 31 extraction fisheries 10 index and 34 lines for rep rate dev coffs
+  nfish_rrdc <- grep('# availability coffs', par) - grep('# Reporting rate dev coffs', par) -1
   
   if(vsn>=1065 & length(grep('tagmort', par))>0)
     slot(res, 'tag_shed_rate')     <-   as.numeric(splitter(par, "# tagmort")) # annoyingly called 'tag shed rate' in ini file and 'tagmort' in par file
@@ -295,7 +297,7 @@ read.MFCLTagRep <- function(parfile, parobj=NULL, first.yr=NA) {
                                             dim=c(nfish, nlines(par, "# tag_fish_rep target"))))
   slot(res, 'tag_fish_rep_pen')   <-t(array(as.numeric(splitter(par, "# tag_fish_rep penalty",     1:(nlines(par, "# tag_fish_rep penalty")))), 
                                             dim=c(nfish, nlines(par, "# tag_fish_rep penalty"))))
-  slot(res, 'rep_rate_dev_coffs') <- lapply(seq(1:nfish), function(x) as.numeric(splitter(par, "# Reporting rate dev coffs",x)))
+  slot(res, 'rep_rate_dev_coffs') <- lapply(seq(1:nfish_rrdc), function(x) as.numeric(splitter(par, "# Reporting rate dev coffs",x)))
   
   return(res)
 }
@@ -543,6 +545,8 @@ read.MFCLSel <- function(parfile, parobj=NULL, first.yr=NA) {
   nagecls  <- as.numeric(par[grep("# The number of age classes", par)+1])  
   nfish    <- length(splitter(par, "# q0_miss")) #grep("# tag flags", par) - grep("# fish flags", par)[1] -1
   xfish    <- sum(matrix(as.numeric(splitter(par, "# fish flags", ll=1:nfish, inst=1)), ncol=nfish)[71,]) # sum ff71 to check for selectivity blocks
+  # 2025 skj fix - same as rep rate dev coffs - only 34 lines for q dev coeffs - don't know why
+  qfish    <- grep('# selectivity deviation coefficients', par) - grep("# catchability deviation coefficients", par) -1
   nqgroups <- max(array(as.numeric(splitter(par, "# fish flags",1:nfish)),dim=c(100,nfish))[29,], na.rm=T) #max value of fishf lag 29
   
   dims1    <- list(age=as.character(seq(0,(nagecls/nseasons)-1)), year='all', unit='unique', season=c(as.character(1:nseasons)), area='all')
@@ -551,13 +555,15 @@ read.MFCLSel <- function(parfile, parobj=NULL, first.yr=NA) {
   dims2a$unit <- as.character(1:(nfish+xfish))
   dims3    <- list(age='all', year='all', unit=as.character(1:nfish), season="all", area="all")
 
-  qdc      <- lapply(1:nfish, function(x) as.numeric(splitter(par, "# catchability deviation coefficients",x)))
+  #qdc      <- lapply(1:nfish, function(x) as.numeric(splitter(par, "# catchability deviation coefficients",x))) # changed for 2025 skj
+  qdc      <- lapply(1:qfish, function(x) as.numeric(splitter(par, "# catchability deviation coefficients",x)))
   edc      <- lapply(1:nfish, function(x) as.numeric(splitter(par, "# effort deviation coefficients",      x)))
   cdc      <- lapply(1:nqgroups, function(x) as.numeric(splitter(par, "# The grouped_catch_dev_coffs",     x, inst=2)))
 
   sdc_end  <- cumsum(lapply(qdc, length))+seq(length(qdc))
   sdc_start<- c(1, sdc_end[-length(sdc_end)]+1)
-  sdc_lines<- lapply(seq(nfish), function(x) seq(sdc_start[x], sdc_end[x]))
+  #sdc_lines<- lapply(seq(nfish), function(x) seq(sdc_start[x], sdc_end[x]))
+  sdc_lines<- lapply(seq(length(sdc_end)), function(x) seq(sdc_start[x], sdc_end[x]))   # fix 2025 skj - only 34 entries but 41 fisheries - don't know why
   sdc      <- lapply(sdc_lines, function(x) matrix(as.numeric(splitter(par, "# sel_dev_coffs", x)),ncol=nagecls))
     
   slot(res, 'availability_coffs') <- FLQuant(aperm(array(as.numeric(splitter(par,"# availability coffs")), 
