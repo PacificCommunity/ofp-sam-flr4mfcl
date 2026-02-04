@@ -260,7 +260,7 @@ read.MFCLFlags <- function(parfile, parobj=NULL, first.yr=NA) {
 #' @export
 
 read.MFCLTagRep <- function(parfile, parobj=NULL, first.yr=NA) {
-  
+
   trim.leading  <- function(x) sub("^\\s+", "", x)
   splitter      <- function(ff, tt, ll=1) unlist(strsplit(trim.leading(ff[grep(tt, ff)[1]+ll]),split="[[:blank:]]+"))  
   nlines        <- function(ff, tt) grep('#',ff)[grep('#',ff)>grep(tt,ff)[1]][1]-grep(tt,ff)[1]-1
@@ -297,7 +297,10 @@ read.MFCLTagRep <- function(parfile, parobj=NULL, first.yr=NA) {
                                             dim=c(nfish, nlines(par, "# tag_fish_rep target"))))
   slot(res, 'tag_fish_rep_pen')   <-t(array(as.numeric(splitter(par, "# tag_fish_rep penalty",     1:(nlines(par, "# tag_fish_rep penalty")))), 
                                             dim=c(nfish, nlines(par, "# tag_fish_rep penalty"))))
-  slot(res, 'rep_rate_dev_coffs') <- lapply(seq(1:nfish_rrdc), function(x) as.numeric(splitter(par, "# Reporting rate dev coffs",x)))
+
+    # quick and dirty hack to fix issue when reading in an ini file !! 04/02/2026 how has this not been spotted before ?
+  if(length(nfish_rrdc)>0)
+    slot(res, 'rep_rate_dev_coffs') <- lapply(seq(1:nfish_rrdc), function(x) as.numeric(splitter(par, "# Reporting rate dev coffs",x)))
   
   return(res)
 }
@@ -560,7 +563,7 @@ read.MFCLSel <- function(parfile, parobj=NULL, first.yr=NA) {
   edc      <- lapply(1:nfish, function(x) as.numeric(splitter(par, "# effort deviation coefficients",      x)))
   cdc      <- lapply(1:nqgroups, function(x) as.numeric(splitter(par, "# The grouped_catch_dev_coffs",     x, inst=2)))
 
-  sdc_end  <- cumsum(lapply(qdc, length))+seq(length(qdc))
+  sdc_end <- cumsum(lapply(edc, length)) #+seq(length(edc))  # modified for 2025 skj  05/05/2025 from qdc
   sdc_start<- c(1, sdc_end[-length(sdc_end)]+1)
   #sdc_lines<- lapply(seq(nfish), function(x) seq(sdc_start[x], sdc_end[x]))
   sdc_lines<- lapply(seq(length(sdc_end)), function(x) seq(sdc_start[x], sdc_end[x]))   # fix 2025 skj - only 34 entries but 41 fisheries - don't know why
