@@ -1,6 +1,6 @@
 # FLR4MFCL
 
-requires FLCore 
+requires FLCore
 
 FLR4MFCL - R4MFCL built with FLR classes
 Copyright (C) 2018  Rob Scott
@@ -17,13 +17,13 @@ Copyright (C) 2018  Rob Scott
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
-    
+
 ## Installation
 
 FLR4MFCL depends on FLCore (FLR-project) which itself depends on iterators.
 ```{r}
 install.packages("iterators")
-install.packages("FLCore", repos="http://flr-project.org/R")
+install.packages("FLCore", repos=c("https://flr.r-universe.dev", "https://cloud.r-project.org"))
 install.packages("remotes")
 
 library(remotes)
