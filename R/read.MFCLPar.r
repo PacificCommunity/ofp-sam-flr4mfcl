@@ -279,7 +279,8 @@ read.MFCLTagRep <- function(parfile, parobj=NULL, first.yr=NA) {
   if(length(grep("# tag fish rep", par))==0)  # if there's no tag data just return without doing anything
     return(res)
   
-  vsn        <- as.numeric(unlist(strsplit(trimws(par[2]), split="[[:blank:]]+")))[200]  
+  vsnidx     <- ifelse(nchar(par[2]) > 5, 200, 1)           # 13/03/26 bug fix to allow read.MFCLIni to work
+  vsn        <- as.numeric(unlist(strsplit(trimws(par[2]), split="[[:blank:]]+")))[vsnidx]  
   nfish      <- length(splitter(par, '# tag fish rep', 1))
   # 2025 fix becuase an odd number of rep rate dev coffs appear in the skj par file 31 extraction fisheries 10 index and 34 lines for rep rate dev coffs
   nfish_rrdc <- grep('# availability coffs', par) - grep('# Reporting rate dev coffs', par) -1
