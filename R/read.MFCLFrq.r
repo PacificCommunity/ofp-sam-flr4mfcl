@@ -135,6 +135,9 @@ read.MFCLLenFreq <- function(frqfile){
   nLbins <- lf_range(res)['LFIntervals']; Lwidth <- lf_range(res)["LFWidth"]; Lfirst <- lf_range(res)["LFFirst"]
   nWbins <- lf_range(res)['WFIntervals']; Wwidth <- lf_range(res)["WFWidth"]; Wfirst <- lf_range(res)["WFFirst"]
   
+  # remove comment line from new MD2 output     02/04/26 RDS
+  frq <- frq[-grepl("# Year Month Week", frq)]
+  
   line1 <- ifelse(all(is.na(slot(res, "age_nage"))), grep("Datasets", frq)+2, grep("age_nage", frq)+2)  # find the first line of freq datatable
   #lffrq <- frq[line1:length(frq)]   # just the length frequency data 
   lffrq <- trim.leading(frq[line1:length(frq)])   # just the length frequency data table)
@@ -150,7 +153,6 @@ read.MFCLLenFreq <- function(frqfile){
   if(nWbins>0) {frqwt  <- seq(Wfirst, Wwidth*nWbins+Wfirst-Wwidth, by=Wwidth)}
   
   #cnames        <- c("year", "month", "week", "fishery", "catch", "effort", "penalty")
-  
   if(!both & quick.check(res, both)){ # If only one type of frequency data - length or weight 
     
     # no frequency data-frame bit
