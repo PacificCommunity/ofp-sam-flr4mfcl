@@ -4,14 +4,19 @@
 
 #file <- "/media/penguin/skj/2016/assessment/RefCase/ests.rep"
                     
-read.MFCLCatchN <- function(file="ests.rep", first.yr=1972){
+read.MFCLCatchN <- function(file="ests.rep", first.yr=1972, quarterly=TRUE){
 
-  splitter2 <- function(...) stop("splitter2 is undefined")
+  splitter2 <- function(...) {
+    if(!any(txt == label))
+      stop("label '", label, "' not found in ", basename(file))
+    row.num <- match(label, txt) + 1  # first line following the label
+    entries <- scan(text=txt[row.num], quiet=TRUE)
+  }
 
   ests <- readLines(file)
   
   nages      <- length(splitter2(ests, "Fishery Realization1"))
-  nyears     <- (grep("Group 2", ests)-grep("Group 1", ests)-3)/4
+  nyears     <- (grep("Group 2", ests)-grep("Group 1", ests)-3)/ifelse(quarterly, 4, 1)
   nfisheries <- length(grep("Catchability for fishery", ests))
   dmnms      <- list(age=seq(nages), year=first.yr:(first.yr+nyears-1), unit=seq(nfisheries), season="all", area="unique", iter="1")
 
@@ -19,7 +24,7 @@ read.MFCLCatchN <- function(file="ests.rep", first.yr=1972){
       
   res <- FLQuant(array(kk, dim=c(nages, nyears, nfisheries,1,1,1)), dimnames=dmnms)
   
-  res <- checkUnitDimnames(res,nfisheries=nfisheries)
+  #res <- checkUnitDimnames(res,nfisheries=nfisheries)
   return(res)
 }
 
