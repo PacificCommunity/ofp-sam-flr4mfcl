@@ -313,6 +313,58 @@ setMethod("+", signature(e1="MFCLMSEControl", e2="MFCLEMControl"),
 ) # }}}
 
 
+#' amputate MFCLFrq
+#'
+#' Trims an MFCLFrq object to new dimensions. 
+#'
+#' @param object An object of class MFCLFrq.
+#' @param \dots Currently accepts a named numeric vector
+#'
+#' @return An object of class MFCLFrq.
+#' 
+#' @description
+#' Removes components from an MFCLFrq object. Currently only works for fisheries.
+#' 
+#' @seealso \code{\link{read.MFCLFrq}} 
+#' 
+#' @export
+#' @export amputate
+#' @docType methods
+#' @rdname genericMethods
+#'
+#' @examples
+#'\dontrun{
+#' amputate(frq, fishery = 1)
+#' }
+
+setGeneric('amputate', function(x,...) standardGeneric('amputate'))
+setMethod("amputate", signature(x="MFCLFrq"),
+          function(x, ...){
+            #browser()
+            args      <- list(...)
+            if(!is.element('fishery', names(args)))
+              stop('arguments must include "fishery"')
+            
+            fsh <- args$fishery
+            fshkeep <- (1:n_fisheries(x))[-fsh]
+              
+            newfrq  <- x
+            n_fisheries(newfrq) <- n_fisheries(x)-length(fsh)
+            data_flags(newfrq)  <- data_flags(x)[,-fsh]
+            region_fish(newfrq) <- region_fish(x)[,,-fsh,]
+            
+            freq(newfrq) <- subset(freq(x), fishery%in%c(1:n_fisheries(x))[-fsh])
+            
+            for(ii in 1:length(fsh))
+              freq(newfrq)$fishery[freq(newfrq)$fishery>(fsh[ii]-(ii-1))] <- freq(newfrq)$fishery[freq(newfrq)$fishery>(fsh[ii]-(ii-1))] -1
+            
+            lf_range(newfrq)['Datasets'] <- nrow(realisations(newfrq))
+            
+            return(newfrq)
+          })
+
+
+
 
 #'@export modifyRRini
 setGeneric('modifyRRini', function(ini,tag,rr,PlusGroup) standardGeneric('modifyRRini'))
