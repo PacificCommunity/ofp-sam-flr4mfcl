@@ -172,7 +172,7 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLFrq"),
             # set stochastic recruitment flags
             if(projection){
               if(flagval(x, 2, 199)$value == 0)    # value of 0 for af199 sets full range of available years - 
-                flagval(x, 2, 199)$value <- 1
+                flagval(x, 2, 199) <- dimensions(x)['years']  #1
               if(flagval(x, 1, 232)$value == 0)
                 flagval(x, 1, 232) <- recPeriod(x, af199=flagval(x, 2, 199)$value, af200=flagval(x, 2, 200)$value)['pf232']
               if(flagval(x, 1, 233)$value == 0)
@@ -222,7 +222,15 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLFrq"),
               }
               #effort_dev_coffs(x)   <- lapply(1:dimensions(x)["fisheries"], function(g) c(effort_dev_coffs(x)[[g]], rep(eff_dev_coff_vals[g], eff_dev_coff_incs[g])))
               effort_dev_coffs(x)   <- lapply(1:dimensions(x)["fisheries"], function(g) c(effort_dev_coffs(x)[[g]], rep(0, eff_dev_coff_incs[g])))
-            
+              
+              # orth poly recrtmnt stuff - this is new Aug 2025
+              # extend annual rel rec coffs by number of projection years - orth poly fix - maybe just for skj - need to check
+              annual_rel_rec_coffs(x) <- cbind(annual_rel_rec_coffs(x), array(0, dim=c(dim(annual_rel_rec_coffs(x))[1], length(proj.yrs))))
+              
+              if(flagval(x, 1, 155) > 0){
+                orth_coffs(x) <- cbind(orth_coffs(x), array(0, dim=c(dim(annual_rel_rec_coffs(x))[1], ncol=length(proj.yrs))))
+              }
+              
               # catch conditioned assessments - 
               #browser()
               if(flagval(x, 1, 373)$value==0){  #0=catch errors 1=catch conditioned
