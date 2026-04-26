@@ -349,6 +349,7 @@ exportMethods(
   "log_m<-",
   "logistic_normal_params",
   "logistic_normal_params<-",
+  "Lorenzen",
   "lw_params",
   "lw_params<-",
   "m",

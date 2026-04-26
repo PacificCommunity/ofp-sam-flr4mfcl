@@ -306,3 +306,52 @@ setMethod("sel", signature(object="MFCLPar"),
             
             return(sel)
           })
+
+
+
+
+
+
+setGeneric('Lorenzen', function(biol,...) standardGeneric('Lorenzen'))
+
+
+#' Lorenzen
+#'
+#' Returns the Lorenzen params for natural mortality (when 'target' is null).
+#' When target is specified returns the fitted value for the Lorenzen par that
+#' achieves the specified level of M.
+#' Currently only works for M inversely proportional to length at age 
+#' i.e. when par[2] = -1.
+#'
+#' @param biol An object of class MFCLBiol.
+#' @param target Numeric specifying the target level of M.
+#'
+#' @export
+#' @docType methods
+#' @rdname par-methods
+#' @aliases Lorenzen
+
+setMethod("Lorenzen", signature(biol="MFCLBiol"), 
+          function(biol,  target=NULL, ...){
+            
+      Lmax <- growth(biol)['Lmax','est']
+      Lmin <- growth(biol)['Lmin','est']
+      k    <- growth(biol)['k','est']
+      aa   <- 1:40
+      ll   <- Lmin+(Lmax-Lmin)*((1-exp(-k*(aa-1)))/(1-exp(-k*(max(aa)-1))))
+
+      lorenzenPars <- aperm(log_m(biol), c(4,1,2,3,5,6))[c(1,2)]
+      
+      m1   <- lorenzenPars[1]
+      mm   <- exp(m1+log(ll/max(ll))*-1)
+
+      if(is.null(target))
+        return(lorenzenPars)
+      
+      Lorenzenfit   <- function(m1, data, target){
+          (mean(exp(m1+log(data/max(data))*-1)) - target)^2
+      }
+
+      optim(m1, fn=Lorenzenfit, data=ll, target=target, method='Brent', lower=-4, upper=0)
+
+})
