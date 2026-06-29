@@ -83,7 +83,7 @@ write.par <- function(x, file, append=F, ...){
   cat("\n# availability coffs \n# \n",   file=file, append=T)
   cat(as.vector(aperm(availability_coffs(x), c(4,1,2,3,5,6))), file=file, append=T)
 
-  if(any(flagval(x, 1, 155)$value > 0, na.rm=TRUE)){
+  if(flagval(x, 1, 155)$value > 0){
     cat("\n \n# annual coffs for relative recruitment \n \n",   file=file, append=T)
     write.table(float(annual_rel_rec_coffs(x)), file=file, append=T, col.names=F, row.names=F, quote=F)  
     
@@ -330,3 +330,4 @@ setMethod("write", signature("MFCLPar"), function(x, file, append=F, ...){
 
   write.par(x=x, file=file, append=append, ...)
 })
+

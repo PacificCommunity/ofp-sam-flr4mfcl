@@ -227,7 +227,7 @@ setMethod("generate", signature(x="MFCLPar", y="MFCLPar", z="MFCLFrq"),
               # extend annual rel rec coffs by number of projection years - orth poly fix - maybe just for skj - need to check
               annual_rel_rec_coffs(x) <- cbind(annual_rel_rec_coffs(x), array(0, dim=c(dim(annual_rel_rec_coffs(x))[1], length(proj.yrs))))
               
-              if(any(flagval(x, 1, 155)$value > 0, na.rm=TRUE)){
+              if(flagval(x, 1, 155) > 0){
                 orth_coffs(x) <- cbind(orth_coffs(x), array(0, dim=c(dim(annual_rel_rec_coffs(x))[1], ncol=length(proj.yrs))))
               }
               
@@ -742,6 +742,7 @@ setMethod("generate", signature(x="MFCLIni", y="MFCLMSEControl", z="MFCLTag"),
             }
           }
 )
+
 
 
 
