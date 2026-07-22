@@ -96,6 +96,7 @@ read.MFCLLenFreq <- function(frqfile){
   trim.leading  <- function(x) sub("^\\s+", "", x) 
   
   quick.check <- function(obj, both, ...){
+    #browser()
     if(!both){
       if(lf_range(obj)["WFIntervals"]>0 & lf_range(obj)["LFIntervals"]>0)
         stop("I don't know if the frequency data are by length or weight: check the lf_range inputs")
