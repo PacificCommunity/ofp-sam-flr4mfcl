@@ -94,7 +94,7 @@ export(
   "read.MFCLRec",
   "read.MFCLRegion",
   "read.MFCLRep",
-  "read.MFCLRepTag",
+ # "read.MFCLRepTag",
   "read.MFCLSel",
   "read.MFCLTag",
   "read.MFCLTagRep",
