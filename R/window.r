@@ -166,7 +166,7 @@ setMethod("window", signature(x="MFCLALK"),
                                             & species==ALK(x)$species[1]))/range(x)['maxage'])
             nages <- length(unique(ALK(x)$age))
             
-            slot(x, 'ESS') <- slot(x, 'ALK')$ess[(nlbins*nages)*1:nrecords]
+            slot(x, 'ESS') <- slot(x, 'ALK')$ess[(nlbins*nages)*1:n_records]
             
             #if(length(unique(ESS(x))) >1)
             #  stop("ESS values are not the same for all records - I can't handle that")
