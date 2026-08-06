@@ -5,9 +5,11 @@
 #'
 #' Calculate mohns rho for retrospective analyses
 #'
-#' @param obj An object of class list containing the rep files from the final assessment and each retrospective peel.
+#' @param obj An object of class list containing either the rep files from the final assessment and each retrospective peel,
+#' or an object of class FLQuants containing teh estimated depletion values for each retrospective peel.
 #'
-#' @param depletion_method The method for calculating depletion (default SBSBF0).
+#' @param depletion_method The method for calculating depletion (default SBSBF0). Obsolte if passing an FLQuants object with 
+#' pre-calculated depletion.
 #'
 #' @return A numeric value of mohn's rho.
 #' 
@@ -46,6 +48,22 @@ setMethod("mohns_rho", signature(object="list"), function(object, depletion_meth
 
 })
 
+
+
+
+setMethod("mohns_rho", signature(object='FLQuants'), 
+          function(object,  ...){
+  
+  retroyrs <- unlist(lapply(object, function(x){max(as.integer(dimnames(x)$year))}))
+  retroyrs <- sort(retroyrs, decreasing=TRUE)
+  
+  thetasum <- 0
+  for(pp in 2:length(retroyrs))
+    thetasum = thetasum + (object[[pp]][,as.character(retroyrs[pp])] - object[[1]][,as.character(retroyrs[pp])]) / object[[1]][,as.character(retroyrs[pp])]
+ 
+  rho = thetasum/(length(retroyrs)-1)
+  return(as.numeric(rho))
+})
 
 
 

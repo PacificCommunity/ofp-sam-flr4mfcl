@@ -604,23 +604,29 @@ validMFCLIniBits <- function(object){
 setClass("MFCLIniBits",
          representation(
            ini_version         ="numeric",
+           tag_flags           ="matrix",
+           tag_shed_rate       ="numeric",
            region_flags        ="matrix",
            age_pars            ="matrix",
            rec_dist            ="numeric",
            lw_params           ="numeric",
            sv                  ="numeric",
            sd_length_at_age    ="numeric",
-           sd_length_dep       ='numeric'
+           sd_length_dep       ='numeric',
+           tot_pop             ='numeric'
          ),
          prototype=prototype(
            ini_version                 =numeric(),
+           tag_flags           =matrix(),
+           tag_shed_rate       =numeric(),
            region_flags        =matrix(),
            age_pars            =matrix(),
            rec_dist            =numeric(),
            lw_params           =numeric(),
            sv                  =numeric(),
            sd_length_at_age    =numeric(),
-           sd_length_dep       =numeric()
+           sd_length_dep       =numeric(),
+           tot_pop             =numeric()
          ),
          validity=validMFCLIniBits
 )
@@ -644,6 +650,7 @@ validMFCLIni <- function(object){
 #'
 #' @slot dimensions Description
 #' @slot range Description
+#' @slot tag_flags Description
 #' @slot tag_shed_rate Description
 #' @slot tag_fish_rep_rate Description
 #' @slot tag_fish_rep_grp Description
@@ -1487,5 +1494,39 @@ remove(validMFCLALK)
 MFCLALK <- function() {return(new("MFCLALK"))}
 
 
+
+###### CLASSS MFCLRegScale
+
+validMFCLRegScale <- function(object){
+  #Everything is fine
+  return(TRUE)
+}
+#' An S4 class : Size frequency information from the frq file.
+#'
+#' @slot index Description
+#' @slot dimensions Description
+#' @slot range Description
+#'
+setClass("MFCLRegScale",
+         representation(
+           index       ="matrix",
+           dimensions  ="numeric",
+           range       ="numeric"
+         ),
+         prototype=prototype(
+           index       =matrix(),
+           dimensions  =unlist(list(agecls=as.numeric(NA), years=NA, seasons=NA, regions=NA, fisheries=NA, taggrps=NA)),
+           range      =unlist(list(minage=NA,maxage=NA,plusgroup=NA,minlength=NA,maxlength=NA,minyear=1,maxyear=1,minmonth=2,maxmonth=11))
+         ),
+         validity=validMFCLRegScale
+)
+setValidity("MFCLRegScale", validMFCLRegScale)
+remove(validMFCLRegScale)
+
+#'MFCLRegScale
+#'
+#'Basic constructor for MFCLRegScale class
+#'@export
+MFCLRegScale <- function() {return(new("MFCLRegScale"))}
 
 

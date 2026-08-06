@@ -35,6 +35,11 @@ write.ini <- function(x, file, append=F, ...){
   cat("# number of age classes\n",  file=file, append=T)
   cat(slot(x,"dimensions")[1],file=file, append=T,sep='\n')
   
+  if(vers>=1007){
+    cat(c('# tag flags'), sep='\n', file=file, append=T) 
+    write.table(tag_flags(x), row.names=F, col.names=F, file=file, append=T)
+  }
+  
   if(vers>=1004)
     cat(c('# tag shed rate', paste(tag_shed_rate(x), collapse=" ")), sep='\n', file=file, append=T)
   
@@ -57,6 +62,10 @@ write.ini <- function(x, file, append=F, ...){
   cat("# maturity at age\n", file=file, append=T)
   #cat(as.character(aperm(mat(x))), file=file, append=T)
   cat(as.character(mat(x)), file=file, append=T)
+  if(vers>=1007){
+    cat('\n# Total population scaling factor (LN(R0))\n', file=file, append=T)
+    cat(tot_pop(x), file=file, append=T)
+  }
   cat("\n# natural mortality (per year)\n", file=file, append=T)
   cat(as.character(m(x)), file=file, append=T)
   cat("\n# movement map\n", file=file, append=T)
@@ -76,6 +85,10 @@ write.ini <- function(x, file, append=F, ...){
   cat(as.character(growth(x)[2,]), file=file, append=T)
   cat("\n# K (per year)\n", file=file, append=T)
   cat(as.character(growth(x)[3,]), file=file, append=T)
+  if(vers >= 1007){
+    cat('\n# Richards\n', file=file, append=T)
+    cat(richards(x), file=file, append=T)
+  }
   cat("\n# Length-weight parameters\n", file=file, append=T)
   cat(as.character(slot(x, 'lw_params')), file=file, append=T)            ## different syntax because slot accessor for lw_params mysteriously fails.
   cat("\n# sv(29)\n", file=file, append=T)

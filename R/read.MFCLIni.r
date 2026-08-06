@@ -53,6 +53,13 @@ read.MFCLIni <- function(inifile, nseasons=4) {
   if(any(grep("# tag fish rep", par)))
     res <- slotcopy(read.MFCLTagRep(parfile, par), res)
   
+  if(slot(res, 'ini_version') >= 1007){
+    tot_pop(res) <- as.numeric(splitter(par, 'Total pop'))
+    ntagflags <- grep('tag shed rate', par) - grep('tag flags', par) - 1
+    tag_flags(res) <- matrix(as.numeric(splitter(par, 'tag flags', ll=1:ntagflags)), ncol=10, byrow=T)
+    richards(res) <- as.numeric(splitter(par, 'Richards'))
+  }
+  
   if(slot(res, 'ini_version') >= 1004)
     tag_shed_rate(res) <- as.numeric(splitter(par, "tag shed rate"))  # Annoyingly this is called "tag shed rate" in the ini and "tagmort" in the par
 

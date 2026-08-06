@@ -1135,6 +1135,23 @@ setGeneric('sd_length_dep<-', function(object, ..., value) standardGeneric('sd_l
 #' @rdname accessor-methods
 setReplaceMethod('sd_length_dep', signature(object='MFCLIniBits', value=unname(getSlots('MFCLIniBits')['sd_length_dep'])),
                                 function(object, value){slot(object, 'sd_length_dep') <- value; return(object)}) 
+# already existing slot accessors 
+#' @rdname accessor-methods
+setMethod('tot_pop', signature(object='MFCLIniBits'),function(object) return(slot(object, 'tot_pop'))) 
+#' @rdname accessor-methods
+setReplaceMethod('tot_pop', signature(object='MFCLIniBits', value=unname(getSlots('MFCLIniBits')['tot_pop'])),
+                 function(object, value){slot(object, 'tot_pop') <- value; return(object)}) 
+
+#' @rdname accessor-methods
+setGeneric('tag_flags', function(object, ...) standardGeneric('tag_flags')) 
+#' @rdname accessor-methods
+setMethod('tag_flags', signature(object='MFCLIniBits'),function(object) return(slot(object, 'tag_flags'))) 
+#' @rdname accessor-methods
+setGeneric('tag_flags<-', function(object, ..., value) standardGeneric('tag_flags<-')) 
+#' @rdname accessor-methods
+setReplaceMethod('tag_flags', signature(object='MFCLIniBits', value=unname(getSlots('MFCLIniBits')['tag_flags'])),
+                 function(object, value){slot(object, 'tag_flags') <- value; return(object)}) 
+
 
 #############################################################################################################
 # class  MFCLRep 
@@ -2201,6 +2218,21 @@ setReplaceMethod('Eq_calcs', signature(object='MFCLEquilibrium', value=unname(ge
 
 
 
-
-
-
+#############################################################################################################
+# class  MFCLRegScale
+# index already defined in FLCore
+#' @rdname accessor-methods
+setMethod('index', signature(object='MFCLRegScale'), function(object) return(slot(object, 'index')))
+#' @rdname accessor-methods
+setReplaceMethod('index', signature(object='MFCLRegScale', value=unname(getSlots('MFCLRegScale')['index'])), 
+                 function(object, value){slot(object, 'index') <- value; return(object)})
+#' @rdname accessor-methods
+setMethod('range', signature(x='MFCLRegScale'),function(x) return(slot(x,'range'))) 
+#' @rdname accessor-methods
+setReplaceMethod('range', signature(x='MFCLRegScale', i="missing", value=unname(getSlots('MFCLRegScale')['range'])),
+                 function(x, value){slot(x, 'range') <- value; return(x)}) 
+#' @rdname accessor-methods
+setMethod('dimensions', signature(object='MFCLRegScale'),function(object) return(slot(object, 'dimensions'))) 
+#' @rdname accessor-methods
+setReplaceMethod('dimensions', signature(object='MFCLRegScale', value=unname(getSlots('MFCLRegScale')['dimensions'])),
+                 function(object, value){slot(object, 'dimensions') <- value; return(object)}) 

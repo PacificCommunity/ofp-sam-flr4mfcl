@@ -363,7 +363,23 @@ setMethod("amputate", signature(x="MFCLFrq"),
             return(newfrq)
           })
 
-
+setMethod('amputate', signature(x='MFCLTag'),
+          function(x, ...){
+            
+            args <- list(...)
+            if(!is.element('program', names(args)))
+              stop('arguments must include "program"')
+            
+            tagdrop <- args$program
+            if(!is.element(tagdrop, releases(x)))
+              stop(paste(tagdrop, 'not present in object'))
+            
+            newtag  <- x
+            releases(newtag)   <- subset(releases(newtag), program!=tagdrop)
+            recaptures(newtag) <- subset(recaptures(newtag), program!=tagdrop)
+            
+            
+          })
 
 
 #'@export modifyRRini

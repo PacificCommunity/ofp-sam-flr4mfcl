@@ -169,3 +169,26 @@ setMethod("window", signature(x="MFCLALK"),
             
           })
 
+
+setMethod("window", signature(x="MFCLRegScale"), 
+          function(x, start=range(x)['minyear'], end=range(x)['maxyear'], extend=FALSE, ...){
+            
+            if(start < range(x)['minyear'] | end > range(x)['maxyear'])
+              stop("Error: This method does not yet allow the extension of MFCL objects beyond their current year range")
+            
+            newyears <- (end-start+1)*dimensions(x)['seasons']
+            
+            slot(x, "range")[c('minyear','maxyear')] <- c(start, end)
+            slot(x, 'dimensions')['years'] <- newyears
+            slot(x, 'index') <- slot(x, 'index')[1:newyears,]
+            
+            return(x)
+            
+          })
+
+
+
+
+
+
+
