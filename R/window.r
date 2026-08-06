@@ -154,14 +154,23 @@ setMethod("window", signature(x="MFCLALK"),
             if(start < range(x)['minyear'] | end > range(x)['maxyear'])
               stop("Error: This method does not yet allow the extension of MFCL objects beyond their current year range")
             
+            slot(x, 'ALK') <- ALK(x)[order(ALK(x)$year, ALK(x)$month, ALK(x)$fishery, ALK(x)$species),]
             slot(x, 'ALK') <- subset(ALK(x), year>=start & year<=end)
             
             n_records <- length(unique(paste(ALK(x)$year, ALK(x)$month, ALK(x)$fishery, ALK(x)$species, sep = '_')))
             
-            if(length(unique(ESS(x))) >1)
-              stop("ESS values are not the same for all records - I can't handle that")
+            if(all(is.na(ALK(x)$length)))
+              nlbins <- (nrow(subset(ALK(x), year==ALK(x)$year[1] 
+                                            & month==ALK(x)$month[1] 
+                                            & fishery==ALK(x)$fishery[1] 
+                                            & species==ALK(x)$species[1]))/range(x)['maxage'])
+            nages <- length(unique(ALK(x)$age))
             
-            slot(x, 'ESS') <- ESS(x)[1:n_records]
+            slot(x, 'ESS') <- slot(x, 'ALK')$ess[(nlbins*nages)*1:nrecords]
+            
+            #if(length(unique(ESS(x))) >1)
+            #  stop("ESS values are not the same for all records - I can't handle that")
+            #slot(x, 'ESS') <- ESS(x)[1:n_records]
             
             slot(x, 'range')[c('minyear','maxyear')] <- range(ALK(x)$year)
             

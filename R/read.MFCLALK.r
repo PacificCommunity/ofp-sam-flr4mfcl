@@ -45,25 +45,31 @@ read.MFCLALK <- function(alfile, lenfit=NULL) {
   if(!is.null(lenfit))
     lbins <- sort(unique(lenfits(lenfit)$length))
   
-  if(is.null(lenfit))
-    warning("lbins not specified")
+  #if(is.null(lenfit))
+  #  warning("lbins not specified")
   
   if(!is.null(lenfit) & length(lbins) != nlengths)
     warning("lbins not consistent with alk dimensions")
   
   # array of ALK header information - year, month, fishery, ...
-  hdat   <- t(array(as.numeric(unlist(strsplit(paste(alf[markers+1], collapse= " "), split="[[:blank:]]+"))), dim=c(4, nrecords)))
-  # vector of observations - lots of zeroes!
-  alkdat <- unlist(lapply(markers+2, function(mm){as.numeric(unlist(strsplit(alf[mm:(mm+nlengths-1)], split="[[:blank:]]+")))}))
+  hdat   <- t(array(as.numeric(unlist(strsplit(paste(alf[markers+1], collapse= " "), 
+                                               split="[[:blank:]]+"))), dim=c(4, nrecords)))
+  hdat   <- cbind(hdat, as.numeric(splitter(alf, "# effective sample size")))
+  colnames(hdat) <- c('year','month','fishery','species', 'ESS')
   
-  slot(alk, 'ESS') <- as.numeric(splitter(alf, "# effective sample size"))
-  slot(alk, 'ALK') <- data.frame(year   =rep(hdat[,1], each=nages*nlengths),
-                                 month  =rep(hdat[,2], each=nages*nlengths),
-                                 fishery=rep(hdat[,3], each=nages*nlengths),
-                                 species=rep(hdat[,4], each=nages*nlengths),
+  # vector of observations - lots of zeroes!
+  alkdat <- unlist(lapply(markers+2, function(mm){as.numeric(unlist(strsplit(alf[mm:(mm+nlengths-1)], 
+                                                                             split="[[:blank:]]+")))}))
+  
+  slot(alk, 'ESS') <- hdat[,'ESS']
+  slot(alk, 'ALK') <- data.frame(year   =rep(hdat[,'year'],    each=nages*nlengths),
+                                 month  =rep(hdat[,'month'],   each=nages*nlengths),
+                                 fishery=rep(hdat[,'fishery'], each=nages*nlengths),
+                                 species=rep(hdat[,'species'], each=nages*nlengths),
                                  age    =1:nages,
                                  length =rep(lbins, each=nages),
-                                 obs    =alkdat)
+                                 obs    =alkdat,
+                                 ess    =rep(hdat[,'ESS'], each=nages*nlengths))
 
   slot(alk, 'range') <- unlist(list(minage=1,maxage=nages,plusgroup=NA,minlength=min(lbins),maxlength=max(lbins),minyear=min(hdat[,1]),maxyear=max(hdat[,1])))
   

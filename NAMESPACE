@@ -39,6 +39,7 @@ export(
   "hcr_constrained",
   "labels",
   "mat2MFCLCor",
+  "MFCLALK",
   "MFCLBase",
   "MFCLBiol",
   "MFCLEMControl",

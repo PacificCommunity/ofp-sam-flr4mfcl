@@ -40,7 +40,8 @@ write.alk <- function(x, file, append=F, ...){
   for(rr in 1:length(records)){
     cat('# Year  Month  Fishery  Species \n', file=file, append = T)
     cat(paste(yy[rr], mm[rr], ff[rr], ss[rr], '\n', sep=" "), file=file, append = T)
-    write.table(t(matrix(subset(ALK(x), year==yy[rr] & month==mm[rr] & fishery==ff[rr] & species==ss[rr])$obs, ncol=length(lbins))), 
+    write.table(t(matrix(subset(ALK(x), year==yy[rr] & month==mm[rr] & fishery==ff[rr] & species==ss[rr])$obs, 
+                         ncol=length(lbins))), 
                 file=file, append=T, col.names = F, row.names = F)
   }
   
