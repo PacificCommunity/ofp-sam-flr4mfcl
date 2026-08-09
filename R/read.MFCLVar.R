@@ -35,21 +35,31 @@ read.MFCLVar <- function(varfile)
 {
   txt <- readLines(varfile)  # read file once, in case we're looping on network
 
+  # Implementation notes:
+  # Sometimes, a varfile contains the string "********" instead of numbers
+  # To handle these cases, we scan entries as strings and convert to numeric
+  # This causes ******** to be converted to NA, and we can suppress warnings
+
   # F / Fmsy
-  ffmsy <- scan(text=grep("F/Fmsy", txt, value=TRUE), n=3, quiet=TRUE)[3]
-  ffmsy.se <- scan(text=grep("F/Fmsy", txt, value=TRUE), n=3, quiet=TRUE)[2]
+  ffmsy <- as.numeric(
+    scan(text=grep("F/Fmsy", txt, value=TRUE), what="", n=3, quiet=TRUE)[3])
+  ffmsy.se <- suppressWarnings(as.numeric(
+    scan(text=grep("F/Fmsy", txt, value=TRUE), what="", n=3, quiet=TRUE)[2]))
 
   # SB / SBF0
   pattern <- "adult_rbio(recent) - average_adult_rbio_noeff(40_periods)"
-  log.sbsbfo <- scan(text=grep(pattern, txt, fixed=TRUE, value=TRUE), n=3,
-                     quiet=TRUE)[3]
-  log.sbsbfo.se <- scan(text=grep(pattern, txt, fixed=TRUE, value=TRUE), n=3,
-                        quiet=TRUE)[2]
+  log.sbsbfo <- as.numeric(scan(text=grep(pattern, txt, fixed=TRUE, value=TRUE),
+                                what="", n=3, quiet=TRUE)[3])
+  log.sbsbfo.se <- suppressWarnings(as.numeric(
+    scan(text=grep(pattern, txt, fixed=TRUE, value=TRUE),
+         what="", n=3, quiet=TRUE)[2]))
   sbsbfo <- exp(log.sbsbfo)
 
   # SB / SBmsy
-  sbsbmsy <- scan(text=grep("SB/SBmsy", txt, value=TRUE), n=3, quiet=TRUE)[3]
-  sbsbmsy.se <- scan(text=grep("SB/SBmsy", txt, value=TRUE), n=3, quiet=TRUE)[2]
+  sbsbmsy <- as.numeric(
+    scan(text=grep("SB/SBmsy", txt, value=TRUE), what="", n=3, quiet=TRUE)[3])
+  sbsbmsy.se <- suppressWarnings(as.numeric(
+    scan(text=grep("SB/SBmsy", txt, value=TRUE), what="", n=3, quiet=TRUE)[2]))
 
   out <- c(ffmsy=ffmsy, ffmsy.se=ffmsy.se,
            log.sbsbfo=log.sbsbfo, log.sbsbfo.se=log.sbsbfo.se, sbsbfo=sbsbfo,
