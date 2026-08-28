@@ -33,23 +33,29 @@
 
 read.MFCLVar <- function(varfile)
 {
+  # The varfile format uses "********" for NA
+
   txt <- readLines(varfile)  # read file once, in case we're looping on network
 
   # F / Fmsy
-  ffmsy <- scan(text=grep("F/Fmsy", txt, value=TRUE), n=3, quiet=TRUE)[3]
-  ffmsy.se <- scan(text=grep("F/Fmsy", txt, value=TRUE), n=3, quiet=TRUE)[2]
+  ffmsy <- scan(text=grep("F/Fmsy", txt, value=TRUE), n=3,
+                na.strings="********", quiet=TRUE)[3]
+  ffmsy.se <- scan(text=grep("F/Fmsy", txt, value=TRUE), n=3,
+                   na.strings="********", quiet=TRUE)[2]
 
   # SB / SBF0
   pattern <- "adult_rbio(recent) - average_adult_rbio_noeff(40_periods)"
   log.sbsbfo <- scan(text=grep(pattern, txt, fixed=TRUE, value=TRUE), n=3,
-                     quiet=TRUE)[3]
+                     na.strings="********", quiet=TRUE)[3]
   log.sbsbfo.se <- scan(text=grep(pattern, txt, fixed=TRUE, value=TRUE), n=3,
-                        quiet=TRUE)[2]
+                        na.strings="********", quiet=TRUE)[2]
   sbsbfo <- exp(log.sbsbfo)
 
   # SB / SBmsy
-  sbsbmsy <- scan(text=grep("SB/SBmsy", txt, value=TRUE), n=3, quiet=TRUE)[3]
-  sbsbmsy.se <- scan(text=grep("SB/SBmsy", txt, value=TRUE), n=3, quiet=TRUE)[2]
+  sbsbmsy <- scan(text=grep("SB/SBmsy", txt, value=TRUE), n=3,
+                  na.strings="********", quiet=TRUE)[3]
+  sbsbmsy.se <- scan(text=grep("SB/SBmsy", txt, value=TRUE), n=3,
+                     na.strings="********", quiet=TRUE)[2]
 
   out <- c(ffmsy=ffmsy, ffmsy.se=ffmsy.se,
            log.sbsbfo=log.sbsbfo, log.sbsbfo.se=log.sbsbfo.se, sbsbfo=sbsbfo,
