@@ -137,8 +137,9 @@ read.MFCLLenFreq <- function(frqfile){
   nWbins <- lf_range(res)['WFIntervals']; Wwidth <- lf_range(res)["WFWidth"]; Wfirst <- lf_range(res)["WFFirst"]
   
   # remove comment line from new MD2 output     02/04/26 RDS
-  if(any(grepl('# Year Month Week', frq)))
-    frq <- frq[-grepl("# Year Month Week", frq)]
+  if(any(grepl('# Year Month Week', frq))){
+    frq <- frq[!grepl("# Year Month Week", frq)]
+  }
   
   line1 <- ifelse(all(is.na(slot(res, "age_nage"))), grep("Datasets", frq)+2, grep("age_nage", frq)+2)  # find the first line of freq datatable
   #lffrq <- frq[line1:length(frq)]   # just the length frequency data 
