@@ -120,7 +120,7 @@ setMethod("SB", signature(rep="FLQuant",mean_nyears="missing", lag_nyears="numer
 
 # SB methods
 
-#' Methods for returns the spawning biomass (fished or unfished) and the depletion
+#' Methods for returning the spawning biomass (fished or unfished) and the depletion
 #'
 #' Methods for returning the spawning biomass (\code{SB()}), unfished spawning biomass (\code{SBF0()}) and depletion (\code{SBSBF0()}) from a single MFCLRep object, or a list of MFCLRep objects.
 #' The biomass is averaged over seasons.
@@ -129,7 +129,7 @@ setMethod("SB", signature(rep="FLQuant",mean_nyears="missing", lag_nyears="numer
 #' These can specified separately for the SB and SBF0 parts of SBSBF0.
 #' The number of years in the outputs will match that of the inputs.
 #' The start of the returned FLQuant(s) will be padded with NAs if necessary (for example, where the output has been lagged).
-#' # When using lists of rep objects the lagging and rolling mean arguments are applied to all objects in the list.
+#' When using lists of rep objects the lagging and rolling mean arguments are applied to all objects in the list.
 #' 
 #' Shortcut methods are available (\code{SBlatest()}, \code{SBrecent()}, \code{SBF0recent()} and \code{SBSBF0recent()}). These set the \code{mean_nyears()} and \code{lag_nyears()} parameters to match those used in the assessment reports.
 #' \code{SBlatest()} does not calculate a mean or lag the output.
@@ -150,7 +150,6 @@ setMethod("SB", signature(rep="FLQuant",mean_nyears="missing", lag_nyears="numer
 #' @param ... Other arguments.
 #' 
 #' @return An FLQuant, or a list of FLQuant objects, depending on if the rep argument is a single MFCLRep object or a list.
-#' @rdname SBmethods
 #' @name SBmethods
 #' @aliases SB SBmethods
 #' @examples
