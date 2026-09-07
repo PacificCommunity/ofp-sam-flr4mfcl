@@ -3,15 +3,18 @@
 \docType{methods}
 \name{realisations}
 \alias{realisations}
+\alias{amputate}
 \alias{read.MFCLfishmort}
 \title{realisations}
 \usage{
 realisations(object, ...)
 
+amputate(x, ...)
+
 read.MFCLfishmort(file, frq, rep, ...)
 }
 \arguments{
-\item{object}{An object of class MFCLLenFreq.}
+\item{object}{An object of class MFCLFrq.}
 
 \item{\dots}{Currently ignored.}
 
@@ -24,12 +27,16 @@ read.MFCLfishmort(file, frq, rep, ...)
 \value{
 An object of class data.frame.
 
+An object of class MFCLFrq.
+
 An object of class data.frame.
 }
 \description{
 Returns the unique fishery realisations. 
 Essentially this is the contents of the \code{freq} slot of an \code{\link{MFCLFrq}} object 
 without the replications for each length or weight category.
+
+Removes components from an MFCLFrq object. Currently only works for fisheries.
 
 A wrapper for read.fishmort
 Reads the fishing mortality from the fishmort file that is output by Multifan-CL.
@@ -41,9 +48,15 @@ Note that summing these fishing mortalities by region, time and age period yield
 as reported in the 'fm' slot of an MFCLRep object. But summing by time and age does not yield the same values 
 as in the 'fm_aggregated' slot which seems to be something to do with the yield analysis.
 }
+\details{
+Trims an MFCLFrq object to new dimensions.
+}
 \examples{
 \dontrun{
 realisations(frq)
+}
+\dontrun{
+amputate(frq, fishery = 1)
 }
 \dontrun{
 read.MFCLfishmort('path/to/fishmort', frq, rep)

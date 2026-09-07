@@ -82,7 +82,8 @@ mohns_rho(object, ...)
 
 \item{outpar}{The name of the output par file.}
 
-\item{depletion_method}{The method for calculating depletion (default SBSBF0).}
+\item{depletion_method}{The method for calculating depletion (default SBSBF0). Obsolte if passing an FLQuants object with 
+pre-calculated depletion.}
 
 \item{x}{An object of class MFCLX.}
 
@@ -172,8 +173,4 @@ window(MFCLFrq(), start = 1990, end = 1995)
 \code{\link{SBSBF0}} and \code{\link{MFCLRep}}
 
 \code{\link{MFCLFrq}}, \code{\link{MFCLPar}} and \code{\link{MFCLPar}} and \code{\link{MFCLLenFit}}
-
-\code{\link{read.MFCLFrq}} and \code{\link{read.MFCLPar}}
-
-\code{\link{MFCLFrq}},  \code{\link{MFCLPar}} and \code{\link{MFCLPar}}
 }
