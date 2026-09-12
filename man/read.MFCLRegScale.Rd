@@ -4,22 +4,26 @@
 \alias{read.MFCLRegScale}
 \title{read.MFCLRegScale}
 \usage{
-read.MFCLRegScale(file, seasons = 4, ...)
+read.MFCLRegScale(file, seasons = 4, long = FALSE, ...)
 }
 \arguments{
 \item{file}{A character string giving the name and path of the regional scaling input file to be read.}
 
-\item{seasons}{The number of seasons - defaults to 4. This should be 1 for an annual model.}
+\item{seasons}{The number of seasons, defaults to 4. This should be 1 for an annual model.}
+
+\item{long}{Whether to return the regional scaling table in long data frame
+format rather than the default FLR format.}
 }
 \value{
-An object of class MFCLRegScale
+An object of class MFCLRegScale, or a data frame if \code{long = TRUE}.
 }
 \description{
 Reads information from the regional scaling input file and creates an MFCLRegScale object.
 }
 \examples{
 \dontrun{
-read.MFCLRegScale("C:/R4MFCL/test_data/skj_ref_case/yft.reg_scaling")
+read.MFCLRegScale("yft.reg_scaling")
+read.MFCLRegScale("yft.reg_scaling", long=TRUE)
 }
 
 }
