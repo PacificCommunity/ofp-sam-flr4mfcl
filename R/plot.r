@@ -18,6 +18,8 @@
 #' }
 #'
 #' @aliases mfcl-plots
+#'
+#' @importFrom graphics abline
 
 setMethod("plot", signature(x="MFCLLenFreq"), function(x, y="missing", ...){
   

@@ -1,10 +1,16 @@
-# Development version
+# FLR4MFCL 1.8.0 (2026-08-28)
 
-* read.MFCLVar() returns reference point estimates and standard errors.
+* New function: read.MFCLRegScale. New method: tag_flags.
+
+# FLR4MFCL 1.7.2 (2026-08-03)
+
+* New methods: amputate, Lorenzen. Removed function read.MFCLRepTag.
+
+# FLR4MFCL 1.7.1 (2025-03-26)
+
+* New functions: read.fishmort, read.MFCLfishmort.
 
 # FLR4MFCL 1.6.11 (2023-09-28)
-
--
 
 # FLR4MFCL 1.6.10 (2023-09-21)
 
@@ -23,8 +29,6 @@
 * New methods: annual_rel_rec_coffs, annual_rel_rec_coffs<-.
 
 # FLR4MFCL 1.6.6 (2023-06-16)
-
--
 
 # FLR4MFCL 1.6.5 (2023-06-15)
 
@@ -56,8 +60,6 @@
 
 # FLR4MFCL 1.6.0 (2023-05-27)
 
--
-
 # FLR4MFCL 1.5.0 (2023-05-25)
 
 * read.MFCLLenFit() and read.MFCLLenFit2() are now the same function. In recent
@@ -66,8 +68,6 @@
   right, as they are the same.
 
 # FLR4MFCL 1.4.7 (2023-05-18)
-
--
 
 # FLR4MFCL 1.4.6 (2023-04-24)
 
@@ -84,23 +84,13 @@
 
 # FLR4MFCL 1.4.4 (2023-04-06)
 
--
-
 # FLR4MFCL 1.4.3 (2023-03-27)
-
--
 
 # FLR4MFCL 1.4.2 (2023-03-22)
 
--
-
 # FLR4MFCL 1.4.1 (2023-02-02)
 
--
-
 # FLR4MFCL 1.4.0 (2023-02-02)
-
--
 
 # FLR4MFCL 1.3.28 (2022-11-20)
 
@@ -110,19 +100,13 @@ As at January 2023 - latest version in repository following adoption of skipjack
 
 # FLR4MFCL 1.3.27 (2022-10-06)
 
--
-
 # FLR4MFCL 1.3.26 (2022-10-06)
 
 * New functions: corFilter, corLabel, mat2MFCLCor, read.MFCLCor.
 
 # FLR4MFCL 1.3.25 (2022-08-21)
 
--
-
 # FLR4MFCL 1.3.24 (2022-08-10)
-
--
 
 # FLR4MFCL 1.3.23 (2022-07-30)
 
@@ -136,8 +120,6 @@ As at January 2023 - latest version in repository following adoption of skipjack
 
 # FLR4MFCL 1.3.21 (2022-05-28)
 
--
-
 # FLR4MFCL 1.3.20 (2022-05-22)
 
 * New methods: eq_rec, eq_rec<-, eq_rec_obs, eq_rec_obs<-, eq_ssb, eq_ssb<-, eq_ssb_obs, eq_ssb_obs<-.
@@ -148,19 +130,11 @@ As at January 2023 - latest version in repository following adoption of skipjack
 
 # FLR4MFCL 1.3.18 (2022-05-04)
 
--
-
 # FLR4MFCL 1.3.17 (2022-04-29)
-
--
 
 # FLR4MFCL 1.3.16 (2022-04-29)
 
--
-
 # FLR4MFCL 1.3.15 (2022-04-22)
-
--
 
 # FLR4MFCL 1.3.13 (2022-03-10)
 
@@ -168,11 +142,7 @@ As at January 2023 - latest version in repository following adoption of skipjack
 
 # FLR4MFCL 1.3.12 (2022-03-03)
 
--
-
 # FLR4MFCL 1.3.11 (2022-03-03)
-
--
 
 # FLR4MFCL 1.3.10 (2022-03-03)
 
@@ -182,19 +152,11 @@ As at January 2023 - latest version in repository following adoption of skipjack
 
 # FLR4MFCL 1.3.8 (2022-02-15)
 
--
-
 # FLR4MFCL 1.3.7 (2022-02-05)
-
--
 
 # FLR4MFCL 1.3.6 (2022-01-17)
 
--
-
 # FLR4MFCL 1.3.5 (2022-01-11)
-
--
 
 # FLR4MFCL 1.3.4 (2021-11-08)
 
@@ -216,8 +178,6 @@ As at January 2023 - latest version in repository following adoption of skipjack
 
 # FLR4MFCL 1.2.7 (2021-03-29)
 
--
-
 # FLR4MFCL 1.2.6 (2021-02-04)
 
 * New functions: ats.
@@ -225,8 +185,6 @@ As at January 2023 - latest version in repository following adoption of skipjack
 * New methods: recYears.
 
 # FLR4MFCL 1.2.5 (2020-12-15)
-
--
 
 # FLR4MFCL 1.2.4 (2020-10-29)
 
@@ -326,5 +284,5 @@ As at January 2023 - latest version in repository following adoption of skipjack
 
 General note: Unless specific news entries were written, the above entries are
 based on changes in the `NAMESPACE` file between versions, specifically exported
-functions, classes, and methods. A simple '-' indicates that no new exports were
-introduced in that version.
+functions, classes, and methods. A tagged version with no news entries indicates
+that no new exports were introduced in that version.

@@ -469,6 +469,12 @@
 \alias{sd_length_dep,MFCLIniBits-method}
 \alias{sd_length_dep<-}
 \alias{sd_length_dep<-,MFCLIniBits,numeric-method}
+\alias{tot_pop,MFCLIniBits-method}
+\alias{tot_pop<-,MFCLIniBits,numeric-method}
+\alias{tag_flags}
+\alias{tag_flags,MFCLIniBits-method}
+\alias{tag_flags<-}
+\alias{tag_flags<-,MFCLIniBits,matrix-method}
 \alias{fishery_realizations}
 \alias{fishery_realizations,MFCLRep-method}
 \alias{fishery_realizations<-}
@@ -866,6 +872,12 @@
 \alias{Eq_calcs,MFCLEquilibrium-method}
 \alias{Eq_calcs<-}
 \alias{Eq_calcs<-,MFCLEquilibrium,data.frame-method}
+\alias{index,MFCLRegScale-method}
+\alias{index<-,MFCLRegScale,matrix-method}
+\alias{range,MFCLRegScale-method}
+\alias{range<-,MFCLRegScale,missing,numeric-method}
+\alias{dimensions,MFCLRegScale-method}
+\alias{dimensions<-,MFCLRegScale,numeric-method}
 \title{Accessor methods}
 \usage{
 dimensions(object, ...)
@@ -1802,6 +1814,18 @@ sd_length_dep(object, ...) <- value
 
 \S4method{sd_length_dep}{MFCLIniBits,numeric}(object) <- value
 
+\S4method{tot_pop}{MFCLIniBits}(object)
+
+\S4method{tot_pop}{MFCLIniBits,numeric}(object) <- value
+
+tag_flags(object, ...)
+
+\S4method{tag_flags}{MFCLIniBits}(object)
+
+tag_flags(object, ...) <- value
+
+\S4method{tag_flags}{MFCLIniBits,matrix}(object) <- value
+
 fishery_realizations(object, ...)
 
 \S4method{fishery_realizations}{MFCLRep}(object)
@@ -2532,7 +2556,7 @@ doitall(object, ...)
 
 doitall(object, ...) <- value
 
-\S4method{doitall}{MFCLEMControl,`function`}(object) <- value
+\S4method{doitall}{MFCLEMControl,function}(object) <- value
 
 \S4method{tag_fish_rep_rate}{MFCLEMControl}(object)
 
@@ -2603,6 +2627,18 @@ Eq_calcs(object, ...)
 Eq_calcs(object, ...) <- value
 
 \S4method{Eq_calcs}{MFCLEquilibrium,data.frame}(object) <- value
+
+\S4method{index}{MFCLRegScale}(object)
+
+\S4method{index}{MFCLRegScale,matrix}(object) <- value
+
+\S4method{range}{MFCLRegScale}(x)
+
+\S4method{range}{MFCLRegScale,missing,numeric}(x) <- value
+
+\S4method{dimensions}{MFCLRegScale}(object)
+
+\S4method{dimensions}{MFCLRegScale,numeric}(object) <- value
 }
 \arguments{
 \item{object}{An object of type 'MFCLxxx', e.g. 'MFCLFrq'}

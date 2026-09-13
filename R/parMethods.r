@@ -326,10 +326,13 @@ setGeneric('Lorenzen', function(biol,...) standardGeneric('Lorenzen'))
 #' @param biol An object of class MFCLBiol.
 #' @param target Numeric specifying the target level of M.
 #'
-#' @export
 #' @docType methods
 #' @rdname par-methods
 #' @aliases Lorenzen
+#'
+#' @importFrom stats optim
+#'
+#' @export
 
 setMethod("Lorenzen", signature(biol="MFCLBiol"), 
           function(biol,  target=NULL, ...){

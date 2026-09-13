@@ -14,6 +14,8 @@
 \alias{YPR,MFCLRep,MFCLPar-method}
 \alias{recYears}
 \alias{recYears,MFCLPar-method}
+\alias{Lorenzen,MFCLBiol-method}
+\alias{Lorenzen}
 \title{as.MFCLIni}
 \usage{
 as.MFCLIni(object, ...)
@@ -37,11 +39,17 @@ YPR(object, par, ...)
 recYears(par, ...)
 
 \S4method{recYears}{MFCLPar}(par, nrecsyr = 4, ...)
+
+\S4method{Lorenzen}{MFCLBiol}(biol, target = NULL, ...)
 }
 \arguments{
 \item{object}{An object of class MFCLRep.}
 
 \item{par}{An object of class MFCLPar}
+
+\item{biol}{An object of class MFCLBiol.}
+
+\item{target}{Numeric specifying the target level of M.}
 
 \item{rep}{An object of class MFCLRep.}
 }
@@ -70,4 +78,10 @@ Calculates spawners per recruit at zero fishing.
 Calculates yield per recruit and spawners per recruit - in kilos
 
 Returns the year range over which the SRR is calculated given the flag settings from af199 and af200.
+
+Returns the Lorenzen params for natural mortality (when 'target' is null).
+When target is specified returns the fitted value for the Lorenzen par that
+achieves the specified level of M.
+Currently only works for M inversely proportional to length at age 
+i.e. when par[2] = -1.
 }

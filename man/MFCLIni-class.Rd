@@ -14,6 +14,8 @@ An S4 class : Model information from the ini file.
 
 \item{\code{range}}{Description}
 
+\item{\code{tag_flags}}{Description}
+
 \item{\code{tag_shed_rate}}{Description}
 
 \item{\code{tag_fish_rep_rate}}{Description}
