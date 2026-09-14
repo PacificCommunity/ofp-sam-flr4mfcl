@@ -1,3 +1,7 @@
+# FLR4MFCL 1.8.1 (2026-09-14)
+
+* New function: AdultJuvenileF.
+
 # FLR4MFCL 1.8.0 (2026-08-28)
 
 * New function: read.MFCLRegScale. New method: tag_flags.
