@@ -28,6 +28,28 @@ mortality, weighted by the maturity ogive.
 Juvenile fishing mortality is calculated as the weighted average fishing
 mortality, weighted by the inverse \code{(1-p)} of the maturity ogive.
 }
+\section{Warning}{
+
+The obsolete \pkg{diags4MFCL} package provided a similar function called
+\code{plot.F.temporal}, but that function had errors and should not be used.
+It was based on wrong calculations of fishing mortality:
+\preformatted{
+.[,dead.juv:=f*juv] \%>\%              # wrong
+.[,dead.adult:=f*adult] \%>\%          # wrong
+.[,F.juv:=(dead.juv/juv)] \%>\%        # wrong
+.[,F.adult:=(dead.adult/adult)] \%>\%  # wrong
+}
+The \code{AdultJuvenileF} function in the \pkg{FLR4MFCL} package is the
+correct function to use for calculating adult and juvenile fishing
+mortalities.
+}
+
+\examples{
+\dontrun{
+AdultJuvenileF(rep, par)
+}
+
+}
 \seealso{
 \code{\link{fm}} and \code{\link{fm_aggregated}} are used to access the
 fishing mortalities.
