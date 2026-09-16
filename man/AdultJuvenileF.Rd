@@ -27,6 +27,12 @@ mortality, weighted by the maturity ogive.
 
 Juvenile fishing mortality is calculated as the weighted average fishing
 mortality, weighted by the inverse \code{(1-p)} of the maturity ogive.
+
+In each year and region:
+\preformatted{
+f.adult <- weighted.mean(f.age, w=p.adult)  # correct
+f.juven <- weighted.mean(f.age, w=p.juven)  # correct
+}
 }
 \section{Warning}{
 
@@ -55,4 +61,7 @@ AdultJuvenileF(rep, par)
 fishing mortalities.
 
 \code{\link{mat}} is used to access the maturity ogive.
+
+\code{\link{weighted.mean}} is the underlying function used to calculate the
+weighted average fishing mortality.
 }
